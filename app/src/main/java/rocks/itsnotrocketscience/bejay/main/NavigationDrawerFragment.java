@@ -1,4 +1,4 @@
-package rocks.itsnotrocketscience.bejay;
+package rocks.itsnotrocketscience.bejay.main;
 
 import android.support.v7.app.AppCompatActivity;
 import android.app.Activity;
@@ -29,6 +29,7 @@ import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.api.ApiConstants;
 import rocks.itsnotrocketscience.bejay.api.GetEvents;
 import rocks.itsnotrocketscience.bejay.models.Event;

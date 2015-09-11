@@ -12,7 +12,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rocks.itsnotrocketscience.bejay.BaseFragment;
-import rocks.itsnotrocketscience.bejay.MainActivity;
+import rocks.itsnotrocketscience.bejay.main.MainActivity;
 import rocks.itsnotrocketscience.bejay.R;
 
 public class LoginActivityFragment extends BaseFragment{
