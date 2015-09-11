@@ -1,4 +1,4 @@
-package rocks.itsnotrocketscience.bejay;
+package rocks.itsnotrocketscience.bejay.base;
 
 import android.app.Application;
 import android.content.SharedPreferences;
@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 
 /**
  * Created by centralstation on 11/09/15.
+ *
  */
 public class AppApplication extends Application {
 

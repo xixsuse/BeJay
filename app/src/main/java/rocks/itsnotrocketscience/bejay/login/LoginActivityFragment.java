@@ -11,7 +11,7 @@ import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rocks.itsnotrocketscience.bejay.BaseFragment;
+import rocks.itsnotrocketscience.bejay.base.BaseFragment;
 import rocks.itsnotrocketscience.bejay.main.MainActivity;
 import rocks.itsnotrocketscience.bejay.R;
 
@@ -46,4 +46,6 @@ public class LoginActivityFragment extends BaseFragment{
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
+
+
 }

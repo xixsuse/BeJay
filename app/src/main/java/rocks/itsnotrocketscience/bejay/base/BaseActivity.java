@@ -1,4 +1,4 @@
-package rocks.itsnotrocketscience.bejay;
+package rocks.itsnotrocketscience.bejay.base;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import rocks.itsnotrocketscience.bejay.login.LoginActivityFragment;
 
 /**
  * Created by centralstation on 11/09/15.
+ *
  */
 public class BaseActivity extends AppCompatActivity {
 
