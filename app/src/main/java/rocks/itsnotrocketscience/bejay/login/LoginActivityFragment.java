@@ -15,9 +15,6 @@ import rocks.itsnotrocketscience.bejay.BaseFragment;
 import rocks.itsnotrocketscience.bejay.MainActivity;
 import rocks.itsnotrocketscience.bejay.R;
 
-/**
- * A placeholder fragment containing a simple view.
- */
 public class LoginActivityFragment extends BaseFragment{
 
     @Bind(R.id.btLogin)    Button btLogin;
