@@ -5,6 +5,7 @@
     tools:context="rocks.itsnotrocketscience.bejay.home.HomeFragment">
 
     <at.markushi.ui.CircleButton
+        android:id="@+id/btFindEvents"
         android:layout_width="200dip"
         android:layout_height="200dip"
         android:layout_centerVertical="true"

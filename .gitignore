@@ -6,4 +6,5 @@
 /.idea/*
 *.iml
 app/build/*
+gradlew.bat
 
