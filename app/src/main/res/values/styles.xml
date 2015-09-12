@@ -5,12 +5,13 @@
         <item name="windowActionBar">false</item>
         <!-- colorPrimary is used for the default action bar background -->
         <item name="windowActionModeOverlay">true</item>
-        <!--<item name="android:textColorPrimary">@color/white</item>-->
-        <!--<item name="colorPrimary">@color/splashscreen</item>-->
-        <!--<item name="colorPrimaryDark">@color/holo_blue_light</item>-->
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryDark">@color/primaryColorDark</item>
 
-        <!--<item name="android:windowBackground">@color/white</item>-->
-        <!--<item name="android:colorBackground">@color/white</item>-->
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:colorBackground">@color/white</item>
     </style>
+
 
 </resources>
