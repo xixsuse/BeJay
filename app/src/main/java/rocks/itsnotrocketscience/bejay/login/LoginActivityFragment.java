@@ -37,7 +37,7 @@ public class LoginActivityFragment extends BaseFragment{
     @OnClick(R.id.btLogin)
     public void login() {
         getDemoApplication().getSharedPreferences().edit().putBoolean(IS_LOGGED_IN, true).commit();
-        Toast.makeText(getContext(), "Logged in", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Logged in", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(getActivity(), MainActivity.class);
         startActivity(intent);
     }

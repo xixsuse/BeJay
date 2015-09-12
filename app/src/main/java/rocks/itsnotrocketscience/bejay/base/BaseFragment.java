@@ -1,9 +1,8 @@
 package rocks.itsnotrocketscience.bejay.base;
 
 import android.app.Activity;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 
 import rocks.itsnotrocketscience.bejay.R;
 
@@ -23,7 +22,7 @@ public class BaseFragment extends Fragment{
 
     public void showFragment(Fragment fragment)
     {
-        FragmentManager manager = getActivity().getSupportFragmentManager();
+        android.app.FragmentManager manager = getActivity().getFragmentManager();
         FragmentTransaction fragmentTransaction = manager.beginTransaction();
         fragmentTransaction.replace(R.id.container, fragment);
         fragmentTransaction.commit();
