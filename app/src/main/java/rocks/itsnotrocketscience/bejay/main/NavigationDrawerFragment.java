@@ -10,7 +10,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,15 +23,8 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit.Callback;
-import retrofit.RestAdapter;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 import rocks.itsnotrocketscience.bejay.R;
-import rocks.itsnotrocketscience.bejay.api.ApiConstants;
-import rocks.itsnotrocketscience.bejay.api.GetEvents;
 import rocks.itsnotrocketscience.bejay.main.nav_items.NavItem;
-import rocks.itsnotrocketscience.bejay.models.Event;
 
 public class NavigationDrawerFragment extends Fragment {
 
@@ -222,22 +214,5 @@ public class NavigationDrawerFragment extends Fragment {
 
     private ActionBar getActionBar() {
         return ((AppCompatActivity) getActivity()).getSupportActionBar();
-    }
-
-
-    private void getFeed() {
-        RestAdapter restAdapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(ApiConstants.API).build();
-        GetEvents events = restAdapter.create(GetEvents.class);
-
-        events.getFeed("events",new Callback<ArrayList<Event>>() {
-            @Override
-            public void success(ArrayList<Event> gitmodel, Response response) {
-                Log.d("yo", "yo");
-            }
-            @Override
-            public void failure(RetrofitError error) {
-                Log.d("yo", "yo");
-            }
-        });
     }
 }
