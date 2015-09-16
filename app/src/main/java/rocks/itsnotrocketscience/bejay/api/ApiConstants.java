@@ -7,5 +7,7 @@ import rocks.itsnotrocketscience.bejay.BuildConfig;
  */
 public class ApiConstants {
     public static final String BASE_API = "dukebox/";
+    public static final String EVENTS = "events/";
     public static final String API = BuildConfig.BASE_URL + BASE_API;
+    public static final String EVENTS_API = BuildConfig.BASE_URL + BASE_API + EVENTS;
 }

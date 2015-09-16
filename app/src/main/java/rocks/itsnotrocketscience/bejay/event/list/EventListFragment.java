@@ -1,20 +1,23 @@
 package rocks.itsnotrocketscience.bejay.event.list;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -23,6 +26,7 @@ import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.api.ApiConstants;
 import rocks.itsnotrocketscience.bejay.api.GetEvents;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
+import rocks.itsnotrocketscience.bejay.event.item.EventActivity;
 import rocks.itsnotrocketscience.bejay.models.Event;
 
 public class EventListFragment extends BaseFragment implements AdapterView.OnItemClickListener {
@@ -30,6 +34,10 @@ public class EventListFragment extends BaseFragment implements AdapterView.OnIte
     @Bind(R.id.rvEventList)
     RecyclerView rvEventList;
     EventListAdapter adapter;
+    @Bind(R.id.rlError)
+    RelativeLayout rlError;
+    @Bind(R.id.btnRetry)
+    Button btnRetry;
     List<Event> eventList;
     public static Fragment newInstance() {
         return new EventListFragment();
@@ -54,11 +62,17 @@ public class EventListFragment extends BaseFragment implements AdapterView.OnIte
             @Override
             public void onClick(View view, int position) {
 
-                Log.d("yo","yo");
+                launchEvent(position);
             }
         });
 
         rvEventList.setAdapter(adapter);
+    }
+
+    private void launchEvent(int pos) {
+        Intent intent = new Intent(getActivity(), EventActivity.class);
+        intent.putExtra(EventActivity.URL_EXTRA, eventList.get(pos).getUrl());
+        startActivity(intent);
     }
 
     @Override
@@ -77,7 +91,8 @@ public class EventListFragment extends BaseFragment implements AdapterView.OnIte
     }
 
 
-    private void getFeed() {
+    @OnClick(R.id.btnRetry)
+    public void getFeed() {
         RestAdapter restAdapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(ApiConstants.API).build();
         GetEvents events = restAdapter.create(GetEvents.class);
 
@@ -85,11 +100,12 @@ public class EventListFragment extends BaseFragment implements AdapterView.OnIte
             @Override
             public void success(ArrayList<Event> eventList, Response response) {
                 setViewItems(eventList);
+                rlError.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void failure(RetrofitError error) {
-                Log.d("yo", "yo");
+                rlError.setVisibility(View.VISIBLE);
             }
         });
     }

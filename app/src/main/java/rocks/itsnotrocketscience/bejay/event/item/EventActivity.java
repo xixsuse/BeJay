@@ -1,18 +1,31 @@
 package rocks.itsnotrocketscience.bejay.event.item;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 import rocks.itsnotrocketscience.bejay.R;
+import rocks.itsnotrocketscience.bejay.api.ApiConstants;
+import rocks.itsnotrocketscience.bejay.api.GetEvent;
+import rocks.itsnotrocketscience.bejay.models.Event;
 
 public class EventActivity extends AppCompatActivity {
+
+    public static String URL_EXTRA = "url_extra";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
+        Bundle b = getIntent().getExtras();
+        String url = b.getString(URL_EXTRA);
+        getFeed(url.replaceAll(ApiConstants.EVENTS_API, "").replace("/", ""));
     }
 
 
@@ -36,5 +49,26 @@ public class EventActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    private void getFeed(String url) {
+        RestAdapter restAdapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(ApiConstants.EVENTS_API).build();
+        GetEvent events = restAdapter.create(GetEvent.class);
+
+        events.getFeed(url, new Callback<Event>() {
+            @Override
+            public void success(Event eventList, Response response) {
+                setViewItems(eventList);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.d("yo", "yo");
+            }
+        });
+    }
+
+    private void setViewItems(Event eventList) {
     }
 }
