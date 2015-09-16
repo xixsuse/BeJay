@@ -1,4 +1,4 @@
-package rocks.itsnotrocketscience.bejay.event;
+package rocks.itsnotrocketscience.bejay.event.list;
 
 import android.view.View;
 

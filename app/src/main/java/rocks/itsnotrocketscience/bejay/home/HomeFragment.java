@@ -11,7 +11,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
-import rocks.itsnotrocketscience.bejay.event.EventListFragment;
+import rocks.itsnotrocketscience.bejay.event.list.EventListFragment;
 
 public class HomeFragment extends BaseFragment {
     @Bind(R.id.btFindEvents)
