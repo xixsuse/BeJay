@@ -30,7 +30,7 @@
             android:layout_height="100dip"
             android:src="@drawable/check_in"
             app:cb_color="#99CC00"
-            android:id="@+id/button"
+            android:id="@+id/btnCheckIn"
             android:layout_below="@+id/tvTitle"
             android:layout_centerHorizontal="true" />
 
