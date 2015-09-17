@@ -24,8 +24,8 @@ public class EventActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
         Bundle b = getIntent().getExtras();
-        String url = b.getString(URL_EXTRA);
-        getFeed(url.replaceAll(ApiConstants.EVENTS_API, "").replace("/", ""));
+        int id = b.getInt(URL_EXTRA);
+        getFeed(id);
     }
 
 
@@ -52,7 +52,7 @@ public class EventActivity extends AppCompatActivity {
     }
 
 
-    private void getFeed(String url) {
+    private void getFeed(int url) {
         RestAdapter restAdapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(ApiConstants.EVENTS_API).build();
         GetEvent events = restAdapter.create(GetEvent.class);
 

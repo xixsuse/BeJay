@@ -29,7 +29,7 @@ import rocks.itsnotrocketscience.bejay.base.BaseFragment;
 import rocks.itsnotrocketscience.bejay.event.item.EventActivity;
 import rocks.itsnotrocketscience.bejay.models.Event;
 
-public class EventListFragment extends BaseFragment implements AdapterView.OnItemClickListener {
+public class EventListFragment extends BaseFragment {
 
     @Bind(R.id.rvEventList)
     RecyclerView rvEventList;
@@ -71,7 +71,7 @@ public class EventListFragment extends BaseFragment implements AdapterView.OnIte
 
     private void launchEvent(int pos) {
         Intent intent = new Intent(getActivity(), EventActivity.class);
-        intent.putExtra(EventActivity.URL_EXTRA, eventList.get(pos).getUrl());
+        intent.putExtra(EventActivity.URL_EXTRA, eventList.get(pos).getId());
         startActivity(intent);
     }
 
@@ -116,8 +116,4 @@ public class EventListFragment extends BaseFragment implements AdapterView.OnIte
         adapter.notifyDataSetChanged();
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-    }
 }

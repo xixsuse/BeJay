@@ -5,11 +5,12 @@ import java.util.List;
 
 /**
  * Created by centralstation on 20/08/15.
+ *
  */
 public class Event{
 
-    private String url;
-    private List<Song> songs = new ArrayList<Song>();
+    private int id;
+    private List<Song> songs = new ArrayList<>();
     private Integer order;
     private Boolean publish;
     private String uid;
@@ -18,13 +19,10 @@ public class Event{
     private String title;
     private String appUser;
 
-    public String getUrl() {
-        return url;
+    public int getId() {
+        return id;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
 
     public List<Song> getSongs() {
         return songs;
