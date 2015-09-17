@@ -85,12 +85,6 @@ public class EventListFragment extends BaseFragment {
         return view;
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
-
-
     @OnClick(R.id.btnRetry)
     public void getFeed() {
         RestAdapter restAdapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(ApiConstants.API).build();

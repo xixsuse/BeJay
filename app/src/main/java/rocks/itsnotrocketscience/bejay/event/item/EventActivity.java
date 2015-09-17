@@ -23,9 +23,13 @@ public class EventActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
+        getIdFromBundle();
+
+    }
+
+    public int getIdFromBundle() {
         Bundle b = getIntent().getExtras();
-        int id = b.getInt(URL_EXTRA);
-        getFeed(id);
+        return b.getInt(URL_EXTRA);
     }
 
 
@@ -52,23 +56,5 @@ public class EventActivity extends AppCompatActivity {
     }
 
 
-    private void getFeed(int url) {
-        RestAdapter restAdapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(ApiConstants.EVENTS_API).build();
-        GetEvent events = restAdapter.create(GetEvent.class);
 
-        events.getFeed(url, new Callback<Event>() {
-            @Override
-            public void success(Event eventList, Response response) {
-                setViewItems(eventList);
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                Log.d("yo", "yo");
-            }
-        });
-    }
-
-    private void setViewItems(Event eventList) {
-    }
 }

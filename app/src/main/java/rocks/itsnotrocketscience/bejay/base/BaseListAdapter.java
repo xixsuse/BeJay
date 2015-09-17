@@ -2,7 +2,6 @@ package rocks.itsnotrocketscience.bejay.base;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.ViewGroup;
 
 import java.util.List;
 
@@ -13,7 +12,7 @@ import rocks.itsnotrocketscience.bejay.event.list.ItemClickListener;
  * Created by centralstation on 17/09/15.
  *
  */
-public abstract class BaseListAdapter<T> extends RecyclerView.Adapter<EventViewHolder> implements ItemClickListener {
+public abstract class BaseListAdapter<T> extends RecyclerView.Adapter<BaseViewHolder> implements ItemClickListener {
     protected List<T> items;
     ItemClickListener clickListener;
 

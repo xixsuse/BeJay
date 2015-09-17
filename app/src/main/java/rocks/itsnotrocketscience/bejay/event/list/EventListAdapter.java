@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import rocks.itsnotrocketscience.bejay.base.BaseListAdapter;
+import rocks.itsnotrocketscience.bejay.base.BaseViewHolder;
 import rocks.itsnotrocketscience.bejay.models.Event;
 
 /**
@@ -28,9 +29,9 @@ public class EventListAdapter extends BaseListAdapter<Event> {
     }
 
     @Override
-    public void onBindViewHolder(EventViewHolder holder, int position) {
+    public void onBindViewHolder(BaseViewHolder holder, int position) {
         Event event = items.get(position);
-        holder.tvTitle.setText(event.getTitle());
+        ((EventViewHolder)holder).tvTitle.setText(event.getTitle());
     }
 
 }

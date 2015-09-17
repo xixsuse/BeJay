@@ -7,7 +7,7 @@ package rocks.itsnotrocketscience.bejay.models;
 public class Song {
 
     private String title;
-    private Integer count;
+    private int count;
     private Boolean chosen;
 
     public String getTitle() {
@@ -17,11 +17,11 @@ public class Song {
         this.title = title;
     }
 
-    public Integer getCount() {
+    public int getCount() {
         return count;
     }
 
-    public void setCount(Integer count) {
+    public void setCount(int count) {
         this.count = count;
     }
     public Boolean getChosen() {
@@ -32,5 +32,7 @@ public class Song {
         this.chosen = chosen;
     }
 
-
+    public String getCountStr(){
+        return String.valueOf(count);
+    }
 }
