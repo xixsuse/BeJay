@@ -1,5 +1,6 @@
 package rocks.itsnotrocketscience.bejay.login;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -49,4 +50,7 @@ public class LoginFragment extends BaseFragment{
     }
 
 
+    public static Fragment newInstance() {
+        return new LoginFragment();
+    }
 }
