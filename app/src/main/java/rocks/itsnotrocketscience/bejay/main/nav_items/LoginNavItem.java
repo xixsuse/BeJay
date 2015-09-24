@@ -5,7 +5,7 @@ import android.content.Intent;
 
 import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.login.LoginActivity;
-import rocks.itsnotrocketscience.bejay.login.LoginActivityFragment;
+import rocks.itsnotrocketscience.bejay.login.LoginFragment;
 import rocks.itsnotrocketscience.bejay.main.MainActivity;
 
 /**
@@ -27,7 +27,7 @@ public class LoginNavItem implements NavItem {
     @Override
     public void onSelected() {
         if(context instanceof MainActivity){
-            ((MainActivity)context).getAppApplication().getSharedPreferences().edit().putBoolean(LoginActivityFragment.IS_LOGGED_IN, false);
+            ((MainActivity)context).getAppApplication().getSharedPreferences().edit().putBoolean(LoginFragment.IS_LOGGED_IN, false);
             Intent intent = new Intent((context), LoginActivity.class);
             context.startActivity(intent);
             ((MainActivity)context).finish();

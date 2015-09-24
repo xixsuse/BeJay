@@ -15,7 +15,7 @@ import rocks.itsnotrocketscience.bejay.base.BaseFragment;
 import rocks.itsnotrocketscience.bejay.main.MainActivity;
 import rocks.itsnotrocketscience.bejay.R;
 
-public class LoginActivityFragment extends BaseFragment{
+public class LoginFragment extends BaseFragment{
 
     @Bind(R.id.btLogin)    Button btLogin;
     @Bind(R.id.btRegister) Button btRegister;
@@ -32,6 +32,7 @@ public class LoginActivityFragment extends BaseFragment{
 
     @OnClick(R.id.btRegister)
     public void register() {
+        showFragment(RegisterFragment.newInstance());
     }
 
     @OnClick(R.id.btLogin)
