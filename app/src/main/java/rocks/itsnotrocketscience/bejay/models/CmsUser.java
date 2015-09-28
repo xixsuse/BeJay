@@ -18,4 +18,24 @@ public class CmsUser {
         this.first_name = first_name;
         this.last_name = last_name;
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getFirst_name() {
+        return first_name;
+    }
+
+    public String getLast_name() {
+        return last_name;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
 }

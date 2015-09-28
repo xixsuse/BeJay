@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import rocks.itsnotrocketscience.bejay.login.LoginActivity;
-import rocks.itsnotrocketscience.bejay.login.LoginFragment;
+import rocks.itsnotrocketscience.bejay.login.LoginOrRegisterFragment;
 
 /**
  * Created by centralstation on 11/09/15.
@@ -22,7 +22,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     private void logout() {
-        getAppApplication().getSharedPreferences().edit().putBoolean(LoginFragment.IS_LOGGED_IN, false);
+        getAppApplication().getSharedPreferences().edit().putBoolean(LoginOrRegisterFragment.IS_LOGGED_IN, false);
         Intent intent = new Intent(BaseActivity.this, LoginActivity.class);
         startActivity(intent);
         this.finish();
@@ -33,7 +33,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected boolean isLoggedIn(){
-        return getAppApplication().getSharedPreferences().getBoolean(LoginFragment.IS_LOGGED_IN, false);
+        return getAppApplication().getSharedPreferences().getBoolean(LoginOrRegisterFragment.IS_LOGGED_IN, false);
     }
 
 }

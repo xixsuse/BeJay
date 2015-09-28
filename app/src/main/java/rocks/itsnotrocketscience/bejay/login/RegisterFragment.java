@@ -1,5 +1,6 @@
 package rocks.itsnotrocketscience.bejay.login;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -7,19 +8,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit.Callback;
+import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.api.ApiConstants;
+import rocks.itsnotrocketscience.bejay.api.AuthCredentials;
+import rocks.itsnotrocketscience.bejay.api.Constants;
 import rocks.itsnotrocketscience.bejay.api.CreateUser;
+import rocks.itsnotrocketscience.bejay.api.LoginUser;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
+import rocks.itsnotrocketscience.bejay.main.MainActivity;
 import rocks.itsnotrocketscience.bejay.models.CmsUser;
+import rocks.itsnotrocketscience.bejay.models.Token;
 
 
 public class RegisterFragment extends BaseFragment {
@@ -28,7 +36,9 @@ public class RegisterFragment extends BaseFragment {
     EditText etEmail;
     @Bind(R.id.etPassword)
     EditText etPassword;
-    @Bind(R.id.btRegister) Button btRegister;
+    @Bind(R.id.btRegister)
+    Button btRegister;
+    private CmsUser user;
 
     public static RegisterFragment newInstance() {
         return new RegisterFragment();
@@ -57,10 +67,10 @@ public class RegisterFragment extends BaseFragment {
     public void register() {
         RestAdapter restAdapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(ApiConstants.API).build();
         CreateUser createUser = restAdapter.create(CreateUser.class);
-        createUser.createUser( getUserObject(), new Callback<CmsUser>() {
+        createUser.createUser(getUserObject(), new Callback<CmsUser>() {
             @Override
             public void success(CmsUser eventList, Response response) {
-                Log.d("yo", "suuuuuuuuuuuuuuuuuucccccccceeeeeeeesssssssssssssssssssss!!!!!");
+                login();
             }
 
             @Override
@@ -70,7 +80,34 @@ public class RegisterFragment extends BaseFragment {
         });
     }
 
+    public void login() {
+
+        AuthCredentials auth = new AuthCredentials(getUserObject().getUsername(), getUserObject().getPassword());
+        RestAdapter restAdapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(ApiConstants.API).build();
+        LoginUser loginUser = restAdapter.create(LoginUser.class);
+
+
+        loginUser.loginUser(ApiConstants.TOKEN, auth, new Callback<Token>() {
+            @Override
+            public void success(Token token, Response response) {
+                getDemoApplication().getSharedPreferences().edit().putBoolean(Constants.IS_LOGGED_IN, true).commit();
+                Toast.makeText(getActivity(), "Logged in", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.d("fail", "fail");
+            }
+        });
+
+    }
+
     public CmsUser getUserObject() {
-        return new CmsUser("", "", etEmail.getText().toString(), etEmail.getText().toString(), etPassword.getText().toString());
+        if (user == null)
+            return new CmsUser("", "", etEmail.getText().toString(), etEmail.getText().toString(), etPassword.getText().toString());
+        else
+            return user;
     }
 }
