@@ -1,4 +1,4 @@
-package rocks.itsnotrocketscience.bejay.api;
+package rocks.itsnotrocketscience.bejay.api.retrofit;
 
 /**
  * Created by centralstation on 28/09/15.

@@ -2,18 +2,10 @@ package rocks.itsnotrocketscience.bejay.event.item;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import retrofit.Callback;
-import retrofit.RestAdapter;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 import rocks.itsnotrocketscience.bejay.R;
-import rocks.itsnotrocketscience.bejay.api.ApiConstants;
-import rocks.itsnotrocketscience.bejay.api.GetEvent;
-import rocks.itsnotrocketscience.bejay.models.Event;
 
 public class EventActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package rocks.itsnotrocketscience.bejay.api;
+package rocks.itsnotrocketscience.bejay.api.retrofit;
 
 import java.util.ArrayList;
 
