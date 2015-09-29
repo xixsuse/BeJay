@@ -29,7 +29,7 @@ import rocks.itsnotrocketscience.bejay.models.Song;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class EventActivityFragment extends BaseFragment {
+public class EventFragment extends BaseFragment {
 
     @Bind(R.id.rvSongList)
     RecyclerView rvSongList;
@@ -57,7 +57,7 @@ public class EventActivityFragment extends BaseFragment {
         rvSongList.setAdapter(adapter);
     }
 
-    public EventActivityFragment() {
+    public EventFragment() {
         songList = new ArrayList<>();
     }
 
