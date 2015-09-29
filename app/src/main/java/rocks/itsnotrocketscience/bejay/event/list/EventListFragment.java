@@ -18,11 +18,13 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit.Callback;
+import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.api.ApiConstants;
+import rocks.itsnotrocketscience.bejay.api.retrofit.AuthInterceptor;
 import rocks.itsnotrocketscience.bejay.api.retrofit.GetEvents;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
 import rocks.itsnotrocketscience.bejay.event.item.EventActivity;
@@ -86,7 +88,7 @@ public class EventListFragment extends BaseFragment {
 
     @OnClick(R.id.btnRetry)
     public void getFeed() {
-        RestAdapter restAdapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(ApiConstants.API).build();
+        RestAdapter restAdapter = new RestAdapter.Builder().setRequestInterceptor(getAuthToken()).setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(ApiConstants.API).build();
         GetEvents events = restAdapter.create(GetEvents.class);
 
         events.getFeed("events", new Callback<ArrayList<Event>>() {
@@ -108,5 +110,6 @@ public class EventListFragment extends BaseFragment {
         this.eventList.addAll(eventList);
         adapter.notifyDataSetChanged();
     }
+
 
 }

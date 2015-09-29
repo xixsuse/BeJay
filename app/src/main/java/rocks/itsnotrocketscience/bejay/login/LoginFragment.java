@@ -68,7 +68,7 @@ public class LoginFragment extends BaseFragment {
 
             @Override
             public void failure(RetrofitError error) {
-                Log.d("fail", "fail");
+                Toast.makeText(getActivity(),error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
             }
         });
 

@@ -19,6 +19,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.api.ApiConstants;
+import rocks.itsnotrocketscience.bejay.api.retrofit.AuthInterceptor;
 import rocks.itsnotrocketscience.bejay.api.retrofit.GetEvent;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
 import rocks.itsnotrocketscience.bejay.event.list.ItemClickListener;
@@ -73,7 +74,7 @@ public class EventActivityFragment extends BaseFragment {
 
 
     private void getFeed(int url) {
-        RestAdapter restAdapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(ApiConstants.EVENTS_API).build();
+        RestAdapter restAdapter = new RestAdapter.Builder().setRequestInterceptor(getAuthToken()).setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(ApiConstants.EVENTS_API).build();
         GetEvent events = restAdapter.create(GetEvent.class);
 
         events.getFeed(url, new Callback<Event>() {

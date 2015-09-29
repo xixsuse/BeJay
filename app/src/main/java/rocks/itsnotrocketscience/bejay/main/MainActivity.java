@@ -22,7 +22,6 @@ public class MainActivity extends BaseActivity {
     private static List<NavItem> items;
     public Toolbar toolbar;
     private NavigationDrawerFragment mNavigationDrawerFragment;
-    private CharSequence mTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +36,6 @@ public class MainActivity extends BaseActivity {
         setItems();
         mNavigationDrawerFragment = (NavigationDrawerFragment)getFragmentManager().findFragmentById(R.id.navigation_drawer);
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), items);
-        mTitle = getTitle();
 
     }
 

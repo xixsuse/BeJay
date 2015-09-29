@@ -89,7 +89,7 @@ public class RegisterFragment extends BaseFragment {
         loginUser.loginUser(ApiConstants.TOKEN, auth, new Callback<Token>() {
             @Override
             public void success(Token token, Response response) {
-                getDemoApplication().getSharedPreferences().edit().putBoolean(Constants.IS_LOGGED_IN, true).commit();
+                getDemoApplication().getSharedPreferences().edit().putString(Constants.TOKEN, token.getToken()).commit();
                 Toast.makeText(getActivity(), "Logged in", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
