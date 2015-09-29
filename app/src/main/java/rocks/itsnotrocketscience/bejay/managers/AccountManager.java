@@ -19,4 +19,13 @@ public class AccountManager {
     public String getTokenAuth(){
         return sharedPreferences.getString(Constants.TOKEN, "");
     }
+
+    public boolean isLoggedIn(){
+        return sharedPreferences.getString(Constants.TOKEN, "") != "";
+    }
+
+    public void clearLogin(){
+        sharedPreferences.edit().putString(Constants.TOKEN, "").apply();
+    }
+
 }

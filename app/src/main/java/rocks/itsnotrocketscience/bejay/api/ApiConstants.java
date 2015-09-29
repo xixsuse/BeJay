@@ -13,5 +13,5 @@ public class ApiConstants {
     public static final String API = BuildConfig.BASE_URL + BASE_API;
     public static final String EVENTS_API = BuildConfig.BASE_URL + BASE_API + EVENTS;
     public static final String USER_API = BuildConfig.BASE_URL + BASE_API + USERS;
-    public static final String TOKEN = "api-token-auth/";
+    public static final String TOKEN = "api-token-auth";
 }

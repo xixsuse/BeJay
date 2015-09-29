@@ -1,7 +1,5 @@
 package rocks.itsnotrocketscience.bejay.api.retrofit;
 
-import android.content.SharedPreferences;
-
 import retrofit.RequestInterceptor;
 
 /**

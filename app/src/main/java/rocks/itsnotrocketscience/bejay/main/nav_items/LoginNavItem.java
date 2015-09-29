@@ -27,7 +27,7 @@ public class LoginNavItem implements NavItem {
     @Override
     public void onSelected() {
         if(context instanceof MainActivity){
-            ((MainActivity)context).getAppApplication().getSharedPreferences().edit().putBoolean(LoginOrRegisterFragment.IS_LOGGED_IN, false);
+            ((MainActivity)context).getAppApplication().getAccountManager().clearLogin();
             Intent intent = new Intent((context), LoginActivity.class);
             context.startActivity(intent);
             ((MainActivity)context).finish();

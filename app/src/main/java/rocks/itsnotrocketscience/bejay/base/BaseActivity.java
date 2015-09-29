@@ -16,7 +16,7 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(!isLoggedIn()){
+        if(!getAppApplication().getAccountManager().isLoggedIn()){
             logout();
         }
     }
@@ -32,8 +32,6 @@ public class BaseActivity extends AppCompatActivity {
         return (AppApplication)getApplication();
     }
 
-    protected boolean isLoggedIn(){
-        return getAppApplication().getSharedPreferences().getBoolean(LoginOrRegisterFragment.IS_LOGGED_IN, false);
-    }
+
 
 }

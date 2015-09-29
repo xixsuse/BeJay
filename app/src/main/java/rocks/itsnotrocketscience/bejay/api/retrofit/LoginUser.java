@@ -13,7 +13,7 @@ import rocks.itsnotrocketscience.bejay.models.Token;
 public interface LoginUser {
 
     @Headers("Content-Type: application/json;charset=UTF-8")
-    @POST("/{url}")
+    @POST("/{url}/")
     void loginUser(@Path("url") String url, @Body AuthCredentials task, Callback<Token> response);
 }
 
