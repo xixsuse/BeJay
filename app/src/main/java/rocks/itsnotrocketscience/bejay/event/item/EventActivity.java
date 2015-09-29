@@ -6,8 +6,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import rocks.itsnotrocketscience.bejay.R;
+import rocks.itsnotrocketscience.bejay.base.BaseActivity;
 
-public class EventActivity extends AppCompatActivity {
+public class EventActivity extends BaseActivity {
 
     public static String URL_EXTRA = "url_extra";
 

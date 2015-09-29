@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,19 +19,18 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit.Callback;
-import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.api.ApiConstants;
-import rocks.itsnotrocketscience.bejay.api.retrofit.AuthInterceptor;
+import rocks.itsnotrocketscience.bejay.api.retrofit.CheckInUserToEvent;
 import rocks.itsnotrocketscience.bejay.api.retrofit.GetEvents;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
 import rocks.itsnotrocketscience.bejay.event.item.EventActivity;
 import rocks.itsnotrocketscience.bejay.models.Event;
 
-public class EventListFragment extends BaseFragment {
+public class EventListFragment extends BaseFragment implements ItemClickListener {
 
     @Bind(R.id.rvEventList)
     RecyclerView rvEventList;
@@ -59,13 +59,7 @@ public class EventListFragment extends BaseFragment {
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         rvEventList.setLayoutManager(llm);
         adapter = new EventListAdapter(eventList);
-        adapter.setItemClickListener(new ItemClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-
-                launchEvent(position);
-            }
-        });
+        adapter.setItemClickListener(this);
 
         rvEventList.setAdapter(adapter);
     }
@@ -82,7 +76,6 @@ public class EventListFragment extends BaseFragment {
 
         View view = inflater.inflate(R.layout.fragment_event_list, container, false);
         ButterKnife.bind(this, view);
-
         return view;
     }
 
@@ -112,4 +105,27 @@ public class EventListFragment extends BaseFragment {
     }
 
 
+    @Override
+    public void onClick(View view, int position) {
+
+        checkin_user(position);
+
+    }
+
+    private void checkin_user(final int position) {
+        RestAdapter restAdapter = new RestAdapter.Builder().setRequestInterceptor(getAuthToken()).setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(ApiConstants.API).build();
+        CheckInUserToEvent checkin = restAdapter.create(CheckInUserToEvent.class);
+        checkin.checkIn(position, new Callback<Event>() {
+            @Override
+            public void success(Event event, Response response) {
+                Toast.makeText(getActivity(), "Checked in", Toast.LENGTH_LONG).show();
+                launchEvent(position);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Toast.makeText(getActivity(), "Error", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
 }
