@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import rocks.itsnotrocketscience.bejay.R;
+import rocks.itsnotrocketscience.bejay.base.BaseActivity;
 import rocks.itsnotrocketscience.bejay.main.nav_items.NavItem;
 
 public class NavigationDrawerFragment extends Fragment {
@@ -96,7 +97,7 @@ public class NavigationDrawerFragment extends Fragment {
         selectItem(0);
 
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-        Toolbar toolbar = ((MainActivity)getActivity()).toolbar;
+        Toolbar toolbar = ((BaseActivity)getActivity()).toolbar;
 
         mDrawerToggle = new ActionBarDrawerToggle(
                 getActivity(),                    /* host Activity */

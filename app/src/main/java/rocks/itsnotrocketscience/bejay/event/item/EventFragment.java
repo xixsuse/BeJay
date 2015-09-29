@@ -61,6 +61,10 @@ public class EventFragment extends BaseFragment {
         songList = new ArrayList<>();
     }
 
+    public static EventFragment newInstance(){
+        return new EventFragment();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

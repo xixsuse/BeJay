@@ -5,6 +5,7 @@ import android.content.Context;
 import android.app.FragmentManager;
 
 import rocks.itsnotrocketscience.bejay.R;
+import rocks.itsnotrocketscience.bejay.base.BaseActivity;
 import rocks.itsnotrocketscience.bejay.main.MainActivity;
 
 /**
@@ -35,7 +36,7 @@ public class FragmentNavItem implements NavItem {
 
     @Override
     public void onSelected() {
-        FragmentManager fragmentManager = ((MainActivity)context).getFragmentManager();
+        FragmentManager fragmentManager = ((BaseActivity)context).getFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.container, fragment)
                 .commit();
