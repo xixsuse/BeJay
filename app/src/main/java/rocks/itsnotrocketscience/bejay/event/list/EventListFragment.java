@@ -107,9 +107,7 @@ public class EventListFragment extends BaseFragment implements ItemClickListener
 
     @Override
     public void onClick(View view, int position) {
-
         checkin_user(position);
-
     }
 
     private void checkin_user(final int position) {

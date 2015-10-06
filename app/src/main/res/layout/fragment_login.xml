@@ -1,14 +1,22 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:padding="20dp"
     android:layout_height="match_parent"
     tools:context="rocks.itsnotrocketscience.bejay.login.LoginFragment">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="@color/grey"
+        android:layout_width="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_height="wrap_content">
 
     <EditText
         android:id="@+id/etUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:singleLine="true"
         android:textColor="@color/white"
         android:hint="@string/username" />
 
@@ -16,7 +24,7 @@
         android:id="@+id/etPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/etUsername"
+        android:singleLine="true"
         android:textColor="@color/white"
         android:hint="@string/password" />
 
@@ -24,7 +32,7 @@
         android:layout_width="match_parent"
         android:id="@+id/btLogin"
         android:layout_height="wrap_content"
-        android:layout_below="@id/etPassword"
         android:text="@string/login"/>
+    </LinearLayout>
 
 </RelativeLayout>

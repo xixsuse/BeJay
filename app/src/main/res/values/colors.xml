@@ -6,4 +6,5 @@
     <color name="white">#fffff1</color>
     <color name="uva_color">#f2f8ee</color>
     <color name="default_color">#f2f8ee</color>
+    <color name="grey">#333333</color>
 </resources>
