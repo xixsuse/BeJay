@@ -34,5 +34,6 @@
         android:layout_height="wrap_content"
         android:text="@string/login"/>
     </LinearLayout>
+    <include layout="@layout/spinner"/>
 
 </RelativeLayout>

@@ -117,6 +117,7 @@ public class EventListFragment extends BaseFragment implements ItemClickListener
             @Override
             public void success(Event event, Response response) {
                 Toast.makeText(getActivity(), "Checked in", Toast.LENGTH_LONG).show();
+                getDemoApplication().getAccountManager().setCheckedIn(position);
                 launchEvent(position);
             }
 

@@ -6,4 +6,5 @@ package rocks.itsnotrocketscience.bejay.api;
 public interface Constants {
 
     String TOKEN = "token";
+    String EVENT_PK = "event_pk";
 }

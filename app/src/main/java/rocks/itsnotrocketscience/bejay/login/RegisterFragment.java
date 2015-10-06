@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import butterknife.Bind;
@@ -31,12 +33,10 @@ import rocks.itsnotrocketscience.bejay.models.Token;
 
 public class RegisterFragment extends BaseFragment {
 
-    @Bind(R.id.etEmail)
-    EditText etEmail;
-    @Bind(R.id.etPassword)
-    EditText etPassword;
-    @Bind(R.id.btRegister)
-    Button btRegister;
+    @Bind(R.id.pbProgress) ProgressBar pbProgress;
+    @Bind(R.id.etEmail) EditText etEmail;
+    @Bind(R.id.etPassword) EditText etPassword;
+    @Bind(R.id.btRegister) Button btRegister;
     private CmsUser user;
 
     public static RegisterFragment newInstance() {
@@ -64,6 +64,8 @@ public class RegisterFragment extends BaseFragment {
 
     @OnClick(R.id.btRegister)
     public void register() {
+        toggleProgress(true);
+
         RestAdapter restAdapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(ApiConstants.API).build();
         CreateUser createUser = restAdapter.create(CreateUser.class);
         createUser.createUser(getUserObject(), new Callback<CmsUser>() {
@@ -74,11 +76,11 @@ public class RegisterFragment extends BaseFragment {
 
             @Override
             public void failure(RetrofitError error) {
-                Log.d("yo", "yo");
+                toggleProgress(false);
+                Toast.makeText(getActivity(), error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
-
     public void login() {
 
         AuthCredentials auth = new AuthCredentials(getUserObject().getUsername(), getUserObject().getPassword());
@@ -91,13 +93,15 @@ public class RegisterFragment extends BaseFragment {
             public void success(Token token, Response response) {
                 getDemoApplication().getSharedPreferences().edit().putString(Constants.TOKEN, token.getToken()).commit();
                 Toast.makeText(getActivity(), "Logged in", Toast.LENGTH_SHORT).show();
+                toggleProgress(false);
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
             }
 
             @Override
             public void failure(RetrofitError error) {
-                Log.d("fail", "fail");
+                toggleProgress(false);
+                Toast.makeText(getActivity(), error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
             }
         });
 
@@ -108,5 +112,10 @@ public class RegisterFragment extends BaseFragment {
             return new CmsUser("", "", etEmail.getText().toString(), etEmail.getText().toString(), etPassword.getText().toString());
         else
             return user;
+    }
+
+
+    private void toggleProgress(boolean on) {
+        pbProgress.setVisibility(on ? View.VISIBLE : View.GONE);
     }
 }

@@ -28,4 +28,15 @@ public class AccountManager {
         sharedPreferences.edit().putString(Constants.TOKEN, "").apply();
     }
 
+    public void setCheckedIn(int pk) {
+        sharedPreferences.edit().putInt(Constants.EVENT_PK, pk).apply();
+    }
+    public boolean isCheckedIn(){
+        return sharedPreferences.getInt(Constants.EVENT_PK, -1) != -1;
+    }
+
+    public int getCheckedInEventPk(){
+        return sharedPreferences.getInt(Constants.EVENT_PK, -1);
+    }
+
 }
