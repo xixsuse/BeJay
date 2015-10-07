@@ -12,5 +12,5 @@ import rocks.itsnotrocketscience.bejay.models.Event;
  */
 public interface GetEvents {
   @GET("/{url}/")
-  public void getFeed(@Path("url") String url, Callback<ArrayList<Event>> response);
+  void getFeed(@Path("url") String url, Callback<ArrayList<Event>> response);
 }

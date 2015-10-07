@@ -46,13 +46,7 @@ public class EventFragment extends BaseFragment {
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         rvSongList.setLayoutManager(llm);
         adapter = new SongListAdapter(songList);
-        adapter.setItemClickListener(new ItemClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-
-                Log.d("yo", "yo");
-            }
-        });
+        adapter.setItemClickListener((view1, position) -> Log.d("yo", "yo"));
 
         rvSongList.setAdapter(adapter);
     }

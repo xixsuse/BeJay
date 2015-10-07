@@ -97,7 +97,7 @@ public class NavigationDrawerFragment extends Fragment {
         selectItem(0);
 
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-        Toolbar toolbar = ((BaseActivity)getActivity()).toolbar;
+        Toolbar toolbar = ((BaseActivity) getActivity()).toolbar;
 
         mDrawerToggle = new ActionBarDrawerToggle(
                 getActivity(),                    /* host Activity */
