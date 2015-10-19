@@ -1,10 +1,9 @@
 package rocks.itsnotrocketscience.bejay.main;
-
-import android.app.Fragment;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -15,25 +14,27 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.base.BaseActivity;
+import rocks.itsnotrocketscience.bejay.base.BaseFragment;
+import rocks.itsnotrocketscience.bejay.event.item.EventFragment;
+import rocks.itsnotrocketscience.bejay.home.HomeFragment;
 import rocks.itsnotrocketscience.bejay.main.nav_items.NavItem;
+import rocks.itsnotrocketscience.bejay.profile.ProfileFragment;
 
-public class NavigationDrawerFragment extends Fragment {
+public class NavigationDrawerFragment extends BaseFragment {
 
     private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
     private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
     private ActionBarDrawerToggle mDrawerToggle;
 
     private DrawerLayout mDrawerLayout;
-    private ListView mDrawerListView;
+    private NavigationView mNavigationView;
     private ArrayAdapter adapter;
     private List<NavItem> items;
     private View mFragmentContainerView;
@@ -65,23 +66,50 @@ public class NavigationDrawerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         items = new ArrayList<>();
-        mDrawerListView = (ListView) inflater.inflate(
+        mNavigationView = (NavigationView) inflater.inflate(
                 R.layout.fragment_navigation_drawer, container, false);
-        mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        //Setting Navigation View Item Selected Listener to handle the item click of the navigation menu
+        showFragment(new HomeFragment());
+
+        mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+
+            // This method will trigger on item Click of navigation menu
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectItem(position);
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+
+
+                //Checking if the item is in checked state or not, if not make it in checked state
+                if (menuItem.isChecked()) menuItem.setChecked(false);
+                else menuItem.setChecked(true);
+
+                //Closing drawer on item click
+                mDrawerLayout.closeDrawers();
+
+                //Check to see which item was being clicked and perform appropriate action
+                switch (menuItem.getItemId()) {
+
+                    //Replacing the main content with ContentFragment Which is our Inbox View;
+                    case R.id.home:
+                        showFragment(new HomeFragment());
+                        break;
+                    case R.id.profile:
+                        showFragment(new ProfileFragment());
+                        return true;
+                    case R.id.event:
+                        showFragment(new EventFragment());
+                        return true;
+                    case R.id.settings:
+
+                        return true;
+                    case R.id.logout:
+                        logout(getActivity());
+                        return true;
+                }
+                return false;
             }
         });
-        adapter = new ArrayAdapter<>(
-                getActivity(),
-                R.layout.list_item,
-                R.id.tv,
-                items);
-        mDrawerListView.setAdapter(adapter);
-        mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
 
-        return mDrawerListView;
+        return mNavigationView;
     }
 
     public boolean isDrawerOpen() {
@@ -89,12 +117,9 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
 
-    public void setUp(int fragmentId, DrawerLayout drawerLayout, List<NavItem> items) {
+    public void setUp(int fragmentId, DrawerLayout drawerLayout) {
         mFragmentContainerView = getActivity().findViewById(fragmentId);
         mDrawerLayout = drawerLayout;
-
-        setupItems(items);
-        selectItem(0);
 
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         Toolbar toolbar = ((BaseActivity) getActivity()).toolbar;
@@ -150,24 +175,6 @@ public class NavigationDrawerFragment extends Fragment {
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
-
-    private void setupItems(List<NavItem> items) {
-        this.items.clear();
-        this.items.addAll(items);
-        adapter.notifyDataSetChanged();
-    }
-
-    private void selectItem(int position) {
-        mCurrentSelectedPosition = position;
-        if (mDrawerListView != null) {
-            mDrawerListView.setItemChecked(position, true);
-        }
-        if (mDrawerLayout != null) {
-            mDrawerLayout.closeDrawer(mFragmentContainerView);
-        }
-        items.get(position).onSelected();
-    }
-
 
     @Override
     public void onSaveInstanceState(Bundle outState) {

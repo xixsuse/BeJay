@@ -27,14 +27,12 @@ import rocks.itsnotrocketscience.bejay.profile.ProfileFragment;
  */
 public class BaseActivity extends AppCompatActivity {
 
-    private static List<NavItem> items;
     public Toolbar toolbar;
     protected NavigationDrawerFragment mNavigationDrawerFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setItems();
         if(!getAppApplication().getAccountManager().isLoggedIn()){
             logout();
         }
@@ -47,7 +45,7 @@ public class BaseActivity extends AppCompatActivity {
 
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)getFragmentManager().findFragmentById(R.id.navigation_drawer);
-        mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), items);
+        mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
 
     }
 
@@ -60,13 +58,6 @@ public class BaseActivity extends AppCompatActivity {
 
     public AppApplication getAppApplication(){
         return (AppApplication)getApplication();
-    }
-
-    private void setItems() {
-        items = new ArrayList<>();
-        items.add(new FragmentNavItem(this, "Home", HomeFragment.newInstance()));
-        items.add(new FragmentNavItem(this, "Profile", ProfileFragment.newInstance()));
-        items.add(new LoginNavItem(this));
     }
 
     public void showFragment(Fragment fragment)
