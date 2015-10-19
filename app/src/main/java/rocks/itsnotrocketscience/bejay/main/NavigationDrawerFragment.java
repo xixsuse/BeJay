@@ -14,17 +14,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.base.BaseActivity;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
 import rocks.itsnotrocketscience.bejay.event.item.EventFragment;
 import rocks.itsnotrocketscience.bejay.home.HomeFragment;
-import rocks.itsnotrocketscience.bejay.main.nav_items.NavItem;
 import rocks.itsnotrocketscience.bejay.profile.ProfileFragment;
 
 public class NavigationDrawerFragment extends BaseFragment {
@@ -35,8 +30,6 @@ public class NavigationDrawerFragment extends BaseFragment {
 
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
-    private ArrayAdapter adapter;
-    private List<NavItem> items;
     private View mFragmentContainerView;
 
     private int mCurrentSelectedPosition = 0;
@@ -65,51 +58,40 @@ public class NavigationDrawerFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        items = new ArrayList<>();
+
         mNavigationView = (NavigationView) inflater.inflate(
                 R.layout.fragment_navigation_drawer, container, false);
-        //Setting Navigation View Item Selected Listener to handle the item click of the navigation menu
         showFragment(new HomeFragment());
 
-        mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-
-            // This method will trigger on item Click of navigation menu
-            @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
-
-
-                //Checking if the item is in checked state or not, if not make it in checked state
-                if (menuItem.isChecked()) menuItem.setChecked(false);
-                else menuItem.setChecked(true);
-
-                //Closing drawer on item click
-                mDrawerLayout.closeDrawers();
-
-                //Check to see which item was being clicked and perform appropriate action
-                switch (menuItem.getItemId()) {
-
-                    //Replacing the main content with ContentFragment Which is our Inbox View;
-                    case R.id.home:
-                        showFragment(new HomeFragment());
-                        break;
-                    case R.id.profile:
-                        showFragment(new ProfileFragment());
-                        return true;
-                    case R.id.event:
-                        showFragment(new EventFragment());
-                        return true;
-                    case R.id.settings:
-
-                        return true;
-                    case R.id.logout:
-                        logout(getActivity());
-                        return true;
-                }
-                return false;
-            }
-        });
+        mNavigationView.setNavigationItemSelectedListener(this::chooseAction);
 
         return mNavigationView;
+    }
+
+    private boolean chooseAction(MenuItem menuItem) {
+        if (menuItem.isChecked()) menuItem.setChecked(false);
+        else menuItem.setChecked(true);
+        mDrawerLayout.closeDrawers();
+
+        switch (menuItem.getItemId()) {
+
+            case R.id.home:
+                showFragment(new HomeFragment());
+                break;
+            case R.id.profile:
+                showFragment(new ProfileFragment());
+                return true;
+            case R.id.event:
+                showFragment(new EventFragment());
+                return true;
+            case R.id.settings:
+
+                return true;
+            case R.id.logout:
+                logout(getActivity());
+                return true;
+        }
+        return false;
     }
 
     public boolean isDrawerOpen() {
