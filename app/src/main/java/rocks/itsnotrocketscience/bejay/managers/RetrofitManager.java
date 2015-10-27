@@ -16,7 +16,6 @@ import rocks.itsnotrocketscience.bejay.api.ApiConstants;
 import rocks.itsnotrocketscience.bejay.api.retrofit.CheckInUserToEvent;
 import rocks.itsnotrocketscience.bejay.api.retrofit.GetEvents;
 import rocks.itsnotrocketscience.bejay.base.AppApplication;
-import rocks.itsnotrocketscience.bejay.base.BaseFragment;
 import rocks.itsnotrocketscience.bejay.models.Event;
 
 /**
@@ -49,38 +48,35 @@ public class RetrofitManager {
         }
     }
 
-    public void checkinUser(final int id, Activity activity) {
+    public void checkinUser(CheckinListener listener, final int id) {
 
         CheckInUserToEvent checkin = restAdapter.create(CheckInUserToEvent.class);
         checkin.checkIn(id, new Callback<Event>() {
             @Override
             public void success(Event event, Response response) {
-                Toast.makeText(activity, "Checked in", Toast.LENGTH_LONG).show();
-                application.getAccountManager().setCheckedIn(event.getId());
-                LaunchManager.launchEvent(event.getId(), activity);
+                listener.onCheckedIn(id, null);
             }
 
             @Override
             public void failure(RetrofitError error) {
-                Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show();
+                listener.onCheckedIn(id,error);
             }
         });
     }
 
-    public void getEventListFeed(EventListListener listener,RelativeLayout rlError) {
+    public void getEventListFeed(EventListListener listener) {
         GetEvents events = restAdapter.create(GetEvents.class);
 
         events.getFeed("events", new Callback<ArrayList<Event>>() {
             @Override
             public void success(ArrayList<Event> eventList, Response response) {
                 listener.onEventFeedLoaded(eventList, null);
-                rlError.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void failure(RetrofitError error) {
                 listener.onEventFeedLoaded(null, error);
-                rlError.setVisibility(View.VISIBLE);
+
             }
         });
     }
@@ -106,6 +102,9 @@ public class RetrofitManager {
     }
     public interface CheckoutListener{
         void onCheckedOut(int id, RetrofitError error);
+    }
+    public interface CheckinListener{
+        void onCheckedIn(int id, RetrofitError error);
     }
 
 }

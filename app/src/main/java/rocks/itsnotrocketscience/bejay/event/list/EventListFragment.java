@@ -1,7 +1,6 @@
 package rocks.itsnotrocketscience.bejay.event.list;
 
 import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,10 +25,10 @@ import rocks.itsnotrocketscience.bejay.managers.LaunchManager;
 import rocks.itsnotrocketscience.bejay.managers.RetrofitManager;
 import rocks.itsnotrocketscience.bejay.models.Event;
 
-public class EventListFragment extends BaseFragment implements ItemClickListener, RetrofitManager.EventListListener, RetrofitManager.CheckoutListener {
+public class EventListFragment extends BaseFragment implements ItemClickListener, RetrofitManager.EventListListener, RetrofitManager.CheckoutListener, RetrofitManager.CheckinListener {
 
     @Bind(R.id.rvEventList)
-    RecyclerView rvEventList;
+    RecyclerView recyclerView;
     EventListAdapter adapter;
     @Bind(R.id.rlError)
     RelativeLayout rlError;
@@ -51,13 +50,17 @@ public class EventListFragment extends BaseFragment implements ItemClickListener
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getFeed();
-        rvEventList.setHasFixedSize(true);
-        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
-        llm.setOrientation(LinearLayoutManager.VERTICAL);
-        rvEventList.setLayoutManager(llm);
+        setupRecyclerView();
+    }
+
+    private void setupRecyclerView() {
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(linearLayoutManager);
         adapter = new EventListAdapter(eventList);
         adapter.setItemClickListener(this);
-        rvEventList.setAdapter(adapter);
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -70,7 +73,7 @@ public class EventListFragment extends BaseFragment implements ItemClickListener
 
     @OnClick(R.id.btnRetry)
     public void getFeed() {
-        RetrofitManager.get(getActivity()).getEventListFeed(this, rlError);
+        RetrofitManager.get(getActivity()).getEventListFeed(this);
     }
 
     private void setViewItems(ArrayList<Event> eventList) {
@@ -81,8 +84,12 @@ public class EventListFragment extends BaseFragment implements ItemClickListener
 
     @Override
     public void onClick(View view, int position) {
-        if (!getAppApplication().getAccountManager().isCheckedIn()) {
-            RetrofitManager.get(getActivity()).checkinUser(eventList.get(position).getId(), getActivity());
+        boolean isCheckedIn = getAppApplication().getAccountManager().isCheckedIn();
+        int eventId = eventList.get(position).getId();
+        if (!isCheckedIn) {
+            RetrofitManager.get(getActivity()).checkinUser(this, eventList.get(position).getId());
+        } else if (eventId == getAppApplication().getAccountManager().getCheckedInEventPk()) {
+            LaunchManager.launchEvent(eventId, getActivity());
         } else {
             displayAlert(eventList.get(position).getId());
         }
@@ -95,6 +102,7 @@ public class EventListFragment extends BaseFragment implements ItemClickListener
         } else {
             Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_LONG).show();
         }
+        rlError.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -102,7 +110,18 @@ public class EventListFragment extends BaseFragment implements ItemClickListener
         if (error != null) {
             Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_LONG).show();
         } else {
-            RetrofitManager.get(getActivity()).checkinUser(id, getActivity());
+            RetrofitManager.get(getActivity()).checkinUser(this, id);
+        }
+    }
+
+    @Override
+    public void onCheckedIn(int id, RetrofitError error) {
+        if (error != null) {
+            Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getActivity(), "Checked in", Toast.LENGTH_LONG).show();
+            getAppApplication().getAccountManager().setCheckedIn(id);
+            LaunchManager.launchEvent(id, getActivity());
         }
     }
 
@@ -124,4 +143,5 @@ public class EventListFragment extends BaseFragment implements ItemClickListener
                 })
                 .show();
     }
+
 }
