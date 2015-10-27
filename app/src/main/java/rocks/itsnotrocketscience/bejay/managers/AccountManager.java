@@ -40,7 +40,7 @@ public class AccountManager {
         return sharedPreferences.getInt(Constants.EVENT_PK, -1) != -1;
     }
 
-    public int getCheckedInEventPk(){
+    public int getCheckedInEventId(){
         return sharedPreferences.getInt(Constants.EVENT_PK, -1);
     }
 

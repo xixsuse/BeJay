@@ -18,8 +18,8 @@ import android.view.ViewGroup;
 import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.base.BaseActivity;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
-import rocks.itsnotrocketscience.bejay.event.single.EventActivity;
 import rocks.itsnotrocketscience.bejay.home.HomeFragment;
+import rocks.itsnotrocketscience.bejay.managers.LaunchManager;
 import rocks.itsnotrocketscience.bejay.profile.ProfileFragment;
 
 public class NavigationDrawerFragment extends BaseFragment {
@@ -87,7 +87,7 @@ public class NavigationDrawerFragment extends BaseFragment {
                 showFragment(new ProfileFragment());
                 return true;
             case R.id.event:
-                openActivity(EventActivity.class);
+                LaunchManager.launchEvent(getAppApplication().getAccountManager().getCheckedInEventId(), getActivity());
                 return true;
             case R.id.settings:
 

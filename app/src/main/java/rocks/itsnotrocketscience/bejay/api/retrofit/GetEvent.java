@@ -10,6 +10,6 @@ import rocks.itsnotrocketscience.bejay.models.Event;
  *
  */
 public interface GetEvent {
-    @GET("/{url}/")
+    @GET("/events/{url}/")
     void getFeed(@Path("url") int url, Callback<Event> response);
 }

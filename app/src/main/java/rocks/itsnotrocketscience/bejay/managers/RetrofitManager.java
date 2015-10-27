@@ -2,6 +2,7 @@ package rocks.itsnotrocketscience.bejay.managers;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -14,9 +15,11 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import rocks.itsnotrocketscience.bejay.api.ApiConstants;
 import rocks.itsnotrocketscience.bejay.api.retrofit.CheckInUserToEvent;
+import rocks.itsnotrocketscience.bejay.api.retrofit.GetEvent;
 import rocks.itsnotrocketscience.bejay.api.retrofit.GetEvents;
 import rocks.itsnotrocketscience.bejay.base.AppApplication;
 import rocks.itsnotrocketscience.bejay.models.Event;
+import rocks.itsnotrocketscience.bejay.models.Song;
 
 /**
  * Created by centralstation on 22/10/15.
@@ -59,7 +62,7 @@ public class RetrofitManager {
 
             @Override
             public void failure(RetrofitError error) {
-                listener.onCheckedIn(id,error);
+                listener.onCheckedIn(id, error);
             }
         });
     }
@@ -97,6 +100,22 @@ public class RetrofitManager {
         });
     }
 
+    public void getEventFeed(EventListener listener,int id) {
+        GetEvent event = restAdapter.create(GetEvent.class);
+
+        event.getFeed(id, new Callback<Event>() {
+            @Override
+            public void success(Event eventList, Response response) {
+                listener.onEventLoaded(eventList, null);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                listener.onEventLoaded(null, error);
+            }
+        });
+    }
+
     public interface EventListListener{
         void onEventFeedLoaded( ArrayList<Event> list, RetrofitError error);
     }
@@ -105,6 +124,10 @@ public class RetrofitManager {
     }
     public interface CheckinListener{
         void onCheckedIn(int id, RetrofitError error);
+    }
+
+    public interface EventListener{
+        void onEventLoaded(Event list, RetrofitError error);
     }
 
 }

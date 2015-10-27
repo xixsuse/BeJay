@@ -88,7 +88,7 @@ public class EventListFragment extends BaseFragment implements ItemClickListener
         int eventId = eventList.get(position).getId();
         if (!isCheckedIn) {
             RetrofitManager.get(getActivity()).checkinUser(this, eventList.get(position).getId());
-        } else if (eventId == getAppApplication().getAccountManager().getCheckedInEventPk()) {
+        } else if (eventId == getAppApplication().getAccountManager().getCheckedInEventId()) {
             LaunchManager.launchEvent(eventId, getActivity());
         } else {
             displayAlert(eventList.get(position).getId());
@@ -134,7 +134,7 @@ public class EventListFragment extends BaseFragment implements ItemClickListener
                 .showCancelButton(true)
                 .setCancelClickListener(sDialog -> {
                     sDialog.cancel();
-                    LaunchManager.launchEvent(getAppApplication().getAccountManager().getCheckedInEventPk(), getActivity());
+                    LaunchManager.launchEvent(getAppApplication().getAccountManager().getCheckedInEventId(), getActivity());
 
                 })
                 .setConfirmClickListener(sDialog -> {
