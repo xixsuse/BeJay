@@ -2,10 +2,15 @@ package rocks.itsnotrocketscience.bejay.managers;
 
 import android.content.SharedPreferences;
 
+import java.util.Objects;
+
+import retrofit.RequestInterceptor;
 import rocks.itsnotrocketscience.bejay.api.Constants;
+import rocks.itsnotrocketscience.bejay.api.retrofit.AuthInterceptor;
 
 /**
  * Created by centralstation on 11/09/15.
+ *
  */
 public class AccountManager {
 
@@ -16,12 +21,12 @@ public class AccountManager {
 
     }
 
-    public String getTokenAuth(){
+    public String getAuthToken(){
         return sharedPreferences.getString(Constants.TOKEN, "");
     }
 
     public boolean isLoggedIn(){
-        return sharedPreferences.getString(Constants.TOKEN, "") != "";
+        return !Objects.equals(sharedPreferences.getString(Constants.TOKEN, ""), "");
     }
 
     public void clearLogin(){
@@ -37,6 +42,14 @@ public class AccountManager {
 
     public int getCheckedInEventPk(){
         return sharedPreferences.getInt(Constants.EVENT_PK, -1);
+    }
+
+    public void clearCheckin() {
+        sharedPreferences.edit().putString(Constants.EVENT_PK, null).apply();
+    }
+
+    public RequestInterceptor getAuthTokenInterceptor() {
+        return new AuthInterceptor(getAuthToken());
     }
 
 }

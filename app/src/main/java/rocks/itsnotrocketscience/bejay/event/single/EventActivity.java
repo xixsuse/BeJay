@@ -1,7 +1,7 @@
-package rocks.itsnotrocketscience.bejay.event.item;
+package rocks.itsnotrocketscience.bejay.event.single;
+
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -10,20 +10,19 @@ import rocks.itsnotrocketscience.bejay.base.BaseActivity;
 
 public class EventActivity extends BaseActivity {
 
-    public static String URL_EXTRA = "url_extra";
+    public static String EVENT_ID = "url_extra";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getIdFromBundle();
         showFragment(EventFragment.newInstance());
 
     }
 
     public int getIdFromBundle() {
         Bundle b = getIntent().getExtras();
-        return b.getInt(URL_EXTRA);
+        return b.getInt(EVENT_ID);
     }
 
 
@@ -36,12 +35,8 @@ public class EventActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+        return id == R.id.action_settings || super.onOptionsItemSelected(item);
 
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
 }

@@ -3,7 +3,6 @@ package rocks.itsnotrocketscience.bejay.login;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,7 +60,7 @@ public class LoginFragment extends BaseFragment {
         loginUser.loginUser(ApiConstants.TOKEN, auth, new Callback<Token>() {
             @Override
             public void success(Token token, Response response) {
-                getDemoApplication().getSharedPreferences().edit().putString(Constants.TOKEN, token.getToken()).commit();
+                getAppApplication().getSharedPreferences().edit().putString(Constants.TOKEN, token.getToken()).commit();
                 Toast.makeText(getActivity(), "Logged in", Toast.LENGTH_SHORT).show();
                 toggleProgress(false);
                 Intent intent = new Intent(getActivity(), MainActivity.class);

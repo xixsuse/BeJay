@@ -1,4 +1,4 @@
-package rocks.itsnotrocketscience.bejay.event.item;
+package rocks.itsnotrocketscience.bejay.event.single;
 
 import android.view.View;
 import android.widget.TextView;
@@ -9,6 +9,7 @@ import rocks.itsnotrocketscience.bejay.base.BaseViewHolder;
 
 /**
  * Created by centralstation on 17/09/15.
+ *
  */
 public class SongViewHolder extends BaseViewHolder {
 

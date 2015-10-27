@@ -18,7 +18,7 @@ import android.view.ViewGroup;
 import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.base.BaseActivity;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
-import rocks.itsnotrocketscience.bejay.event.item.EventFragment;
+import rocks.itsnotrocketscience.bejay.event.single.EventActivity;
 import rocks.itsnotrocketscience.bejay.home.HomeFragment;
 import rocks.itsnotrocketscience.bejay.profile.ProfileFragment;
 
@@ -64,7 +64,12 @@ public class NavigationDrawerFragment extends BaseFragment {
         showFragment(new HomeFragment());
 
         mNavigationView.setNavigationItemSelectedListener(this::chooseAction);
-
+        if(getAppApplication().getAccountManager().isCheckedIn()){
+            mNavigationView.getMenu().findItem(R.id.event).setVisible(true);
+        }
+        else{
+            mNavigationView.getMenu().findItem(R.id.event).setVisible(false);
+        }
         return mNavigationView;
     }
 
@@ -82,7 +87,7 @@ public class NavigationDrawerFragment extends BaseFragment {
                 showFragment(new ProfileFragment());
                 return true;
             case R.id.event:
-                showFragment(new EventFragment());
+                openActivity(EventActivity.class);
                 return true;
             case R.id.settings:
 
@@ -117,7 +122,6 @@ public class NavigationDrawerFragment extends BaseFragment {
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
                 if (!isAdded()) {
-                    return;
                 }
 
             }
@@ -148,12 +152,7 @@ public class NavigationDrawerFragment extends BaseFragment {
         }
 
         // Defer code dependent on restoration of previous instance state.
-        mDrawerLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                mDrawerToggle.syncState();
-            }
-        });
+        mDrawerLayout.post(mDrawerToggle::syncState);
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
@@ -180,10 +179,7 @@ public class NavigationDrawerFragment extends BaseFragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
+        return mDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
 
-        return super.onOptionsItemSelected(item);
     }
 }

@@ -7,12 +7,13 @@ import rocks.itsnotrocketscience.bejay.models.Event;
 
 /**
  * Created by centralstation on 29/09/15.
+ *
  */
 public interface CheckInUserToEvent {
 
     @POST("/events/{pk}/checkin_user/")
     void checkIn(@Path("pk") int pk, Callback<Event> response);
 
-    @POST("/events/{pk}/checkin_out/")
+    @POST("/events/{pk}/checkout_user/")
     void checkOut(@Path("pk") int pk, Callback<Event> response);
 }

@@ -1,4 +1,4 @@
-package rocks.itsnotrocketscience.bejay.event.item;
+package rocks.itsnotrocketscience.bejay.event.single;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,10 +19,8 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.api.ApiConstants;
-import rocks.itsnotrocketscience.bejay.api.retrofit.AuthInterceptor;
 import rocks.itsnotrocketscience.bejay.api.retrofit.GetEvent;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
-import rocks.itsnotrocketscience.bejay.event.list.ItemClickListener;
 import rocks.itsnotrocketscience.bejay.models.Event;
 import rocks.itsnotrocketscience.bejay.models.Song;
 
@@ -35,7 +33,6 @@ public class EventFragment extends BaseFragment {
     RecyclerView rvSongList;
     SongListAdapter adapter;
     List<Song> songList;
-
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -65,14 +62,19 @@ public class EventFragment extends BaseFragment {
 
         View view = inflater.inflate(R.layout.fragment_event, container, false);
         ButterKnife.bind(this, view);
-        getFeed(((EventActivity) getActivity()).getIdFromBundle());
+        if(getAppApplication().getAccountManager().isCheckedIn()){
+            getFeed((getAppApplication().getAccountManager().getCheckedInEventPk()));
+        }
+        else{
+            getFeed(((EventActivity) getActivity()).getIdFromBundle());
+        }
 
         return view;
     }
 
 
     private void getFeed(int url) {
-        RestAdapter restAdapter = new RestAdapter.Builder().setRequestInterceptor(getAuthToken()).setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(ApiConstants.EVENTS_API).build();
+        RestAdapter restAdapter = new RestAdapter.Builder().setRequestInterceptor(getAppApplication().getAccountManager().getAuthTokenInterceptor()).setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(ApiConstants.EVENTS_API).build();
         GetEvent events = restAdapter.create(GetEvent.class);
 
         events.getFeed(url, new Callback<Event>() {

@@ -1,4 +1,4 @@
-package rocks.itsnotrocketscience.bejay.event.item;
+package rocks.itsnotrocketscience.bejay.event.single;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +12,7 @@ import rocks.itsnotrocketscience.bejay.models.Song;
 
 /**
  * Created by centralstation on 17/09/15.
+ *
  */
 public class SongListAdapter extends BaseListAdapter<Song> {
 

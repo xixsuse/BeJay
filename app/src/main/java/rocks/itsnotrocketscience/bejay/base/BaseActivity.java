@@ -60,8 +60,7 @@ public class BaseActivity extends AppCompatActivity {
         return (AppApplication)getApplication();
     }
 
-    public void showFragment(Fragment fragment)
-    {
+    public void showFragment(Fragment fragment){
         android.app.FragmentManager manager = getFragmentManager();
         FragmentTransaction fragmentTransaction = manager.beginTransaction();
         fragmentTransaction.replace(R.id.container, fragment);
