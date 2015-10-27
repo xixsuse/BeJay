@@ -63,7 +63,7 @@ public class EventFragment extends BaseFragment implements RetrofitManager.Event
 
         View view = inflater.inflate(R.layout.fragment_event, container, false);
         ButterKnife.bind(this, view);
-        RetrofitManager.get(getActivity()).getEventFeed(this,((EventActivity) getActivity()).getIdFromBundle());
+        RetrofitManager.get(getActivity()).getEventFeed(this, ((EventActivity) getActivity()).getIdFromBundle());
         return view;
     }
 
@@ -75,7 +75,9 @@ public class EventFragment extends BaseFragment implements RetrofitManager.Event
 
     @Override
     public void onEventLoaded(Event event, RetrofitError error) {
-        if (error == null)
+        if (error == null){
             setViewItems(event);
+            ((EventActivity) getActivity()).setTitle(event.getTitle().toUpperCase());
+        }
     }
 }

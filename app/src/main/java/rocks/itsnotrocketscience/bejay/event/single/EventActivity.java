@@ -25,6 +25,10 @@ public class EventActivity extends BaseActivity {
         return b.getInt(EVENT_ID);
     }
 
+    public void setTitle(String title){
+        toolbar.setTitle(title);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
