@@ -13,29 +13,23 @@ import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit.Callback;
-import retrofit.RestAdapter;
 import retrofit.RetrofitError;
-import retrofit.client.Response;
 import rocks.itsnotrocketscience.bejay.R;
-import rocks.itsnotrocketscience.bejay.api.ApiConstants;
 import rocks.itsnotrocketscience.bejay.api.retrofit.AuthCredentials;
 import rocks.itsnotrocketscience.bejay.api.Constants;
-import rocks.itsnotrocketscience.bejay.api.retrofit.CreateUser;
-import rocks.itsnotrocketscience.bejay.api.retrofit.LoginUser;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
 import rocks.itsnotrocketscience.bejay.main.MainActivity;
+import rocks.itsnotrocketscience.bejay.managers.RetrofitManager;
 import rocks.itsnotrocketscience.bejay.models.CmsUser;
 import rocks.itsnotrocketscience.bejay.models.Token;
 
 
-public class RegisterFragment extends BaseFragment {
+public class RegisterFragment extends BaseFragment implements RetrofitManager.LoginListener, RetrofitManager.RegisterListener {
 
     @Bind(R.id.pbProgress) ProgressBar pbProgress;
     @Bind(R.id.etEmail) EditText etEmail;
     @Bind(R.id.etPassword) EditText etPassword;
     @Bind(R.id.btRegister) Button btRegister;
-    private CmsUser user;
 
     public static RegisterFragment newInstance() {
         return new RegisterFragment();
@@ -59,61 +53,48 @@ public class RegisterFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
-
     @OnClick(R.id.btRegister)
     public void register() {
         toggleProgress(true);
-
-        RestAdapter restAdapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(ApiConstants.API).build();
-        CreateUser createUser = restAdapter.create(CreateUser.class);
-        createUser.createUser(getUserObject(), new Callback<CmsUser>() {
-            @Override
-            public void success(CmsUser eventList, Response response) {
-                login();
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                toggleProgress(false);
-                Toast.makeText(getActivity(), error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-            }
-        });
+        RetrofitManager.get(getActivity()).registerUser(getUserObject(), this);
     }
+
     public void login() {
-
         AuthCredentials auth = new AuthCredentials(getUserObject().getUsername(), getUserObject().getPassword());
-        RestAdapter restAdapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(ApiConstants.API).build();
-        LoginUser loginUser = restAdapter.create(LoginUser.class);
-
-
-        loginUser.loginUser(ApiConstants.TOKEN, auth, new Callback<Token>() {
-            @Override
-            public void success(Token token, Response response) {
-                getAppApplication().getSharedPreferences().edit().putString(Constants.TOKEN, token.getToken()).commit();
-                Toast.makeText(getActivity(), "Logged in", Toast.LENGTH_SHORT).show();
-                toggleProgress(false);
-                Intent intent = new Intent(getActivity(), MainActivity.class);
-                startActivity(intent);
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                toggleProgress(false);
-                Toast.makeText(getActivity(), error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-            }
-        });
-
+        RetrofitManager.get(getActivity()).loginUser(auth, this);
+        toggleProgress(true);
     }
 
     public CmsUser getUserObject() {
-        if (user == null)
-            return new CmsUser("", "", etEmail.getText().toString(), etEmail.getText().toString(), etPassword.getText().toString());
-        else
-            return user;
+          return new CmsUser("", "", etEmail.getText().toString(), etEmail.getText().toString(), etPassword.getText().toString());
     }
-
 
     private void toggleProgress(boolean on) {
         pbProgress.setVisibility(on ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void onLoggedIn(Token token, RetrofitError error) {
+        if (token != null) {
+            getAppApplication().getSharedPreferences().edit().putString(Constants.TOKEN, token.getToken()).commit();
+            Toast.makeText(getActivity(), "Logged in", Toast.LENGTH_SHORT).show();
+            toggleProgress(false);
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            startActivity(intent);
+        } else {
+            toggleProgress(false);
+            Toast.makeText(getActivity(), error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void onRegistered(CmsUser user, RetrofitError error) {
+        if(user!=null){
+           login();
+        }
+        else{
+            toggleProgress(false);
+            Toast.makeText(getActivity(), error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+        }
     }
 }

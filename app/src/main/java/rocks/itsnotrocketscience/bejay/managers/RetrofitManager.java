@@ -17,10 +17,12 @@ import rocks.itsnotrocketscience.bejay.api.ApiConstants;
 import rocks.itsnotrocketscience.bejay.api.Constants;
 import rocks.itsnotrocketscience.bejay.api.retrofit.AuthCredentials;
 import rocks.itsnotrocketscience.bejay.api.retrofit.CheckInUserToEvent;
+import rocks.itsnotrocketscience.bejay.api.retrofit.CreateUser;
 import rocks.itsnotrocketscience.bejay.api.retrofit.GetEvent;
 import rocks.itsnotrocketscience.bejay.api.retrofit.GetEvents;
 import rocks.itsnotrocketscience.bejay.api.retrofit.LoginUser;
 import rocks.itsnotrocketscience.bejay.base.AppApplication;
+import rocks.itsnotrocketscience.bejay.models.CmsUser;
 import rocks.itsnotrocketscience.bejay.models.Event;
 import rocks.itsnotrocketscience.bejay.models.Song;
 import rocks.itsnotrocketscience.bejay.models.Token;
@@ -137,6 +139,22 @@ public class RetrofitManager {
 
     }
 
+    public void registerUser(CmsUser user, RegisterListener listener){
+        RestAdapter restAdapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(ApiConstants.API).build();
+        CreateUser createUser = restAdapter.create(CreateUser.class);
+        createUser.createUser(user, new Callback<CmsUser>() {
+            @Override
+            public void success(CmsUser user, Response response) {
+                listener.onRegistered(user, null);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                listener.onRegistered(null, error);
+            }
+        });
+    }
+
     public interface EventListListener{
         void onEventFeedLoaded( ArrayList<Event> list, RetrofitError error);
     }
@@ -151,5 +169,8 @@ public class RetrofitManager {
     }
     public interface LoginListener{
         void onLoggedIn(Token token, RetrofitError error);
+    }
+    public interface RegisterListener{
+        void onRegistered(CmsUser user, RetrofitError error);
     }
 }
