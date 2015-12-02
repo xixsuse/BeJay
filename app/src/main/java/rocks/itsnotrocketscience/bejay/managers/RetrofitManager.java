@@ -14,12 +14,16 @@ import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import rocks.itsnotrocketscience.bejay.api.ApiConstants;
+import rocks.itsnotrocketscience.bejay.api.Constants;
+import rocks.itsnotrocketscience.bejay.api.retrofit.AuthCredentials;
 import rocks.itsnotrocketscience.bejay.api.retrofit.CheckInUserToEvent;
 import rocks.itsnotrocketscience.bejay.api.retrofit.GetEvent;
 import rocks.itsnotrocketscience.bejay.api.retrofit.GetEvents;
+import rocks.itsnotrocketscience.bejay.api.retrofit.LoginUser;
 import rocks.itsnotrocketscience.bejay.base.AppApplication;
 import rocks.itsnotrocketscience.bejay.models.Event;
 import rocks.itsnotrocketscience.bejay.models.Song;
+import rocks.itsnotrocketscience.bejay.models.Token;
 
 /**
  * Created by centralstation on 22/10/15.
@@ -116,6 +120,23 @@ public class RetrofitManager {
         });
     }
 
+    public void loginUser( AuthCredentials auth, LoginListener listener){
+        LoginUser loginUser = restAdapter.create(LoginUser.class);
+
+        loginUser.loginUser(ApiConstants.TOKEN, auth, new Callback<Token>() {
+            @Override
+            public void success(Token token, Response response) {
+                listener.onLoggedIn(token, null);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                listener.onLoggedIn(null, error);
+            }
+        });
+
+    }
+
     public interface EventListListener{
         void onEventFeedLoaded( ArrayList<Event> list, RetrofitError error);
     }
@@ -125,9 +146,10 @@ public class RetrofitManager {
     public interface CheckinListener{
         void onCheckedIn(int id, RetrofitError error);
     }
-
     public interface EventListener{
         void onEventLoaded(Event list, RetrofitError error);
     }
-
+    public interface LoginListener{
+        void onLoggedIn(Token token, RetrofitError error);
+    }
 }
