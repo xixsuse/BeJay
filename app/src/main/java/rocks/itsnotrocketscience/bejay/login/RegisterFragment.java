@@ -66,7 +66,7 @@ public class RegisterFragment extends BaseFragment implements RetrofitManager.Lo
     }
 
     public CmsUser getUserObject() {
-          return new CmsUser("", "", etEmail.getText().toString(), etEmail.getText().toString(), etPassword.getText().toString());
+          return new CmsUser("","", "", "", etEmail.getText().toString(), etEmail.getText().toString(), etPassword.getText().toString());
     }
 
     private void toggleProgress(boolean on) {
