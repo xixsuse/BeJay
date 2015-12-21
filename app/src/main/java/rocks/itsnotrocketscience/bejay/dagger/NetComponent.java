@@ -16,15 +16,21 @@ import rocks.itsnotrocketscience.bejay.main.NavigationDrawerFragment;
  */
 
 @Singleton
-@Component(modules={AppModule.class, NetModule.class})
+@Component(modules = {AppModule.class, NetModule.class})
 public interface NetComponent {
 
-   void inject(LoginFragment loginFragment);
-   void inject(EventListFragment eventListFragment);
-   void inject(EventActivity eventActivity);
-   void inject(NavigationDrawerFragment navigationDrawerFragment);
-   void inject(BaseFragment baseFragment);
-   void inject(BaseActivity baseActivity);
-   void inject(RegistrationIntentService registrationIntentService);
+    void inject(LoginFragment loginFragment);
+
+    void inject(EventListFragment eventListFragment);
+
+    void inject(EventActivity eventActivity);
+
+    void inject(NavigationDrawerFragment navigationDrawerFragment);
+
+    void inject(BaseFragment baseFragment);
+
+    void inject(BaseActivity baseActivity);
+
+    void inject(RegistrationIntentService registrationIntentService);
 
 }

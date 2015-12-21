@@ -43,6 +43,14 @@ public class EventFragment extends BaseFragment implements RetrofitManager.Event
     SongListAdapter adapter;
     List<Song> songList;
 
+    public EventFragment() {
+        songList = new ArrayList<>();
+    }
+
+    public static EventFragment newInstance() {
+        return new EventFragment();
+    }
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -55,14 +63,6 @@ public class EventFragment extends BaseFragment implements RetrofitManager.Event
         adapter.setItemClickListener((view1, position) -> Log.d("yo", "yo"));
 
         rvSongList.setAdapter(adapter);
-    }
-
-    public EventFragment() {
-        songList = new ArrayList<>();
-    }
-
-    public static EventFragment newInstance() {
-        return new EventFragment();
     }
 
     @Override
@@ -112,10 +112,9 @@ public class EventFragment extends BaseFragment implements RetrofitManager.Event
 
     @Override
     public void onSongAdded(Song song, RetrofitError error) {
-        if(song!=null){
+        if (song != null) {
             getEventFeed();
-        }
-        else{
+        } else {
             Toast.makeText(getActivity(), error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
         }
     }

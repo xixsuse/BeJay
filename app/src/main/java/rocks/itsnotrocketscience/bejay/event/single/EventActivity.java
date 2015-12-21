@@ -7,12 +7,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -27,17 +25,17 @@ import rocks.itsnotrocketscience.bejay.gcm.RegistrationIntentService;
 
 public class EventActivity extends BaseActivity {
 
-    @Inject SharedPreferences sharedPreferences;
-
-    public static String EVENT_ID = "url_extra";
     private static final String TAG = "MainActivity";
-    private BroadcastReceiver mRegistrationBroadcastReceiver;
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    public static String EVENT_ID = "url_extra";
+    @Inject
+    SharedPreferences sharedPreferences;
+    private BroadcastReceiver mRegistrationBroadcastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((AppApplication)getApplication()).getNetComponent().inject(this);
+        ((AppApplication) getApplication()).getNetComponent().inject(this);
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -66,7 +64,7 @@ public class EventActivity extends BaseActivity {
         return b.getInt(EVENT_ID);
     }
 
-    public void setTitle(String title){
+    public void setTitle(String title) {
         toolbar.setTitle(title);
     }
 
@@ -83,6 +81,7 @@ public class EventActivity extends BaseActivity {
         return id == R.id.action_settings || super.onOptionsItemSelected(item);
 
     }
+
     @Override
     protected void onResume() {
         super.onResume();

@@ -1,6 +1,5 @@
 package rocks.itsnotrocketscience.bejay.event.list;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
@@ -10,9 +9,8 @@ import rocks.itsnotrocketscience.bejay.base.BaseViewHolder;
 
 /**
  * Created by centralstation on 12/09/15.
- *
  */
-public class EventViewHolder extends BaseViewHolder{
+public class EventViewHolder extends BaseViewHolder {
 
     public static final int EVENT_LIST_ITEM_LAYOUT = R.layout.card_event;
     TextView tvTitle;
@@ -20,8 +18,8 @@ public class EventViewHolder extends BaseViewHolder{
 
     public EventViewHolder(View v) {
         super(v);
-        tvTitle = (TextView)v.findViewById(R.id.tvTitle);
-        btnCheckIn = (CircleButton)v.findViewById(R.id.btnCheckIn);
+        tvTitle = (TextView) v.findViewById(R.id.tvTitle);
+        btnCheckIn = (CircleButton) v.findViewById(R.id.btnCheckIn);
         btnCheckIn.setOnClickListener(this);
     }
 

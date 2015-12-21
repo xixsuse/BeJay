@@ -12,12 +12,11 @@ import rocks.itsnotrocketscience.bejay.models.Event;
 
 /**
  * Created by centralstation on 12/09/15.
- *
  */
 public class EventListAdapter extends BaseListAdapter<Event> {
 
     public EventListAdapter(List<Event> eventList) {
-       super(eventList);
+        super(eventList);
     }
 
     @Override
@@ -31,7 +30,7 @@ public class EventListAdapter extends BaseListAdapter<Event> {
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
         Event event = items.get(position);
-        ((EventViewHolder)holder).tvTitle.setText(event.getTitle());
+        ((EventViewHolder) holder).tvTitle.setText(event.getTitle());
     }
 
 }

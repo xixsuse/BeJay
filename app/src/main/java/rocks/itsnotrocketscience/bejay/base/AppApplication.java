@@ -1,17 +1,15 @@
 package rocks.itsnotrocketscience.bejay.base;
 
 import android.app.Application;
-import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import rocks.itsnotrocketscience.bejay.dagger.NetComponent;
 import rocks.itsnotrocketscience.bejay.dagger.AppModule;
+import rocks.itsnotrocketscience.bejay.dagger.NetComponent;
 import rocks.itsnotrocketscience.bejay.dagger.NetModule;
 import rocks.itsnotrocketscience.bejay.managers.AccountManager;
 
 /**
  * Created by centralstation on 11/09/15.
- *
  */
 public class AppApplication extends Application {
     private static AccountManager accountManager;
@@ -28,8 +26,8 @@ public class AppApplication extends Application {
 
     }
 
-    public AccountManager getAccountManager(){
-        if(accountManager==null){
+    public AccountManager getAccountManager() {
+        if (accountManager == null) {
             return new AccountManager(PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext()));
         }
         return accountManager;

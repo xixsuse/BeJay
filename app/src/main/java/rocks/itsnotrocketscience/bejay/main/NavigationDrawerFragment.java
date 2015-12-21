@@ -1,8 +1,8 @@
 package rocks.itsnotrocketscience.bejay.main;
+
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -30,12 +30,12 @@ import rocks.itsnotrocketscience.bejay.profile.ProfileFragment;
 
 public class NavigationDrawerFragment extends BaseFragment {
 
-    @Inject SharedPreferences sharedPreferences;
-    @Inject
-    AccountManager accountManager;
-
     private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
     private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
+    @Inject
+    SharedPreferences sharedPreferences;
+    @Inject
+    AccountManager accountManager;
     private ActionBarDrawerToggle mDrawerToggle;
 
     private DrawerLayout mDrawerLayout;
@@ -73,10 +73,9 @@ public class NavigationDrawerFragment extends BaseFragment {
         showFragment(new HomeFragment());
 
         mNavigationView.setNavigationItemSelectedListener(this::chooseAction);
-        if(accountManager.isCheckedIn()){
+        if (accountManager.isCheckedIn()) {
             mNavigationView.getMenu().findItem(R.id.event).setVisible(true);
-        }
-        else{
+        } else {
             mNavigationView.getMenu().findItem(R.id.event).setVisible(false);
         }
         setupHeader();
@@ -191,13 +190,13 @@ public class NavigationDrawerFragment extends BaseFragment {
 
     }
 
-    public void setupHeader(){
+    public void setupHeader() {
         View view = mNavigationView.inflateHeaderView(R.layout.header);
 
-        TextView name = (TextView)view.findViewById(R.id.tvUsername);
+        TextView name = (TextView) view.findViewById(R.id.tvUsername);
         name.setText(sharedPreferences.getString(Constants.USERNAME, ""));
 
-        TextView email = (TextView)view.findViewById(R.id.tvEmail);
+        TextView email = (TextView) view.findViewById(R.id.tvEmail);
         email.setText(sharedPreferences.getString(Constants.EMAIL, ""));
 
     }

@@ -5,12 +5,10 @@ import android.view.View;
 
 import java.util.List;
 
-import rocks.itsnotrocketscience.bejay.event.list.EventViewHolder;
 import rocks.itsnotrocketscience.bejay.event.list.ItemClickListener;
 
 /**
  * Created by centralstation on 17/09/15.
- *
  */
 public abstract class BaseListAdapter<T> extends RecyclerView.Adapter<BaseViewHolder> implements ItemClickListener {
     protected List<T> items;
@@ -27,10 +25,10 @@ public abstract class BaseListAdapter<T> extends RecyclerView.Adapter<BaseViewHo
 
     @Override
     public void onClick(View view, int position) {
-        clickListener.onClick(view,position);
+        clickListener.onClick(view, position);
     }
 
-    public void setItemClickListener(ItemClickListener click){
+    public void setItemClickListener(ItemClickListener click) {
         this.clickListener = click;
     }
 

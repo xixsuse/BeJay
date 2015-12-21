@@ -10,7 +10,6 @@ import rocks.itsnotrocketscience.bejay.api.retrofit.AuthInterceptor;
 
 /**
  * Created by centralstation on 11/09/15.
- *
  */
 public class AccountManager {
 
@@ -21,26 +20,27 @@ public class AccountManager {
 
     }
 
-    public String getAuthToken(){
-        return sharedPreferences.getString(Constants.TOKEN, "");
+    public String getAuthToken() {
+        return "9b8a0a84943c098e82737227e9f1f1960a406f6f";
     }
 
-    public boolean isLoggedIn(){
+    public boolean isLoggedIn() {
         return !Objects.equals(sharedPreferences.getString(Constants.TOKEN, ""), "");
     }
 
-    public void clearLogin(){
+    public void clearLogin() {
         sharedPreferences.edit().putString(Constants.TOKEN, "").apply();
+    }
+
+    public boolean isCheckedIn() {
+        return sharedPreferences.getInt(Constants.EVENT_PK, -1) != -1;
     }
 
     public void setCheckedIn(int pk) {
         sharedPreferences.edit().putInt(Constants.EVENT_PK, pk).apply();
     }
-    public boolean isCheckedIn(){
-        return sharedPreferences.getInt(Constants.EVENT_PK, -1) != -1;
-    }
 
-    public int getCheckedInEventId(){
+    public int getCheckedInEventId() {
         return sharedPreferences.getInt(Constants.EVENT_PK, -1);
     }
 

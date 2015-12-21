@@ -9,7 +9,6 @@ import rocks.itsnotrocketscience.bejay.base.BaseViewHolder;
 
 /**
  * Created by centralstation on 17/09/15.
- *
  */
 public class SongViewHolder extends BaseViewHolder {
 
@@ -20,9 +19,9 @@ public class SongViewHolder extends BaseViewHolder {
 
     public SongViewHolder(View v) {
         super(v);
-        tvLikesCount = (TextView)v.findViewById(R.id.tvLikesCount);
-        tvSongTitle = (TextView)v.findViewById(R.id.tvSongTitle);
-        btnLikeSong = (CircleButton)v.findViewById(R.id.btnLikeSong);
+        tvLikesCount = (TextView) v.findViewById(R.id.tvLikesCount);
+        tvSongTitle = (TextView) v.findViewById(R.id.tvSongTitle);
+        btnLikeSong = (CircleButton) v.findViewById(R.id.btnLikeSong);
         btnLikeSong.setOnClickListener(this);
     }
 

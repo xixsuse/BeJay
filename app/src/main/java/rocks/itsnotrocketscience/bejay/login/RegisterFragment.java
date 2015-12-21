@@ -18,8 +18,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit.RetrofitError;
 import rocks.itsnotrocketscience.bejay.R;
-import rocks.itsnotrocketscience.bejay.api.retrofit.AuthCredentials;
 import rocks.itsnotrocketscience.bejay.api.Constants;
+import rocks.itsnotrocketscience.bejay.api.retrofit.AuthCredentials;
 import rocks.itsnotrocketscience.bejay.base.AppApplication;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
 import rocks.itsnotrocketscience.bejay.main.MainActivity;
@@ -30,11 +30,16 @@ import rocks.itsnotrocketscience.bejay.models.Token;
 
 public class RegisterFragment extends BaseFragment implements RetrofitManager.LoginListener, RetrofitManager.RegisterListener {
 
-    @Inject SharedPreferences sharedPreferences;
-    @Bind(R.id.pbProgress) ProgressBar pbProgress;
-    @Bind(R.id.etEmail) EditText etEmail;
-    @Bind(R.id.etPassword) EditText etPassword;
-    @Bind(R.id.btRegister) Button btRegister;
+    @Inject
+    SharedPreferences sharedPreferences;
+    @Bind(R.id.pbProgress)
+    ProgressBar pbProgress;
+    @Bind(R.id.etEmail)
+    EditText etEmail;
+    @Bind(R.id.etPassword)
+    EditText etPassword;
+    @Bind(R.id.btRegister)
+    Button btRegister;
 
     public static RegisterFragment newInstance() {
         return new RegisterFragment();
@@ -72,7 +77,7 @@ public class RegisterFragment extends BaseFragment implements RetrofitManager.Lo
     }
 
     public CmsUser getUserObject() {
-          return new CmsUser("","", "", "", etEmail.getText().toString(), etEmail.getText().toString(), etPassword.getText().toString());
+        return new CmsUser("", "", "", "", etEmail.getText().toString(), etEmail.getText().toString(), etPassword.getText().toString());
     }
 
     private void toggleProgress(boolean on) {
@@ -95,10 +100,9 @@ public class RegisterFragment extends BaseFragment implements RetrofitManager.Lo
 
     @Override
     public void onRegistered(CmsUser user, RetrofitError error) {
-        if(user!=null){
-           login();
-        }
-        else{
+        if (user != null) {
+            login();
+        } else {
             toggleProgress(false);
             Toast.makeText(getActivity(), error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
         }

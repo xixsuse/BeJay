@@ -12,7 +12,6 @@ import rocks.itsnotrocketscience.bejay.models.Song;
 
 /**
  * Created by centralstation on 17/09/15.
- *
  */
 public class SongListAdapter extends BaseListAdapter<Song> {
 
@@ -31,8 +30,8 @@ public class SongListAdapter extends BaseListAdapter<Song> {
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
         Song song = items.get(position);
-        ((SongViewHolder)holder).tvSongTitle.setText(song.getTitle());
-        ((SongViewHolder)holder).tvLikesCount.setText(song.getCountStr());
+        ((SongViewHolder) holder).tvSongTitle.setText(song.getTitle());
+        ((SongViewHolder) holder).tvLikesCount.setText(song.getCountStr());
     }
 
 }

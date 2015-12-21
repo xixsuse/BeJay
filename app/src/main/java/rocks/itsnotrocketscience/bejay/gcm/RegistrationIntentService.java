@@ -3,7 +3,6 @@ package rocks.itsnotrocketscience.bejay.gcm;
 import android.app.IntentService;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
@@ -19,9 +18,10 @@ import rocks.itsnotrocketscience.bejay.base.AppApplication;
 
 public class RegistrationIntentService extends IntentService {
 
-    @Inject SharedPreferences sharedPreferences;
     private static final String TAG = "RegIntentService";
     private static final String[] TOPICS = {"global"};
+    @Inject
+    SharedPreferences sharedPreferences;
 
     public RegistrationIntentService() {
         super(TAG);
@@ -73,7 +73,7 @@ public class RegistrationIntentService extends IntentService {
 
     /**
      * Persist registration to third-party servers.
-     *
+     * <p>
      * Modify this method to associate the user's GCM registration token with any server-side account
      * maintained by your application.
      *

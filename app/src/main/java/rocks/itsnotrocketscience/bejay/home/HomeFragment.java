@@ -16,9 +16,15 @@ import rocks.itsnotrocketscience.bejay.event.list.EventListFragment;
 public class HomeFragment extends BaseFragment {
     @Bind(R.id.btFindEvents)
     CircleButton btFindEvents;
+
     public static HomeFragment newInstance() {
         return new HomeFragment();
     }
+
+    public static String getTitle() {
+        return "Home";
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,7 +33,7 @@ public class HomeFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view =inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
@@ -35,10 +41,6 @@ public class HomeFragment extends BaseFragment {
     @OnClick(R.id.btFindEvents)
     public void findEvents() {
         showFragment(EventListFragment.newInstance());
-    }
-
-    public static String getTitle() {
-        return "Home";
     }
 
 }

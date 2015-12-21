@@ -15,22 +15,21 @@ import rocks.itsnotrocketscience.bejay.login.LoginOrRegisterFragment;
 
 /**
  * Created by centralstation on 11/09/15.
- *
  */
-public class BaseFragment extends Fragment{
+public class BaseFragment extends Fragment {
 
-    @Inject SharedPreferences sharedPreferences;
+    @Inject
+    SharedPreferences sharedPreferences;
 
-    public AppApplication getAppApplication(){
+    public AppApplication getAppApplication() {
         Activity activity = getActivity();
         if (activity == null)
             return null;
         else
-            return (AppApplication)activity.getApplication();
+            return (AppApplication) activity.getApplication();
     }
 
-    public void showFragment(Fragment fragment)
-    {
+    public void showFragment(Fragment fragment) {
         android.app.FragmentManager manager = getActivity().getFragmentManager();
         FragmentTransaction fragmentTransaction = manager.beginTransaction();
         fragmentTransaction.replace(R.id.container, fragment);

@@ -13,26 +13,31 @@ import rocks.itsnotrocketscience.bejay.models.Token;
  */
 public class RetrofitListeners {
 
-    public interface EventListListener{
+    public interface EventListListener {
         void onEventFeedLoaded(ArrayList<Event> list, RetrofitError error);
     }
-    public interface CheckoutListener{
+
+    public interface CheckoutListener {
         void onCheckedOut(int id, RetrofitError error);
     }
+
     public interface CheckInListener {
         void onCheckedIn(int id, RetrofitError error);
     }
-    public interface EventListener{
+
+    public interface EventListener {
         void onEventLoaded(Event list, RetrofitError error);
     }
-    public interface LoginListener{
+
+    public interface LoginListener {
         void onLoggedIn(Token token, RetrofitError error);
     }
-    public interface RegisterListener{
+
+    public interface RegisterListener {
         void onRegistered(CmsUser user, RetrofitError error);
     }
 
-    public interface SongAddedListener{
+    public interface SongAddedListener {
         void onSongAdded(Song song, RetrofitError error);
     }
 }

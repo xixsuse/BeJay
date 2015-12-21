@@ -17,6 +17,7 @@ public class Song {
     public String getTitle() {
         return title;
     }
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -28,6 +29,7 @@ public class Song {
     public void setCount(int count) {
         this.count = count;
     }
+
     public Boolean getChosen() {
         return chosen;
     }
@@ -36,7 +38,7 @@ public class Song {
         this.chosen = chosen;
     }
 
-    public String getCountStr(){
+    public String getCountStr() {
         return String.valueOf(count);
     }
 }

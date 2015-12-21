@@ -32,10 +32,14 @@ import rocks.itsnotrocketscience.bejay.models.Event;
 
 public class EventListFragment extends BaseFragment implements ItemClickListener, RetrofitListeners.EventListListener, RetrofitManager.CheckoutListener, RetrofitListeners.CheckInListener {
 
-    @Inject AccountManager accountManager;
-    @Bind(R.id.rvEventList) RecyclerView recyclerView;
-    @Bind(R.id.rlError) RelativeLayout rlError;
-    @Bind(R.id.btnRetry) Button btnRetry;
+    @Inject
+    AccountManager accountManager;
+    @Bind(R.id.rvEventList)
+    RecyclerView recyclerView;
+    @Bind(R.id.rlError)
+    RelativeLayout rlError;
+    @Bind(R.id.btnRetry)
+    Button btnRetry;
     EventListAdapter adapter;
     List<Event> eventList;
 

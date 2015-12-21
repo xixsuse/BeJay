@@ -1,6 +1,7 @@
 package rocks.itsnotrocketscience.bejay.managers;
 
 import android.content.Context;
+
 import java.util.ArrayList;
 
 import retrofit.Callback;
@@ -23,18 +24,18 @@ import rocks.itsnotrocketscience.bejay.models.Token;
 
 /**
  * Created by centralstation on 22/10/15.
- *
  */
 public class RetrofitManager extends RetrofitListeners {
 
+    private static RetrofitManager manager = null;
     RestAdapter restAdapter;
     AppApplication application;
     Context mContext;
-    private static RetrofitManager manager = null;
+
     private RetrofitManager(Context context) {
 
-        application = (AppApplication)context.getApplicationContext();
-        mContext=context;
+        application = (AppApplication) context.getApplicationContext();
+        mContext = context;
         restAdapter = new RestAdapter.Builder()
                 .setRequestInterceptor(application.getAccountManager().getAuthTokenInterceptor())
                 .setLogLevel(RestAdapter.LogLevel.FULL)
@@ -42,11 +43,10 @@ public class RetrofitManager extends RetrofitListeners {
                 .build();
     }
 
-    public static RetrofitManager get(Context context){
-        if (manager==null){
+    public static RetrofitManager get(Context context) {
+        if (manager == null) {
             return new RetrofitManager(context);
-        }
-        else{
+        } else {
             return manager;
         }
     }
@@ -100,7 +100,7 @@ public class RetrofitManager extends RetrofitListeners {
         });
     }
 
-    public void getEventFeed(EventListener listener,int id) {
+    public void getEventFeed(EventListener listener, int id) {
         GetEvent event = restAdapter.create(GetEvent.class);
 
         event.getFeed(id, new Callback<Event>() {
@@ -116,7 +116,7 @@ public class RetrofitManager extends RetrofitListeners {
         });
     }
 
-    public void registerUser(CmsUser user, RegisterListener listener){
+    public void registerUser(CmsUser user, RegisterListener listener) {
         RestAdapter restAdapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(ApiConstants.API).build();
         CreateUser createUser = restAdapter.create(CreateUser.class);
         createUser.createUser(user, new Callback<CmsUser>() {
@@ -133,7 +133,7 @@ public class RetrofitManager extends RetrofitListeners {
     }
 
 
-    public void loginUser(AuthCredentials auth, LoginListener listener){
+    public void loginUser(AuthCredentials auth, LoginListener listener) {
         LoginUser loginUser = restAdapter.create(LoginUser.class);
 
         loginUser.loginUser(ApiConstants.TOKEN, auth, new Callback<Token>() {

@@ -2,7 +2,6 @@ package rocks.itsnotrocketscience.bejay.api.retrofit;
 
 import retrofit.Callback;
 import retrofit.http.Body;
-import retrofit.http.FormUrlEncoded;
 import retrofit.http.Headers;
 import retrofit.http.POST;
 import rocks.itsnotrocketscience.bejay.models.CmsUser;

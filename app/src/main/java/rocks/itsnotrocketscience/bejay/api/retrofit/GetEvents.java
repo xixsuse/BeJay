@@ -11,6 +11,6 @@ import rocks.itsnotrocketscience.bejay.models.Event;
  * Created by centralstation on 20/08/15.
  */
 public interface GetEvents {
-  @GET("/{url}/")
-  void getFeed(@Path("url") String url, Callback<ArrayList<Event>> response);
+    @GET("/{url}/")
+    void getFeed(@Path("url") String url, Callback<ArrayList<Event>> response);
 }

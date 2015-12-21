@@ -7,6 +7,6 @@ public interface Constants {
 
     String TOKEN = "token";
     String EVENT_PK = "event_pk";
-    String EMAIL    = "email";
+    String EMAIL = "email";
     String USERNAME = "username";
 }

@@ -21,13 +21,13 @@ public class CmsUser {
     String username;
     String password;
 
-    public CmsUser(String userPermissions, String groups,String firstName, String lastName, String username, String email, String password) {
+    public CmsUser(String userPermissions, String groups, String firstName, String lastName, String username, String email, String password) {
         this.email = email;
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.userPermissions = userPermissions;
-        this.groups=groups;
+        this.groups = groups;
         this.lastName = lastName;
     }
 

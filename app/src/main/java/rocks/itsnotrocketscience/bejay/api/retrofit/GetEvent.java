@@ -7,7 +7,6 @@ import rocks.itsnotrocketscience.bejay.models.Event;
 
 /**
  * Created by centralstation on 16/09/15.
- *
  */
 public interface GetEvent {
     @GET("/events/{url}/")

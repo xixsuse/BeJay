@@ -10,14 +10,20 @@ import android.widget.Button;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rocks.itsnotrocketscience.bejay.base.BaseFragment;
 import rocks.itsnotrocketscience.bejay.R;
+import rocks.itsnotrocketscience.bejay.base.BaseFragment;
 
-public class LoginOrRegisterFragment extends BaseFragment{
+public class LoginOrRegisterFragment extends BaseFragment {
 
-    @Bind(R.id.btLogin)    Button btLogin;
-    @Bind(R.id.btRegister) Button btRegister;
     public static final String IS_LOGGED_IN = "isLoggedIn";
+    @Bind(R.id.btLogin)
+    Button btLogin;
+    @Bind(R.id.btRegister)
+    Button btRegister;
+
+    public static Fragment newInstance() {
+        return new LoginOrRegisterFragment();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -26,7 +32,6 @@ public class LoginOrRegisterFragment extends BaseFragment{
         ButterKnife.bind(this, view);
         return view;
     }
-
 
     @OnClick(R.id.btRegister)
     public void register() {
@@ -38,13 +43,9 @@ public class LoginOrRegisterFragment extends BaseFragment{
         showFragment(LoginFragment.newInstance());
     }
 
-    @Override public void onDestroyView() {
+    @Override
+    public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
-    }
-
-
-    public static Fragment newInstance() {
-        return new LoginOrRegisterFragment();
     }
 }
