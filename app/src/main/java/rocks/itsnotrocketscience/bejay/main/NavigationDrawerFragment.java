@@ -14,8 +14,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import rocks.itsnotrocketscience.bejay.R;
+import rocks.itsnotrocketscience.bejay.api.Constants;
 import rocks.itsnotrocketscience.bejay.base.BaseActivity;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
 import rocks.itsnotrocketscience.bejay.home.HomeFragment;
@@ -70,6 +72,7 @@ public class NavigationDrawerFragment extends BaseFragment {
         else{
             mNavigationView.getMenu().findItem(R.id.event).setVisible(false);
         }
+        setupHeader();
         return mNavigationView;
     }
 
@@ -180,6 +183,17 @@ public class NavigationDrawerFragment extends BaseFragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return mDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+
+    }
+
+    public void setupHeader(){
+        View view = mNavigationView.inflateHeaderView(R.layout.header);
+
+        TextView name = (TextView)view.findViewById(R.id.tvUsername);
+        name.setText(getAppApplication().getSharedPreferences().getString(Constants.USERNAME, ""));
+
+        TextView email = (TextView)view.findViewById(R.id.tvEmail);
+        email.setText(getAppApplication().getSharedPreferences().getString(Constants.EMAIL, ""));
 
     }
 }

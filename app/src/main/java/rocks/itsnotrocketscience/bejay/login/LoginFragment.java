@@ -72,6 +72,8 @@ public class LoginFragment extends BaseFragment implements RetrofitManager.Login
         if (token != null) {
 
             getAppApplication().getSharedPreferences().edit().putString(Constants.TOKEN, token.getToken()).commit();
+            getAppApplication().getSharedPreferences().edit().putString(Constants.EMAIL, etUsername.getText().toString()).commit();
+            getAppApplication().getSharedPreferences().edit().putString(Constants.USERNAME, etUsername.getText().toString()).commit();
             Toast.makeText(getActivity(), "Logged in", Toast.LENGTH_SHORT).show();
             toggleProgress(false);
             Intent intent = new Intent(getActivity(), MainActivity.class);
