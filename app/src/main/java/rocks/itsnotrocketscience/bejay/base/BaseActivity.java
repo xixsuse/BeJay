@@ -15,6 +15,7 @@ import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.login.LoginActivity;
 import rocks.itsnotrocketscience.bejay.login.LoginOrRegisterFragment;
 import rocks.itsnotrocketscience.bejay.main.NavigationDrawerFragment;
+import rocks.itsnotrocketscience.bejay.managers.AccountManager;
 
 /**
  * Created by centralstation on 11/09/15.
@@ -24,12 +25,13 @@ public class BaseActivity extends AppCompatActivity {
     public Toolbar toolbar;
     protected NavigationDrawerFragment mNavigationDrawerFragment;
     @Inject SharedPreferences sharedPreferences;
+    @Inject AccountManager accountManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((AppApplication) getApplication()).getNetComponent().inject(this);
-        if (!getAppApplication().getAccountManager().isLoggedIn()) {
+        if (!accountManager.isLoggedIn()) {
             logout();
         }
         setContentView(R.layout.activity_main);

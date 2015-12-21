@@ -12,6 +12,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import rocks.itsnotrocketscience.bejay.managers.AccountManager;
 
 /**
  * Created by lduf0001 on 21/12/15.
@@ -29,6 +30,12 @@ public class NetModule {
     @Singleton
     SharedPreferences providesSharedPreferences(Application application) {
         return PreferenceManager.getDefaultSharedPreferences(application);
+    }
+
+    @Provides
+    @Singleton
+    AccountManager providesAccountManager(SharedPreferences sharedPreferences) {
+        return new AccountManager(sharedPreferences);
     }
 
     @Provides

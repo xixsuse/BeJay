@@ -24,12 +24,15 @@ import rocks.itsnotrocketscience.bejay.base.AppApplication;
 import rocks.itsnotrocketscience.bejay.base.BaseActivity;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
 import rocks.itsnotrocketscience.bejay.home.HomeFragment;
+import rocks.itsnotrocketscience.bejay.managers.AccountManager;
 import rocks.itsnotrocketscience.bejay.managers.LaunchManager;
 import rocks.itsnotrocketscience.bejay.profile.ProfileFragment;
 
 public class NavigationDrawerFragment extends BaseFragment {
 
     @Inject SharedPreferences sharedPreferences;
+    @Inject
+    AccountManager accountManager;
 
     private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
     private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
@@ -70,7 +73,7 @@ public class NavigationDrawerFragment extends BaseFragment {
         showFragment(new HomeFragment());
 
         mNavigationView.setNavigationItemSelectedListener(this::chooseAction);
-        if(getAppApplication().getAccountManager().isCheckedIn()){
+        if(accountManager.isCheckedIn()){
             mNavigationView.getMenu().findItem(R.id.event).setVisible(true);
         }
         else{
@@ -94,7 +97,7 @@ public class NavigationDrawerFragment extends BaseFragment {
                 showFragment(new ProfileFragment());
                 return true;
             case R.id.event:
-                LaunchManager.launchEvent(getAppApplication().getAccountManager().getCheckedInEventId(), getActivity());
+                LaunchManager.launchEvent(accountManager.getCheckedInEventId(), getActivity());
                 return true;
             case R.id.settings:
 

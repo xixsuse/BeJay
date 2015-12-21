@@ -14,13 +14,17 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import retrofit.RetrofitError;
 import rocks.itsnotrocketscience.bejay.R;
+import rocks.itsnotrocketscience.bejay.base.AppApplication;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
+import rocks.itsnotrocketscience.bejay.managers.AccountManager;
 import rocks.itsnotrocketscience.bejay.managers.LaunchManager;
 import rocks.itsnotrocketscience.bejay.managers.RetrofitListeners;
 import rocks.itsnotrocketscience.bejay.managers.RetrofitManager;
@@ -28,13 +32,11 @@ import rocks.itsnotrocketscience.bejay.models.Event;
 
 public class EventListFragment extends BaseFragment implements ItemClickListener, RetrofitListeners.EventListListener, RetrofitManager.CheckoutListener, RetrofitListeners.CheckInListener {
 
-    @Bind(R.id.rvEventList)
-    RecyclerView recyclerView;
+    @Inject AccountManager accountManager;
+    @Bind(R.id.rvEventList) RecyclerView recyclerView;
+    @Bind(R.id.rlError) RelativeLayout rlError;
+    @Bind(R.id.btnRetry) Button btnRetry;
     EventListAdapter adapter;
-    @Bind(R.id.rlError)
-    RelativeLayout rlError;
-    @Bind(R.id.btnRetry)
-    Button btnRetry;
     List<Event> eventList;
 
     public static Fragment newInstance() {
@@ -44,6 +46,7 @@ public class EventListFragment extends BaseFragment implements ItemClickListener
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((AppApplication) getActivity().getApplication()).getNetComponent().inject(this);
         eventList = new ArrayList<>();
     }
 
@@ -85,11 +88,11 @@ public class EventListFragment extends BaseFragment implements ItemClickListener
 
     @Override
     public void onClick(View view, int position) {
-        boolean isCheckedIn = getAppApplication().getAccountManager().isCheckedIn();
+        boolean isCheckedIn = accountManager.isCheckedIn();
         int eventId = eventList.get(position).getId();
         if (!isCheckedIn) {
             RetrofitManager.get(getActivity()).checkInUser(this, eventList.get(position).getId());
-        } else if (eventId == getAppApplication().getAccountManager().getCheckedInEventId()) {
+        } else if (eventId == accountManager.getCheckedInEventId()) {
             LaunchManager.launchEvent(eventId, getActivity());
         } else {
             displayAlert(eventList.get(position).getId());
@@ -121,7 +124,7 @@ public class EventListFragment extends BaseFragment implements ItemClickListener
             Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(getActivity(), "Checked in", Toast.LENGTH_LONG).show();
-            getAppApplication().getAccountManager().setCheckedIn(id);
+            accountManager.setCheckedIn(id);
             LaunchManager.launchEvent(id, getActivity());
         }
     }
@@ -135,7 +138,7 @@ public class EventListFragment extends BaseFragment implements ItemClickListener
                 .showCancelButton(true)
                 .setCancelClickListener(sDialog -> {
                     sDialog.cancel();
-                    LaunchManager.launchEvent(getAppApplication().getAccountManager().getCheckedInEventId(), getActivity());
+                    LaunchManager.launchEvent(accountManager.getCheckedInEventId(), getActivity());
 
                 })
                 .setConfirmClickListener(sDialog -> {
