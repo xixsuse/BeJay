@@ -1,12 +1,6 @@
 package rocks.itsnotrocketscience.bejay.managers;
 
-import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
-import android.view.View;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
-
 import java.util.ArrayList;
 
 import retrofit.Callback;
@@ -14,13 +8,13 @@ import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import rocks.itsnotrocketscience.bejay.api.ApiConstants;
-import rocks.itsnotrocketscience.bejay.api.Constants;
 import rocks.itsnotrocketscience.bejay.api.retrofit.AuthCredentials;
 import rocks.itsnotrocketscience.bejay.api.retrofit.CheckInUserToEvent;
 import rocks.itsnotrocketscience.bejay.api.retrofit.CreateUser;
 import rocks.itsnotrocketscience.bejay.api.retrofit.GetEvent;
 import rocks.itsnotrocketscience.bejay.api.retrofit.GetEvents;
 import rocks.itsnotrocketscience.bejay.api.retrofit.LoginUser;
+import rocks.itsnotrocketscience.bejay.api.retrofit.PostSong;
 import rocks.itsnotrocketscience.bejay.base.AppApplication;
 import rocks.itsnotrocketscience.bejay.models.CmsUser;
 import rocks.itsnotrocketscience.bejay.models.Event;
@@ -31,7 +25,7 @@ import rocks.itsnotrocketscience.bejay.models.Token;
  * Created by centralstation on 22/10/15.
  *
  */
-public class RetrofitManager {
+public class RetrofitManager extends RetrofitListeners {
 
     RestAdapter restAdapter;
     AppApplication application;
@@ -57,10 +51,10 @@ public class RetrofitManager {
         }
     }
 
-    public void checkinUser(CheckinListener listener, final int id) {
+    public void checkInUser(CheckInListener listener, final int id) {
 
-        CheckInUserToEvent checkin = restAdapter.create(CheckInUserToEvent.class);
-        checkin.checkIn(id, new Callback<Event>() {
+        CheckInUserToEvent checkIn = restAdapter.create(CheckInUserToEvent.class);
+        checkIn.checkIn(id, new Callback<Event>() {
             @Override
             public void success(Event event, Response response) {
                 listener.onCheckedIn(id, null);
@@ -122,23 +116,6 @@ public class RetrofitManager {
         });
     }
 
-    public void loginUser( AuthCredentials auth, LoginListener listener){
-        LoginUser loginUser = restAdapter.create(LoginUser.class);
-
-        loginUser.loginUser(ApiConstants.TOKEN, auth, new Callback<Token>() {
-            @Override
-            public void success(Token token, Response response) {
-                listener.onLoggedIn(token, null);
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                listener.onLoggedIn(null, error);
-            }
-        });
-
-    }
-
     public void registerUser(CmsUser user, RegisterListener listener){
         RestAdapter restAdapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(ApiConstants.API).build();
         CreateUser createUser = restAdapter.create(CreateUser.class);
@@ -155,22 +132,37 @@ public class RetrofitManager {
         });
     }
 
-    public interface EventListListener{
-        void onEventFeedLoaded( ArrayList<Event> list, RetrofitError error);
+
+    public void loginUser(AuthCredentials auth, LoginListener listener){
+        LoginUser loginUser = restAdapter.create(LoginUser.class);
+
+        loginUser.loginUser(ApiConstants.TOKEN, auth, new Callback<Token>() {
+            @Override
+            public void success(Token token, Response response) {
+                listener.onLoggedIn(token, null);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                listener.onLoggedIn(null, error);
+            }
+        });
+
     }
-    public interface CheckoutListener{
-        void onCheckedOut(int id, RetrofitError error);
-    }
-    public interface CheckinListener{
-        void onCheckedIn(int id, RetrofitError error);
-    }
-    public interface EventListener{
-        void onEventLoaded(Event list, RetrofitError error);
-    }
-    public interface LoginListener{
-        void onLoggedIn(Token token, RetrofitError error);
-    }
-    public interface RegisterListener{
-        void onRegistered(CmsUser user, RetrofitError error);
+
+    public void addSong(Song song, SongAddedListener songAddedListener) {
+        PostSong postSong = restAdapter.create(PostSong.class);
+
+        postSong.postSong(song, new Callback<Song>() {
+            @Override
+            public void success(Song song, Response response) {
+                songAddedListener.onSongAdded(song, null);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                songAddedListener.onSongAdded(null, error);
+            }
+        });
     }
 }

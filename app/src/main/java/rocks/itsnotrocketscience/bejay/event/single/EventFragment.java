@@ -7,15 +7,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import retrofit.RetrofitError;
 import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
+import rocks.itsnotrocketscience.bejay.managers.RetrofitListeners;
 import rocks.itsnotrocketscience.bejay.managers.RetrofitManager;
 import rocks.itsnotrocketscience.bejay.models.Event;
 import rocks.itsnotrocketscience.bejay.models.Song;
@@ -23,10 +29,18 @@ import rocks.itsnotrocketscience.bejay.models.Song;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class EventFragment extends BaseFragment implements RetrofitManager.EventListener {
+public class EventFragment extends BaseFragment implements RetrofitManager.EventListener, RetrofitListeners.SongAddedListener {
 
     @Bind(R.id.rvSongList)
     RecyclerView rvSongList;
+
+    @Bind(R.id.etSongPicker)
+    EditText etSongPicker;
+
+
+    @Bind(R.id.ivSearch)
+    ImageView ivSearch;
+
     SongListAdapter adapter;
     List<Song> songList;
 
@@ -58,8 +72,12 @@ public class EventFragment extends BaseFragment implements RetrofitManager.Event
 
         View view = inflater.inflate(R.layout.fragment_event, container, false);
         ButterKnife.bind(this, view);
-        RetrofitManager.get(getActivity()).getEventFeed(this, ((EventActivity) getActivity()).getIdFromBundle());
+        getEventFeed();
         return view;
+    }
+
+    private void getEventFeed() {
+        RetrofitManager.get(getActivity()).getEventFeed(this, ((EventActivity) getActivity()).getIdFromBundle());
     }
 
     private void setViewItems(Event event) {
@@ -70,9 +88,36 @@ public class EventFragment extends BaseFragment implements RetrofitManager.Event
 
     @Override
     public void onEventLoaded(Event event, RetrofitError error) {
-        if (error == null){
+        if (error == null) {
             setViewItems(event);
             ((EventActivity) getActivity()).setTitle(event.getTitle().toUpperCase());
+        }
+    }
+
+    @OnClick(R.id.ivSearch)
+    public void searchTrack() {
+        //todo check song available
+        new SweetAlertDialog(getActivity(), SweetAlertDialog.WARNING_TYPE)
+                .setTitleText("Song Available!")
+                .setContentText("Add Song To List?")
+                .setCancelText("No Thanks!")
+                .setConfirmText("Do It")
+                .showCancelButton(true)
+                .setCancelClickListener(SweetAlertDialog::cancel)
+                .setConfirmClickListener(sDialog -> {
+                    sDialog.cancel();
+                    RetrofitManager.get(getActivity()).addSong(new Song(etSongPicker.getText().toString()), this);
+                })
+                .show();
+    }
+
+    @Override
+    public void onSongAdded(Song song, RetrofitError error) {
+        if(song!=null){
+            getEventFeed();
+        }
+        else{
+            Toast.makeText(getActivity(), error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
         }
     }
 }

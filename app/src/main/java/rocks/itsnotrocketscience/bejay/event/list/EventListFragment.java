@@ -22,10 +22,11 @@ import retrofit.RetrofitError;
 import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
 import rocks.itsnotrocketscience.bejay.managers.LaunchManager;
+import rocks.itsnotrocketscience.bejay.managers.RetrofitListeners;
 import rocks.itsnotrocketscience.bejay.managers.RetrofitManager;
 import rocks.itsnotrocketscience.bejay.models.Event;
 
-public class EventListFragment extends BaseFragment implements ItemClickListener, RetrofitManager.EventListListener, RetrofitManager.CheckoutListener, RetrofitManager.CheckinListener {
+public class EventListFragment extends BaseFragment implements ItemClickListener, RetrofitListeners.EventListListener, RetrofitManager.CheckoutListener, RetrofitListeners.CheckInListener {
 
     @Bind(R.id.rvEventList)
     RecyclerView recyclerView;
@@ -87,7 +88,7 @@ public class EventListFragment extends BaseFragment implements ItemClickListener
         boolean isCheckedIn = getAppApplication().getAccountManager().isCheckedIn();
         int eventId = eventList.get(position).getId();
         if (!isCheckedIn) {
-            RetrofitManager.get(getActivity()).checkinUser(this, eventList.get(position).getId());
+            RetrofitManager.get(getActivity()).checkInUser(this, eventList.get(position).getId());
         } else if (eventId == getAppApplication().getAccountManager().getCheckedInEventId()) {
             LaunchManager.launchEvent(eventId, getActivity());
         } else {
@@ -110,7 +111,7 @@ public class EventListFragment extends BaseFragment implements ItemClickListener
         if (error != null) {
             Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_LONG).show();
         } else {
-            RetrofitManager.get(getActivity()).checkinUser(this, id);
+            RetrofitManager.get(getActivity()).checkInUser(this, id);
         }
     }
 

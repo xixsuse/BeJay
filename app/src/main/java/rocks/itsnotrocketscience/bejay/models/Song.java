@@ -10,6 +10,10 @@ public class Song {
     private int count;
     private Boolean chosen;
 
+    public Song(String title) {
+        this.title = title;
+    }
+
     public String getTitle() {
         return title;
     }
