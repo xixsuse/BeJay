@@ -16,8 +16,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import javax.inject.Inject;
+
 import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.api.Constants;
+import rocks.itsnotrocketscience.bejay.base.AppApplication;
 import rocks.itsnotrocketscience.bejay.base.BaseActivity;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
 import rocks.itsnotrocketscience.bejay.home.HomeFragment;
@@ -25,6 +28,8 @@ import rocks.itsnotrocketscience.bejay.managers.LaunchManager;
 import rocks.itsnotrocketscience.bejay.profile.ProfileFragment;
 
 public class NavigationDrawerFragment extends BaseFragment {
+
+    @Inject SharedPreferences sharedPreferences;
 
     private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
     private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
@@ -41,9 +46,8 @@ public class NavigationDrawerFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        mUserLearnedDrawer = sp.getBoolean(PREF_USER_LEARNED_DRAWER, false);
+        ((AppApplication) getActivity().getApplication()).getNetComponent().inject(this);
+        mUserLearnedDrawer = sharedPreferences.getBoolean(PREF_USER_LEARNED_DRAWER, false);
 
         if (savedInstanceState != null) {
             mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
@@ -140,9 +144,7 @@ public class NavigationDrawerFragment extends BaseFragment {
                     // The user manually opened the drawer; store this flag to prevent auto-showing
                     // the navigation drawer automatically in the future.
                     mUserLearnedDrawer = true;
-                    SharedPreferences sp = PreferenceManager
-                            .getDefaultSharedPreferences(getActivity());
-                    sp.edit().putBoolean(PREF_USER_LEARNED_DRAWER, true).apply();
+                    sharedPreferences.edit().putBoolean(PREF_USER_LEARNED_DRAWER, true).apply();
                 }
 
             }
@@ -190,10 +192,10 @@ public class NavigationDrawerFragment extends BaseFragment {
         View view = mNavigationView.inflateHeaderView(R.layout.header);
 
         TextView name = (TextView)view.findViewById(R.id.tvUsername);
-        name.setText(getAppApplication().getSharedPreferences().getString(Constants.USERNAME, ""));
+        name.setText(sharedPreferences.getString(Constants.USERNAME, ""));
 
         TextView email = (TextView)view.findViewById(R.id.tvEmail);
-        email.setText(getAppApplication().getSharedPreferences().getString(Constants.EMAIL, ""));
+        email.setText(sharedPreferences.getString(Constants.EMAIL, ""));
 
     }
 }

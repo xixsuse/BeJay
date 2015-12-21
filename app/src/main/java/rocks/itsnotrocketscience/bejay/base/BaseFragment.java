@@ -4,6 +4,10 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+
+import javax.inject.Inject;
 
 import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.login.LoginActivity;
@@ -14,6 +18,8 @@ import rocks.itsnotrocketscience.bejay.login.LoginOrRegisterFragment;
  *
  */
 public class BaseFragment extends Fragment{
+
+    @Inject SharedPreferences sharedPreferences;
 
     public AppApplication getAppApplication(){
         Activity activity = getActivity();
@@ -31,8 +37,14 @@ public class BaseFragment extends Fragment{
         fragmentTransaction.commit();
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ((AppApplication) getActivity().getApplication()).getNetComponent().inject(this);
+    }
+
     protected void logout(Activity activity) {
-        ((BaseActivity) activity).getAppApplication().getSharedPreferences().edit().putBoolean(LoginOrRegisterFragment.IS_LOGGED_IN, false);
+        sharedPreferences.edit().putBoolean(LoginOrRegisterFragment.IS_LOGGED_IN, false);
         Intent intent = new Intent(getActivity(), LoginActivity.class);
         startActivity(intent);
         activity.finish();

@@ -20,20 +20,12 @@ public class AppApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        component = rocks.itsnotrocketscience.bejay.dagger.DaggerAppComponent.builder()
+        component = rocks.itsnotrocketscience.bejay.dagger.DaggerNetComponent.builder()
                 // list of modules that are part of this component need to be created here too
                 .appModule(new AppModule(this))
                 .netModule(new NetModule("https://api.github.com"))
                 .build();
 
-        // If a Dagger 2 component does not have any constructor arguments for any of its modules,
-        // then we can use .create() as a shortcut instead:
-        //  mAppComponent = com.codepath.dagger.components.DaggerNetComponent.create();
-
-    }
-
-    public SharedPreferences getSharedPreferences() {
-        return PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
     }
 
     public AccountManager getAccountManager(){

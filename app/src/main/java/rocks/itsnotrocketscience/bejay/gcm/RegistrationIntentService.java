@@ -13,8 +13,13 @@ import com.google.android.gms.iid.InstanceID;
 
 import java.io.IOException;
 
+import javax.inject.Inject;
+
+import rocks.itsnotrocketscience.bejay.base.AppApplication;
+
 public class RegistrationIntentService extends IntentService {
 
+    @Inject SharedPreferences sharedPreferences;
     private static final String TAG = "RegIntentService";
     private static final String[] TOPICS = {"global"};
 
@@ -23,8 +28,13 @@ public class RegistrationIntentService extends IntentService {
     }
 
     @Override
+    public void onCreate() {
+        super.onCreate();
+        ((AppApplication) getApplication()).getNetComponent().inject(this);
+    }
+
+    @Override
     protected void onHandleIntent(Intent intent) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         try {
             // [START register_for_gcm]

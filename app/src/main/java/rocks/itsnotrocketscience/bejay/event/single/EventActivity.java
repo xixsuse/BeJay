@@ -17,12 +17,17 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
+import javax.inject.Inject;
+
 import rocks.itsnotrocketscience.bejay.R;
+import rocks.itsnotrocketscience.bejay.base.AppApplication;
 import rocks.itsnotrocketscience.bejay.base.BaseActivity;
 import rocks.itsnotrocketscience.bejay.gcm.QuickstartPreferences;
 import rocks.itsnotrocketscience.bejay.gcm.RegistrationIntentService;
 
 public class EventActivity extends BaseActivity {
+
+    @Inject SharedPreferences sharedPreferences;
 
     public static String EVENT_ID = "url_extra";
     private static final String TAG = "MainActivity";
@@ -32,12 +37,11 @@ public class EventActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((AppApplication)getApplication()).getNetComponent().inject(this);
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
 
-                SharedPreferences sharedPreferences =
-                        PreferenceManager.getDefaultSharedPreferences(context);
                 boolean sentToken = sharedPreferences
                         .getBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false);
                 if (sentToken) {
