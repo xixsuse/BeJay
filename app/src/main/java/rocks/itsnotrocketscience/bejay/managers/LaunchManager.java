@@ -11,9 +11,7 @@ import rocks.itsnotrocketscience.bejay.event.single.EventActivity;
  */
 public class LaunchManager {
 
-
     public LaunchManager() { }
-
 
     public static void launchEvent(int id, Activity activity) {
         Intent intent = new Intent(activity, EventActivity.class);

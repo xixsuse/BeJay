@@ -37,7 +37,6 @@ public class EventFragment extends BaseFragment implements RetrofitManager.Event
     @Bind(R.id.etSongPicker)
     EditText etSongPicker;
 
-
     @Bind(R.id.ivSearch)
     ImageView ivSearch;
 
