@@ -30,16 +30,12 @@ import rocks.itsnotrocketscience.bejay.models.Token;
 
 public class RegisterFragment extends BaseFragment implements RetrofitManager.LoginListener, RetrofitManager.RegisterListener {
 
-    @Inject
-    SharedPreferences sharedPreferences;
-    @Bind(R.id.pbProgress)
-    ProgressBar pbProgress;
-    @Bind(R.id.etEmail)
-    EditText etEmail;
-    @Bind(R.id.etPassword)
-    EditText etPassword;
-    @Bind(R.id.btRegister)
-    Button btRegister;
+    @Inject SharedPreferences sharedPreferences;
+    @Inject RetrofitManager retrofitManager;
+    @Bind(R.id.pbProgress) ProgressBar pbProgress;
+    @Bind(R.id.etEmail) EditText etEmail;
+    @Bind(R.id.etPassword) EditText etPassword;
+    @Bind(R.id.btRegister) Button btRegister;
 
     public static RegisterFragment newInstance() {
         return new RegisterFragment();
@@ -48,7 +44,7 @@ public class RegisterFragment extends BaseFragment implements RetrofitManager.Lo
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((AppApplication) getActivity().getApplication()).getNetComponent().inject(this);
+        getAppApplication().getNetComponent().inject(this);
     }
 
     @Override
@@ -67,12 +63,12 @@ public class RegisterFragment extends BaseFragment implements RetrofitManager.Lo
     @OnClick(R.id.btRegister)
     public void register() {
         toggleProgress(true);
-        RetrofitManager.get(getActivity()).registerUser(getUserObject(), this);
+        retrofitManager.registerUser(getUserObject(), this);
     }
 
     public void login() {
         AuthCredentials auth = new AuthCredentials(getUserObject().getUsername(), getUserObject().getPassword());
-        RetrofitManager.get(getActivity()).loginUser(auth, this);
+        retrofitManager.loginUser(auth, this);
         toggleProgress(true);
     }
 

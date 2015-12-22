@@ -27,29 +27,20 @@ import rocks.itsnotrocketscience.bejay.models.Token;
  */
 public class RetrofitManager extends RetrofitListeners {
 
-    private static RetrofitManager manager = null;
     RestAdapter restAdapter;
     AppApplication application;
-    Context mContext;
 
-    private RetrofitManager(Context context) {
+    public RetrofitManager(Context context, AccountManager accountManager) {
 
         application = (AppApplication) context.getApplicationContext();
-        mContext = context;
         restAdapter = new RestAdapter.Builder()
-                .setRequestInterceptor(application.getAccountManager().getAuthTokenInterceptor())
+                .setRequestInterceptor(accountManager.getAuthTokenInterceptor())
                 .setLogLevel(RestAdapter.LogLevel.FULL)
                 .setEndpoint(ApiConstants.API)
                 .build();
     }
 
-    public static RetrofitManager get(Context context) {
-        if (manager == null) {
-            return new RetrofitManager(context);
-        } else {
-            return manager;
-        }
-    }
+
 
     public void checkInUser(CheckInListener listener, final int id) {
 
@@ -89,7 +80,6 @@ public class RetrofitManager extends RetrofitListeners {
         checkin.checkOut(id, new Callback<Event>() {
             @Override
             public void success(Event event, Response response) {
-                application.getAccountManager().clearCheckin();
                 listener.onCheckedOut(id, null);
             }
 

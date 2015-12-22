@@ -18,8 +18,7 @@ import rocks.itsnotrocketscience.bejay.login.LoginOrRegisterFragment;
  */
 public class BaseFragment extends Fragment {
 
-    @Inject
-    SharedPreferences sharedPreferences;
+    @Inject SharedPreferences sharedPreferences;
 
     public AppApplication getAppApplication() {
         Activity activity = getActivity();
@@ -39,11 +38,11 @@ public class BaseFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((AppApplication) getActivity().getApplication()).getNetComponent().inject(this);
+        getAppApplication().getNetComponent().inject(this);
     }
 
     protected void logout(Activity activity) {
-        sharedPreferences.edit().putBoolean(LoginOrRegisterFragment.IS_LOGGED_IN, false);
+        sharedPreferences.edit().putBoolean(LoginOrRegisterFragment.IS_LOGGED_IN, false).apply();
         Intent intent = new Intent(getActivity(), LoginActivity.class);
         startActivity(intent);
         activity.finish();

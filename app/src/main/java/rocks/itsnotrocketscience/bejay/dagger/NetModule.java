@@ -13,6 +13,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import rocks.itsnotrocketscience.bejay.managers.AccountManager;
+import rocks.itsnotrocketscience.bejay.managers.RetrofitManager;
 
 /**
  * Created by lduf0001 on 21/12/15.
@@ -44,5 +45,11 @@ public class NetModule {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
         return gsonBuilder.create();
+    }
+
+    @Provides
+    @Singleton
+    RetrofitManager provideRetrofitManager(Application application, AccountManager accountManager) {
+        return new RetrofitManager(application,accountManager);
     }
 }

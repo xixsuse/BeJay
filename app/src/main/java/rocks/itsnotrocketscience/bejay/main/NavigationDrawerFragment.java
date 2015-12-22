@@ -32,10 +32,8 @@ public class NavigationDrawerFragment extends BaseFragment {
 
     private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
     private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
-    @Inject
-    SharedPreferences sharedPreferences;
-    @Inject
-    AccountManager accountManager;
+    @Inject SharedPreferences sharedPreferences;
+    @Inject AccountManager accountManager;
     private ActionBarDrawerToggle mDrawerToggle;
 
     private DrawerLayout mDrawerLayout;
@@ -49,7 +47,7 @@ public class NavigationDrawerFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((AppApplication) getActivity().getApplication()).getNetComponent().inject(this);
+        getAppApplication().getNetComponent().inject(this);
         mUserLearnedDrawer = sharedPreferences.getBoolean(PREF_USER_LEARNED_DRAWER, false);
 
         if (savedInstanceState != null) {

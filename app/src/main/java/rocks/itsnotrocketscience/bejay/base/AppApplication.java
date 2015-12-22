@@ -12,7 +12,7 @@ import rocks.itsnotrocketscience.bejay.managers.AccountManager;
  * Created by centralstation on 11/09/15.
  */
 public class AppApplication extends Application {
-    private static AccountManager accountManager;
+
     private NetComponent component;
 
     @Override
@@ -24,13 +24,6 @@ public class AppApplication extends Application {
                 .netModule(new NetModule("https://api.github.com"))
                 .build();
 
-    }
-
-    public AccountManager getAccountManager() {
-        if (accountManager == null) {
-            return new AccountManager(PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext()));
-        }
-        return accountManager;
     }
 
     public NetComponent getNetComponent() {

@@ -27,15 +27,11 @@ import rocks.itsnotrocketscience.bejay.models.Token;
 
 public class LoginFragment extends BaseFragment implements RetrofitManager.LoginListener {
 
-    @Inject
-    SharedPreferences sharedPreferences;
-
-    @Bind(R.id.etUsername)
-    EditText etUsername;
-    @Bind(R.id.etPassword)
-    EditText etPassword;
-    @Bind(R.id.pbProgress)
-    ProgressBar pbProgress;
+    @Inject SharedPreferences sharedPreferences;
+    @Inject RetrofitManager retrofitManager;
+    @Bind(R.id.etUsername) EditText etUsername;
+    @Bind(R.id.etPassword) EditText etPassword;
+    @Bind(R.id.pbProgress) ProgressBar pbProgress;
 
     public static LoginFragment newInstance() {
         return new LoginFragment();
@@ -44,7 +40,7 @@ public class LoginFragment extends BaseFragment implements RetrofitManager.Login
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((AppApplication) getActivity().getApplication()).getNetComponent().inject(this);
+        getAppApplication().getNetComponent().inject(this);
 
     }
 
@@ -60,7 +56,7 @@ public class LoginFragment extends BaseFragment implements RetrofitManager.Login
     public void login() {
 
         AuthCredentials auth = new AuthCredentials(etUsername.getText().toString(), etPassword.getText().toString());
-        RetrofitManager.get(getActivity()).loginUser(auth, this);
+        retrofitManager.loginUser(auth, this);
         toggleProgress(true);
 
     }

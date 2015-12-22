@@ -32,8 +32,8 @@ import rocks.itsnotrocketscience.bejay.models.Event;
 
 public class EventListFragment extends BaseFragment implements ItemClickListener, RetrofitListeners.EventListListener, RetrofitManager.CheckoutListener, RetrofitListeners.CheckInListener {
 
-    @Inject
-    AccountManager accountManager;
+    @Inject AccountManager accountManager;
+    @Inject RetrofitManager retrofitManager;
     @Bind(R.id.rvEventList)
     RecyclerView recyclerView;
     @Bind(R.id.rlError)
@@ -50,7 +50,7 @@ public class EventListFragment extends BaseFragment implements ItemClickListener
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((AppApplication) getActivity().getApplication()).getNetComponent().inject(this);
+        getAppApplication().getNetComponent().inject(this);
         eventList = new ArrayList<>();
     }
 
@@ -81,7 +81,7 @@ public class EventListFragment extends BaseFragment implements ItemClickListener
 
     @OnClick(R.id.btnRetry)
     public void getFeed() {
-        RetrofitManager.get(getActivity()).getEventListFeed(this);
+        retrofitManager.getEventListFeed(this);
     }
 
     private void setViewItems(ArrayList<Event> eventList) {
@@ -95,7 +95,7 @@ public class EventListFragment extends BaseFragment implements ItemClickListener
         boolean isCheckedIn = accountManager.isCheckedIn();
         int eventId = eventList.get(position).getId();
         if (!isCheckedIn) {
-            RetrofitManager.get(getActivity()).checkInUser(this, eventList.get(position).getId());
+            retrofitManager.checkInUser(this, eventList.get(position).getId());
         } else if (eventId == accountManager.getCheckedInEventId()) {
             LaunchManager.launchEvent(eventId, getActivity());
         } else {
@@ -118,7 +118,8 @@ public class EventListFragment extends BaseFragment implements ItemClickListener
         if (error != null) {
             Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_LONG).show();
         } else {
-            RetrofitManager.get(getActivity()).checkInUser(this, id);
+            accountManager.clearCheckin();
+            retrofitManager.checkInUser(this, id);
         }
     }
 
@@ -147,7 +148,7 @@ public class EventListFragment extends BaseFragment implements ItemClickListener
                 })
                 .setConfirmClickListener(sDialog -> {
                     sDialog.cancel();
-                    RetrofitManager.get(getActivity()).checkoutUser(this, id);
+                    retrofitManager.checkoutUser(this, id);
                 })
                 .show();
     }

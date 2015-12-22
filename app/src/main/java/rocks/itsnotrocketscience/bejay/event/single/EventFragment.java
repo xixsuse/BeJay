@@ -14,6 +14,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -31,14 +33,10 @@ import rocks.itsnotrocketscience.bejay.models.Song;
  */
 public class EventFragment extends BaseFragment implements RetrofitManager.EventListener, RetrofitListeners.SongAddedListener {
 
-    @Bind(R.id.rvSongList)
-    RecyclerView rvSongList;
-
-    @Bind(R.id.etSongPicker)
-    EditText etSongPicker;
-
-    @Bind(R.id.ivSearch)
-    ImageView ivSearch;
+    @Inject RetrofitManager retrofitManager;
+    @Bind(R.id.rvSongList) RecyclerView rvSongList;
+    @Bind(R.id.etSongPicker) EditText etSongPicker;
+    @Bind(R.id.ivSearch) ImageView ivSearch;
 
     SongListAdapter adapter;
     List<Song> songList;
@@ -75,8 +73,14 @@ public class EventFragment extends BaseFragment implements RetrofitManager.Event
         return view;
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        getAppApplication().getNetComponent().inject(this);
+        super.onCreate(savedInstanceState);
+    }
+
     private void getEventFeed() {
-        RetrofitManager.get(getActivity()).getEventFeed(this, ((EventActivity) getActivity()).getIdFromBundle());
+        retrofitManager.getEventFeed(this, ((EventActivity) getActivity()).getIdFromBundle());
     }
 
     private void setViewItems(Event event) {
@@ -105,7 +109,7 @@ public class EventFragment extends BaseFragment implements RetrofitManager.Event
                 .setCancelClickListener(SweetAlertDialog::cancel)
                 .setConfirmClickListener(sDialog -> {
                     sDialog.cancel();
-                    RetrofitManager.get(getActivity()).addSong(new Song(etSongPicker.getText().toString()), this);
+                    retrofitManager.addSong(new Song(etSongPicker.getText().toString()), this);
                 })
                 .show();
     }
