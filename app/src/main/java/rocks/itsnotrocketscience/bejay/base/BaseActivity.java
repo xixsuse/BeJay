@@ -30,7 +30,7 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((AppApplication) getApplication()).getNetComponent().inject(this);
+        getAppApplication().getNetComponent().inject(this);
         if (!accountManager.isLoggedIn()) {
             logout();
         }
@@ -48,7 +48,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     private void logout() {
-        sharedPreferences.edit().putBoolean(LoginOrRegisterFragment.IS_LOGGED_IN, false);
+        sharedPreferences.edit().putBoolean(LoginOrRegisterFragment.IS_LOGGED_IN, false).apply();
         Intent intent = new Intent(BaseActivity.this, LoginActivity.class);
         startActivity(intent);
         this.finish();
