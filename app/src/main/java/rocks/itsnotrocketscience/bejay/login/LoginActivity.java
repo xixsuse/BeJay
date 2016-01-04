@@ -1,13 +1,12 @@
 package rocks.itsnotrocketscience.bejay.login;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import rocks.itsnotrocketscience.bejay.R;
+import rocks.itsnotrocketscience.bejay.managers.LaunchManager;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -15,7 +14,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        showFragment(LoginOrRegisterFragment.newInstance());
+        LaunchManager.showFragment(LoginOrRegisterFragment.newInstance(),getSupportFragmentManager());
     }
 
 
@@ -41,10 +40,4 @@ public class LoginActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void showFragment(Fragment fragment) {
-        android.app.FragmentManager manager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = manager.beginTransaction();
-        fragmentTransaction.replace(R.id.container, fragment);
-        fragmentTransaction.commit();
-    }
 }

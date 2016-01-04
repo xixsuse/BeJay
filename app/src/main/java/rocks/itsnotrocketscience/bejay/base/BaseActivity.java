@@ -9,6 +9,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import com.facebook.login.LoginManager;
+
 import javax.inject.Inject;
 
 import rocks.itsnotrocketscience.bejay.R;
@@ -33,6 +35,7 @@ public class BaseActivity extends AppCompatActivity {
         ((AppApplication) getApplication()).getNetComponent().inject(this);
         if (!accountManager.isLoggedIn()) {
             logout();
+            return;
         }
         setContentView(R.layout.activity_main);
         if (toolbar != null) {
@@ -48,14 +51,11 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     private void logout() {
-        sharedPreferences.edit().putBoolean(LoginOrRegisterFragment.IS_LOGGED_IN, false);
+        sharedPreferences.edit().putBoolean(LoginOrRegisterFragment.IS_LOGGED_IN, false).apply();
         Intent intent = new Intent(BaseActivity.this, LoginActivity.class);
         startActivity(intent);
+        LoginManager.getInstance().logOut();
         this.finish();
-    }
-
-    public AppApplication getAppApplication() {
-        return (AppApplication) getApplication();
     }
 
     public void showFragment(Fragment fragment) {
