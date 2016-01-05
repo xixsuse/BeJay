@@ -13,13 +13,23 @@
         android:text="@string/login"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/btLoginFacebook"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btLogin"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp" />
+
     <Button
         android:id="@+id/btRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:text="@string/register"
-        android:layout_below="@+id/btLogin"
+        android:layout_below="@+id/btLoginFacebook"
         />
 
 </RelativeLayout>
