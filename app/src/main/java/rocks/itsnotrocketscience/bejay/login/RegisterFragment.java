@@ -20,12 +20,16 @@ import retrofit.RetrofitError;
 import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.api.Constants;
 import rocks.itsnotrocketscience.bejay.api.retrofit.AuthCredentials;
-import rocks.itsnotrocketscience.bejay.base.AppApplication;
+import rocks.itsnotrocketscience.bejay.api.retrofit.CreateUser;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
 import rocks.itsnotrocketscience.bejay.main.MainActivity;
 import rocks.itsnotrocketscience.bejay.managers.RetrofitManager;
+import rocks.itsnotrocketscience.bejay.managers.ServiceFactory;
 import rocks.itsnotrocketscience.bejay.models.CmsUser;
 import rocks.itsnotrocketscience.bejay.models.Token;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 
 public class RegisterFragment extends BaseFragment implements RetrofitManager.LoginListener, RetrofitManager.RegisterListener {
@@ -55,15 +59,31 @@ public class RegisterFragment extends BaseFragment implements RetrofitManager.Lo
         return view;
     }
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
-
     @OnClick(R.id.btRegister)
     public void register() {
         toggleProgress(true);
-        retrofitManager.registerUser(getUserObject(), this);
+
+        CreateUser createUser = ServiceFactory.createRetrofitService(CreateUser.class);
+        createUser.createUser(getUserObject())
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<CmsUser>() {
+                    @Override
+                    public void onCompleted() {}
+
+                    @Override
+                    public final void onError(Throwable e) {
+                        toggleProgress(false);
+                        Toast.makeText(getActivity(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public final void onNext(CmsUser response) {
+                        login();
+                    }
+                });
+
+//        retrofitManager.registerUser(getUserObject(), this);
     }
 
     public void login() {
@@ -89,8 +109,6 @@ public class RegisterFragment extends BaseFragment implements RetrofitManager.Lo
             Intent intent = new Intent(getActivity(), MainActivity.class);
             startActivity(intent);
         } else {
-            toggleProgress(false);
-            Toast.makeText(getActivity(), error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
         }
     }
 

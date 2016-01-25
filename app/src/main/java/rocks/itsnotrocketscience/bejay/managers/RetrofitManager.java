@@ -11,7 +11,6 @@ import retrofit.client.Response;
 import rocks.itsnotrocketscience.bejay.api.Constants;
 import rocks.itsnotrocketscience.bejay.api.retrofit.AuthCredentials;
 import rocks.itsnotrocketscience.bejay.api.retrofit.CheckInUserToEvent;
-import rocks.itsnotrocketscience.bejay.api.retrofit.CreateUser;
 import rocks.itsnotrocketscience.bejay.api.retrofit.GetEvent;
 import rocks.itsnotrocketscience.bejay.api.retrofit.GetEvents;
 import rocks.itsnotrocketscience.bejay.api.retrofit.LoginUser;
@@ -42,19 +41,19 @@ public class RetrofitManager extends RetrofitListeners {
 
     public void registerUser(CmsUser user, RegisterListener listener) {
 
-        RestAdapter restAdapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(Constants.API).build();
-        CreateUser createUser = restAdapter.create(CreateUser.class);
-        createUser.createUser(user, new Callback<CmsUser>() {
-            @Override
-            public void success(CmsUser user, Response response) {
-                listener.onRegistered(user, null);
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                listener.onRegistered(null, error);
-            }
-        });
+//        RestAdapter restAdapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(Constants.API).build();
+//        CreateUser createUser = restAdapter.create(CreateUser.class);
+//        createUser.createUser(user, new Callback<CmsUser>() {
+//            @Override
+//            public void success(CmsUser user, Response response) {
+//                listener.onRegistered(user, null);
+//            }
+//
+//            @Override
+//            public void failure(RetrofitError error) {
+//                listener.onRegistered(null, error);
+//            }
+//        });
     }
 
     public void loginUser(AuthCredentials auth, LoginListener listener) {

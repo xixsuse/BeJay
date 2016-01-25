@@ -65,4 +65,9 @@ public class BaseActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
+    protected AppApplication getAppApplication(){
+
+        return (AppApplication)getApplication();
+    }
+
 }
