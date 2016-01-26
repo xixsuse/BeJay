@@ -1,8 +1,8 @@
 package rocks.itsnotrocketscience.bejay.managers;
 
+import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import rocks.itsnotrocketscience.bejay.api.Constants;
-import rocks.itsnotrocketscience.bejay.api.retrofit.AuthInterceptor;
 
 /**
  * Created by lduf0001 on 25/01/16.
@@ -25,7 +25,7 @@ public class ServiceFactory {
         return service;
     }
 
-    public static <T> T createRetrofitServiceAuth(final Class<T> clazz, AuthInterceptor authInterceptor) {
+    public static <T> T createRetrofitServiceAuth(final Class<T> clazz, RequestInterceptor authInterceptor) {
         final RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(Constants.API)
                 .setRequestInterceptor(authInterceptor)

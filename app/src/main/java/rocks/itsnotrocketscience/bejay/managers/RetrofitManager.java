@@ -10,7 +10,6 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import rocks.itsnotrocketscience.bejay.api.Constants;
 import rocks.itsnotrocketscience.bejay.api.retrofit.CheckInUserToEvent;
-import rocks.itsnotrocketscience.bejay.api.retrofit.GetEvent;
 import rocks.itsnotrocketscience.bejay.api.retrofit.GetEvents;
 import rocks.itsnotrocketscience.bejay.api.retrofit.PostSong;
 import rocks.itsnotrocketscience.bejay.base.AppApplication;
@@ -80,22 +79,6 @@ public class RetrofitManager extends RetrofitListeners {
             public void failure(RetrofitError error) {
                 listener.onEventFeedLoaded(null, error);
 
-            }
-        });
-    }
-
-    public void getEventFeed(EventListener listener, int id) {
-
-        GetEvent event = restAdapter.create(GetEvent.class);
-        event.getFeed(id, new Callback<Event>() {
-            @Override
-            public void success(Event eventList, Response response) {
-                listener.onEventLoaded(eventList, null);
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                listener.onEventLoaded(null, error);
             }
         });
     }
