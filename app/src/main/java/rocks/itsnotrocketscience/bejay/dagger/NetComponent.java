@@ -10,6 +10,7 @@ import rocks.itsnotrocketscience.bejay.event.single.EventActivity;
 import rocks.itsnotrocketscience.bejay.event.single.EventFragment;
 import rocks.itsnotrocketscience.bejay.gcm.RegistrationIntentService;
 import rocks.itsnotrocketscience.bejay.login.LoginFragment;
+import rocks.itsnotrocketscience.bejay.login.RegisterFragment;
 import rocks.itsnotrocketscience.bejay.main.NavigationDrawerFragment;
 
 /**
@@ -31,6 +32,8 @@ public interface NetComponent {
     void inject(EventFragment eventFragment);
 
     void inject(EventActivity eventActivity);
+
+    void inject(RegisterFragment registerFragment);
 
     void inject(NavigationDrawerFragment navigationDrawerFragment);
 

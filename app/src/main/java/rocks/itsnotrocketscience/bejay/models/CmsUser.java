@@ -17,6 +17,8 @@ public class CmsUser {
     @SerializedName("user_permissions")
     String userPermissions;
     String groups;
+    
+    String token;
 
     String username;
     String password;
@@ -49,5 +51,9 @@ public class CmsUser {
 
     public String getPassword() {
         return password;
+    }
+
+    public String getToken() {
+        return token;
     }
 }

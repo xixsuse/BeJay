@@ -16,23 +16,20 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit.RetrofitError;
 import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.api.Constants;
-import rocks.itsnotrocketscience.bejay.api.retrofit.AuthCredentials;
 import rocks.itsnotrocketscience.bejay.api.retrofit.CreateUser;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
 import rocks.itsnotrocketscience.bejay.main.MainActivity;
 import rocks.itsnotrocketscience.bejay.managers.RetrofitManager;
 import rocks.itsnotrocketscience.bejay.managers.ServiceFactory;
 import rocks.itsnotrocketscience.bejay.models.CmsUser;
-import rocks.itsnotrocketscience.bejay.models.Token;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 
-public class RegisterFragment extends BaseFragment implements RetrofitManager.LoginListener, RetrofitManager.RegisterListener {
+public class RegisterFragment extends BaseFragment {
 
     @Inject SharedPreferences sharedPreferences;
     @Inject RetrofitManager retrofitManager;
@@ -79,46 +76,30 @@ public class RegisterFragment extends BaseFragment implements RetrofitManager.Lo
 
                     @Override
                     public final void onNext(CmsUser response) {
-                        login();
+                        toggleProgress(false);
+                        login(response.getToken());
                     }
                 });
 
-//        retrofitManager.registerUser(getUserObject(), this);
-    }
-
-    public void login() {
-        AuthCredentials auth = new AuthCredentials(getUserObject().getUsername(), getUserObject().getPassword());
-        retrofitManager.loginUser(auth, this);
-        toggleProgress(true);
     }
 
     public CmsUser getUserObject() {
         return new CmsUser("", "", "", "", etEmail.getText().toString(), etEmail.getText().toString(), etPassword.getText().toString());
     }
 
-    private void toggleProgress(boolean on) {
-        pbProgress.setVisibility(on ? View.VISIBLE : View.GONE);
+    private void toggleProgress(boolean visible) {
+        pbProgress.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
-    @Override
-    public void onLoggedIn(Token token, RetrofitError error) {
+
+    public void login(String token) {
         if (token != null) {
-            sharedPreferences.edit().putString(Constants.TOKEN, token.getToken()).apply();
+            sharedPreferences.edit().putString(Constants.TOKEN, token).apply();
             Toast.makeText(getActivity(), "Logged in", Toast.LENGTH_SHORT).show();
             toggleProgress(false);
             Intent intent = new Intent(getActivity(), MainActivity.class);
             startActivity(intent);
-        } else {
         }
     }
 
-    @Override
-    public void onRegistered(CmsUser user, RetrofitError error) {
-        if (user != null) {
-            login();
-        } else {
-            toggleProgress(false);
-            Toast.makeText(getActivity(), error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-        }
-    }
 }
