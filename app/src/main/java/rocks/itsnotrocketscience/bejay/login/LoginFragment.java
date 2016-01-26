@@ -15,17 +15,20 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit.RetrofitError;
 import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.api.Constants;
 import rocks.itsnotrocketscience.bejay.api.retrofit.AuthCredentials;
-import rocks.itsnotrocketscience.bejay.base.AppApplication;
+import rocks.itsnotrocketscience.bejay.api.retrofit.LoginUser;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
 import rocks.itsnotrocketscience.bejay.main.MainActivity;
 import rocks.itsnotrocketscience.bejay.managers.RetrofitManager;
+import rocks.itsnotrocketscience.bejay.managers.ServiceFactory;
 import rocks.itsnotrocketscience.bejay.models.Token;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
-public class LoginFragment extends BaseFragment implements RetrofitManager.LoginListener {
+public class LoginFragment extends BaseFragment  {
 
     @Inject SharedPreferences sharedPreferences;
     @Inject RetrofitManager retrofitManager;
@@ -56,8 +59,28 @@ public class LoginFragment extends BaseFragment implements RetrofitManager.Login
     public void login() {
 
         AuthCredentials auth = new AuthCredentials(etUsername.getText().toString(), etPassword.getText().toString());
-        retrofitManager.loginUser(auth, this);
         toggleProgress(true);
+
+        LoginUser loginUser = ServiceFactory.createRetrofitService(LoginUser.class);
+        loginUser.loginUser(Constants.TOKEN_AUTH, auth)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Token>() {
+                    @Override
+                    public void onCompleted() {}
+
+                    @Override
+                    public final void onError(Throwable e) {
+                        toggleProgress(false);
+                        Toast.makeText(getActivity(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public final void onNext(Token response) {
+                        toggleProgress(false);
+                        login(response);
+                    }
+                });
 
     }
 
@@ -65,10 +88,8 @@ public class LoginFragment extends BaseFragment implements RetrofitManager.Login
         pbProgress.setVisibility(on ? View.VISIBLE : View.GONE);
     }
 
-    @Override
-    public void onLoggedIn(Token token, RetrofitError error) {
+    public void login(Token token) {
         if (token != null) {
-
             sharedPreferences.edit().putString(Constants.TOKEN, token.getToken()).apply();
             sharedPreferences.edit().putString(Constants.EMAIL, etUsername.getText().toString()).apply();
             sharedPreferences.edit().putString(Constants.USERNAME, etUsername.getText().toString()).apply();
@@ -76,9 +97,6 @@ public class LoginFragment extends BaseFragment implements RetrofitManager.Login
             toggleProgress(false);
             Intent intent = new Intent(getActivity(), MainActivity.class);
             startActivity(intent);
-        } else {
-            toggleProgress(false);
-            Toast.makeText(getActivity(), error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
         }
     }
 }

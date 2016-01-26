@@ -9,17 +9,13 @@ import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import rocks.itsnotrocketscience.bejay.api.Constants;
-import rocks.itsnotrocketscience.bejay.api.retrofit.AuthCredentials;
 import rocks.itsnotrocketscience.bejay.api.retrofit.CheckInUserToEvent;
 import rocks.itsnotrocketscience.bejay.api.retrofit.GetEvent;
 import rocks.itsnotrocketscience.bejay.api.retrofit.GetEvents;
-import rocks.itsnotrocketscience.bejay.api.retrofit.LoginUser;
 import rocks.itsnotrocketscience.bejay.api.retrofit.PostSong;
 import rocks.itsnotrocketscience.bejay.base.AppApplication;
-import rocks.itsnotrocketscience.bejay.models.CmsUser;
 import rocks.itsnotrocketscience.bejay.models.Event;
 import rocks.itsnotrocketscience.bejay.models.Song;
-import rocks.itsnotrocketscience.bejay.models.Token;
 
 /**
  * Created by centralstation on 22/10/15.
@@ -37,40 +33,6 @@ public class RetrofitManager extends RetrofitListeners {
                 .setLogLevel(RestAdapter.LogLevel.FULL)
                 .setEndpoint(Constants.API)
                 .build();
-    }
-
-    public void registerUser(CmsUser user, RegisterListener listener) {
-
-//        RestAdapter restAdapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(Constants.API).build();
-//        CreateUser createUser = restAdapter.create(CreateUser.class);
-//        createUser.createUser(user, new Callback<CmsUser>() {
-//            @Override
-//            public void success(CmsUser user, Response response) {
-//                listener.onRegistered(user, null);
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError error) {
-//                listener.onRegistered(null, error);
-//            }
-//        });
-    }
-
-    public void loginUser(AuthCredentials auth, LoginListener listener) {
-
-        LoginUser loginUser = restAdapter.create(LoginUser.class);
-        loginUser.loginUser(Constants.TOKEN_AUTH, auth, new Callback<Token>() {
-            @Override
-            public void success(Token token, Response response) {
-                listener.onLoggedIn(token, null);
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                listener.onLoggedIn(null, error);
-            }
-        });
-
     }
 
     public void checkInUser(CheckInListener listener, final int id) {
