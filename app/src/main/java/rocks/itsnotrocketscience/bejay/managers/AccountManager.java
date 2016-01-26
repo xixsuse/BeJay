@@ -21,7 +21,7 @@ public class AccountManager {
     }
 
     public String getAuthToken() {
-        return "9b8a0a84943c098e82737227e9f1f1960a406f6f";
+        return sharedPreferences.getString(Constants.TOKEN, "");
     }
 
     public boolean isLoggedIn() {
