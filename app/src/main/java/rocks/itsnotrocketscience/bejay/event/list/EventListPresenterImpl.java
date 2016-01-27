@@ -51,7 +51,7 @@ public class EventListPresenterImpl implements EventListContract.EventListPresen
 
     @Override
     public void onDestroy() {
-
+        onDestroy.onNext(true);
     }
 
     @Override
