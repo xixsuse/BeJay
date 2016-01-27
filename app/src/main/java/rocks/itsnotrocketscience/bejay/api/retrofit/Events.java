@@ -1,0 +1,20 @@
+package rocks.itsnotrocketscience.bejay.api.retrofit;
+
+import java.util.ArrayList;
+
+import retrofit.http.GET;
+import retrofit.http.Path;
+import rocks.itsnotrocketscience.bejay.models.Event;
+import rx.Observable;
+
+/**
+ * Created by nemi on 27/01/2016.
+ */
+public interface Events {
+    @GET("/events")
+    Observable<ArrayList<Event>> list();
+
+    @GET("/events/{id}")
+    Observable<Event> list(@Path("id") int id);
+
+}
