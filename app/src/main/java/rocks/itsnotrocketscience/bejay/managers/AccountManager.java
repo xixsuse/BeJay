@@ -1,6 +1,8 @@
 package rocks.itsnotrocketscience.bejay.managers;
 
+import android.annotation.TargetApi;
 import android.content.SharedPreferences;
+import android.os.Build;
 
 import java.util.Objects;
 
@@ -24,6 +26,7 @@ public class AccountManager {
         return sharedPreferences.getString(Constants.TOKEN, "");
     }
 
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     public boolean isLoggedIn() {
         return !Objects.equals(sharedPreferences.getString(Constants.TOKEN, ""), "");
     }
