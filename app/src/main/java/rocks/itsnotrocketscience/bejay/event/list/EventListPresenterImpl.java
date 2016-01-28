@@ -2,6 +2,8 @@ package rocks.itsnotrocketscience.bejay.event.list;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
 import rocks.itsnotrocketscience.bejay.api.retrofit.Events;
 import rocks.itsnotrocketscience.bejay.dao.EventsDao;
 import rocks.itsnotrocketscience.bejay.models.Event;
@@ -33,6 +35,7 @@ public class EventListPresenterImpl implements EventListContract.EventListPresen
     ArrayList<Event> events;
     Subscriber<ArrayList<Event>> loadEventSubscriber;
 
+    @Inject
     public EventListPresenterImpl(EventsDao eventsDao, Events networkEvents) {
         this.eventsDao = eventsDao;
         this.networkEvents = networkEvents;
