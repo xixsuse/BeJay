@@ -66,23 +66,6 @@ public class RetrofitManager extends RetrofitListeners {
         });
     }
 
-    public void getEventListFeed(EventListListener listener) {
-
-        GetEvents events = restAdapter.create(GetEvents.class);
-        events.getFeed("events", new Callback<ArrayList<Event>>() {
-            @Override
-            public void success(ArrayList<Event> eventList, Response response) {
-                listener.onEventFeedLoaded(eventList, null);
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                listener.onEventFeedLoaded(null, error);
-
-            }
-        });
-    }
-
     public void addSong(Song song, SongAddedListener songAddedListener) {
 
         PostSong postSong = restAdapter.create(PostSong.class);

@@ -30,10 +30,12 @@ import rocks.itsnotrocketscience.bejay.managers.RetrofitListeners;
 import rocks.itsnotrocketscience.bejay.managers.RetrofitManager;
 import rocks.itsnotrocketscience.bejay.models.Event;
 
-public class EventListFragment extends BaseFragment implements ItemClickListener, RetrofitListeners.EventListListener, RetrofitManager.CheckoutListener, RetrofitListeners.CheckInListener {
+public class EventListFragment extends BaseFragment implements ItemClickListener, RetrofitManager.CheckoutListener, RetrofitListeners.CheckInListener, EventListContract.EventListView {
 
     @Inject AccountManager accountManager;
     @Inject RetrofitManager retrofitManager;
+    @Inject EventListPresenterImpl eventListPresenter;
+
     @Bind(R.id.rvEventList)
     RecyclerView recyclerView;
     @Bind(R.id.rlError)
@@ -57,8 +59,26 @@ public class EventListFragment extends BaseFragment implements ItemClickListener
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getFeed();
         setupRecyclerView();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        eventListPresenter.onViewAttached(this);
+        getFeed();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        eventListPresenter.onViewDetached();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        eventListPresenter.onDestroy();
     }
 
     private void setupRecyclerView() {
@@ -81,13 +101,8 @@ public class EventListFragment extends BaseFragment implements ItemClickListener
 
     @OnClick(R.id.btnRetry)
     public void getFeed() {
-        retrofitManager.getEventListFeed(this);
-    }
-
-    private void setViewItems(ArrayList<Event> eventList) {
-        this.eventList.clear();
-        this.eventList.addAll(eventList);
-        adapter.notifyDataSetChanged();
+        rlError.setVisibility(View.GONE);
+        eventListPresenter.loadEvents();
     }
 
     @Override
@@ -104,12 +119,19 @@ public class EventListFragment extends BaseFragment implements ItemClickListener
     }
 
     @Override
-    public void onEventFeedLoaded(ArrayList<Event> list, RetrofitError error) {
-        if (list != null) {
-            setViewItems(list);
-        } else {
-            Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_LONG).show();
-        }
+    public void setProgressVisible(boolean visible) {
+        Toast.makeText(getActivity(), "setProgressVisible(" +visible + ")", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onEventsLoaded(List<Event> events) {
+        this.eventList.clear();
+        this.eventList.addAll(events);
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showError() {
         rlError.setVisibility(View.VISIBLE);
     }
 
