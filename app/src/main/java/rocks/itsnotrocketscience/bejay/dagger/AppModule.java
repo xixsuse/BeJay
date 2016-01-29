@@ -1,6 +1,7 @@
 package rocks.itsnotrocketscience.bejay.dagger;
 
 import android.app.Application;
+import android.content.Context;
 
 import javax.inject.Singleton;
 
@@ -22,6 +23,12 @@ public class AppModule {
     @Provides
     @Singleton
     Application providesApplication() {
+        return application;
+    }
+
+    @Provides
+    @Singleton
+    Context providesContext() {
         return application;
     }
 }

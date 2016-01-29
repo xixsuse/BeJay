@@ -1,6 +1,7 @@
 package rocks.itsnotrocketscience.bejay.dagger;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
@@ -16,6 +17,8 @@ import rocks.itsnotrocketscience.bejay.api.retrofit.Events;
 import rocks.itsnotrocketscience.bejay.dao.EventsDao;
 import rocks.itsnotrocketscience.bejay.event.list.EventListContract;
 import rocks.itsnotrocketscience.bejay.event.list.EventListPresenterImpl;
+import rocks.itsnotrocketscience.bejay.login.LoginContract;
+import rocks.itsnotrocketscience.bejay.login.LoginPresenterImpl;
 import rocks.itsnotrocketscience.bejay.managers.AccountManager;
 import rocks.itsnotrocketscience.bejay.managers.RetrofitManager;
 import rocks.itsnotrocketscience.bejay.managers.ServiceFactory;
@@ -65,5 +68,10 @@ public class NetModule {
 
     @Provides EventListContract.EventListPresenter providesEventListPresenter(EventsDao eventsDao, Events networkEvents, AccountManager accountManager) {
         return new EventListPresenterImpl(eventsDao, networkEvents, accountManager);
+    }
+
+    @Provides
+    LoginContract.LoginPresenter providesLoginPresenter(Context context,SharedPreferences sharedPreferences) {
+        return new LoginPresenterImpl(context, sharedPreferences);
     }
 }
