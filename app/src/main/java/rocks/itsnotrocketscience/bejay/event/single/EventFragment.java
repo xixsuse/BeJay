@@ -22,12 +22,11 @@ import butterknife.OnClick;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import retrofit.RetrofitError;
 import rocks.itsnotrocketscience.bejay.R;
-import rocks.itsnotrocketscience.bejay.api.retrofit.GetEvent;
+import rocks.itsnotrocketscience.bejay.api.retrofit.Events;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
 import rocks.itsnotrocketscience.bejay.managers.AccountManager;
 import rocks.itsnotrocketscience.bejay.managers.RetrofitListeners;
 import rocks.itsnotrocketscience.bejay.managers.RetrofitManager;
-import rocks.itsnotrocketscience.bejay.managers.ServiceFactory;
 import rocks.itsnotrocketscience.bejay.models.Event;
 import rocks.itsnotrocketscience.bejay.models.Song;
 import rx.Subscriber;
@@ -41,6 +40,8 @@ public class EventFragment extends BaseFragment implements RetrofitListeners.Son
 
     @Inject RetrofitManager retrofitManager;
     @Inject AccountManager accountManager;
+    @Inject Events events;
+
     @Bind(R.id.rvSongList) RecyclerView rvSongList;
     @Bind(R.id.etSongPicker) EditText etSongPicker;
     @Bind(R.id.ivSearch) ImageView ivSearch;
@@ -87,9 +88,7 @@ public class EventFragment extends BaseFragment implements RetrofitListeners.Son
     }
 
     private void getEventFeed() {
-
-        GetEvent getFeed = ServiceFactory.createRetrofitServiceAuth(GetEvent.class, accountManager.getAuthTokenInterceptor());
-        getFeed.getFeed(((EventActivity) getActivity()).getIdFromBundle())
+        events.get(((EventActivity) getActivity()).getIdFromBundle())
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Event>() {

@@ -93,8 +93,8 @@ public class RetrofitManager extends RetrofitListeners {
 
         @Override
         @GET("/events/{id}")
-        public Observable<Event> list(@Path("id") int id) {
-            return events.list(id).retryWhen(defaultRetry());
+        public Observable<Event> get(@Path("id") int id) {
+            return events.get(id).retryWhen(defaultRetry());
         }
 
         @Override
