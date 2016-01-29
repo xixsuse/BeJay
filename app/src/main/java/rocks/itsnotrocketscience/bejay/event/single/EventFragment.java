@@ -22,11 +22,11 @@ import butterknife.OnClick;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import retrofit.RetrofitError;
 import rocks.itsnotrocketscience.bejay.R;
+import rocks.itsnotrocketscience.bejay.api.ApiManager;
 import rocks.itsnotrocketscience.bejay.api.retrofit.Events;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
 import rocks.itsnotrocketscience.bejay.managers.AccountManager;
 import rocks.itsnotrocketscience.bejay.managers.RetrofitListeners;
-import rocks.itsnotrocketscience.bejay.managers.RetrofitManager;
 import rocks.itsnotrocketscience.bejay.models.Event;
 import rocks.itsnotrocketscience.bejay.models.Song;
 import rx.Subscriber;
@@ -38,7 +38,7 @@ import rx.schedulers.Schedulers;
  */
 public class EventFragment extends BaseFragment implements RetrofitListeners.SongAddedListener {
 
-    @Inject RetrofitManager retrofitManager;
+    @Inject ApiManager apiManager;
     @Inject AccountManager accountManager;
     @Inject Events events;
 
@@ -132,7 +132,7 @@ public class EventFragment extends BaseFragment implements RetrofitListeners.Son
                 .setCancelClickListener(SweetAlertDialog::cancel)
                 .setConfirmClickListener(sDialog -> {
                     sDialog.cancel();
-                    retrofitManager.addSong(new Song(etSongPicker.getText().toString()), this);
+                    apiManager.addSong(new Song(etSongPicker.getText().toString()), this);
                 })
                 .show();
     }

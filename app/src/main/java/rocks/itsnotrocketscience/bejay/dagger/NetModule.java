@@ -13,6 +13,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import rocks.itsnotrocketscience.bejay.api.ApiManager;
 import rocks.itsnotrocketscience.bejay.api.retrofit.Events;
 import rocks.itsnotrocketscience.bejay.dao.EventsDao;
 import rocks.itsnotrocketscience.bejay.event.list.EventListContract;
@@ -20,7 +21,6 @@ import rocks.itsnotrocketscience.bejay.event.list.EventListPresenterImpl;
 import rocks.itsnotrocketscience.bejay.login.LoginContract;
 import rocks.itsnotrocketscience.bejay.login.LoginPresenterImpl;
 import rocks.itsnotrocketscience.bejay.managers.AccountManager;
-import rocks.itsnotrocketscience.bejay.managers.RetrofitManager;
 
 /**
  * Created by lduf0001 on 21/12/15.
@@ -56,13 +56,13 @@ public class NetModule {
 
     @Provides
     @Singleton
-    RetrofitManager provideRetrofitManager(Application application, AccountManager accountManager) {
-        return new RetrofitManager(application,accountManager);
+    ApiManager provideRetrofitManager(Application application, AccountManager accountManager) {
+        return new ApiManager(application,accountManager);
     }
 
     @Provides @Singleton
-    Events providesEventsApi(RetrofitManager retrofitManager) {
-        return retrofitManager.events();
+    Events providesEventsApi(ApiManager apiManager) {
+        return apiManager.events();
     }
 
     @Provides EventListContract.EventListPresenter providesEventListPresenter(EventsDao eventsDao, Events networkEvents, AccountManager accountManager) {

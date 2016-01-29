@@ -18,12 +18,12 @@ import butterknife.OnClick;
 import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
 import rocks.itsnotrocketscience.bejay.main.MainActivity;
-import rocks.itsnotrocketscience.bejay.managers.RetrofitManager;
+import rocks.itsnotrocketscience.bejay.api.ApiManager;
 
 public class LoginFragment extends BaseFragment implements LoginContract.LoginView  {
 
     @Inject SharedPreferences sharedPreferences;
-    @Inject RetrofitManager retrofitManager;
+    @Inject ApiManager apiManager;
     @Inject LoginContract.LoginPresenter loginPresenter;
 
     @Bind(R.id.etUsername) EditText etUsername;
