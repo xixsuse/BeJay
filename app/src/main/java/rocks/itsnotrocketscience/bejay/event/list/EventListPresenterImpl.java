@@ -146,17 +146,6 @@ public class EventListPresenterImpl implements EventListContract.EventListPresen
         }
     }
 
-    static class Pair<T1, T2> {
-        public Pair(T1 first, T2 second) {
-            this.first = first;
-            this.second = second;
-        }
-
-        final T1 first;
-        final T2 second;
-    }
-
-
     private Func1<Observable<? extends Throwable>, Observable<?>> retry(final int count) {
         return retry -> Observable.zip(Observable.range(1, count + 1), retry, (retryCount, error) -> {
             if (retryCount <= count) {
@@ -173,16 +162,7 @@ public class EventListPresenterImpl implements EventListContract.EventListPresen
                 .retryWhen(retry(3))
                 .subscribeOn(Schedulers.io())
                 .observeOn(mainScheduler())
-                .subscribe(new Action1<Event>() {
-                    @Override
-                    public void call(Event event) {
-                        view.onChecking(event);
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                        view.onCheckInFailed(event, CHECK_IN_FAILED);
-                    }
-                });
+                .subscribe(event1 -> view.onChecking(event1)
+                        , throwable -> view.onCheckInFailed(event, CHECK_IN_FAILED));
     }
 }
