@@ -3,6 +3,7 @@ package rocks.itsnotrocketscience.bejay.api.retrofit;
 import java.util.ArrayList;
 
 import retrofit.http.GET;
+import retrofit.http.POST;
 import retrofit.http.Path;
 import rocks.itsnotrocketscience.bejay.models.Event;
 import rx.Observable;
@@ -17,4 +18,9 @@ public interface Events {
     @GET("/events/{id}")
     Observable<Event> list(@Path("id") int id);
 
+    @POST("/events/{id}/checkin_user/")
+    Observable<Event> checkIn(@Path("id") int id);
+
+    @POST("/events/{id}/checkout_user/")
+    Observable<Event> checkOut(@Path("id") int id);
 }

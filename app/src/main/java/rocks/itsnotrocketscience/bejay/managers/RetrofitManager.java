@@ -34,55 +34,6 @@ public class RetrofitManager extends RetrofitListeners {
                 .build();
     }
 
-    public void checkInUser(CheckInListener listener, final int id) {
-
-        CheckInUserToEvent checkIn = restAdapter.create(CheckInUserToEvent.class);
-        checkIn.checkIn(id, new Callback<Event>() {
-            @Override
-            public void success(Event event, Response response) {
-                listener.onCheckedIn(id, null);
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                listener.onCheckedIn(id, error);
-            }
-        });
-    }
-
-    public void checkoutUser(CheckoutListener listener, int id) {
-
-        CheckInUserToEvent checkIn = restAdapter.create(CheckInUserToEvent.class);
-        checkIn.checkOut(id, new Callback<Event>() {
-            @Override
-            public void success(Event event, Response response) {
-                listener.onCheckedOut(id, null);
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                listener.onCheckedOut(id, error);
-            }
-        });
-    }
-
-    public void getEventListFeed(EventListListener listener) {
-
-        GetEvents events = restAdapter.create(GetEvents.class);
-        events.getFeed("events", new Callback<ArrayList<Event>>() {
-            @Override
-            public void success(ArrayList<Event> eventList, Response response) {
-                listener.onEventFeedLoaded(eventList, null);
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                listener.onEventFeedLoaded(null, error);
-
-            }
-        });
-    }
-
     public void addSong(Song song, SongAddedListener songAddedListener) {
 
         PostSong postSong = restAdapter.create(PostSong.class);

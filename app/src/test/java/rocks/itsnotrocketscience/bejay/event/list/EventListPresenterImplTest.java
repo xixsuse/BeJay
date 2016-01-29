@@ -11,22 +11,19 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 
 import java.util.ArrayList;
-import java.util.NoSuchElementException;
 
 import rocks.itsnotrocketscience.bejay.api.retrofit.Events;
 import rocks.itsnotrocketscience.bejay.dao.EventsDao;
+import rocks.itsnotrocketscience.bejay.managers.AccountManager;
 import rocks.itsnotrocketscience.bejay.models.Event;
 import rx.Observable;
 import rx.schedulers.Schedulers;
 
 import static org.mockito.Matchers.eq;
-import static org.mockito.Matchers.isNull;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -38,14 +35,16 @@ public class EventListPresenterImplTest {
     @Mock EventListContract.EventListView view;
     @Mock EventsDao eventsDao;
     @Mock Events networkEvents;
+    @Mock AccountManager accountManager;
     @Captor ArgumentCaptor<ArrayList<Event>> eventsArgumentCaptor;
 
     EventListPresenterImpl eventListPresenter;
 
 
+
     @Before
     public void setUp() throws Exception {
-        eventListPresenter = spy(new EventListPresenterImpl(eventsDao, networkEvents));
+        eventListPresenter = spy(new EventListPresenterImpl(eventsDao, networkEvents, accountManager));
         doReturn(Schedulers.immediate()).when(eventListPresenter).mainScheduler();
     }
 
