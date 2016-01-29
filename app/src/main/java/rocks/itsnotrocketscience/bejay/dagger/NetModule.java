@@ -21,7 +21,6 @@ import rocks.itsnotrocketscience.bejay.login.LoginContract;
 import rocks.itsnotrocketscience.bejay.login.LoginPresenterImpl;
 import rocks.itsnotrocketscience.bejay.managers.AccountManager;
 import rocks.itsnotrocketscience.bejay.managers.RetrofitManager;
-import rocks.itsnotrocketscience.bejay.managers.ServiceFactory;
 
 /**
  * Created by lduf0001 on 21/12/15.
@@ -62,8 +61,8 @@ public class NetModule {
     }
 
     @Provides @Singleton
-    Events providesEventsApi(AccountManager accountManager) {
-        return ServiceFactory.createRetrofitServiceAuth(Events.class, accountManager.getAuthTokenInterceptor());
+    Events providesEventsApi(RetrofitManager retrofitManager) {
+        return retrofitManager.events();
     }
 
     @Provides EventListContract.EventListPresenter providesEventListPresenter(EventsDao eventsDao, Events networkEvents, AccountManager accountManager) {

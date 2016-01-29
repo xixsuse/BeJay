@@ -1,7 +1,6 @@
 package rocks.itsnotrocketscience.bejay.event.list;
 
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -34,7 +33,7 @@ public class EventListPresenterImpl implements EventListContract.EventListPresen
     final Events networkEvents;
     final PublishSubject<Boolean> onDestroy;
     final AccountManager accountManager;
-    
+
     EventListContract.EventListView view;
     ArrayList<Event> events;
     Subscriber<ArrayList<Event>> loadEventSubscriber;
@@ -146,20 +145,9 @@ public class EventListPresenterImpl implements EventListContract.EventListPresen
         }
     }
 
-    private Func1<Observable<? extends Throwable>, Observable<?>> retry(final int count) {
-        return retry -> Observable.zip(Observable.range(1, count + 1), retry, (retryCount, error) -> {
-            if (retryCount <= count) {
-                return Observable.timer(retryCount, TimeUnit.SECONDS);
-            }
-            return Observable.error(error);
-        }).flatMap(observable -> observable);
-    }
-
-
     private void doCheckIn(Event event) {
         networkEvents.checkIn(event.getId())
                 .compose(newOnDestroyTransformer())
-                .retryWhen(retry(3))
                 .subscribeOn(Schedulers.io())
                 .observeOn(mainScheduler())
                 .subscribe(event1 -> view.onChecking(event1)
