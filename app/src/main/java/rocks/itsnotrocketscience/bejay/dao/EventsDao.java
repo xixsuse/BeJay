@@ -14,7 +14,6 @@ public class EventsDao {
 
     @Inject
     public EventsDao() {
-
     }
 
     public Observable<ArrayList<Event>> all() {

@@ -1,11 +1,13 @@
 package rocks.itsnotrocketscience.bejay.event.list;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
 import rocks.itsnotrocketscience.bejay.api.retrofit.Events;
 import rocks.itsnotrocketscience.bejay.dao.EventsDao;
+import rocks.itsnotrocketscience.bejay.managers.AccountManager;
 import rocks.itsnotrocketscience.bejay.models.Event;
 import rx.Observable;
 import rx.Scheduler;
@@ -13,6 +15,7 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 import rx.subjects.PublishSubject;
 
 /**
@@ -30,15 +33,17 @@ public class EventListPresenterImpl implements EventListContract.EventListPresen
     final EventsDao eventsDao;
     final Events networkEvents;
     final PublishSubject<Boolean> onDestroy;
+    final AccountManager accountManager;
 
     EventListContract.EventListView view;
     ArrayList<Event> events;
     Subscriber<ArrayList<Event>> loadEventSubscriber;
 
     @Inject
-    public EventListPresenterImpl(EventsDao eventsDao, Events networkEvents) {
+    public EventListPresenterImpl(EventsDao eventsDao, Events networkEvents, AccountManager accountManager) {
         this.eventsDao = eventsDao;
         this.networkEvents = networkEvents;
+        this.accountManager = accountManager;
         onDestroy = PublishSubject.create();
     }
 
@@ -125,5 +130,39 @@ public class EventListPresenterImpl implements EventListContract.EventListPresen
                 return source.takeUntil(onDestroy);
             }
         };
+    }
+
+    @Override
+    public void checkIn(final Event event, boolean force) {
+        boolean checkedIn = accountManager.isCheckedIn();
+        if(!checkedIn) {
+            doCheckIn(event);
+        } else if(event.getId() == accountManager.getCheckedInEventId()) {
+            view.onChecking(event);
+        } else if(!force){
+            view.onCheckInFailed(event, CHECK_IN_CHECKOUT_NEEDED);
+        } else {
+            doCheckIn(event);
+        }
+    }
+
+    private Func1<Observable<? extends Throwable>, Observable<?>> retry(final int count) {
+        return retry -> Observable.zip(Observable.range(1, count + 1), retry, (retryCount, error) -> {
+            if (retryCount <= count) {
+                return Observable.timer(retryCount, TimeUnit.SECONDS);
+            }
+            return Observable.error(error);
+        }).flatMap(observable -> observable);
+    }
+
+
+    private void doCheckIn(Event event) {
+        networkEvents.checkIn(event.getId())
+                .compose(newOnDestroyTransformer())
+                .retryWhen(retry(3))
+                .subscribeOn(Schedulers.io())
+                .observeOn(mainScheduler())
+                .subscribe(event1 -> view.onChecking(event1)
+                        , throwable -> view.onCheckInFailed(event, CHECK_IN_FAILED));
     }
 }
