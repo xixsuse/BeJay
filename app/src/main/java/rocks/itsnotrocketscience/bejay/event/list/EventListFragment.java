@@ -20,21 +20,19 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.pedant.SweetAlert.SweetAlertDialog;
-import retrofit.RetrofitError;
 import rocks.itsnotrocketscience.bejay.R;
-import rocks.itsnotrocketscience.bejay.base.AppApplication;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
+import rocks.itsnotrocketscience.bejay.event.list.EventListContract.EventListPresenter.CheckInError;
 import rocks.itsnotrocketscience.bejay.managers.AccountManager;
 import rocks.itsnotrocketscience.bejay.managers.LaunchManager;
-import rocks.itsnotrocketscience.bejay.managers.RetrofitListeners;
 import rocks.itsnotrocketscience.bejay.managers.RetrofitManager;
 import rocks.itsnotrocketscience.bejay.models.Event;
 
-public class EventListFragment extends BaseFragment implements ItemClickListener, RetrofitManager.CheckoutListener, RetrofitListeners.CheckInListener, EventListContract.EventListView {
+public class EventListFragment extends BaseFragment implements ItemClickListener, EventListContract.EventListView {
 
     @Inject AccountManager accountManager;
     @Inject RetrofitManager retrofitManager;
-    @Inject EventListPresenterImpl eventListPresenter;
+    @Inject EventListContract.EventListPresenter eventListPresenter;
 
     @Bind(R.id.rvEventList)
     RecyclerView recyclerView;
@@ -53,6 +51,7 @@ public class EventListFragment extends BaseFragment implements ItemClickListener
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getAppApplication().getNetComponent().inject(this);
+        setRetainInstance(true);
         eventList = new ArrayList<>();
     }
 
@@ -107,14 +106,25 @@ public class EventListFragment extends BaseFragment implements ItemClickListener
 
     @Override
     public void onClick(View view, int position) {
-        boolean isCheckedIn = accountManager.isCheckedIn();
-        int eventId = eventList.get(position).getId();
-        if (!isCheckedIn) {
-            retrofitManager.checkInUser(this, eventList.get(position).getId());
-        } else if (eventId == accountManager.getCheckedInEventId()) {
-            LaunchManager.launchEvent(eventId, getActivity());
-        } else {
-            displayAlert(eventList.get(position).getId());
+        eventListPresenter.checkIn(eventList.get(position), false);
+    }
+
+    @Override
+    public void onChecking(Event event) {
+        LaunchManager.launchEvent(event.getId(), getActivity());
+    }
+
+    @Override
+    public void onCheckInFailed(Event event, @CheckInError int reason) {
+        switch (reason) {
+            case EventListContract.EventListPresenter.CHECK_IN_CHECKOUT_NEEDED : {
+                displayAlert(event);
+                break;
+            }
+            case EventListContract.EventListPresenter.CHECK_IN_FAILED : {
+                Toast.makeText(getActivity(), "check in failed", Toast.LENGTH_LONG).show();
+                break;
+            }
         }
     }
 
@@ -135,28 +145,7 @@ public class EventListFragment extends BaseFragment implements ItemClickListener
         rlError.setVisibility(View.VISIBLE);
     }
 
-    @Override
-    public void onCheckedOut(int id, RetrofitError error) {
-        if (error != null) {
-            Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_LONG).show();
-        } else {
-            accountManager.clearCheckin();
-            retrofitManager.checkInUser(this, id);
-        }
-    }
-
-    @Override
-    public void onCheckedIn(int id, RetrofitError error) {
-        if (error != null) {
-            Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(getActivity(), "Checked in", Toast.LENGTH_LONG).show();
-            accountManager.setCheckedIn(id);
-            LaunchManager.launchEvent(id, getActivity());
-        }
-    }
-
-    private void displayAlert(int id) {
+    private void displayAlert(Event event) {
         new SweetAlertDialog(getActivity(), SweetAlertDialog.WARNING_TYPE)
                 .setTitleText("Already checked in to another event!")
                 .setContentText("Go to checked in event or check in to this one?")
@@ -170,7 +159,7 @@ public class EventListFragment extends BaseFragment implements ItemClickListener
                 })
                 .setConfirmClickListener(sDialog -> {
                     sDialog.cancel();
-                    retrofitManager.checkoutUser(this, id);
+                    eventListPresenter.checkIn(event, true);
                 })
                 .show();
     }

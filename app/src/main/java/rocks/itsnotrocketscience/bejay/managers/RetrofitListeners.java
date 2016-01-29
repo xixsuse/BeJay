@@ -17,10 +17,6 @@ public class RetrofitListeners {
         void onCheckedOut(int id, RetrofitError error);
     }
 
-    public interface CheckInListener {
-        void onCheckedIn(int id, RetrofitError error);
-    }
-
     public interface SongAddedListener {
         void onSongAdded(Song song, RetrofitError error);
     }
