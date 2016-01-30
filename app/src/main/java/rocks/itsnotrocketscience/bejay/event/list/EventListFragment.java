@@ -25,13 +25,14 @@ import rocks.itsnotrocketscience.bejay.base.BaseFragment;
 import rocks.itsnotrocketscience.bejay.event.list.EventListContract.EventListPresenter.CheckInError;
 import rocks.itsnotrocketscience.bejay.managers.AccountManager;
 import rocks.itsnotrocketscience.bejay.managers.LaunchManager;
-import rocks.itsnotrocketscience.bejay.managers.RetrofitManager;
+import rocks.itsnotrocketscience.bejay.api.ApiManager;
 import rocks.itsnotrocketscience.bejay.models.Event;
 
 public class EventListFragment extends BaseFragment implements ItemClickListener, EventListContract.EventListView {
 
     @Inject AccountManager accountManager;
-    @Inject RetrofitManager retrofitManager;
+    @Inject
+    ApiManager apiManager;
     @Inject EventListContract.EventListPresenter eventListPresenter;
 
     @Bind(R.id.rvEventList)
