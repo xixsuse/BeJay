@@ -8,6 +8,8 @@ import android.preference.PreferenceManager;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.squareup.sqlbrite.BriteDatabase;
+import com.squareup.sqlbrite.SqlBrite;
 
 import javax.inject.Singleton;
 
@@ -16,6 +18,7 @@ import dagger.Provides;
 import rocks.itsnotrocketscience.bejay.api.ApiManager;
 import rocks.itsnotrocketscience.bejay.api.retrofit.Events;
 import rocks.itsnotrocketscience.bejay.dao.EventsDao;
+import rocks.itsnotrocketscience.bejay.db.ModelDbHelper;
 import rocks.itsnotrocketscience.bejay.event.list.EventListContract;
 import rocks.itsnotrocketscience.bejay.event.list.EventListPresenterImpl;
 import rocks.itsnotrocketscience.bejay.login.LoginContract;
@@ -72,5 +75,14 @@ public class NetModule {
     @Provides
     LoginContract.LoginPresenter providesLoginPresenter(Context context,SharedPreferences sharedPreferences) {
         return new LoginPresenterImpl(context, sharedPreferences);
+    }
+
+
+    @Provides @Singleton  SqlBrite providesSqlBrite() {
+        return SqlBrite.create();
+    }
+
+    @Provides @Singleton  BriteDatabase providesDb(SqlBrite sqlBrite, Context context) {
+        return sqlBrite.wrapDatabaseHelper(new ModelDbHelper(context));
     }
 }
