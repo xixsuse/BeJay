@@ -7,6 +7,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.Menu;
@@ -27,14 +30,17 @@ public class EventActivity extends BaseActivity {
 
     private static final String TAG = "EventActivity";
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+
     public static String EVENT_ID = "url_extra";
-    @Inject SharedPreferences sharedPreferences;
+
     private BroadcastReceiver mRegistrationBroadcastReceiver;
+
+    @Inject SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getAppApplication().getNetComponent().inject(this);
+        getComponent().inject(this);
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -116,5 +122,10 @@ public class EventActivity extends BaseActivity {
         return true;
     }
 
-
+    public void showFragment(Fragment fragment) {
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = manager.beginTransaction();
+        fragmentTransaction.replace(R.id.container, fragment);
+        fragmentTransaction.commit();
+    }
 }
