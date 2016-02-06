@@ -1,42 +1,27 @@
 package rocks.itsnotrocketscience.bejay.dagger;
 
-import javax.inject.Singleton;
 
 import dagger.Component;
 import rocks.itsnotrocketscience.bejay.base.BaseActivity;
-import rocks.itsnotrocketscience.bejay.base.BaseFragment;
 import rocks.itsnotrocketscience.bejay.event.list.EventListFragment;
 import rocks.itsnotrocketscience.bejay.event.single.EventActivity;
 import rocks.itsnotrocketscience.bejay.event.single.EventFragment;
-import rocks.itsnotrocketscience.bejay.gcm.RegistrationIntentService;
-import rocks.itsnotrocketscience.bejay.login.LoginFragment;
-import rocks.itsnotrocketscience.bejay.login.RegisterFragment;
+import rocks.itsnotrocketscience.bejay.home.HomeFragment;
 import rocks.itsnotrocketscience.bejay.main.NavigationDrawerFragment;
+import rocks.itsnotrocketscience.bejay.managers.Launcher;
 
-/**
- * Created by lduf0001 on 21/12/15.
- */
+@PerActivity
+@Component(modules = ActivityModule.class, dependencies = {AppComponent.class})
+public interface ActivityComponent {
+    Launcher launcher();
 
-@Singleton
-@Component(modules = {AppModule.class, NetModule.class})
-public interface NetComponent {
-
-    void inject(BaseFragment baseFragment);
-
+    /**
+     * Injectors
+     * */
     void inject(BaseActivity baseActivity);
-
-    void inject(LoginFragment loginFragment);
-
     void inject(EventListFragment eventListFragment);
-
     void inject(EventFragment eventFragment);
-
     void inject(EventActivity eventActivity);
-
-    void inject(RegisterFragment registerFragment);
-
+    void inject(HomeFragment homeFragment);
     void inject(NavigationDrawerFragment navigationDrawerFragment);
-
-    void inject(RegistrationIntentService registrationIntentService);
-
 }
