@@ -40,7 +40,7 @@ public class GcmUtils {
         return true;
     }
 
-    public boolean needsToRegister() {
+    public boolean hasRegistered() {
         return sharedPreferences.getBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false);
     }
 }

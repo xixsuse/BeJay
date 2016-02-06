@@ -7,14 +7,14 @@ import com.google.gson.annotations.SerializedName;
  */
 public class GcmRegistrationDetails {
 
-    @SerializedName("device_id")
-    private final String deviceId;
+    @SerializedName("dev_id")
+    private final String devId;
     @SerializedName("reg_id")
     private final String regId;
     private final String name;
 
-    public GcmRegistrationDetails(String deviceId, String regId, String name) {
-        this.deviceId = deviceId;
+    public GcmRegistrationDetails(String devId, String regId, String name) {
+        this.devId = devId;
         this.regId = regId;
         this.name = name;
     }

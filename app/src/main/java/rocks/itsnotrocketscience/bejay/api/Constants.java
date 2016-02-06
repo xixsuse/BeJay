@@ -11,6 +11,7 @@ public interface Constants {
     String EVENT_PK = "event_pk";
     String EMAIL = "email";
     String USERNAME = "username";
+    String BASE_URL = BuildConfig.BASE_URL;
     String BASE_API = "dukebox/";
     String API = BuildConfig.BASE_URL + BASE_API;
     String TOKEN_AUTH = "api-token-auth";

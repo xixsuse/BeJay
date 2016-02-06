@@ -66,8 +66,8 @@ public class RegistrationIntentService extends IntentService {
     }
 
     private void sendRegistrationToServer(String token) {
-        GcmRegistrationDetails details = new GcmRegistrationDetails("test", token, "test");
-        GcmRegistration register = ServiceFactory.createRetrofitService(GcmRegistration.class);
+        GcmRegistrationDetails details = new GcmRegistrationDetails("1", token, "test");
+        GcmRegistration register = ServiceFactory.createGenericRetrofitServiceAuth(GcmRegistration.class);
         register.register(details)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())

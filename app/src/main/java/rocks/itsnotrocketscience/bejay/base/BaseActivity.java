@@ -1,9 +1,17 @@
 package rocks.itsnotrocketscience.bejay.base;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+
+import com.facebook.appevents.AppEventsLogger;
 
 import javax.inject.Inject;
 
@@ -11,6 +19,9 @@ import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.dagger.ActivityComponent;
 import rocks.itsnotrocketscience.bejay.dagger.ActivityModule;
 import rocks.itsnotrocketscience.bejay.dagger.DaggerActivityComponent;
+import rocks.itsnotrocketscience.bejay.gcm.GcmUtils;
+import rocks.itsnotrocketscience.bejay.gcm.QuickstartPreferences;
+import rocks.itsnotrocketscience.bejay.gcm.RegistrationIntentService;
 import rocks.itsnotrocketscience.bejay.main.NavigationDrawerFragment;
 import rocks.itsnotrocketscience.bejay.managers.AccountManager;
 import rocks.itsnotrocketscience.bejay.managers.Launcher;
@@ -22,13 +33,14 @@ public class BaseActivity extends InjectedActivity<ActivityComponent> {
 
     private ActivityModule activityModule;
     private ActivityComponent activityComponent;
+    private BroadcastReceiver mRegistrationBroadcastReceiver;
 
 
     public Toolbar toolbar;
     protected NavigationDrawerFragment mNavigationDrawerFragment;
 
     @Inject Launcher launcher;
-    @Inject SharedPreferences sharedPreferences;
+    @Inject protected SharedPreferences sharedPreferences;
     @Inject AccountManager accountManager;
 
     public BaseActivity() {
@@ -55,6 +67,22 @@ public class BaseActivity extends InjectedActivity<ActivityComponent> {
 
         mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        setupGcm();
+        mRegistrationBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+                boolean sentToken = sharedPreferences
+                        .getBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false);
+                if (sentToken) {
+                    Log.d("woo hoo", "woo hoo");
+                } else {
+                    Log.d("boo hoo", "boo hoo");
+                }
+            }
+        };
+
     }
 
     @Override
@@ -63,5 +91,31 @@ public class BaseActivity extends InjectedActivity<ActivityComponent> {
                 .activityModule(activityModule)
                 .appComponent(getAppComponent())
                 .build();
+    }
+
+    private void setupGcm() {
+        GcmUtils gcmUtils = new GcmUtils(sharedPreferences);
+        if (!gcmUtils.hasRegistered()&& gcmUtils.checkPlayServices(this)) {
+
+            Intent intent = new Intent(this, RegistrationIntentService.class);
+            startService(intent);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Logs 'app deactivate' App Event.
+        AppEventsLogger.activateApp(this);
+        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+                new IntentFilter(QuickstartPreferences.REGISTRATION_COMPLETE));
+    }
+
+    @Override
+    protected void onPause() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
+        super.onPause();
+        // Logs 'app deactivate' App Event.
+        AppEventsLogger.activateApp(this);
     }
 }
