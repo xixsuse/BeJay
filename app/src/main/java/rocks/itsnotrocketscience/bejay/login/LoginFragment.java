@@ -1,6 +1,5 @@
 package rocks.itsnotrocketscience.bejay.login;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,15 +15,17 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rocks.itsnotrocketscience.bejay.R;
-import rocks.itsnotrocketscience.bejay.base.BaseFragment;
-import rocks.itsnotrocketscience.bejay.main.MainActivity;
 import rocks.itsnotrocketscience.bejay.api.ApiManager;
+import rocks.itsnotrocketscience.bejay.base.BaseFragment;
+import rocks.itsnotrocketscience.bejay.dagger.LoginComponent;
+import rocks.itsnotrocketscience.bejay.managers.Launcher;
 
-public class LoginFragment extends BaseFragment implements LoginContract.LoginView  {
+public class LoginFragment extends BaseFragment<LoginComponent> implements LoginContract.LoginView  {
 
     @Inject SharedPreferences sharedPreferences;
     @Inject ApiManager apiManager;
     @Inject LoginContract.LoginPresenter loginPresenter;
+    @Inject Launcher launcher;
 
     @Bind(R.id.etUsername) EditText etUsername;
     @Bind(R.id.etPassword) EditText etPassword;
@@ -37,7 +38,7 @@ public class LoginFragment extends BaseFragment implements LoginContract.LoginVi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getAppApplication().getNetComponent().inject(this);
+        getComponent().inject(this);
     }
 
     @Override
@@ -60,9 +61,7 @@ public class LoginFragment extends BaseFragment implements LoginContract.LoginVi
 
     @Override
     public void onLoggedIn() {
-        Toast.makeText(getActivity(), "Logged in", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(getActivity(), MainActivity.class);
-        startActivity(intent);
+       launcher.openHome();
     }
 
     @Override

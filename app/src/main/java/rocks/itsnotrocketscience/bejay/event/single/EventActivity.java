@@ -7,6 +7,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.Menu;
@@ -21,14 +24,21 @@ import rocks.itsnotrocketscience.bejay.gcm.QuickstartPreferences;
 public class EventActivity extends BaseActivity {
 
     private static final String TAG = "EventActivity";
+<<<<<<< HEAD
+=======
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+
+>>>>>>> eb28e29155c0ab9df248f9ae0d53db0c99f4351d
     public static String EVENT_ID = "url_extra";
-    @Inject SharedPreferences sharedPreferences;
+
     private BroadcastReceiver mRegistrationBroadcastReceiver;
+
+    @Inject SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getAppApplication().getNetComponent().inject(this);
+        getComponent().inject(this);
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -82,4 +92,35 @@ public class EventActivity extends BaseActivity {
         super.onPause();
     }
 
+<<<<<<< HEAD
+=======
+
+    /**
+     * Check the device to make sure it has the Google Play Services APK. If
+     * it doesn't, display a dialog that allows users to download the APK from
+     * the Google Play Store or enable it in the device's system settings.
+     */
+    private boolean checkPlayServices() {
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
+                        .show();
+            } else {
+                Log.i(TAG, "This device is not supported.");
+                finish();
+            }
+            return false;
+        }
+        return true;
+    }
+
+    public void showFragment(Fragment fragment) {
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = manager.beginTransaction();
+        fragmentTransaction.replace(R.id.container, fragment);
+        fragmentTransaction.commit();
+    }
+>>>>>>> eb28e29155c0ab9df248f9ae0d53db0c99f4351d
 }

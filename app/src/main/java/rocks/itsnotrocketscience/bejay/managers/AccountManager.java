@@ -15,6 +15,8 @@ import rocks.itsnotrocketscience.bejay.api.retrofit.AuthInterceptor;
  */
 public class AccountManager {
 
+    public static final int EVENT_NONE = -1;
+
     SharedPreferences sharedPreferences;
 
     public AccountManager(SharedPreferences sharedPreferences) {
@@ -44,7 +46,7 @@ public class AccountManager {
     }
 
     public int getCheckedInEventId() {
-        return sharedPreferences.getInt(Constants.EVENT_PK, -1);
+        return sharedPreferences.getInt(Constants.EVENT_PK, EVENT_NONE);
     }
 
     public void clearCheckin() {

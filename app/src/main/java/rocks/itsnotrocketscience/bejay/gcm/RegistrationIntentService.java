@@ -38,7 +38,7 @@ public class RegistrationIntentService extends IntentService {
     @Override
     public void onCreate() {
         super.onCreate();
-        ((AppApplication) getApplication()).getNetComponent().inject(this);
+        ((AppApplication) getApplication()).getAppComponent().inject(this);
     }
 
     @Override
