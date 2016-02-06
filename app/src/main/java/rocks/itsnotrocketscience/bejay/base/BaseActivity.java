@@ -24,7 +24,7 @@ public class BaseActivity extends AppCompatActivity {
 
     public Toolbar toolbar;
     protected NavigationDrawerFragment mNavigationDrawerFragment;
-    @Inject SharedPreferences sharedPreferences;
+    @Inject protected SharedPreferences sharedPreferences;
     @Inject AccountManager accountManager;
 
     @Override
