@@ -35,7 +35,7 @@ public class ServiceFactory {
         return service;
     }
 
-    public static <T> T createGenericRetrofitServiceAuth(final Class<T> clazz) {
+    public static <T> T createGcmRetrofitService(final Class<T> clazz) {
         final RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(Constants.BASE_URL)
                 .setLogLevel(RestAdapter.LogLevel.FULL)

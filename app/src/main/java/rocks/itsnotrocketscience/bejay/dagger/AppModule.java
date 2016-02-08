@@ -18,6 +18,7 @@ import dagger.Provides;
 import rocks.itsnotrocketscience.bejay.api.ApiManager;
 import rocks.itsnotrocketscience.bejay.api.retrofit.Events;
 import rocks.itsnotrocketscience.bejay.db.ModelDbHelper;
+import rocks.itsnotrocketscience.bejay.gcm.GcmUtils;
 import rocks.itsnotrocketscience.bejay.managers.AccountManager;
 
 /**
@@ -68,5 +69,9 @@ public class AppModule {
 
     @Provides @Singleton Events providesEventsApi(ApiManager apiManager) {
         return apiManager.events();
+    }
+
+    @Provides @Singleton GcmUtils providesGcmUtils(SharedPreferences sharedPreferences) {
+        return new GcmUtils(sharedPreferences);
     }
 }

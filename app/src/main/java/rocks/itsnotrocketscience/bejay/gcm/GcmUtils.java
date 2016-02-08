@@ -13,12 +13,12 @@ import javax.inject.Inject;
  * Created by centralstation on 2/6/16.
  */
 public class GcmUtils {
+
     private static final String TAG = "GcmUtils";
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    private final SharedPreferences sharedPreferences;
 
-
-    SharedPreferences sharedPreferences;
-
+    @Inject
     public GcmUtils(SharedPreferences sharedPreferences) {
         this.sharedPreferences = sharedPreferences;
     }
