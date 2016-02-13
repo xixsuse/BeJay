@@ -109,12 +109,14 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Ev
     public void onResume() {
         super.onResume();
         presenter.onViewAttached(this);
+        presenter.registerUpdateReceiver(this.getActivity());
     }
 
     @Override
     public void onPause() {
         super.onPause();
         presenter.onViewDetached();
+        presenter.unregisterUpdateReceiver(this.getActivity());
     }
 
     @Override

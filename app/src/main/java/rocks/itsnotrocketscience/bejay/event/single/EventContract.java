@@ -1,5 +1,7 @@
 package rocks.itsnotrocketscience.bejay.event.single;
 
+import android.content.Context;
+
 import rocks.itsnotrocketscience.bejay.models.Event;
 import rocks.itsnotrocketscience.bejay.models.Song;
 
@@ -18,6 +20,8 @@ public interface EventContract {
     interface EventPresenter {
         void onViewAttached(EventView view);
         void onViewDetached();
+        void registerUpdateReceiver(Context context);
+        void unregisterUpdateReceiver(Context context);
         void onDestroy();
         void loadEvent(int id);
         void adSong(Song song);

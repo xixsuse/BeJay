@@ -1,6 +1,10 @@
 package rocks.itsnotrocketscience.bejay.event.single;
 
-import android.widget.Toast;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.util.Log;
 
 import javax.inject.Inject;
 
@@ -17,6 +21,7 @@ import rx.schedulers.Schedulers;
  */
 public class EventPresenterImpl implements EventContract.EventPresenter {
 
+    private static final String TAG = "EventPresenterImpl";
     EventContract.EventView view;
     Events event;
 
@@ -28,7 +33,6 @@ public class EventPresenterImpl implements EventContract.EventPresenter {
     @Override
     public void onViewAttached(EventContract.EventView view) {
         this.view=view;
-
     }
 
     public void onViewDetached() {
@@ -36,12 +40,10 @@ public class EventPresenterImpl implements EventContract.EventPresenter {
     }
 
     @Override
-    public void onDestroy() {
-    }
+    public void onDestroy() {}
 
     @Override
     public void loadEvent(int id) {
-
         event.get(id)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -63,7 +65,6 @@ public class EventPresenterImpl implements EventContract.EventPresenter {
 
     @Override
     public void adSong(Song song) {
-
         event.postSong(song)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -82,4 +83,21 @@ public class EventPresenterImpl implements EventContract.EventPresenter {
                     }
                 });
     }
+
+    @Override
+    public void registerUpdateReceiver(Context context) {
+        context.registerReceiver(mMessageReceiver, new IntentFilter(EventActivity.EVENT_RECEIVER_ID));
+    }
+
+    @Override
+    public void unregisterUpdateReceiver(Context context) {
+        context.registerReceiver(mMessageReceiver, new IntentFilter(EventActivity.EVENT_RECEIVER_ID));
+    }
+
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.d(TAG, "onReceived: ");
+        }
+    };
 }

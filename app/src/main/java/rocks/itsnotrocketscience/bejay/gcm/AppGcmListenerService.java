@@ -29,6 +29,7 @@ import android.util.Log;
 import com.google.android.gms.gcm.GcmListenerService;
 
 import rocks.itsnotrocketscience.bejay.R;
+import rocks.itsnotrocketscience.bejay.event.single.EventActivity;
 import rocks.itsnotrocketscience.bejay.main.MainActivity;
 
 public class AppGcmListenerService extends GcmListenerService {
@@ -46,7 +47,8 @@ public class AppGcmListenerService extends GcmListenerService {
         } else {
             // normal downstream message.
         }
-
+        Intent intent = new Intent(EventActivity.EVENT_RECEIVER_ID);
+        this.sendBroadcast(intent);
         sendNotification(message);
     }
 

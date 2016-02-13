@@ -23,6 +23,7 @@ import rocks.itsnotrocketscience.bejay.gcm.RegistrationIntentService;
 public class EventActivity extends BaseActivity {
 
     private static final String TAG = "EventActivity";
+    public static final String EVENT_RECEIVER_ID = "event_receiver_id";
     public static String EVENT_ID = "url_extra";
 
     @Inject SharedPreferences sharedPreferences;
@@ -70,21 +71,16 @@ public class EventActivity extends BaseActivity {
         String token = sharedPreferences.getString(RegistrationIntentService.GCM_TOKEN, null);
         GcmPubSub pubSub = GcmPubSub.getInstance(this);
         int id = getIdFromBundle();
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                if (token != null && id >= 0) {
-
-                    try {
-                        pubSub.subscribe(token, "/topics/" + id, null);
-                        Log.d(TAG, "subscribeTopics: sucess");
-                    } catch (IOException e) {
-                        Log.d(TAG, "subscribeTopics: fail");
-                    }
+        Thread thread = new Thread(() -> {
+            if (token != null && id >= 0) {
+                try {
+                    pubSub.subscribe(token, "/topics/" + id, null);
+                    Log.d(TAG, "subscribeTopics: sucess");
+                } catch (IOException e) {
+                    Log.d(TAG, "subscribeTopics: fail");
                 }
             }
         });
         thread.start();
-
     }
 }
