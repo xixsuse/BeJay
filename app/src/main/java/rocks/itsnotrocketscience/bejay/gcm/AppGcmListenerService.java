@@ -31,9 +31,9 @@ import com.google.android.gms.gcm.GcmListenerService;
 import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.main.MainActivity;
 
-public class MyGcmListenerService extends GcmListenerService {
+public class AppGcmListenerService extends GcmListenerService {
 
-    private static final String TAG = "MyGcmListenerService";
+    private static final String TAG = "AppGcmListenerService";
 
     @Override
     public void onMessageReceived(String from, Bundle data) {
