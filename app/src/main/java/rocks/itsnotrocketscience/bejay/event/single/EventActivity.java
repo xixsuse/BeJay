@@ -68,14 +68,23 @@ public class EventActivity extends BaseActivity {
 
     private void subscribeToTopic() {
         String token = sharedPreferences.getString(RegistrationIntentService.GCM_TOKEN, null);
+        GcmPubSub pubSub = GcmPubSub.getInstance(this);
         int id = getIdFromBundle();
-        if(token!=null && id>=0){
-            GcmPubSub pubSub = GcmPubSub.getInstance(this);
-            try {
-                pubSub.subscribe(token, "/topics/" + id, null);
-            } catch (IOException e) {
-                Log.d(TAG, "subscribeTopics: fail");
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (token != null && id >= 0) {
+
+                    try {
+                        pubSub.subscribe(token, "/topics/" + id, null);
+                        Log.d(TAG, "subscribeTopics: sucess");
+                    } catch (IOException e) {
+                        Log.d(TAG, "subscribeTopics: fail");
+                    }
+                }
             }
-        }
+        });
+        thread.start();
+
     }
 }

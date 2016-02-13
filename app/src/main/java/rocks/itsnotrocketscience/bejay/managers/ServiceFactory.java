@@ -28,6 +28,7 @@ public class ServiceFactory {
     public static <T> T createRetrofitServiceAuth(final Class<T> clazz, RequestInterceptor authInterceptor) {
         final RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(Constants.API)
+                .setLogLevel(RestAdapter.LogLevel.FULL)
                 .setRequestInterceptor(authInterceptor)
                 .build();
         T service = restAdapter.create(clazz);
