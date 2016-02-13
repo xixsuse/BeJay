@@ -53,9 +53,6 @@ public class RegistrationIntentService extends IntentService {
 
             sendRegistrationToServer(token);
 
-            // Subscribe to topic channels
-            subscribeTopics(token);
-
             sharedPreferences.edit().putBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, true).apply();
             sharedPreferences.edit().putString(GCM_TOKEN, token).apply();
 
@@ -89,13 +86,6 @@ public class RegistrationIntentService extends IntentService {
                         LocalBroadcastManager.getInstance(RegistrationIntentService.this).sendBroadcast(registrationComplete);
                     }
                 });
-    }
-
-    private void subscribeTopics(String token) throws IOException {
-        GcmPubSub pubSub = GcmPubSub.getInstance(this);
-//        for (String topic : TOPICS) {
-//            pubSub.subscribe(token, "/topics/" + topic, null);
-//        }
     }
 
 }

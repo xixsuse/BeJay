@@ -6,13 +6,19 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.google.android.gms.gcm.GcmPubSub;
+
+import java.io.IOException;
 
 import javax.inject.Inject;
 
 import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.base.BaseActivity;
+import rocks.itsnotrocketscience.bejay.gcm.RegistrationIntentService;
 
 public class EventActivity extends BaseActivity {
 
@@ -25,6 +31,7 @@ public class EventActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getComponent().inject(this);
+        subscribeToTopic();
         showFragment(EventFragment.newInstance());
 
     }
@@ -57,5 +64,18 @@ public class EventActivity extends BaseActivity {
         FragmentTransaction fragmentTransaction = manager.beginTransaction();
         fragmentTransaction.replace(R.id.container, fragment);
         fragmentTransaction.commit();
+    }
+
+    private void subscribeToTopic() {
+        String token = sharedPreferences.getString(RegistrationIntentService.GCM_TOKEN, null);
+        int id = getIdFromBundle();
+        if(token!=null && id>=0){
+            GcmPubSub pubSub = GcmPubSub.getInstance(this);
+            try {
+                pubSub.subscribe(token, "/topics/" + id, null);
+            } catch (IOException e) {
+                Log.d(TAG, "subscribeTopics: fail");
+            }
+        }
     }
 }
