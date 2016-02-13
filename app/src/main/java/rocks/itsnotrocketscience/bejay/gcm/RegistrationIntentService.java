@@ -27,7 +27,7 @@ import rx.schedulers.Schedulers;
 public class RegistrationIntentService extends IntentService {
 
     private static final String TAG = "RegIntentService";
-    private static final String[] TOPICS = {"global"};
+    public static final String GCM_TOKEN = "GcmToken";
     @Inject
     SharedPreferences sharedPreferences;
 
@@ -57,6 +57,7 @@ public class RegistrationIntentService extends IntentService {
             subscribeTopics(token);
 
             sharedPreferences.edit().putBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, true).apply();
+            sharedPreferences.edit().putString(GCM_TOKEN, token).apply();
 
         } catch (Exception e) {
             Log.d(TAG, "Failed to complete token refresh", e);
@@ -92,9 +93,9 @@ public class RegistrationIntentService extends IntentService {
 
     private void subscribeTopics(String token) throws IOException {
         GcmPubSub pubSub = GcmPubSub.getInstance(this);
-        for (String topic : TOPICS) {
-            pubSub.subscribe(token, "/topics/" + topic, null);
-        }
+//        for (String topic : TOPICS) {
+//            pubSub.subscribe(token, "/topics/" + topic, null);
+//        }
     }
 
 }

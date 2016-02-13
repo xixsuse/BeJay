@@ -36,12 +36,9 @@ public class EventListFragment extends BaseFragment<ActivityComponent> implement
     @Inject EventListContract.EventListPresenter eventListPresenter;
     @Inject Launcher launcher;
 
-    @Bind(R.id.rvEventList)
-    RecyclerView recyclerView;
-    @Bind(R.id.rlError)
-    RelativeLayout rlError;
-    @Bind(R.id.btnRetry)
-    Button btnRetry;
+    @Bind(R.id.rvEventList) RecyclerView recyclerView;
+    @Bind(R.id.rlError) RelativeLayout rlError;
+    @Bind(R.id.btnRetry) Button btnRetry;
     EventListAdapter adapter;
     List<Event> eventList;
 

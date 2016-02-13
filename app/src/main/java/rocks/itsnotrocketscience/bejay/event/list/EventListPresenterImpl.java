@@ -20,6 +20,7 @@ import static rocks.itsnotrocketscience.bejay.managers.AccountManager.EVENT_NONE
 
 /**
  * Created by nemi on 27/01/2016.
+ *
  */
 public class EventListPresenterImpl implements EventListContract.EventListPresenter {
     static final Func1<List<Event>, Boolean> VALID_EVENT_LIST_FILTER = events -> events != null && events.size() != 0;
@@ -115,7 +116,7 @@ public class EventListPresenterImpl implements EventListContract.EventListPresen
         }).compose(newOnDestroyTransformer())
                 .subscribeOn(Schedulers.io())
                 .observeOn(mainScheduler())
-                .doOnNext(event1 -> accountManager.setCheckedIn(event1.getId()))
+                .doOnNext(event1 -> accountManager.setCheckedIn(event.getId()))
                 .subscribe(event1 -> view.onChecking(event1)
                         , throwable -> view.onCheckInFailed(event, CHECK_IN_FAILED));
     }
