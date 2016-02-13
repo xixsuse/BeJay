@@ -14,7 +14,7 @@ android {
         versionCode 1
         multiDexEnabled true
         versionName "1.0"
-        buildConfigField "String", "BASE_URL", "\"dukebox.itsnotrocketscience.rocks/\""
+        buildConfigField "String", "BASE_URL", "\"http://dukebox.itsnotrocketscience.rocks/\""
     }
     buildTypes {
         release {
