@@ -1,17 +1,11 @@
 package rocks.itsnotrocketscience.bejay.event.single;
 
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -19,7 +13,6 @@ import javax.inject.Inject;
 
 import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.base.BaseActivity;
-import rocks.itsnotrocketscience.bejay.gcm.QuickstartPreferences;
 
 public class EventActivity extends BaseActivity {
 
