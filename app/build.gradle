@@ -20,6 +20,11 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "retrofit.RestAdapter.LogLevel", "RETROFIT_LOG_LEVEL", "retrofit.RestAdapter.LogLevel.NONE"
+        }
+
+        debug {
+            buildConfigField "retrofit.RestAdapter.LogLevel", "RETROFIT_LOG_LEVEL", "retrofit.RestAdapter.LogLevel.FULL"
         }
     }
 
@@ -38,14 +43,15 @@ android {
 
     productFlavors {
         lan {
-            buildConfigField "String", "BASE_URL", "\"http://192.168.0.24:8000/\""
+            buildConfigField "String", "BASE_URL", lanServerUrl
         }
 
         inet {
-            buildConfigField "String", "BASE_URL", "\"http://dukebox.itsnotrocketscience.rocks/\""
+            buildConfigField "String", "BASE_URL", "\"http://dukebox.itsnotrocketscience.rocks/dukebox/\""
         }
     }
 }
+
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')

@@ -34,7 +34,7 @@ public class ApiManager extends RetrofitListeners {
         application = (AppApplication) context.getApplicationContext();
         restAdapter = new RestAdapter.Builder()
                 .setRequestInterceptor(accountManager.getAuthTokenInterceptor())
-                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .setLogLevel(Constants.RETROFIT_LOG_LEVEL)
                 .setEndpoint(Constants.API)
                 .build();
         this.accountManager = accountManager;
