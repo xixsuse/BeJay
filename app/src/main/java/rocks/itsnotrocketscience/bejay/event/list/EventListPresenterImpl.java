@@ -80,7 +80,6 @@ public class EventListPresenterImpl implements EventListContract.EventListPresen
     }
 
     private Observable<List<Event>> loadEventsFromDisk() {
-
         return eventsDao.all().doOnNext(events -> this.events = events);
     }
 
@@ -117,7 +116,7 @@ public class EventListPresenterImpl implements EventListContract.EventListPresen
                 .subscribeOn(Schedulers.io())
                 .observeOn(mainScheduler())
                 .doOnNext(event1 -> accountManager.setCheckedIn(event.getId()))
-                .subscribe(event1 -> view.onChecking(event1)
-                        , throwable -> view.onCheckInFailed(event, CHECK_IN_FAILED));
+                .subscribe(event1 -> view.onChecking(event)
+               , throwable -> view.onCheckInFailed(event, CHECK_IN_FAILED));
     }
 }
