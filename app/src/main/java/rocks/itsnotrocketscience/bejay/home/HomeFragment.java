@@ -5,17 +5,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import javax.inject.Inject;
+
 import at.markushi.ui.CircleButton;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
+import rocks.itsnotrocketscience.bejay.dagger.ActivityComponent;
 import rocks.itsnotrocketscience.bejay.event.list.EventListFragment;
+import rocks.itsnotrocketscience.bejay.managers.Launcher;
 
-public class HomeFragment extends BaseFragment {
-    @Bind(R.id.btFindEvents)
-    CircleButton btFindEvents;
+public class HomeFragment extends BaseFragment<ActivityComponent> {
+
+    @Inject Launcher launcher;
+    @Bind(R.id.btFindEvents)CircleButton btFindEvents;
 
     public static HomeFragment newInstance() {
         return new HomeFragment();
@@ -28,6 +33,7 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getComponent().inject(this);
     }
 
     @Override
@@ -40,7 +46,7 @@ public class HomeFragment extends BaseFragment {
 
     @OnClick(R.id.btFindEvents)
     public void findEvents() {
-        showFragment(EventListFragment.newInstance());
+        launcher.openEventList();
     }
 
 }

@@ -1,7 +1,7 @@
 package rocks.itsnotrocketscience.bejay.event.list;
 
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,26 +21,24 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import rocks.itsnotrocketscience.bejay.R;
+import rocks.itsnotrocketscience.bejay.api.ApiManager;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
+import rocks.itsnotrocketscience.bejay.dagger.ActivityComponent;
 import rocks.itsnotrocketscience.bejay.event.list.EventListContract.EventListPresenter.CheckInError;
 import rocks.itsnotrocketscience.bejay.managers.AccountManager;
-import rocks.itsnotrocketscience.bejay.managers.LaunchManager;
-import rocks.itsnotrocketscience.bejay.api.ApiManager;
+import rocks.itsnotrocketscience.bejay.managers.Launcher;
 import rocks.itsnotrocketscience.bejay.models.Event;
 
-public class EventListFragment extends BaseFragment implements ItemClickListener, EventListContract.EventListView {
+public class EventListFragment extends BaseFragment<ActivityComponent> implements ItemClickListener, EventListContract.EventListView {
 
     @Inject AccountManager accountManager;
-    @Inject
-    ApiManager apiManager;
+    @Inject ApiManager apiManager;
     @Inject EventListContract.EventListPresenter eventListPresenter;
+    @Inject Launcher launcher;
 
-    @Bind(R.id.rvEventList)
-    RecyclerView recyclerView;
-    @Bind(R.id.rlError)
-    RelativeLayout rlError;
-    @Bind(R.id.btnRetry)
-    Button btnRetry;
+    @Bind(R.id.rvEventList) RecyclerView recyclerView;
+    @Bind(R.id.rlError) RelativeLayout rlError;
+    @Bind(R.id.btnRetry) Button btnRetry;
     EventListAdapter adapter;
     List<Event> eventList;
 
@@ -51,7 +49,7 @@ public class EventListFragment extends BaseFragment implements ItemClickListener
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getAppApplication().getNetComponent().inject(this);
+        getComponent().inject(this);
         setRetainInstance(true);
         eventList = new ArrayList<>();
     }
@@ -112,7 +110,7 @@ public class EventListFragment extends BaseFragment implements ItemClickListener
 
     @Override
     public void onChecking(Event event) {
-        LaunchManager.launchEvent(event.getId(), getActivity());
+        launcher.openEvent(event.getId());
     }
 
     @Override
@@ -155,8 +153,7 @@ public class EventListFragment extends BaseFragment implements ItemClickListener
                 .showCancelButton(true)
                 .setCancelClickListener(sDialog -> {
                     sDialog.cancel();
-                    LaunchManager.launchEvent(accountManager.getCheckedInEventId(), getActivity());
-
+                    launcher.openEvent(accountManager.getCheckedInEventId());
                 })
                 .setConfirmClickListener(sDialog -> {
                     sDialog.cancel();

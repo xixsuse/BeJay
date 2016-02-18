@@ -1,32 +1,34 @@
 package rocks.itsnotrocketscience.bejay.base;
 
 import android.app.Application;
-import android.preference.PreferenceManager;
 
+import rocks.itsnotrocketscience.bejay.dagger.AppComponent;
 import rocks.itsnotrocketscience.bejay.dagger.AppModule;
-import rocks.itsnotrocketscience.bejay.dagger.NetComponent;
-import rocks.itsnotrocketscience.bejay.dagger.NetModule;
-import rocks.itsnotrocketscience.bejay.managers.AccountManager;
+import rocks.itsnotrocketscience.bejay.dagger.DaggerAppComponent;
 
 /**
  * Created by centralstation on 11/09/15.
  */
 public class AppApplication extends Application {
 
-    private NetComponent component;
+    /**
+     * App module instantiated at construction time. NOTE: do not use this instance before onCreate is called!!!!
+     * */
+    private final AppModule appModule;
+    private AppComponent appComponent;
+
+
+    public AppApplication() {
+        appModule = new AppModule(this);
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        component = rocks.itsnotrocketscience.bejay.dagger.DaggerNetComponent.builder()
-                // list of modules that are part of this component need to be created here too
-                .appModule(new AppModule(this))
-                .netModule(new NetModule("https://api.github.com"))
-                .build();
-
+        appComponent = DaggerAppComponent.builder().appModule(appModule).build();
     }
 
-    public NetComponent getNetComponent() {
-        return component;
+    public AppComponent getAppComponent() {
+        return appComponent;
     }
 }

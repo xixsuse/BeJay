@@ -25,6 +25,7 @@ import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.api.ApiManager;
 import rocks.itsnotrocketscience.bejay.api.retrofit.Events;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
+import rocks.itsnotrocketscience.bejay.dagger.ActivityComponent;
 import rocks.itsnotrocketscience.bejay.managers.AccountManager;
 import rocks.itsnotrocketscience.bejay.managers.RetrofitListeners;
 import rocks.itsnotrocketscience.bejay.models.Event;
@@ -36,7 +37,7 @@ import rx.schedulers.Schedulers;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class EventFragment extends BaseFragment implements RetrofitListeners.SongAddedListener {
+public class EventFragment extends BaseFragment<ActivityComponent> implements RetrofitListeners.SongAddedListener {
 
     @Inject ApiManager apiManager;
     @Inject AccountManager accountManager;
@@ -83,7 +84,7 @@ public class EventFragment extends BaseFragment implements RetrofitListeners.Son
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        getAppApplication().getNetComponent().inject(this);
+        getComponent().inject(this);
         super.onCreate(savedInstanceState);
     }
 

@@ -1,8 +1,8 @@
 package rocks.itsnotrocketscience.bejay.login;
 
 import android.content.Intent;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,26 +15,33 @@ import com.facebook.FacebookSdk;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
+import javax.inject.Inject;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rocks.itsnotrocketscience.bejay.R;
-import rocks.itsnotrocketscience.bejay.managers.LaunchManager;
+import rocks.itsnotrocketscience.bejay.base.BaseFragment;
+import rocks.itsnotrocketscience.bejay.dagger.LoginComponent;
+import rocks.itsnotrocketscience.bejay.managers.Launcher;
 
 
 /**
  * This class does not inherit from base because facebook login requires support.v4.app.Fragment
  */
-public class LoginOrRegisterFragment extends Fragment {
+public class LoginOrRegisterFragment extends BaseFragment<LoginComponent> {
+
+    @Inject Launcher launcher;
 
     CallbackManager callbackManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getComponent().inject(this);
+
         FacebookSdk.sdkInitialize(getActivity().getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
-
     }
 
     public static final String IS_LOGGED_IN = "isLoggedIn";
@@ -79,12 +86,12 @@ public class LoginOrRegisterFragment extends Fragment {
 
     @OnClick(R.id.btRegister)
     public void register() {
-        LaunchManager.showFragment(RegisterFragment.newInstance(), getActivity().getFragmentManager());
+        launcher.openRegistration();
     }
 
     @OnClick(R.id.btLogin)
     public void login() {
-        LaunchManager.showFragment(LoginFragment.newInstance(), getActivity().getFragmentManager());
+        launcher.openLogin();
     }
 
     @Override

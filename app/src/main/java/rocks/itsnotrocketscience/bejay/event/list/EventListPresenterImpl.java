@@ -114,8 +114,8 @@ public class EventListPresenterImpl implements EventListContract.EventListPresen
         }).compose(newOnDestroyTransformer())
                 .subscribeOn(Schedulers.io())
                 .observeOn(mainScheduler())
-                .doOnNext(event1 -> accountManager.setCheckedIn(event1.getId()))
-                .subscribe(event1 -> view.onChecking(event1)
+                .doOnNext(event1 -> accountManager.setCheckedIn(event.getId()))
+                .subscribe(event1 -> view.onChecking(event)
                         , throwable -> view.onCheckInFailed(event, CHECK_IN_FAILED));
     }
 }
