@@ -7,6 +7,7 @@ import rocks.itsnotrocketscience.bejay.event.list.EventListFragment;
 import rocks.itsnotrocketscience.bejay.event.single.EventActivity;
 import rocks.itsnotrocketscience.bejay.event.single.EventFragment;
 import rocks.itsnotrocketscience.bejay.home.HomeFragment;
+import rocks.itsnotrocketscience.bejay.main.MainActivity;
 import rocks.itsnotrocketscience.bejay.main.NavigationDrawerFragment;
 import rocks.itsnotrocketscience.bejay.managers.Launcher;
 
@@ -19,6 +20,7 @@ public interface ActivityComponent {
      * Injectors
      * */
     void inject(BaseActivity baseActivity);
+    void inject(MainActivity mainActivity);
     void inject(EventListFragment eventListFragment);
     void inject(EventFragment eventFragment);
     void inject(EventActivity eventActivity);
