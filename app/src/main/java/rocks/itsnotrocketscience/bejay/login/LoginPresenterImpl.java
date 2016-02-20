@@ -33,11 +33,12 @@ public class LoginPresenterImpl implements LoginContract.LoginPresenter{
 
         view.setProgressVisible(true);
         SocialAuth socialAuth = ServiceFactory.createGcmRetrofitService(SocialAuth.class);
+        String token = loginResult.getAccessToken().getToken();
         socialAuth.convertToken("convert_token",
                 "UVRspdWBRqf0ofty1J6bZqRoNiN5BKNHZL2rRlby",
                 "1T0WT2HcIvChkHilNRCFYmDqDbeLHGRYEmby2HHdNrmCLkti3N7InyfGldMLVOetSF4YHgT0zP5mKazPUo3DqG4e1gtyvtBMkIYUaFpb4lBgDHIsUioB8wEJ0m6ntvoM",
                 "facebook",
-                loginResult.getAccessToken().getToken())
+                token)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ConvertTokenResponse>() {
@@ -52,7 +53,7 @@ public class LoginPresenterImpl implements LoginContract.LoginPresenter{
 
                     @Override
                     public final void onNext(ConvertTokenResponse response) {
-                        sharedPreferences.edit().putString(Constants.TOKEN, response.accessToken).apply();
+                        sharedPreferences.edit().putString(Constants.TOKEN,token) .apply();
                         sharedPreferences.edit().putBoolean(Constants.IS_LOGGED_IN,true).apply();
                         sharedPreferences.edit().putString(Constants.TOKEN_TYPE, response.tokenType).apply();
                         sharedPreferences.edit().putString(Constants.REFRESH_TOKEN, response.refreshToken).apply();
