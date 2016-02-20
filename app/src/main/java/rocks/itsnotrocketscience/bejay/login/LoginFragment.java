@@ -32,14 +32,13 @@ public class LoginFragment extends BaseFragment<LoginComponent> implements Login
     @Bind(R.id.pbProgress) ProgressBar pbProgress;
     @Inject LoginContract.LoginPresenter loginPresenter;
     @Inject Launcher launcher;
-    CallbackManager callbackManager;
+    @Inject CallbackManager callbackManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getComponent().inject(this);
         FacebookSdk.sdkInitialize(getActivity().getApplicationContext());
-        callbackManager = CallbackManager.Factory.create();
         LoginManager.getInstance().logOut();
     }
 
