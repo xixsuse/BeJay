@@ -22,17 +22,20 @@ import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.api.Constants;
 import rocks.itsnotrocketscience.bejay.base.BaseActivity;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
+import rocks.itsnotrocketscience.bejay.dagger.ActivityComponent;
 import rocks.itsnotrocketscience.bejay.home.HomeFragment;
 import rocks.itsnotrocketscience.bejay.managers.AccountManager;
 import rocks.itsnotrocketscience.bejay.managers.LaunchManager;
+import rocks.itsnotrocketscience.bejay.managers.Launcher;
 import rocks.itsnotrocketscience.bejay.profile.ProfileFragment;
 
-public class NavigationDrawerFragment extends BaseFragment {
+public class NavigationDrawerFragment extends BaseFragment<ActivityComponent> {
 
     private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
     private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
     @Inject SharedPreferences sharedPreferences;
     @Inject AccountManager accountManager;
+    @Inject Launcher launcher;
     private ActionBarDrawerToggle mDrawerToggle;
 
     private DrawerLayout drawerLayout;
@@ -46,7 +49,7 @@ public class NavigationDrawerFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getAppApplication().getNetComponent().inject(this);
+        getComponent().inject(this);
         userLearnedDrawer = sharedPreferences.getBoolean(PREF_USER_LEARNED_DRAWER, false);
 
         if (savedInstanceState != null) {
@@ -67,7 +70,7 @@ public class NavigationDrawerFragment extends BaseFragment {
 
         navigationView = (NavigationView) inflater.inflate(
                 R.layout.fragment_navigation_drawer, container, false);
-        showFragment(new HomeFragment());
+        launcher.openHome();
 
         navigationView.setNavigationItemSelectedListener(this::chooseAction);
         if (accountManager.isCheckedIn()) {
@@ -87,19 +90,18 @@ public class NavigationDrawerFragment extends BaseFragment {
         switch (menuItem.getItemId()) {
 
             case R.id.home:
-                showFragment(new HomeFragment());
+                launcher.openHome();
                 break;
             case R.id.profile:
-                showFragment(new ProfileFragment());
+                launcher.openProfile();
                 return true;
             case R.id.event:
-                LaunchManager.launchEvent(accountManager.getCheckedInEventId(), getActivity());
+                launcher.openEvent(accountManager.getCheckedInEventId());
                 return true;
             case R.id.settings:
-
                 return true;
             case R.id.logout:
-                logout(getActivity());
+                launcher.logout();
                 return true;
         }
         return false;

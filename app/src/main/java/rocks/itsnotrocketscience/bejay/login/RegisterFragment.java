@@ -17,11 +17,12 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rocks.itsnotrocketscience.bejay.R;
+import rocks.itsnotrocketscience.bejay.api.ApiManager;
 import rocks.itsnotrocketscience.bejay.api.Constants;
 import rocks.itsnotrocketscience.bejay.api.retrofit.CreateUser;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
+import rocks.itsnotrocketscience.bejay.dagger.LoginComponent;
 import rocks.itsnotrocketscience.bejay.main.MainActivity;
-import rocks.itsnotrocketscience.bejay.managers.RetrofitManager;
 import rocks.itsnotrocketscience.bejay.managers.ServiceFactory;
 import rocks.itsnotrocketscience.bejay.models.CmsUser;
 import rx.Subscriber;
@@ -29,10 +30,10 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 
-public class RegisterFragment extends BaseFragment {
+public class RegisterFragment extends BaseFragment<LoginComponent> {
 
     @Inject SharedPreferences sharedPreferences;
-    @Inject RetrofitManager retrofitManager;
+    @Inject ApiManager apiManager;
     @Bind(R.id.pbProgress) ProgressBar pbProgress;
     @Bind(R.id.etEmail) EditText etEmail;
     @Bind(R.id.etPassword) EditText etPassword;
@@ -45,7 +46,7 @@ public class RegisterFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getAppApplication().getNetComponent().inject(this);
+        getComponent().inject(this);
     }
 
     @Override
