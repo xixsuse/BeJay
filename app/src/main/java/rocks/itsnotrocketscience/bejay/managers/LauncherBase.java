@@ -27,11 +27,6 @@ public class LauncherBase implements Launcher {
     }
 
     @Override
-    public void openRegistration() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public void openEventList() {
         throw new UnsupportedOperationException();
     }

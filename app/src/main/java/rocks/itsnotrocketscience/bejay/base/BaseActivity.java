@@ -16,6 +16,7 @@ import com.facebook.appevents.AppEventsLogger;
 import javax.inject.Inject;
 
 import rocks.itsnotrocketscience.bejay.R;
+import rocks.itsnotrocketscience.bejay.api.Constants;
 import rocks.itsnotrocketscience.bejay.dagger.ActivityComponent;
 import rocks.itsnotrocketscience.bejay.dagger.ActivityModule;
 import rocks.itsnotrocketscience.bejay.dagger.DaggerActivityComponent;
@@ -51,7 +52,7 @@ public class BaseActivity extends InjectedActivity<ActivityComponent> {
 
         getComponent().inject(this);
 
-        if (!accountManager.isLoggedIn()) {
+        if (!sharedPreferences.getBoolean(Constants.IS_LOGGED_IN,false)) {
             launcher.logout();
             return;
         }

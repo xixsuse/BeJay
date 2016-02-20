@@ -8,13 +8,12 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 import rocks.itsnotrocketscience.bejay.R;
+import rocks.itsnotrocketscience.bejay.api.Constants;
 import rocks.itsnotrocketscience.bejay.event.list.EventListFragment;
 import rocks.itsnotrocketscience.bejay.event.single.EventActivity;
 import rocks.itsnotrocketscience.bejay.home.HomeFragment;
 import rocks.itsnotrocketscience.bejay.login.LoginActivity;
 import rocks.itsnotrocketscience.bejay.login.LoginFragment;
-import rocks.itsnotrocketscience.bejay.login.LoginOrRegisterFragment;
-import rocks.itsnotrocketscience.bejay.login.RegisterFragment;
 import rocks.itsnotrocketscience.bejay.profile.ProfileFragment;
 
 public class AppLauncher implements Launcher {
@@ -53,7 +52,7 @@ public class AppLauncher implements Launcher {
 
     @Override
     public void logout() {
-        sharedPreferences.edit().putBoolean(LoginOrRegisterFragment.IS_LOGGED_IN, false).apply();
+        sharedPreferences.edit().putBoolean(Constants.IS_LOGGED_IN, false).apply();
         Intent intent = new Intent(activity, LoginActivity.class);
         activity.startActivity(intent);
         activity.finish();
@@ -62,11 +61,6 @@ public class AppLauncher implements Launcher {
     @Override
     public void openLogin() {
         showFragment(LoginFragment.newInstance());
-    }
-
-    @Override
-    public void openRegistration() {
-        showFragment(RegisterFragment.newInstance());
     }
 
     @Override

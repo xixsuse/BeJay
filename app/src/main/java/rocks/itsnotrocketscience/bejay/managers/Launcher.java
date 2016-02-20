@@ -6,6 +6,5 @@ public interface Launcher {
     void openEvent(int eventId);
     void logout();
     void openLogin();
-    void openRegistration();
     void openEventList();
 }

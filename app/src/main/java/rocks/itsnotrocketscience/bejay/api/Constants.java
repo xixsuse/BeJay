@@ -14,5 +14,8 @@ public interface Constants {
     String BASE_URL = BuildConfig.BASE_URL;
     String BASE_API = "dukebox/";
     String API = BuildConfig.BASE_URL + BASE_API;
-    String TOKEN_AUTH = "api-token-auth";
+    String ACCESS_TOKEN = "access_token";
+    String TOKEN_TYPE = "token_type";
+    String REFRESH_TOKEN = "refresh_token";
+    String IS_LOGGED_IN = "is_logged_in";
 }

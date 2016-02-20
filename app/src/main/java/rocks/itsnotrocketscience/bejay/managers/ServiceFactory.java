@@ -31,7 +31,6 @@ public class ServiceFactory {
                 .setEndpoint(Constants.API)
                 .setLogLevel(RestAdapter.LogLevel.FULL)
                 .setRequestInterceptor(authInterceptor)
-                .setLogLevel(RestAdapter.LogLevel.FULL)
                 .build();
         T service = restAdapter.create(clazz);
 
