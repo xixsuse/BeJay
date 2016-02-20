@@ -20,8 +20,10 @@ public interface TrackSearchContract {
          * Initiate search
          *
          * @param query search query string
+         * @param pageSize page size for paginated search.
+         *                 Note that this is just a hint, implementations may disregard this parameter
          * */
-        void search(String query);
+        void search(String query, int pageSize);
 
         /**
          * Load additional results for the current search
@@ -41,7 +43,7 @@ public interface TrackSearchContract {
 
     interface View {
         /**
-         * Search suggestions loaded. Note a cursor is passed,
+         * TrackSearchManager suggestions loaded. Note a cursor is passed,
          * as search view requires a cursor adapter to be used for search suggestions
          * */
         void onSearchSuggestionsLoaded(Cursor cursor);
