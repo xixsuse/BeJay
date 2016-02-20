@@ -11,5 +11,5 @@ import rx.Observable;
  */
 public interface Search {
     @GET("/search/track")
-    Observable<Collection<Track>> track(@Query("q")String query);
+    Observable<Collection<Track>> track(@Query("q")String query, @Query("index") Long index, @Query("limit") Long limit);
 }
