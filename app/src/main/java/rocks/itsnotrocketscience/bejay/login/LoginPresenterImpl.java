@@ -31,8 +31,9 @@ public class LoginPresenterImpl implements LoginContract.LoginPresenter {
     public void verifyUser(LoginResult loginResult) {
 
         view.setProgressVisible(true);
-        SocialAuth socialAuth = ServiceFactory.createGcmRetrofitService(SocialAuth.class);
         String token = loginResult.getAccessToken().getToken();
+
+        SocialAuth socialAuth = ServiceFactory.createGcmRetrofitService(SocialAuth.class);
         socialAuth.convertToken(context.getString(R.string.convert_token),
                 context.getString(R.string.client_id),
                 context.getString(R.string.client_secret),

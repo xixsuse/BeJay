@@ -2,9 +2,7 @@ package rocks.itsnotrocketscience.bejay.api.retrofit;
 
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
-import retrofit.http.Headers;
 import retrofit.http.POST;
-import retrofit.http.Query;
 import rocks.itsnotrocketscience.bejay.models.ConvertTokenResponse;
 import rx.Observable;
 

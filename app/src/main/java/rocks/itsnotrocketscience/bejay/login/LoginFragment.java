@@ -12,6 +12,7 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
@@ -39,6 +40,7 @@ public class LoginFragment extends BaseFragment<LoginComponent> implements Login
         getComponent().inject(this);
         FacebookSdk.sdkInitialize(getActivity().getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
+        LoginManager.getInstance().logOut();
     }
 
     public static Fragment newInstance() {

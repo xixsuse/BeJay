@@ -39,7 +39,6 @@ public class LoginActivity extends InjectedActivity<LoginComponent> {
         }
     }
 
-
     @Override
     public LoginComponent getComponent() {
         return loginComponent;
