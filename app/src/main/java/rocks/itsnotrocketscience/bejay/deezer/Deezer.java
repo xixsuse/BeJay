@@ -44,4 +44,6 @@ public interface Deezer {
     String CONTRIBUTORS = "contributors";
     String TRACKS = "tracks";
     String DATA = "data";
+    String TOTAL = "total";
+    String NEXT = "next";
 }

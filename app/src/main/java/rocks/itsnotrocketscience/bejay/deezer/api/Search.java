@@ -2,7 +2,7 @@ package rocks.itsnotrocketscience.bejay.deezer.api;
 
 import retrofit.http.GET;
 import retrofit.http.Query;
-import rocks.itsnotrocketscience.bejay.deezer.model.Collection;
+import rocks.itsnotrocketscience.bejay.deezer.model.PageResponse;
 import rocks.itsnotrocketscience.bejay.deezer.model.Track;
 import rx.Observable;
 
@@ -11,5 +11,5 @@ import rx.Observable;
  */
 public interface Search {
     @GET("/search/track")
-    Observable<Collection<Track>> track(@Query("q")String query, @Query("index") Long index, @Query("limit") Long limit);
+    Observable<PageResponse<Track>> track(@Query("q")String query, @Query("index") Long index, @Query("limit") Long limit);
 }
