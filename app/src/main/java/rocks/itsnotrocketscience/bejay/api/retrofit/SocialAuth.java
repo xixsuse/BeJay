@@ -1,5 +1,7 @@
 package rocks.itsnotrocketscience.bejay.api.retrofit;
 
+import retrofit.http.Field;
+import retrofit.http.FormUrlEncoded;
 import retrofit.http.Headers;
 import retrofit.http.POST;
 import retrofit.http.Query;
@@ -11,16 +13,12 @@ import rx.Observable;
  */
 public interface SocialAuth {
 
-    @Headers({
-            "Content-Type: application/x-www-form-urlencoded",
-            "Accept: */*",
-            "cache-control: no-cache",
-    })
+    @FormUrlEncoded
     @POST("/auth/convert-token")
-    Observable<ConvertTokenResponse> convertToken(@Query("grant_type") String grant_type,
-                                                  @Query("client_id") String client_id,
-                                                  @Query("client_secret") String client_secret,
-                                                  @Query("backend") String backend,
-                                                  @Query("token") String token
+    Observable<ConvertTokenResponse> convertToken(@Field("grant_type") String grant_type,
+                                                  @Field("client_id") String client_id,
+                                                  @Field("client_secret") String client_secret,
+                                                  @Field("backend") String backend,
+                                                  @Field("token") String token
     );
 }
