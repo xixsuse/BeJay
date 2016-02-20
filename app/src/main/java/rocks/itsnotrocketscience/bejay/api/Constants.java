@@ -1,5 +1,6 @@
 package rocks.itsnotrocketscience.bejay.api;
 
+import retrofit.RestAdapter.LogLevel;
 import rocks.itsnotrocketscience.bejay.BuildConfig;
 
 /**
@@ -11,7 +12,8 @@ public interface Constants {
     String EVENT_PK = "event_pk";
     String EMAIL = "email";
     String USERNAME = "username";
-    String BASE_API = "dukebox/";
-    String API = BuildConfig.BASE_URL + BASE_API;
+    String BASE_URL = BuildConfig.BASE_URL;
+    String API = BuildConfig.BASE_URL;
     String TOKEN_AUTH = "api-token-auth";
+    LogLevel RETROFIT_LOG_LEVEL = BuildConfig.RETROFIT_LOG_LEVEL;
 }

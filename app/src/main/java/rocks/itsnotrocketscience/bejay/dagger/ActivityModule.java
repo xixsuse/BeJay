@@ -9,6 +9,8 @@ import rocks.itsnotrocketscience.bejay.api.retrofit.Events;
 import rocks.itsnotrocketscience.bejay.dao.EventsDao;
 import rocks.itsnotrocketscience.bejay.event.list.EventListContract;
 import rocks.itsnotrocketscience.bejay.event.list.EventListPresenterImpl;
+import rocks.itsnotrocketscience.bejay.event.single.EventContract;
+import rocks.itsnotrocketscience.bejay.event.single.EventPresenterImpl;
 import rocks.itsnotrocketscience.bejay.managers.AccountManager;
 import rocks.itsnotrocketscience.bejay.managers.AppLauncher;
 import rocks.itsnotrocketscience.bejay.managers.Launcher;
@@ -27,5 +29,9 @@ public class ActivityModule {
 
     @Provides EventListContract.EventListPresenter providesEventListPresenter(EventsDao eventsDao, Events networkEvents, AccountManager accountManager) {
         return new EventListPresenterImpl(eventsDao, networkEvents, accountManager);
+    }
+
+    @Provides EventContract.EventPresenter providesEventPresenter(Events networkEvent) {
+        return new EventPresenterImpl(networkEvent);
     }
 }

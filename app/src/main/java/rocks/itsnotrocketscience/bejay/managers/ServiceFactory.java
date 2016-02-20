@@ -19,6 +19,7 @@ public class ServiceFactory {
     public static <T> T createRetrofitService(final Class<T> clazz) {
         final RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(Constants.API)
+                .setLogLevel(RestAdapter.LogLevel.FULL)
                 .build();
         T service = restAdapter.create(clazz);
 
@@ -28,7 +29,19 @@ public class ServiceFactory {
     public static <T> T createRetrofitServiceAuth(final Class<T> clazz, RequestInterceptor authInterceptor) {
         final RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(Constants.API)
+                .setLogLevel(RestAdapter.LogLevel.FULL)
                 .setRequestInterceptor(authInterceptor)
+                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .build();
+        T service = restAdapter.create(clazz);
+
+        return service;
+    }
+
+    public static <T> T createGcmRetrofitService(final Class<T> clazz) {
+        final RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint(Constants.BASE_URL)
+                .setLogLevel(RestAdapter.LogLevel.FULL)
                 .build();
         T service = restAdapter.create(clazz);
 

@@ -6,9 +6,7 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.mockito.stubbing.Answer;
 
 import java.util.ArrayList;
 
@@ -79,12 +77,7 @@ public class EventListPresenterImplTest {
     public void testLoadEventsFromNetwork() {
         ArrayList<Event> eventsFromNetwork = mock(ArrayList.class);
         doReturn(Observable.just(null)).when(eventsDao).all();
-        doAnswer(new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                return Observable.just(eventsArgumentCaptor.getValue());
-            }
-        }).when(eventsDao).save(eventsArgumentCaptor.capture());
+        doAnswer(invocation -> Observable.just(eventsArgumentCaptor.getValue())).when(eventsDao).save(eventsArgumentCaptor.capture());
         doReturn(Observable.just(eventsFromNetwork)).when(networkEvents).list();
 
         eventListPresenter.onViewAttached(view);

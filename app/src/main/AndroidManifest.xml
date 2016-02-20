@@ -42,7 +42,7 @@
         <activity android:name="com.facebook.FacebookActivity" />
 
         <service
-            android:name=".gcm.MyGcmListenerService"
+            android:name=".gcm.AppGcmListenerService"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -50,7 +50,7 @@
             </intent-filter>
         </service>
         <service
-            android:name="rocks.itsnotrocketscience.bejay.gcm.MyInstanceIDListenerService"
+            android:name=".gcm.AppInstanceIDListenerService"
             android:enabled="true"
             android:exported="true">
             <intent-filter>

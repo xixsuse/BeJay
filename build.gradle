@@ -1,5 +1,17 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
+ext.lanServerUrl = {
+    def localProperties = project.rootProject.file('local.properties')
+
+    if(localProperties.exists()) {
+        Properties properties = new Properties()
+        properties.load(localProperties.newDataInputStream())
+        return properties.getProperty('base.url.lan', 'localhost')
+    }
+
+    return 'localhost'
+}()
+
 buildscript {
     repositories {
         jcenter()

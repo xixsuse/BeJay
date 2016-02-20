@@ -14,22 +14,44 @@ android {
         versionCode 1
         multiDexEnabled true
         versionName "1.0"
-        buildConfigField "String", "BASE_URL", "\"http://dukebox.itsnotrocketscience.rocks/\""
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "retrofit.RestAdapter.LogLevel", "RETROFIT_LOG_LEVEL", "retrofit.RestAdapter.LogLevel.NONE"
+        }
+
+        debug {
+            buildConfigField "retrofit.RestAdapter.LogLevel", "RETROFIT_LOG_LEVEL", "retrofit.RestAdapter.LogLevel.FULL"
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     retrolambda {
         jvmArgs '-noverify'
     }
+
+    dexOptions {
+        incremental true
+    }
+
+    productFlavors {
+        lan {
+            buildConfigField "String", "BASE_URL", lanServerUrl
+        }
+
+        inet {
+            buildConfigField "String", "BASE_URL", "\"http://dukebox.itsnotrocketscience.rocks/dukebox/\""
+        }
+    }
 }
+
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')

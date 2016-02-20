@@ -2,8 +2,11 @@ package rocks.itsnotrocketscience.bejay.api;
 
 import java.util.ArrayList;
 
+import retrofit.http.Body;
+import retrofit.http.Path;
 import rocks.itsnotrocketscience.bejay.api.retrofit.Events;
 import rocks.itsnotrocketscience.bejay.models.Event;
+import rocks.itsnotrocketscience.bejay.models.Song;
 import rx.Observable;
 
 /**
@@ -23,7 +26,7 @@ class EventsWithRetry implements Events {
     }
 
     @Override
-    public Observable<Event> get(int id) {
+    public Observable<Event> get(@Path("id") int id) {
         return events.get(id).retryWhen(ApiManager.defaultRetry());
     }
 
@@ -35,5 +38,10 @@ class EventsWithRetry implements Events {
     @Override
     public Observable<Event> checkOut(int id) {
         return events.checkOut(id).retryWhen(ApiManager.defaultRetry());
+    }
+
+    @Override
+    public Observable<Song> postSong(@Body Song song) {
+        return events.postSong(song).retryWhen(ApiManager.defaultRetry());
     }
 }

@@ -20,27 +20,23 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.pedant.SweetAlert.SweetAlertDialog;
-import retrofit.RetrofitError;
 import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.api.ApiManager;
 import rocks.itsnotrocketscience.bejay.api.retrofit.Events;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
 import rocks.itsnotrocketscience.bejay.dagger.ActivityComponent;
 import rocks.itsnotrocketscience.bejay.managers.AccountManager;
-import rocks.itsnotrocketscience.bejay.managers.RetrofitListeners;
 import rocks.itsnotrocketscience.bejay.models.Event;
 import rocks.itsnotrocketscience.bejay.models.Song;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class EventFragment extends BaseFragment<ActivityComponent> implements RetrofitListeners.SongAddedListener {
+public class EventFragment extends BaseFragment<ActivityComponent> implements EventContract.EventView {
 
-    @Inject ApiManager apiManager;
+    @Inject EventContract.EventPresenter presenter;
     @Inject AccountManager accountManager;
+    @Inject ApiManager apiManager;
     @Inject Events events;
 
     @Bind(R.id.rvSongList) RecyclerView rvSongList;
@@ -61,24 +57,24 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Re
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        presenter.loadEvent(((EventActivity) getActivity()).getIdFromBundle());
+        setupViews();
+    }
 
+    private void setupViews() {
         rvSongList.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         rvSongList.setLayoutManager(llm);
         adapter = new SongListAdapter(songList);
         adapter.setItemClickListener((view1, position) -> Log.d("yo", "yo"));
-
         rvSongList.setAdapter(adapter);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_event, container, false);
         ButterKnife.bind(this, view);
-        getEventFeed();
         return view;
     }
 
@@ -88,37 +84,45 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Re
         super.onCreate(savedInstanceState);
     }
 
-    private void getEventFeed() {
-        events.get(((EventActivity) getActivity()).getIdFromBundle())
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Event>() {
-                    @Override
-                    public void onCompleted() {}
+    @Override
+    public void setProgressVisible(boolean visible) {}
 
-                    @Override
-                    public final void onError(Throwable e) {
-                        Toast.makeText(getActivity(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    public final void onNext(Event response) {
-                        showEvent(response);
-                    }
-                });
-    }
-
-    private void setViewItems(Event event) {
-        this.songList.clear();
-        this.songList.addAll(event.getSongs());
+    @Override
+    public void onEventLoaded(Event event) {
+        songList.clear();
+        songList.addAll(event.getSongs());
         adapter.notifyDataSetChanged();
     }
 
-    public void showEvent(Event event) {
-        if (event != null) {
-            setViewItems(event);
-            ((EventActivity) getActivity()).setTitle(event.getTitle().toUpperCase());
-        }
+    @Override
+    public void showError(String error) {
+        Toast.makeText(getActivity(), error, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onSongAdded(Song song) {
+        songList.add(song);
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        presenter.onViewAttached(this);
+        presenter.registerUpdateReceiver(this.getActivity());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        presenter.onViewDetached();
+        presenter.unregisterUpdateReceiver(this.getActivity());
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        presenter.onDestroy();
     }
 
     @OnClick(R.id.ivSearch)
@@ -133,17 +137,8 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Re
                 .setCancelClickListener(SweetAlertDialog::cancel)
                 .setConfirmClickListener(sDialog -> {
                     sDialog.cancel();
-                    apiManager.addSong(new Song(etSongPicker.getText().toString()), this);
+                    presenter.adSong(new Song(etSongPicker.getText().toString()));
                 })
                 .show();
-    }
-
-    @Override
-    public void onSongAdded(Song song, RetrofitError error) {
-        if (song != null) {
-            getEventFeed();
-        } else {
-            Toast.makeText(getActivity(), error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-        }
     }
 }

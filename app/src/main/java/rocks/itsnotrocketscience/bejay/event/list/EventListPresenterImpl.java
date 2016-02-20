@@ -16,8 +16,11 @@ import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import rx.subjects.PublishSubject;
 
+import static rocks.itsnotrocketscience.bejay.managers.AccountManager.EVENT_NONE;
+
 /**
  * Created by nemi on 27/01/2016.
+ *
  */
 public class EventListPresenterImpl implements EventListContract.EventListPresenter {
     static final Func1<List<Event>, Boolean> VALID_EVENT_LIST_FILTER = events -> events != null && events.size() != 0;
@@ -77,7 +80,6 @@ public class EventListPresenterImpl implements EventListContract.EventListPresen
     }
 
     private Observable<List<Event>> loadEventsFromDisk() {
-
         return eventsDao.all().doOnNext(events -> this.events = events);
     }
 
@@ -103,12 +105,18 @@ public class EventListPresenterImpl implements EventListContract.EventListPresen
         }
     }
 
-    private void doCheckIn(Event event) {
-        networkEvents.checkIn(event.getId())
-                .compose(newOnDestroyTransformer())
+    private void doCheckIn(final Event event) {
+        Observable.just(accountManager.getCheckedInEventId()).flatMap(currentEventId -> {
+            if (currentEventId == EVENT_NONE) {
+                return networkEvents.checkIn(event.getId());
+            }
+            return Observable.concat(networkEvents.checkOut(currentEventId).ignoreElements(),
+                    networkEvents.checkIn(event.getId()));
+        }).compose(newOnDestroyTransformer())
                 .subscribeOn(Schedulers.io())
                 .observeOn(mainScheduler())
-                .subscribe(event1 -> view.onChecking(event1)
-                        , throwable -> view.onCheckInFailed(event, CHECK_IN_FAILED));
+                .doOnNext(event1 -> accountManager.setCheckedIn(event.getId()))
+                .subscribe(event1 -> view.onChecking(event)
+               , throwable -> view.onCheckInFailed(event, CHECK_IN_FAILED));
     }
 }
