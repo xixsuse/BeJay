@@ -1,6 +1,7 @@
 package rocks.itsnotrocketscience.bejay.dagger;
 
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 
@@ -46,5 +47,9 @@ public class ActivityModule {
 
     @Provides LayoutInflater providesLayoutInflater() {
         return activity.getLayoutInflater();
+    }
+
+    @Provides Resources providesResources() {
+        return activity.getResources();
     }
 }

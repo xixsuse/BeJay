@@ -5,6 +5,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -39,7 +40,7 @@ import rocks.itsnotrocketscience.bejay.tracks.Track;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class EventFragment extends BaseFragment<ActivityComponent> implements EventContract.EventView, SearchView.OnQueryTextListener {
+public class EventFragment extends BaseFragment<ActivityComponent> implements EventContract.EventView {
 
     static final int RC_SEARCH_TRACK = 1;
 
@@ -49,12 +50,9 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Ev
     @Inject Events events;
 
     @Bind(R.id.rvSongList) RecyclerView rvSongList;
-
+    @Bind(R.id.fab) FloatingActionButton fab;
     SongListAdapter adapter;
     List<Song> songList;
-
-    MenuItem addTrackMenuItem;
-    SearchView trackSearchView;
 
     public EventFragment() {
         songList = new ArrayList<>();
@@ -79,6 +77,8 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Ev
         adapter = new SongListAdapter(songList);
         adapter.setItemClickListener((view1, position) -> Log.d("yo", "yo"));
         rvSongList.setAdapter(adapter);
+        fab.setOnClickListener(v ->
+                startActivityForResult(new Intent(getActivity(), SearchActivity.class), RC_SEARCH_TRACK));
     }
 
     @Override
@@ -92,16 +92,6 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Ev
     public void onCreate(Bundle savedInstanceState) {
         getComponent().inject(this);
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.event, menu);
-        addTrackMenuItem = menu.findItem(R.id.action_add_track);
-        trackSearchView = (SearchView) MenuItemCompat.getActionView(addTrackMenuItem);
-        trackSearchView.setOnQueryTextListener(this);
     }
 
     @Override
@@ -143,21 +133,6 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Ev
     public void onDestroy() {
         super.onDestroy();
         presenter.onDestroy();
-    }
-
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        Intent intent = new Intent(getActivity(), SearchActivity.class)
-                .setAction(Intent.ACTION_SEARCH)
-                .putExtra(SearchManager.QUERY, query);
-        startActivityForResult(intent, RC_SEARCH_TRACK);
-        MenuItemCompat.collapseActionView(addTrackMenuItem);
-        return true;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        return true;
     }
 
     Song toSong(Track track) {

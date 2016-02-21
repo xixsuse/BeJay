@@ -1,9 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/title"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:textAppearance="?attr/textAppearanceListItem"
-    android:gravity="center_vertical|left"
-    android:textColor="#FFF"
-    android:minHeight="?attr/listPreferredItemHeight" />
+    android:orientation="vertical"
+    android:minHeight="?attr/listPreferredItemHeight">
+    <TextView
+        android:id="@+id/title"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:gravity="center_vertical|left" />
+    <TextView
+        android:id="@+id/artist"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?attr/textAppearanceListItemSmall"
+        android:gravity="center_vertical|left" />
+</LinearLayout>

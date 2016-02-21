@@ -12,13 +12,19 @@ import rocks.itsnotrocketscience.bejay.R;
 public class TrackViewHolder extends RecyclerView.ViewHolder {
 
     public TextView title;
+    public TextView artist;
 
     public TrackViewHolder(View itemView) {
         super(itemView);
         title = (TextView) itemView.findViewById(R.id.title);
+        artist = (TextView) itemView.findViewById(R.id.artist);
     }
 
-    public void setTrack(Track track) {
-        title.setText(track.getTitle());
+    public void setTitle(CharSequence title) {
+        this.title.setText(title);
+    }
+
+    public void setArtist(CharSequence artist) {
+        this.artist.setText(artist);
     }
 }

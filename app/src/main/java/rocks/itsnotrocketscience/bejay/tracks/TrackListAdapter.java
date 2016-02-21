@@ -1,5 +1,6 @@
 package rocks.itsnotrocketscience.bejay.tracks;
 
+import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,10 +19,12 @@ import rocks.itsnotrocketscience.bejay.R;
 public class TrackListAdapter extends RecyclerView.Adapter<TrackViewHolder> {
     private final ArrayList<Track> tracks = new ArrayList<>();
     private final LayoutInflater layoutInflater;
+    private final Resources resources;
 
     @Inject
-    public TrackListAdapter(LayoutInflater layoutInflater) {
+    public TrackListAdapter(LayoutInflater layoutInflater, Resources resources) {
         this.layoutInflater = layoutInflater;
+        this.resources = resources;
     }
 
     @Override
@@ -33,7 +36,8 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackViewHolder> {
     @Override
     public void onBindViewHolder(TrackViewHolder holder, int position) {
         Track track = getTrack(position);
-        holder.setTrack(track);
+        holder.setTitle(track.getTitle());
+        holder.setArtist(resources.getString(R.string.format_by_artist, track.getArtist()));
     }
 
     @Override

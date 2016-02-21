@@ -3,9 +3,12 @@ package rocks.itsnotrocketscience.bejay.event.single;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,11 +19,16 @@ import java.io.IOException;
 
 import javax.inject.Inject;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import rocks.itsnotrocketscience.bejay.R;
-import rocks.itsnotrocketscience.bejay.base.BaseActivity;
+import rocks.itsnotrocketscience.bejay.base.InjectedActivity;
+import rocks.itsnotrocketscience.bejay.dagger.ActivityComponent;
+import rocks.itsnotrocketscience.bejay.dagger.ActivityModule;
+import rocks.itsnotrocketscience.bejay.dagger.DaggerActivityComponent;
 import rocks.itsnotrocketscience.bejay.gcm.RegistrationIntentService;
 
-public class EventActivity extends BaseActivity {
+public class EventActivity extends InjectedActivity<ActivityComponent> {
 
     private static final String TAG = "EventActivity";
     public static final String EVENT_RECEIVER_ID = "event_receiver_id";
@@ -28,13 +36,35 @@ public class EventActivity extends BaseActivity {
 
     @Inject SharedPreferences sharedPreferences;
 
+    @Bind(R.id.coordinator_layout) CoordinatorLayout coordinatorLayout;
+    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.app_bar_layout) AppBarLayout appBarLayout;
+
+    ActivityModule activityModule;
+    ActivityComponent activityComponent;
+
+    public EventActivity() {
+        this.activityModule = new ActivityModule(this);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getComponent().inject(this);
+        setContentView(R.layout.activity_event);
+        ButterKnife.bind(this);
+        setSupportActionBar(toolbar);
+
         subscribeToTopic();
         showFragment(EventFragment.newInstance());
+    }
 
+    @Override
+    public ActivityComponent getComponent() {
+        return activityComponent = DaggerActivityComponent.builder()
+                .activityModule(activityModule)
+                .appComponent(getAppComponent())
+                .build();
     }
 
     public int getIdFromBundle() {
@@ -44,21 +74,6 @@ public class EventActivity extends BaseActivity {
 
     public void setTitle(String title) {
         toolbar.setTitle(title);
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.menu_event, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        return id == R.id.action_settings || super.onOptionsItemSelected(item);
-
     }
 
     public void showFragment(Fragment fragment) {
