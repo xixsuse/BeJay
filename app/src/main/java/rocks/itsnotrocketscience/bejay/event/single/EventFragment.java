@@ -1,14 +1,21 @@
 package rocks.itsnotrocketscience.bejay.event.single;
 
+import android.app.Activity;
+import android.app.SearchManager;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -18,8 +25,6 @@ import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
-import cn.pedant.SweetAlert.SweetAlertDialog;
 import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.api.ApiManager;
 import rocks.itsnotrocketscience.bejay.api.retrofit.Events;
@@ -28,11 +33,15 @@ import rocks.itsnotrocketscience.bejay.dagger.ActivityComponent;
 import rocks.itsnotrocketscience.bejay.managers.AccountManager;
 import rocks.itsnotrocketscience.bejay.models.Event;
 import rocks.itsnotrocketscience.bejay.models.Song;
+import rocks.itsnotrocketscience.bejay.tracks.SearchActivity;
+import rocks.itsnotrocketscience.bejay.tracks.Track;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class EventFragment extends BaseFragment<ActivityComponent> implements EventContract.EventView {
+public class EventFragment extends BaseFragment<ActivityComponent> implements EventContract.EventView, SearchView.OnQueryTextListener {
+
+    static final int RC_SEARCH_TRACK = 1;
 
     @Inject EventContract.EventPresenter presenter;
     @Inject AccountManager accountManager;
@@ -40,11 +49,12 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Ev
     @Inject Events events;
 
     @Bind(R.id.rvSongList) RecyclerView rvSongList;
-    @Bind(R.id.etSongPicker) EditText etSongPicker;
-    @Bind(R.id.ivSearch) ImageView ivSearch;
 
     SongListAdapter adapter;
     List<Song> songList;
+
+    MenuItem addTrackMenuItem;
+    SearchView trackSearchView;
 
     public EventFragment() {
         songList = new ArrayList<>();
@@ -82,6 +92,16 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Ev
     public void onCreate(Bundle savedInstanceState) {
         getComponent().inject(this);
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.event, menu);
+        addTrackMenuItem = menu.findItem(R.id.action_add_track);
+        trackSearchView = (SearchView) MenuItemCompat.getActionView(addTrackMenuItem);
+        trackSearchView.setOnQueryTextListener(this);
     }
 
     @Override
@@ -125,20 +145,38 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Ev
         presenter.onDestroy();
     }
 
-    @OnClick(R.id.ivSearch)
-    public void searchTrack() {
-        //todo check song available
-        new SweetAlertDialog(getActivity(), SweetAlertDialog.WARNING_TYPE)
-                .setTitleText("Song Available!")
-                .setContentText("Add Song To List?")
-                .setCancelText("No Thanks!")
-                .setConfirmText("Do It")
-                .showCancelButton(true)
-                .setCancelClickListener(SweetAlertDialog::cancel)
-                .setConfirmClickListener(sDialog -> {
-                    sDialog.cancel();
-                    presenter.adSong(new Song(etSongPicker.getText().toString()));
-                })
-                .show();
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        Intent intent = new Intent(getActivity(), SearchActivity.class)
+                .setAction(Intent.ACTION_SEARCH)
+                .putExtra(SearchManager.QUERY, query);
+        startActivityForResult(intent, RC_SEARCH_TRACK);
+        MenuItemCompat.collapseActionView(addTrackMenuItem);
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return true;
+    }
+
+    Song toSong(Track track) {
+        return new Song(track.getTitle());
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case RC_SEARCH_TRACK : {
+                if((resultCode == Activity.RESULT_OK)) {
+                    Track track = data.getParcelableExtra(SearchActivity.EXTRA_TRACK);
+                    presenter.adSong(toSong(track));
+                }
+                break;
+            }
+            default : {
+                super.onActivityResult(requestCode, resultCode, data);
+            }
+        }
     }
 }

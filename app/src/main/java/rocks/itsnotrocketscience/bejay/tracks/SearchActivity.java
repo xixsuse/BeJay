@@ -1,5 +1,6 @@
 package rocks.itsnotrocketscience.bejay.tracks;
 
+import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.WindowManager;
 
@@ -23,13 +25,16 @@ import rocks.itsnotrocketscience.bejay.dagger.ActivityComponent;
 import rocks.itsnotrocketscience.bejay.dagger.ActivityModule;
 import rocks.itsnotrocketscience.bejay.dagger.DaggerActivityComponent;
 import rocks.itsnotrocketscience.bejay.tracks.search.TrackSearchContract;
+import rocks.itsnotrocketscience.bejay.view.ItemTouchHelper;
 
 import static android.support.v7.appcompat.R.attr.listPreferredItemHeight;
 
 /**
  * Created by nemi on 20/02/2016.
  */
-public class SearchActivity extends InjectedActivity<ActivityComponent> implements TrackSearchContract.View {
+public class SearchActivity extends InjectedActivity<ActivityComponent> implements TrackSearchContract.View, ItemTouchHelper.OnItemClickedListener {
+    private static final String TAG = "SearchActivity";
+    public static final String EXTRA_TRACK = "track";
 
     @Inject SearchPresenter searchPresenter;
     @Inject TrackListAdapter trackListAdapter;
@@ -39,6 +44,7 @@ public class SearchActivity extends InjectedActivity<ActivityComponent> implemen
     ActivityComponent activityComponent;
     LinearLayoutManager layoutManager;
     String query;
+    ItemTouchHelper itemTouchHelper;
 
     public SearchActivity() {
         this.activityModule = new ActivityModule(this);
@@ -77,6 +83,10 @@ public class SearchActivity extends InjectedActivity<ActivityComponent> implemen
             }
         });
 
+        itemTouchHelper = new ItemTouchHelper(this);
+        itemTouchHelper.setup(trackList);
+        itemTouchHelper.setOnItemClickedListener(this);
+
         Intent intent = getIntent();
         if(Intent.ACTION_SEARCH.equals(intent.getAction())) {
             query = intent.getStringExtra(SearchManager.QUERY);
@@ -112,6 +122,15 @@ public class SearchActivity extends InjectedActivity<ActivityComponent> implemen
         }
 
         return itemCount;
+    }
+
+    @Override
+    public void onItemClicked(RecyclerView recyclerView, int adapterPosition) {
+        Track track = trackListAdapter.getTrack(adapterPosition);
+        Intent result = new Intent();
+        result.putExtra(EXTRA_TRACK, track);
+        setResult(Activity.RESULT_OK, result);
+        finish();
     }
 
     @Override

@@ -49,6 +49,7 @@ public class EventActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_event, menu);
         return true;
     }

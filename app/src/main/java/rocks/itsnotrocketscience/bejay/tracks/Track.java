@@ -1,11 +1,14 @@
 package rocks.itsnotrocketscience.bejay.tracks;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by nemi on 20/02/2016.
  *
  * Provider independent track interface declaration
  */
-public class Track {
+public class Track implements Parcelable {
     /**
      * Opaque identifier of track. Depends on provider
      * */
@@ -108,5 +111,47 @@ public class Track {
 
     public void setGenre(String genre) {
         this.genre = genre;
+    }
+
+    public static final Creator<Track> CREATOR = new Creator<Track>() {
+        @Override
+        public Track createFromParcel(Parcel source) {
+            Track track = new Track();
+            track.setId(source.readString());
+            track.setProvider(source.readString());
+            track.setTitle(source.readString());
+            track.setAlbumName(source.readString());
+            track.setAlbumCover(source.readString());
+            long duration = source.readLong();
+            if(duration >= -1) {
+                track.setDuration(duration);
+            }
+            return track;
+        }
+
+        @Override
+        public Track[] newArray(int size) {
+            return new Track[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(provider);
+        dest.writeString(title);
+        dest.writeString(albumName);
+        dest.writeString(albumCover);
+        if(duration == null) {
+            dest.writeLong(-1);
+        } else {
+            dest.writeLong(duration);
+        }
+        dest.writeString(genre);
     }
 }
