@@ -82,6 +82,15 @@
             android:name=".event.single.EventActivity"
             android:windowSoftInputMode="stateHidden"
             android:label="@string/title_activity_event" />
+
+        <activity android:name=".tracks.SearchActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.searchable"
+                android:value="@xml/searchable_track" />
+        </activity>
     </application>
 
 

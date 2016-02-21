@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.google.android.gms.playlog.internal.LogEvent;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -15,11 +16,18 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import retrofit.RestAdapter;
+import rocks.itsnotrocketscience.bejay.BuildConfig;
 import rocks.itsnotrocketscience.bejay.api.ApiManager;
 import rocks.itsnotrocketscience.bejay.api.retrofit.Events;
 import rocks.itsnotrocketscience.bejay.db.ModelDbHelper;
+import rocks.itsnotrocketscience.bejay.deezer.Deezer;
+import rocks.itsnotrocketscience.bejay.deezer.DeezerTrackSearchManager;
+import rocks.itsnotrocketscience.bejay.deezer.api.Search;
 import rocks.itsnotrocketscience.bejay.gcm.GcmUtils;
 import rocks.itsnotrocketscience.bejay.managers.AccountManager;
+import rocks.itsnotrocketscience.bejay.managers.ServiceFactory;
+import rocks.itsnotrocketscience.bejay.tracks.search.TrackSearchManager;
 
 /**
  * Created by lduf0001 on 21/12/15.
@@ -73,5 +81,20 @@ public class AppModule {
 
     @Provides @Singleton GcmUtils providesGcmUtils(SharedPreferences sharedPreferences) {
         return new GcmUtils(sharedPreferences);
+    }
+
+    @Provides @Deezer @Singleton RestAdapter providesDeezerRestAdapter() {
+        return new RestAdapter.Builder()
+                .setEndpoint(Deezer.API_BASE_URL)
+                .setLogLevel(BuildConfig.RETROFIT_LOG_LEVEL)
+                .build();
+    }
+
+    @Provides @Singleton Search providesSearch(@Deezer RestAdapter restAdapter) {
+        return restAdapter.create(Search.class);
+    }
+
+    @Provides TrackSearchManager providesTrackSearchManager(Search search) {
+        return new DeezerTrackSearchManager(search);
     }
 }

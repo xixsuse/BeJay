@@ -1,4 +1,4 @@
-package rocks.itsnotrocketscience.bejay.tracks;
+package rocks.itsnotrocketscience.bejay.tracks.search;
 
 /**
  * Created by nemi on 20/02/2016.

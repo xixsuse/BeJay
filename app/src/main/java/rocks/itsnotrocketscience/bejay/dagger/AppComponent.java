@@ -12,6 +12,7 @@ import rocks.itsnotrocketscience.bejay.api.ApiManager;
 import rocks.itsnotrocketscience.bejay.api.retrofit.Events;
 import rocks.itsnotrocketscience.bejay.gcm.RegistrationIntentService;
 import rocks.itsnotrocketscience.bejay.managers.AccountManager;
+import rocks.itsnotrocketscience.bejay.tracks.search.TrackSearchManager;
 
 @Singleton
 @Component(modules = AppModule.class)
@@ -22,6 +23,7 @@ public interface AppComponent {
     Context context();
     BriteDatabase database();
     Events events();
+    TrackSearchManager trackSearchManager();
 
     void inject(RegistrationIntentService registrationIntentService);
 }

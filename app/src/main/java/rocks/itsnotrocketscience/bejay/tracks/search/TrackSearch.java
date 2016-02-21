@@ -1,7 +1,8 @@
-package rocks.itsnotrocketscience.bejay.tracks;
+package rocks.itsnotrocketscience.bejay.tracks.search;
 
 import java.util.List;
 
+import rocks.itsnotrocketscience.bejay.tracks.Track;
 import rx.Observable;
 
 /**

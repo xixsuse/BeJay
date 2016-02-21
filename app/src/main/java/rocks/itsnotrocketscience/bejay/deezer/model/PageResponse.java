@@ -14,7 +14,7 @@ import static rocks.itsnotrocketscience.bejay.deezer.Deezer.TOTAL;
 public class PageResponse<T> {
     @SerializedName(DATA) private java.util.List<T> data;
     @SerializedName(TOTAL) private Long total;
-    @SerializedName(Deezer.NEXT) private Long next;
+    @SerializedName(Deezer.NEXT) private String next;
 
     public java.util.List<T> getData() {
         return data;
@@ -32,11 +32,11 @@ public class PageResponse<T> {
         this.total = total;
     }
 
-    public Long getNext() {
+    public String getNext() {
         return next;
     }
 
-    public void setNext(Long next) {
+    public void setNext(String next) {
         this.next = next;
     }
 }

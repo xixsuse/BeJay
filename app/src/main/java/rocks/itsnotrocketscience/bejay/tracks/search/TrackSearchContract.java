@@ -1,10 +1,10 @@
-package rocks.itsnotrocketscience.bejay.tracks;
+package rocks.itsnotrocketscience.bejay.tracks.search;
 
 import android.database.Cursor;
 
 import java.util.List;
 
-import rocks.itsnotrocketscience.bejay.deezer.model.Track;
+import rocks.itsnotrocketscience.bejay.tracks.Track;
 
 /**
  * Created by nemi on 20/02/2016.

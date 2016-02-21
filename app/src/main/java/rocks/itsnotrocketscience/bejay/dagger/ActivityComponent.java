@@ -10,6 +10,7 @@ import rocks.itsnotrocketscience.bejay.home.HomeFragment;
 import rocks.itsnotrocketscience.bejay.main.MainActivity;
 import rocks.itsnotrocketscience.bejay.main.NavigationDrawerFragment;
 import rocks.itsnotrocketscience.bejay.managers.Launcher;
+import rocks.itsnotrocketscience.bejay.tracks.SearchActivity;
 
 @PerActivity
 @Component(modules = ActivityModule.class, dependencies = {AppComponent.class})
@@ -26,4 +27,5 @@ public interface ActivityComponent {
     void inject(EventActivity eventActivity);
     void inject(HomeFragment homeFragment);
     void inject(NavigationDrawerFragment navigationDrawerFragment);
+    void inject(SearchActivity searchActivity);
 }

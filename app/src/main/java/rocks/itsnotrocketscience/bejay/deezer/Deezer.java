@@ -1,9 +1,20 @@
 package rocks.itsnotrocketscience.bejay.deezer;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
+import javax.inject.Qualifier;
+
 /**
  * Created by nemi on 20/02/2016.
  */
-public interface Deezer {
+@Retention(RetentionPolicy.SOURCE)
+@Qualifier
+public @interface Deezer {
+    String PROVIDER_NAME = "deezer";
+
+    String API_BASE_URL = "http://api.deezer.com/";
+
     String ID = "id";
     String READABLE = "readable";
     String TITLE = "title";
