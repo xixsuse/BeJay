@@ -143,7 +143,8 @@ public class SearchActivity extends InjectedActivity<ActivityComponent> implemen
         boolean handled;
         switch (item.getItemId()) {
             case android.R.id.home : {
-                NavUtils.navigateUpFromSameTask(this);
+                setResult(RESULT_CANCELED);
+                finish();
                 handled = true;
                 break;
             }

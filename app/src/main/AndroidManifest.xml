@@ -84,15 +84,10 @@
             android:name=".event.single.EventActivity"
             android:windowSoftInputMode="stateHidden"
             android:theme="@style/AppTheme.NoActionBar"
-            android:launchMode="singleTop"
             android:label="@string/title_activity_event" />
 
         <activity android:name=".tracks.SearchActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName="rocks.itsnotrocketscience.bejay.event.single.EventActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="rocks.itsnotrocketscience.bejay.event.single.EventActivity" />
+            android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
