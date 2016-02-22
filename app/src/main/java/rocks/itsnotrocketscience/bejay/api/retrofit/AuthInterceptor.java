@@ -16,7 +16,7 @@ public class AuthInterceptor implements RequestInterceptor {
     public void intercept(RequestFacade request) {
 
         if (token != null) {
-            request.addHeader("Authorization", "Token " + token);
+            request.addHeader("Authorization", "Bearer facebook " + token);
         }
     }
 }

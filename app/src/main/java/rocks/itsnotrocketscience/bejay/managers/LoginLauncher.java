@@ -4,7 +4,6 @@ import android.content.Intent;
 
 import rocks.itsnotrocketscience.bejay.login.LoginActivity;
 import rocks.itsnotrocketscience.bejay.login.LoginFragment;
-import rocks.itsnotrocketscience.bejay.login.RegisterFragment;
 import rocks.itsnotrocketscience.bejay.main.MainActivity;
 
 public class LoginLauncher extends LauncherBase {
@@ -17,11 +16,6 @@ public class LoginLauncher extends LauncherBase {
     @Override
     public void openLogin() {
         loginActivity.showFragment(LoginFragment.newInstance());
-    }
-
-    @Override
-    public void openRegistration() {
-        loginActivity.showFragment(RegisterFragment.newInstance());
     }
 
     @Override
