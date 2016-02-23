@@ -8,11 +8,7 @@ import java.util.List;
 
 import rocks.itsnotrocketscience.bejay.deezer.model.PageResponse;
 import rx.Observable;
-import rx.functions.Action1;
-import rx.functions.Action2;
-import rx.functions.Func0;
 import rx.functions.Func1;
-import rx.functions.Func2;
 import rx.functions.Func3;
 
 import static java.lang.Long.parseLong;
@@ -42,7 +38,6 @@ public class Search<T, R> implements rocks.itsnotrocketscience.bejay.search.Sear
     }
 
     private final String query;
-    private final long limit;
     private Cursor next;
     private Cursor prev;
 
@@ -51,7 +46,6 @@ public class Search<T, R> implements rocks.itsnotrocketscience.bejay.search.Sear
 
     public Search(String query, Long limit, Func3<String, Long, Long, Observable<PageResponse<T>>> search, Func1<T, R> mapper) {
         this.query = query;
-        this.limit = limit;
 
         this.search = search;
         this.mapper = mapper;
@@ -62,7 +56,7 @@ public class Search<T, R> implements rocks.itsnotrocketscience.bejay.search.Sear
 
     @Override
     public Observable<List<R>> loadPrevPage() {
-        return loadFromCursor(next);
+        return loadFromCursor(prev);
     }
 
     @Override
