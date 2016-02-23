@@ -12,6 +12,7 @@ import rocks.itsnotrocketscience.bejay.main.NavigationDrawerFragment;
 import rocks.itsnotrocketscience.bejay.managers.Launcher;
 import rocks.itsnotrocketscience.bejay.search.AlbumViewHolder;
 import rocks.itsnotrocketscience.bejay.search.ArtistViewHolder;
+import rocks.itsnotrocketscience.bejay.search.PlaylistViewHolder;
 import rocks.itsnotrocketscience.bejay.search.SearchActivity;
 import rocks.itsnotrocketscience.bejay.search.TrackViewHolder;
 
@@ -34,7 +35,9 @@ public interface ActivityComponent {
     void inject(SearchActivity.TrackSearchFragment trackSearchFragment);
     void inject(SearchActivity.ArtistSearchFragment artistSearchFragment);
     void inject(SearchActivity.AlbumSearchFragment albumSearchFragment);
+    void inject(SearchActivity.PlaylistSearchFragment playlistSearchFragment);
     void inject(AlbumViewHolder albumViewHolder);
     void inject(ArtistViewHolder artistViewHolder);
     void inject(TrackViewHolder trackViewHolder);
+    void inject(PlaylistViewHolder playlistViewHolder);
 }

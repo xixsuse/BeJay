@@ -15,6 +15,7 @@ import rocks.itsnotrocketscience.bejay.managers.AccountManager;
 import rocks.itsnotrocketscience.bejay.search.SearchProvider;
 import rocks.itsnotrocketscience.bejay.search.model.Album;
 import rocks.itsnotrocketscience.bejay.search.model.Artist;
+import rocks.itsnotrocketscience.bejay.search.model.Playlist;
 import rocks.itsnotrocketscience.bejay.search.model.Track;
 
 @Singleton
@@ -29,6 +30,7 @@ public interface AppComponent {
     SearchProvider<Track> trackSearchProvider();
     SearchProvider<Artist> artistSearchProvider();
     SearchProvider<Album> albumSearchProvider();
+    SearchProvider<Playlist> playlistSearchProvider();
 
     void inject(RegistrationIntentService registrationIntentService);
 }

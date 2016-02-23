@@ -53,11 +53,15 @@ public @interface Deezer {
     String AVAILABLE = "available";
     String ALTERNATIVE = "alternative";
     String CONTRIBUTORS = "contributors";
+    String PUBLIC = "public";
     String TRACKS = "tracks";
+    String USER = "user";
     String DATA = "data";
     String TOTAL = "total";
     String NEXT = "next";
     String PREV = "prev";
     String LIMIT = "limit";
     String INDEX = "index";
+
+
 }

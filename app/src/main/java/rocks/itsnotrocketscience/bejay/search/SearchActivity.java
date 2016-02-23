@@ -21,6 +21,7 @@ import rocks.itsnotrocketscience.bejay.dagger.ActivityModule;
 import rocks.itsnotrocketscience.bejay.dagger.DaggerActivityComponent;
 import rocks.itsnotrocketscience.bejay.search.model.Album;
 import rocks.itsnotrocketscience.bejay.search.model.Artist;
+import rocks.itsnotrocketscience.bejay.search.model.Playlist;
 import rocks.itsnotrocketscience.bejay.search.model.Track;
 
 /**
@@ -71,6 +72,22 @@ public class SearchActivity extends InjectedActivity<ActivityComponent> implemen
 
         public static AlbumSearchFragment newInstance(String query) {
             AlbumSearchFragment fragment = new AlbumSearchFragment();
+            Bundle args = new Bundle();
+            args.putString(SearchManager.QUERY, query);
+            fragment.setArguments(args);
+            return fragment;
+        }
+    }
+
+    public static class PlaylistSearchFragment extends SearchFragment<Playlist> {
+        @Override
+        public void onCreate(@Nullable Bundle savedInstanceState) {
+            getComponent().inject(this);
+            super.onCreate(savedInstanceState);
+        }
+
+        public static PlaylistSearchFragment newInstance(String query) {
+            PlaylistSearchFragment fragment = new PlaylistSearchFragment();
             Bundle args = new Bundle();
             args.putString(SearchManager.QUERY, query);
             fragment.setArguments(args);
@@ -167,7 +184,7 @@ public class SearchActivity extends InjectedActivity<ActivityComponent> implemen
     private void showTrackSearchResults(String query) {
         if(!TextUtils.isEmpty(query)) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.search_result_container, TrackSearchFragment.newInstance(query))
+                    .add(R.id.search_result_container, PlaylistSearchFragment.newInstance(query))
                     .commitAllowingStateLoss();
         }
     }

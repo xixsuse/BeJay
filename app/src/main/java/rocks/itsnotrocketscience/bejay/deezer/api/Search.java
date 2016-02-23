@@ -5,6 +5,7 @@ import retrofit.http.Query;
 import rocks.itsnotrocketscience.bejay.deezer.model.Album;
 import rocks.itsnotrocketscience.bejay.deezer.model.Artist;
 import rocks.itsnotrocketscience.bejay.deezer.model.PageResponse;
+import rocks.itsnotrocketscience.bejay.deezer.model.Playlist;
 import rocks.itsnotrocketscience.bejay.deezer.model.Track;
 import rx.Observable;
 
@@ -21,4 +22,7 @@ public interface Search {
 
     @GET("/search/album")
     Observable<PageResponse<Album>> album(@Query("q")String query, @Query("index") Long index, @Query("limit") Long limit);
+
+    @GET("/search/playlist")
+    Observable<PageResponse<Playlist>> playlist(@Query("q")String query, @Query("index") Long index, @Query("limit") Long limit);
 }

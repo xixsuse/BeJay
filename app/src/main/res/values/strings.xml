@@ -32,4 +32,5 @@
     <string name="action_title_search_tracks">Search Tracks</string>
     <string name="action_title_add_track">Add Track</string>
     <string name="format_by_artist">by %s</string>
+    <string name="format_created_by_user">created by %s</string>
 </resources>

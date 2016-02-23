@@ -29,6 +29,7 @@ import rocks.itsnotrocketscience.bejay.search.SearchPresenter;
 import rocks.itsnotrocketscience.bejay.search.SearchProvider;
 import rocks.itsnotrocketscience.bejay.search.model.Album;
 import rocks.itsnotrocketscience.bejay.search.model.Artist;
+import rocks.itsnotrocketscience.bejay.search.model.Playlist;
 import rocks.itsnotrocketscience.bejay.search.model.Track;
 import rocks.itsnotrocketscience.bejay.view.CircleImageTransformation;
 
@@ -61,6 +62,10 @@ public class ActivityModule {
     }
 
     @Provides SearchContract.Presenter<Album> providesAlbumSearchPresenter(SearchProvider<Album> search) {
+        return new SearchPresenter<>(search);
+    }
+
+    @Provides SearchContract.Presenter<Playlist> providesPlaylistSearchPresenter(SearchProvider<Playlist> search) {
         return new SearchPresenter<>(search);
     }
 

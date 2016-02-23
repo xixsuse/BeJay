@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.GridLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/list_item_prefered_height"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/view_padding"
+    android:paddingBottom="@dimen/view_padding"
+    app:rowCount="2"
+    app:columnCount="2">
+    <ImageView
+        android:id="@+id/picture"
+        android:paddingRight="4dp"
+        android:layout_width="@dimen/list_item_prefered_icon_size"
+        android:layout_height="@dimen/list_item_prefered_icon_size"
+        app:layout_row="0"
+        app:layout_column="0"
+        app:layout_rowSpan="2" />
+    <TextView
+        android:id="@+id/title"
+        android:lines="1"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:gravity="center_vertical|left"
+        app:layout_row="0"
+        app:layout_column="1"
+        tools:text="Album title"/>
+    <TextView
+        android:id="@+id/user"
+        android:lines="1"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?attr/textAppearanceListItemSmall"
+        android:gravity="center_vertical|left"
+        app:layout_row="1"
+        app:layout_column="1"
+        tools:text="created by John Doe"/>
+</android.support.v7.widget.GridLayout>

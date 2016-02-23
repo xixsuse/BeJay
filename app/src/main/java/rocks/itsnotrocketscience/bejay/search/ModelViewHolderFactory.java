@@ -36,6 +36,12 @@ public class ModelViewHolderFactory {
                 viewHolder = trackViewHolder;
                 break;
             }
+            case Model.TYPE_PLAYLIST : {
+                PlaylistViewHolder playlistViewHolder = new PlaylistViewHolder(view);
+                injector.inject(playlistViewHolder);
+                viewHolder = playlistViewHolder;
+                break;
+            }
             default: {
                 viewHolder = null;
             }

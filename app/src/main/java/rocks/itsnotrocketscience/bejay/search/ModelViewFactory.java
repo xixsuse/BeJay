@@ -36,7 +36,10 @@ public class ModelViewFactory {
             case Model.TYPE_TRACK : {
                 return R.layout.list_item_track;
             }
-            case Model.TYPE_PLAYLIST :
+            case Model.TYPE_PLAYLIST : {
+                return R.layout.list_item_playlist;
+            }
+
             default: {
                 return -1;
             }

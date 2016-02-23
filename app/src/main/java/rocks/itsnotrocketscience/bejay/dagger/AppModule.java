@@ -28,6 +28,7 @@ import rocks.itsnotrocketscience.bejay.deezer.Deezer;
 import rocks.itsnotrocketscience.bejay.deezer.api.Search;
 import rocks.itsnotrocketscience.bejay.gcm.GcmUtils;
 import rocks.itsnotrocketscience.bejay.managers.AccountManager;
+import rocks.itsnotrocketscience.bejay.search.model.Playlist;
 import rocks.itsnotrocketscience.bejay.search.model.Track;
 import rx.functions.Func1;
 
@@ -123,7 +124,7 @@ public class AppModule {
         };
     }
 
-    @Provides @Singleton Func1<rocks.itsnotrocketscience.bejay.deezer.model.Artist, Artist> proidesArtistMapper() {
+    @Provides @Singleton Func1<rocks.itsnotrocketscience.bejay.deezer.model.Artist, Artist> providesArtistMapper() {
         return deezerArtist -> {
             Artist artist = new Artist();
             artist.setId(deezerArtist.getId().toString());
@@ -131,6 +132,20 @@ public class AppModule {
             artist.setPicture(deezerArtist.getPicture());
             artist.setProvider(Deezer.PROVIDER_NAME);
             return artist;
+        };
+    }
+
+    @Provides @Singleton Func1<rocks.itsnotrocketscience.bejay.deezer.model.Playlist, Playlist> providesPlaylistMapper() {
+        return deezerPlaylist -> {
+            Playlist playlist = new Playlist();
+            playlist.setProvider(Deezer.PROVIDER_NAME);
+            playlist.setId(deezerPlaylist.getId().toString());
+            playlist.setTitle(deezerPlaylist.getTitle());
+            playlist.setNumberOfTracks(deezerPlaylist.getNumberOfTracks());
+            playlist.setPicture(deezerPlaylist.getPicture());
+            playlist.setPublic(deezerPlaylist.isPublic());
+            playlist.setUser(deezerPlaylist.getUser().getName());
+            return playlist;
         };
     }
 
@@ -150,5 +165,11 @@ public class AppModule {
     SearchProvider<Album> providesAlbumSearchFactory(rocks.itsnotrocketscience.bejay.deezer.api.Search searchApi,
                                                      Func1<rocks.itsnotrocketscience.bejay.deezer.model.Album, Album> mapper) {
         return new DeezerSearchProvider<>(searchApi::album, mapper);
+    }
+
+    @Provides
+    SearchProvider<Playlist> providesPlaylistSearchFactory(rocks.itsnotrocketscience.bejay.deezer.api.Search searchApi,
+                                                     Func1<rocks.itsnotrocketscience.bejay.deezer.model.Playlist, Playlist> mapper) {
+        return new DeezerSearchProvider<>(searchApi::playlist, mapper);
     }
 }
