@@ -5,11 +5,12 @@ import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 
+import com.squareup.picasso.Picasso;
+
 import dagger.Module;
 import dagger.Provides;
 import rocks.itsnotrocketscience.bejay.api.retrofit.Events;
 import rocks.itsnotrocketscience.bejay.dao.EventsDao;
-import rocks.itsnotrocketscience.bejay.deezer.api.Search;
 import rocks.itsnotrocketscience.bejay.event.list.EventListContract;
 import rocks.itsnotrocketscience.bejay.event.list.EventListPresenterImpl;
 import rocks.itsnotrocketscience.bejay.event.single.EventContract;
@@ -17,9 +18,18 @@ import rocks.itsnotrocketscience.bejay.event.single.EventPresenterImpl;
 import rocks.itsnotrocketscience.bejay.managers.AccountManager;
 import rocks.itsnotrocketscience.bejay.managers.AppLauncher;
 import rocks.itsnotrocketscience.bejay.managers.Launcher;
-import rocks.itsnotrocketscience.bejay.tracks.SearchPresenter;
-import rocks.itsnotrocketscience.bejay.tracks.search.TrackSearchContract;
-import rocks.itsnotrocketscience.bejay.tracks.search.TrackSearchManager;
+import rocks.itsnotrocketscience.bejay.search.AlbumViewHolder;
+import rocks.itsnotrocketscience.bejay.search.SearchFactory;
+import rocks.itsnotrocketscience.bejay.search.model.Album;
+import rocks.itsnotrocketscience.bejay.search.model.Artist;
+import rocks.itsnotrocketscience.bejay.search.ArtistViewHolder;
+import rocks.itsnotrocketscience.bejay.search.ModelAdapter;
+import rocks.itsnotrocketscience.bejay.search.ModelViewHolder;
+import rocks.itsnotrocketscience.bejay.search.SearchContract;
+import rocks.itsnotrocketscience.bejay.search.SearchPresenter;
+import rocks.itsnotrocketscience.bejay.search.TrackViewHolder;
+import rocks.itsnotrocketscience.bejay.search.ViewHolderFactory;
+import rocks.itsnotrocketscience.bejay.search.model.Track;
 
 @Module
 public class ActivityModule {
@@ -41,8 +51,16 @@ public class ActivityModule {
         return new EventPresenterImpl(networkEvent);
     }
 
-    @Provides TrackSearchContract.Presenter providesTrackSearchPresenter(TrackSearchManager search) {
-        return new SearchPresenter(search);
+    @Provides SearchContract.Presenter<Track> providesTrackSearchPresenter(SearchFactory<Track> search) {
+        return new SearchPresenter<>(search);
+    }
+
+    @Provides SearchContract.Presenter<Artist> providesArtistSearchPresenter(SearchFactory<Artist> search) {
+        return new SearchPresenter<>(search);
+    }
+
+    @Provides SearchContract.Presenter<Album> providesAlbumSearchPresenter(SearchFactory<Album> search) {
+        return new SearchPresenter<>(search);
     }
 
     @Provides LayoutInflater providesLayoutInflater() {
@@ -51,5 +69,35 @@ public class ActivityModule {
 
     @Provides Resources providesResources() {
         return activity.getResources();
+    }
+
+    @Provides ModelAdapter<Track> providesTrackModelAdapter(ViewHolderFactory<ModelViewHolder<Track>> viewHolderFactory) {
+        return new ModelAdapter<>(viewHolderFactory);
+    }
+
+    @Provides ViewHolderFactory<ModelViewHolder<Track>> providesTrackModelViewHolderFactory(TrackViewHolder.Factory trackViewHolderFactory) {
+        return trackViewHolderFactory;
+    }
+
+    @Provides ModelAdapter<Artist> providesArtistModelAdapter(ViewHolderFactory<ModelViewHolder<Artist>> viewHolderFactory) {
+        return new ModelAdapter<>(viewHolderFactory);
+    }
+
+    @Provides ViewHolderFactory<ModelViewHolder<Artist>> providesArtistViewHolderFactory(ArtistViewHolder.Factory viewHolderFactory) {
+        return viewHolderFactory;
+    }
+
+
+    @Provides ModelAdapter<Album> providesAlbumModelAdapter(ViewHolderFactory<ModelViewHolder<Album>> viewHolderFactory) {
+        return new ModelAdapter<>(viewHolderFactory);
+    }
+
+    @Provides ViewHolderFactory<ModelViewHolder<Album>> providesAlbumViewHolderFactory(AlbumViewHolder.Factory viewHolderFactory) {
+        return viewHolderFactory;
+    }
+
+
+    @Provides Picasso providesPicasso() {
+        return Picasso.with(activity);
     }
 }

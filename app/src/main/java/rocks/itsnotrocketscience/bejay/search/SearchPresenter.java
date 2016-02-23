@@ -1,10 +1,7 @@
-package rocks.itsnotrocketscience.bejay.tracks;
+package rocks.itsnotrocketscience.bejay.search;
 
 import javax.inject.Inject;
 
-import rocks.itsnotrocketscience.bejay.tracks.search.TrackSearch;
-import rocks.itsnotrocketscience.bejay.tracks.search.TrackSearchContract;
-import rocks.itsnotrocketscience.bejay.tracks.search.TrackSearchManager;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.subjects.PublishSubject;
@@ -12,31 +9,26 @@ import rx.subjects.PublishSubject;
 /**
  * Created by nemi on 20/02/2016.
  */
-public class SearchPresenter implements TrackSearchContract.Presenter {
+public class SearchPresenter<T> implements SearchContract.Presenter<T> {
 
 
-    private final TrackSearchManager trackSearchManager;
-    private TrackSearchContract.View view;
-    private TrackSearch trackSearch;
+    private final SearchFactory<T> trackSearchProvider;
+    private SearchContract.View view;
+    private Search<T> trackSearch;
 
     private final PublishSubject<Boolean> onDestroy = PublishSubject.create();
 
     @Inject
-    public SearchPresenter(TrackSearchManager trackSearchManager) {
-        this.trackSearchManager = trackSearchManager;
-    }
-
-    @Override
-    public void loadSearchSuggestions(String query) {
-        //TODO: implement
+    public SearchPresenter(SearchFactory<T> trackSearchProvider) {
+        this.trackSearchProvider = trackSearchProvider;
     }
 
     @Override
     public void search(String query, int pageSize) {
         if(trackSearch != null) {
-            // TODO: reset current search
+            // TODO: reset current search ???
         }
-        trackSearch = trackSearchManager.newSearch(query, pageSize);
+        trackSearch = trackSearchProvider.newSearch(query, pageSize);
         loadMoreResults();
 
     }
@@ -44,7 +36,7 @@ public class SearchPresenter implements TrackSearchContract.Presenter {
     @Override
     public void loadMoreResults() {
         if(trackSearch != null) {
-            trackSearch.loadMoreResults()
+            trackSearch.loadNextPage()
                     .compose(newOnDestroyTransformer())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(tracks -> {
@@ -54,7 +46,7 @@ public class SearchPresenter implements TrackSearchContract.Presenter {
     }
 
     @Override
-    public void onViewAttached(TrackSearchContract.View view) {
+    public void onViewAttached(SearchContract.View view) {
         this.view = view;
     }
 

@@ -10,4 +10,7 @@
     <dimen name="track_list_item_min_height">16dp</dimen>
 
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="view_padding">4dp</dimen>
+    <dimen name="list_item_prefered_height">64dp</dimen>
+    <dimen name="list_item_prefered_icon_size">56dp</dimen>
 </resources>

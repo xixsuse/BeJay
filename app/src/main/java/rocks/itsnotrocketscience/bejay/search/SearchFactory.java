@@ -1,4 +1,4 @@
-package rocks.itsnotrocketscience.bejay.tracks.search;
+package rocks.itsnotrocketscience.bejay.search;
 
 /**
  * Created by nemi on 20/02/2016.
@@ -6,7 +6,7 @@ package rocks.itsnotrocketscience.bejay.tracks.search;
  * The track search manager is responsible for creating a new TrackSearch object
  * based on query string and limit( a.k.a. page size)
  */
-public interface TrackSearchManager {
+public interface SearchFactory<R> {
     /**
      * Return new TrackSearch based on query and limit
      *
@@ -14,6 +14,6 @@ public interface TrackSearchManager {
      * @param limit result page size
      * @return track search object
      * */
-    TrackSearch newSearch(String query, int limit);
+    Search<R> newSearch(String query, long limit);
 
 }

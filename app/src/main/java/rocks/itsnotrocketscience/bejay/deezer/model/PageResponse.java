@@ -3,9 +3,9 @@ package rocks.itsnotrocketscience.bejay.deezer.model;
 
 import com.google.gson.annotations.SerializedName;
 
-import rocks.itsnotrocketscience.bejay.deezer.Deezer;
-
 import static rocks.itsnotrocketscience.bejay.deezer.Deezer.DATA;
+import static rocks.itsnotrocketscience.bejay.deezer.Deezer.NEXT;
+import static rocks.itsnotrocketscience.bejay.deezer.Deezer.PREV;
 import static rocks.itsnotrocketscience.bejay.deezer.Deezer.TOTAL;
 
 /**
@@ -14,7 +14,8 @@ import static rocks.itsnotrocketscience.bejay.deezer.Deezer.TOTAL;
 public class PageResponse<T> {
     @SerializedName(DATA) private java.util.List<T> data;
     @SerializedName(TOTAL) private Long total;
-    @SerializedName(Deezer.NEXT) private String next;
+    @SerializedName(NEXT) private String next;
+    @SerializedName(PREV) private String prev;
 
     public java.util.List<T> getData() {
         return data;
@@ -38,5 +39,13 @@ public class PageResponse<T> {
 
     public void setNext(String next) {
         this.next = next;
+    }
+
+    public String getPrev() {
+        return prev;
+    }
+
+    public void setPrev(String prev) {
+        this.prev = prev;
     }
 }

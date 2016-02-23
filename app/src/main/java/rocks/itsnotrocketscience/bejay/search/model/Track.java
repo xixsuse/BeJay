@@ -1,4 +1,4 @@
-package rocks.itsnotrocketscience.bejay.tracks;
+package rocks.itsnotrocketscience.bejay.search.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -48,6 +48,8 @@ public class Track implements Parcelable {
      * Genre of track
      * */
     private String genre;
+
+    private String cover;
 
     public String getId() {
         return id;
@@ -113,6 +115,14 @@ public class Track implements Parcelable {
         this.genre = genre;
     }
 
+    public String getCover() {
+        return cover;
+    }
+
+    public void setCover(String cover) {
+        this.cover = cover;
+    }
+
     public static final Creator<Track> CREATOR = new Creator<Track>() {
         @Override
         public Track createFromParcel(Parcel source) {
@@ -126,6 +136,8 @@ public class Track implements Parcelable {
             if(duration >= -1) {
                 track.setDuration(duration);
             }
+            track.setGenre(source.readString());
+            track.setCover(source.readString());
             return track;
         }
 
@@ -153,5 +165,6 @@ public class Track implements Parcelable {
             dest.writeLong(duration);
         }
         dest.writeString(genre);
+        dest.writeString(cover);
     }
 }

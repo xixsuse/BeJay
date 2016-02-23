@@ -57,4 +57,7 @@ public @interface Deezer {
     String DATA = "data";
     String TOTAL = "total";
     String NEXT = "next";
+    String PREV = "prev";
+    String LIMIT = "limit";
+    String INDEX = "index";
 }

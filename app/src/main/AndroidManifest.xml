@@ -86,7 +86,7 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/title_activity_event" />
 
-        <activity android:name=".tracks.SearchActivity"
+        <activity android:name=".search.SearchActivity"
             android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
