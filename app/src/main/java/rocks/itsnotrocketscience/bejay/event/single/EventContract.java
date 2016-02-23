@@ -25,5 +25,6 @@ public interface EventContract {
         void onDestroy();
         void loadEvent(int id);
         void adSong(Song song);
+        void addLike(Song song);
     }
 }
