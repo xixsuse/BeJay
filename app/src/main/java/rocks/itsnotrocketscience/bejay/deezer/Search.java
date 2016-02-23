@@ -13,6 +13,7 @@ import rx.functions.Func3;
 
 import static java.lang.Long.parseLong;
 import static rocks.itsnotrocketscience.bejay.deezer.Deezer.INDEX;
+import static rocks.itsnotrocketscience.bejay.deezer.Deezer.LIMIT;
 
 
 public class Search<T, R> implements rocks.itsnotrocketscience.bejay.search.Search<R> {
@@ -28,7 +29,7 @@ public class Search<T, R> implements rocks.itsnotrocketscience.bejay.search.Sear
             Uri uri = Uri.parse(cursor);
 
             return new Cursor(parseLong(uri.getQueryParameter(INDEX)),
-                    parseLong(uri.getQueryParameter(Deezer.LIMIT)));
+                    parseLong(uri.getQueryParameter(LIMIT)));
         }
 
         public Cursor(long index, long limit) {
