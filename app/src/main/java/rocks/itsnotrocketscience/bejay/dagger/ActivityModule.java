@@ -19,7 +19,7 @@ import rocks.itsnotrocketscience.bejay.managers.AccountManager;
 import rocks.itsnotrocketscience.bejay.managers.AppLauncher;
 import rocks.itsnotrocketscience.bejay.managers.Launcher;
 import rocks.itsnotrocketscience.bejay.search.AlbumViewHolder;
-import rocks.itsnotrocketscience.bejay.search.SearchFactory;
+import rocks.itsnotrocketscience.bejay.search.SearchProvider;
 import rocks.itsnotrocketscience.bejay.search.model.Album;
 import rocks.itsnotrocketscience.bejay.search.model.Artist;
 import rocks.itsnotrocketscience.bejay.search.ArtistViewHolder;
@@ -51,15 +51,15 @@ public class ActivityModule {
         return new EventPresenterImpl(networkEvent);
     }
 
-    @Provides SearchContract.Presenter<Track> providesTrackSearchPresenter(SearchFactory<Track> search) {
+    @Provides SearchContract.Presenter<Track> providesTrackSearchPresenter(SearchProvider<Track> search) {
         return new SearchPresenter<>(search);
     }
 
-    @Provides SearchContract.Presenter<Artist> providesArtistSearchPresenter(SearchFactory<Artist> search) {
+    @Provides SearchContract.Presenter<Artist> providesArtistSearchPresenter(SearchProvider<Artist> search) {
         return new SearchPresenter<>(search);
     }
 
-    @Provides SearchContract.Presenter<Album> providesAlbumSearchPresenter(SearchFactory<Album> search) {
+    @Provides SearchContract.Presenter<Album> providesAlbumSearchPresenter(SearchProvider<Album> search) {
         return new SearchPresenter<>(search);
     }
 

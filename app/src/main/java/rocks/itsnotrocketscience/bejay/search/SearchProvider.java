@@ -6,7 +6,7 @@ package rocks.itsnotrocketscience.bejay.search;
  * The track search manager is responsible for creating a new TrackSearch object
  * based on query string and limit( a.k.a. page size)
  */
-public interface SearchFactory<R> {
+public interface SearchProvider<R> {
     /**
      * Return new TrackSearch based on query and limit
      *

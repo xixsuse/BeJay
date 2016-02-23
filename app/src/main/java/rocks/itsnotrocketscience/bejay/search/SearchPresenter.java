@@ -12,14 +12,14 @@ import rx.subjects.PublishSubject;
 public class SearchPresenter<T> implements SearchContract.Presenter<T> {
 
 
-    private final SearchFactory<T> trackSearchProvider;
+    private final SearchProvider<T> trackSearchProvider;
     private SearchContract.View view;
     private Search<T> trackSearch;
 
     private final PublishSubject<Boolean> onDestroy = PublishSubject.create();
 
     @Inject
-    public SearchPresenter(SearchFactory<T> trackSearchProvider) {
+    public SearchPresenter(SearchProvider<T> trackSearchProvider) {
         this.trackSearchProvider = trackSearchProvider;
     }
 
