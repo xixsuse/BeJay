@@ -1,8 +1,12 @@
 package rocks.itsnotrocketscience.bejay.dagger;
 
 
+import android.content.res.Resources;
+import android.view.LayoutInflater;
+
 import dagger.Component;
 import rocks.itsnotrocketscience.bejay.base.BaseActivity;
+import rocks.itsnotrocketscience.bejay.deezer.api.Search;
 import rocks.itsnotrocketscience.bejay.event.list.EventListFragment;
 import rocks.itsnotrocketscience.bejay.event.single.EventActivity;
 import rocks.itsnotrocketscience.bejay.event.single.EventFragment;
@@ -10,16 +14,14 @@ import rocks.itsnotrocketscience.bejay.home.HomeFragment;
 import rocks.itsnotrocketscience.bejay.main.MainActivity;
 import rocks.itsnotrocketscience.bejay.main.NavigationDrawerFragment;
 import rocks.itsnotrocketscience.bejay.managers.Launcher;
-import rocks.itsnotrocketscience.bejay.search.AlbumViewHolder;
-import rocks.itsnotrocketscience.bejay.search.ArtistViewHolder;
-import rocks.itsnotrocketscience.bejay.search.PlaylistViewHolder;
-import rocks.itsnotrocketscience.bejay.search.SearchActivity;
-import rocks.itsnotrocketscience.bejay.search.TrackViewHolder;
 
 @PerActivity
 @Component(modules = ActivityModule.class, dependencies = {AppComponent.class})
 public interface ActivityComponent {
     Launcher launcher();
+    LayoutInflater layoutInflater();
+    Resources resources();
+    Search deezerSearch();
 
     /**
      * Injectors
@@ -31,13 +33,4 @@ public interface ActivityComponent {
     void inject(EventActivity eventActivity);
     void inject(HomeFragment homeFragment);
     void inject(NavigationDrawerFragment navigationDrawerFragment);
-    void inject(SearchActivity searchActivity);
-    void inject(SearchActivity.TrackSearchFragment trackSearchFragment);
-    void inject(SearchActivity.ArtistSearchFragment artistSearchFragment);
-    void inject(SearchActivity.AlbumSearchFragment albumSearchFragment);
-    void inject(SearchActivity.PlaylistSearchFragment playlistSearchFragment);
-    void inject(AlbumViewHolder albumViewHolder);
-    void inject(ArtistViewHolder artistViewHolder);
-    void inject(TrackViewHolder trackViewHolder);
-    void inject(PlaylistViewHolder playlistViewHolder);
 }

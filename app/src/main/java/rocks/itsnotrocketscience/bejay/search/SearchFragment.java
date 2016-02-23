@@ -22,16 +22,18 @@ import butterknife.ButterKnife;
 import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.base.InjectedActivity;
 import rocks.itsnotrocketscience.bejay.base.InjectedFragment;
-import rocks.itsnotrocketscience.bejay.dagger.ActivityComponent;
+import rocks.itsnotrocketscience.bejay.search.di.SearchComponent;
 import rocks.itsnotrocketscience.bejay.search.model.Model;
 import rocks.itsnotrocketscience.bejay.view.ItemTouchHelper;
 
-public class SearchFragment<M extends Model> extends InjectedFragment<ActivityComponent> implements SearchContract.View, ItemTouchHelper.OnItemClickedListener {
+public class SearchFragment extends InjectedFragment<SearchComponent> implements SearchContract.View, ItemTouchHelper.OnItemClickedListener {
+    public static final String EXTRA_PAGE_SIZE = "page_size";
 
     @Inject ModelAdapter resultAdapter;
-    @Inject SearchContract.Presenter<M> searchPresenter;
-
     @Bind(R.id.search_result) RecyclerView searchResult;
+
+    SearchContract.Presenter searchPresenter;
+
     LinearLayoutManager layoutManager;
     ItemTouchHelper itemTouchHelper;
     String query;
@@ -42,6 +44,11 @@ public class SearchFragment<M extends Model> extends InjectedFragment<ActivityCo
     }
 
     int getPageSize() {
+        Bundle arguments = getArguments();
+        if(arguments != null && arguments.containsKey(EXTRA_PAGE_SIZE)) {
+            return arguments.getInt(EXTRA_PAGE_SIZE);
+        }
+
         DisplayMetrics displayMetrics = new DisplayMetrics();
         WindowManager windowManager = (WindowManager)getContext().getSystemService(Context.WINDOW_SERVICE);
         windowManager.getDefaultDisplay().getMetrics(displayMetrics);
@@ -62,14 +69,15 @@ public class SearchFragment<M extends Model> extends InjectedFragment<ActivityCo
 
 
     @Override
-    public ActivityComponent getComponent() {
-        InjectedActivity<ActivityComponent> activity = (InjectedActivity<ActivityComponent>) getActivity();
+    public SearchComponent getComponent() {
+        InjectedActivity<SearchComponent> activity = (InjectedActivity<SearchComponent>) getActivity();
         return activity.getComponent();
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getComponent().inject(this);
         query = getArguments().getString(SearchManager.QUERY);
     }
 

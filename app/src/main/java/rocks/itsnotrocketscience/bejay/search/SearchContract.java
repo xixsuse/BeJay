@@ -7,7 +7,7 @@ import rocks.itsnotrocketscience.bejay.search.model.Model;
 /**
  * Created by nemi on 20/02/2016.
  */
-public interface SearchContract<T> {
+public interface SearchContract {
     interface Presenter<T> {
         /**
          * Initiate search

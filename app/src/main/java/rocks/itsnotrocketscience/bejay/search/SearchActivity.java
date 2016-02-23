@@ -19,23 +19,23 @@ import rocks.itsnotrocketscience.bejay.base.InjectedActivity;
 import rocks.itsnotrocketscience.bejay.dagger.ActivityComponent;
 import rocks.itsnotrocketscience.bejay.dagger.ActivityModule;
 import rocks.itsnotrocketscience.bejay.dagger.DaggerActivityComponent;
-import rocks.itsnotrocketscience.bejay.search.model.Album;
-import rocks.itsnotrocketscience.bejay.search.model.Artist;
-import rocks.itsnotrocketscience.bejay.search.model.Playlist;
-import rocks.itsnotrocketscience.bejay.search.model.Track;
+    import rocks.itsnotrocketscience.bejay.search.di.DaggerSearchComponent;
+import rocks.itsnotrocketscience.bejay.search.di.SearchComponent;
+import rocks.itsnotrocketscience.bejay.search.di.SearchModule;
 
 /**
  * Created by nemi on 20/02/2016.
  */
-public class SearchActivity extends InjectedActivity<ActivityComponent> implements  SearchView.OnQueryTextListener {
+public class SearchActivity extends InjectedActivity<SearchComponent> implements  SearchView.OnQueryTextListener {
 
     public static final String EXTRA_TRACK = "track";
 
-    public static class TrackSearchFragment extends SearchFragment<Track> {
+    public static class TrackSearchFragment extends SearchFragment {
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
-            getComponent().inject(this);
             super.onCreate(savedInstanceState);
+            searchPresenter = getComponent().trackSearchPresenter();
+
         }
 
         public static TrackSearchFragment newInstance(String query) {
@@ -47,11 +47,12 @@ public class SearchActivity extends InjectedActivity<ActivityComponent> implemen
         }
     }
 
-    public static class ArtistSearchFragment extends SearchFragment<Artist> {
+    public static class ArtistSearchFragment extends SearchFragment {
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
-            getComponent().inject(this);
             super.onCreate(savedInstanceState);
+            searchPresenter = getComponent().artistSearchPresenter();
+
         }
 
         public static ArtistSearchFragment newInstance(String query) {
@@ -63,11 +64,12 @@ public class SearchActivity extends InjectedActivity<ActivityComponent> implemen
         }
     }
 
-    public static class AlbumSearchFragment extends SearchFragment<Album> {
+    public static class AlbumSearchFragment extends SearchFragment {
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
-            getComponent().inject(this);
             super.onCreate(savedInstanceState);
+            searchPresenter = getComponent().albumSearchPresenter();
+
         }
 
         public static AlbumSearchFragment newInstance(String query) {
@@ -79,11 +81,28 @@ public class SearchActivity extends InjectedActivity<ActivityComponent> implemen
         }
     }
 
-    public static class PlaylistSearchFragment extends SearchFragment<Playlist> {
+    public static class TopLevelSearchFragment extends SearchFragment {
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
-            getComponent().inject(this);
             super.onCreate(savedInstanceState);
+            searchPresenter = getComponent().topLevelSearchPresenter();
+        }
+
+        public static TopLevelSearchFragment newInstance(String query) {
+            TopLevelSearchFragment fragment = new TopLevelSearchFragment();
+            Bundle args = new Bundle();
+            args.putString(SearchManager.QUERY, query);
+            args.putInt(SearchFragment.EXTRA_PAGE_SIZE, 5);
+            fragment.setArguments(args);
+            return fragment;
+        }
+    }
+
+    public static class PlaylistSearchFragment extends SearchFragment {
+        @Override
+        public void onCreate(@Nullable Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            searchPresenter = getComponent().playlistSearchPresenter();
         }
 
         public static PlaylistSearchFragment newInstance(String query) {
@@ -97,24 +116,36 @@ public class SearchActivity extends InjectedActivity<ActivityComponent> implemen
 
     @Bind(R.id.toolbar) Toolbar toolbar;
 
-    ActivityModule activityModule;
-    ActivityComponent activityComponent;
+    SearchModule searchModule;
+    SearchComponent searchComponent;
     String query;
 
     MenuItem addTrackMenuItem;
     SearchView trackSearchView;
 
     public SearchActivity() {
-        this.activityModule = new ActivityModule(this);
+        this.searchModule = new SearchModule(this);
     }
 
     @Override
-    public ActivityComponent getComponent() {
-        return activityComponent = DaggerActivityComponent.builder()
-                .activityModule(activityModule)
+    public SearchComponent getComponent() {
+        if(searchComponent == null) {
+        return searchComponent = DaggerSearchComponent.builder()
+                .searchModule(searchModule)
+                .activityComponent(getActivityComponent())
+                .build();
+        }
+
+        return searchComponent;
+    }
+
+    private ActivityComponent getActivityComponent() {
+        return DaggerActivityComponent.builder()
+                .activityModule(new ActivityModule(this))
                 .appComponent(getAppComponent())
                 .build();
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -184,7 +215,7 @@ public class SearchActivity extends InjectedActivity<ActivityComponent> implemen
     private void showTrackSearchResults(String query) {
         if(!TextUtils.isEmpty(query)) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.search_result_container, PlaylistSearchFragment.newInstance(query))
+                    .add(R.id.search_result_container, TopLevelSearchFragment.newInstance(query))
                     .commitAllowingStateLoss();
         }
     }

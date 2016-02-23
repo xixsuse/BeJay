@@ -10,13 +10,9 @@ import javax.inject.Singleton;
 import dagger.Component;
 import rocks.itsnotrocketscience.bejay.api.ApiManager;
 import rocks.itsnotrocketscience.bejay.api.retrofit.Events;
+import rocks.itsnotrocketscience.bejay.deezer.api.Search;
 import rocks.itsnotrocketscience.bejay.gcm.RegistrationIntentService;
 import rocks.itsnotrocketscience.bejay.managers.AccountManager;
-import rocks.itsnotrocketscience.bejay.search.SearchProvider;
-import rocks.itsnotrocketscience.bejay.search.model.Album;
-import rocks.itsnotrocketscience.bejay.search.model.Artist;
-import rocks.itsnotrocketscience.bejay.search.model.Playlist;
-import rocks.itsnotrocketscience.bejay.search.model.Track;
 
 @Singleton
 @Component(modules = AppModule.class)
@@ -27,10 +23,7 @@ public interface AppComponent {
     Context context();
     BriteDatabase database();
     Events events();
-    SearchProvider<Track> trackSearchProvider();
-    SearchProvider<Artist> artistSearchProvider();
-    SearchProvider<Album> albumSearchProvider();
-    SearchProvider<Playlist> playlistSearchProvider();
+    Search deezerSearch();
 
     void inject(RegistrationIntentService registrationIntentService);
 }

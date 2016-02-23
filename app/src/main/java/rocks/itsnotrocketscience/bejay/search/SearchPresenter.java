@@ -26,12 +26,8 @@ public class SearchPresenter<T extends Model> implements SearchContract.Presente
 
     @Override
     public void search(String query, int pageSize) {
-        if(trackSearch != null) {
-            // TODO: reset current search ???
-        }
         trackSearch = trackSearchProvider.newSearch(query, pageSize);
         loadMoreResults();
-
     }
 
     @Override

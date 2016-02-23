@@ -5,11 +5,6 @@ import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Transformation;
-
-import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
 import rocks.itsnotrocketscience.bejay.api.retrofit.Events;
@@ -24,14 +19,6 @@ import rocks.itsnotrocketscience.bejay.managers.Launcher;
 import rocks.itsnotrocketscience.bejay.search.ModelAdapter;
 import rocks.itsnotrocketscience.bejay.search.ModelViewFactory;
 import rocks.itsnotrocketscience.bejay.search.ModelViewHolderFactory;
-import rocks.itsnotrocketscience.bejay.search.SearchContract;
-import rocks.itsnotrocketscience.bejay.search.SearchPresenter;
-import rocks.itsnotrocketscience.bejay.search.SearchProvider;
-import rocks.itsnotrocketscience.bejay.search.model.Album;
-import rocks.itsnotrocketscience.bejay.search.model.Artist;
-import rocks.itsnotrocketscience.bejay.search.model.Playlist;
-import rocks.itsnotrocketscience.bejay.search.model.Track;
-import rocks.itsnotrocketscience.bejay.view.CircleImageTransformation;
 
 @Module
 public class ActivityModule {
@@ -53,21 +40,6 @@ public class ActivityModule {
         return new EventPresenterImpl(networkEvent);
     }
 
-    @Provides SearchContract.Presenter<Track> providesTrackSearchPresenter(SearchProvider<Track> search) {
-        return new SearchPresenter<>(search);
-    }
-
-    @Provides SearchContract.Presenter<Artist> providesArtistSearchPresenter(SearchProvider<Artist> search) {
-        return new SearchPresenter<>(search);
-    }
-
-    @Provides SearchContract.Presenter<Album> providesAlbumSearchPresenter(SearchProvider<Album> search) {
-        return new SearchPresenter<>(search);
-    }
-
-    @Provides SearchContract.Presenter<Playlist> providesPlaylistSearchPresenter(SearchProvider<Playlist> search) {
-        return new SearchPresenter<>(search);
-    }
 
     @Provides LayoutInflater providesLayoutInflater() {
         return activity.getLayoutInflater();
@@ -77,16 +49,7 @@ public class ActivityModule {
         return activity.getResources();
     }
 
-    @Provides ModelAdapter providesTrackModelAdapter(ModelViewFactory viewFactory, ModelViewHolderFactory viewHolderFactory) {
+    @Provides ModelAdapter providesModelAdapter(ModelViewFactory viewFactory, ModelViewHolderFactory viewHolderFactory) {
         return new ModelAdapter(viewFactory, viewHolderFactory);
-    }
-
-
-    @Provides Picasso providesPicasso() {
-        return Picasso.with(activity);
-    }
-
-    @Provides Transformation providesCircleTransformation() {
-        return new CircleImageTransformation();
     }
 }

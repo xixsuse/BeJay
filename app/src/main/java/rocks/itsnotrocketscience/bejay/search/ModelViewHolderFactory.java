@@ -4,14 +4,14 @@ import android.view.View;
 
 import javax.inject.Inject;
 
-import rocks.itsnotrocketscience.bejay.dagger.ActivityComponent;
+import rocks.itsnotrocketscience.bejay.search.di.SearchComponent;
 import rocks.itsnotrocketscience.bejay.search.model.Model;
 
 public class ModelViewHolderFactory {
-    private ActivityComponent injector;
+    private SearchComponent injector;
 
     @Inject
-    public ModelViewHolderFactory(ActivityComponent injector) {
+    public ModelViewHolderFactory(SearchComponent injector) {
         this.injector = injector;
     }
 
