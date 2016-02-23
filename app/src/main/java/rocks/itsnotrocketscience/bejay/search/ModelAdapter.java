@@ -55,4 +55,9 @@ public class ModelAdapter<M extends Model> extends RecyclerView.Adapter<ModelVie
         this.tracks.addAll(tracks);
         notifyItemRangeInserted(currentCount, tracks.size());
     }
+
+    @Override
+    public int getItemViewType(int position) {
+        return tracks.get(position).getType();
+    }
 }
