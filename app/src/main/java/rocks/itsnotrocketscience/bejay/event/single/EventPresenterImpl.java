@@ -85,6 +85,11 @@ public class EventPresenterImpl implements EventContract.EventPresenter {
     }
 
     @Override
+    public void addLike(Song song) {
+
+    }
+
+    @Override
     public void registerUpdateReceiver(Context context) {
         context.registerReceiver(mMessageReceiver, new IntentFilter(EventActivity.EVENT_RECEIVER_ID));
     }

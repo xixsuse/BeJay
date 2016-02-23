@@ -3,8 +3,8 @@ package rocks.itsnotrocketscience.bejay.event.list;
 import android.view.View;
 
 /**
- * Created by centralstation on 16/09/15.
+ * Created by sirfunkenstine on 23/02/16.
  */
-public interface ItemClickListener {
-    void onClick(View view, int position);
+public interface ItemClickListener<T> {
+    void onClick(T item);
 }
