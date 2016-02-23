@@ -23,9 +23,10 @@ import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.base.InjectedActivity;
 import rocks.itsnotrocketscience.bejay.base.InjectedFragment;
 import rocks.itsnotrocketscience.bejay.dagger.ActivityComponent;
+import rocks.itsnotrocketscience.bejay.search.model.Model;
 import rocks.itsnotrocketscience.bejay.view.ItemTouchHelper;
 
-public class SearchFragment<M> extends InjectedFragment<ActivityComponent> implements SearchContract.View<M>, ItemTouchHelper.OnItemClickedListener {
+public class SearchFragment<M extends Model> extends InjectedFragment<ActivityComponent> implements SearchContract.View<M>, ItemTouchHelper.OnItemClickedListener {
 
     @Inject ModelAdapter<M> resultAdapter;
     @Inject SearchContract.Presenter<M> searchPresenter;
