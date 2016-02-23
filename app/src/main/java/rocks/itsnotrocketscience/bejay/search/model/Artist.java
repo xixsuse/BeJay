@@ -3,27 +3,12 @@ package rocks.itsnotrocketscience.bejay.search.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Artist implements Parcelable {
-    private String provider;
-    private String id;
+public class Artist extends Model implements Parcelable {
+    public static final String TYPE = "artist";
+
     private String name;
     private String picture;
 
-    public String getProvider() {
-        return provider;
-    }
-
-    public void setProvider(String provider) {
-        this.provider = provider;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -42,14 +27,19 @@ public class Artist implements Parcelable {
     }
 
     @Override
+    public String getType() {
+        return TYPE;
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(provider);
-        dest.writeString(id);
+        dest.writeString(getProvider());
+        dest.writeString(getId());
         dest.writeString(name);
         dest.writeString(picture);
 

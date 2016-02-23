@@ -8,10 +8,12 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import rocks.itsnotrocketscience.bejay.search.model.Model;
+
 /**
  * Created by nemi on 20/02/2016.
  */
-public class ModelAdapter<M> extends RecyclerView.Adapter<ModelViewHolder<M>> {
+public class ModelAdapter<M extends Model> extends RecyclerView.Adapter<ModelViewHolder<M>> {
     private final ViewHolderFactory<ModelViewHolder<M>> viewHolderFactory;
     private final ArrayList<M> tracks = new ArrayList<>();
 

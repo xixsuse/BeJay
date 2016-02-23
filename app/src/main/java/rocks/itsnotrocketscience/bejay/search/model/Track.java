@@ -8,64 +8,16 @@ import android.os.Parcelable;
  *
  * Provider independent track interface declaration
  */
-public class Track implements Parcelable {
-    /**
-     * Opaque identifier of track. Depends on provider
-     * */
-    private String id;
+public class Track extends Model implements Parcelable {
+    public static final String TYPE = "track";
 
-    /**
-     * Descriptor of provider for this track
-     * */
-    private String provider;
-
-    /**
-     * Track title
-     * */
     private String title;
-
-    /**
-     * Album name for this track
-     * */
     private String albumName;
-
-    /**
-     * Link to album cover art
-     * */
     private String albumCover;
-
-    /**
-     * Artist of track
-     * */
     private String artist;
-
-    /**
-     * Duration of track
-     * */
     private Long duration;
-
-    /**
-     * Genre of track
-     * */
     private String genre;
-
     private String cover;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getProvider() {
-        return provider;
-    }
-
-    public void setProvider(String provider) {
-        this.provider = provider;
-    }
 
     public String getTitle() {
         return title;
@@ -123,6 +75,11 @@ public class Track implements Parcelable {
         this.cover = cover;
     }
 
+    @Override
+    public String getType() {
+        return TYPE;
+    }
+
     public static final Creator<Track> CREATOR = new Creator<Track>() {
         @Override
         public Track createFromParcel(Parcel source) {
@@ -154,8 +111,8 @@ public class Track implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
-        dest.writeString(provider);
+        dest.writeString(getId());
+        dest.writeString(getProvider());
         dest.writeString(title);
         dest.writeString(albumName);
         dest.writeString(albumCover);
