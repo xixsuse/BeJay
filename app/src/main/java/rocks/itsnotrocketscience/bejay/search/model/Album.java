@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Album extends Model implements Parcelable {
-    public static final String TYPE = "album";
     private String title;
     private String cover;
     private String artist;
@@ -35,8 +34,8 @@ public class Album extends Model implements Parcelable {
     }
 
     @Override
-    public String getType() {
-        return TYPE;
+    public int getType() {
+        return TYPE_ALBUM;
     }
 
     @Override

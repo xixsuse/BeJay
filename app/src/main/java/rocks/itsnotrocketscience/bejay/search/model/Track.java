@@ -9,8 +9,6 @@ import android.os.Parcelable;
  * Provider independent track interface declaration
  */
 public class Track extends Model implements Parcelable {
-    public static final String TYPE = "track";
-
     private String title;
     private String albumName;
     private String albumCover;
@@ -76,8 +74,8 @@ public class Track extends Model implements Parcelable {
     }
 
     @Override
-    public String getType() {
-        return TYPE;
+    public int getType() {
+        return TYPE_TRACK;
     }
 
     public static final Creator<Track> CREATOR = new Creator<Track>() {

@@ -4,8 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Artist extends Model implements Parcelable {
-    public static final String TYPE = "artist";
-
     private String name;
     private String picture;
 
@@ -27,8 +25,8 @@ public class Artist extends Model implements Parcelable {
     }
 
     @Override
-    public String getType() {
-        return TYPE;
+    public int getType() {
+        return TYPE_ARTIST;
     }
 
     @Override
