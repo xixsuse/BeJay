@@ -2,6 +2,10 @@ package rocks.itsnotrocketscience.bejay.deezer.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
+import rocks.itsnotrocketscience.bejay.deezer.Deezer;
+
 import static rocks.itsnotrocketscience.bejay.deezer.Deezer.ID;
 import static rocks.itsnotrocketscience.bejay.deezer.Deezer.LINK;
 import static rocks.itsnotrocketscience.bejay.deezer.Deezer.NUMBER_OF_TRACKS;
@@ -24,6 +28,7 @@ public class Playlist {
     @SerializedName(PICTURE_MEDIUM) private String mediumPicture;
     @SerializedName(PICTURE_BIG) private String bigPicture;
     @SerializedName(USER) private User user;
+    @SerializedName(Deezer.TRACKS) private List<Track> tracks;
 
     public Long getId() {
         return id;
@@ -103,5 +108,21 @@ public class Playlist {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Boolean getPub() {
+        return pub;
+    }
+
+    public void setPub(Boolean pub) {
+        this.pub = pub;
+    }
+
+    public List<Track> getTracks() {
+        return tracks;
+    }
+
+    public void setTracks(List<Track> tracks) {
+        this.tracks = tracks;
     }
 }

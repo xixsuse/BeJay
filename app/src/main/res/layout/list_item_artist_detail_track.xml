@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/title"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/view_padding"
+    android:paddingBottom="@dimen/view_padding"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/list_item_prefered_height"
+    android:gravity="left|center_vertical"
+    android:textAppearance="?attr/textAppearanceListItem"
+    tools:text="Rage Against The Machine"/>
+

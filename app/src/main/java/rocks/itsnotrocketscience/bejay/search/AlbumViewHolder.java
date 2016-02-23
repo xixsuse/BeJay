@@ -1,6 +1,7 @@
 package rocks.itsnotrocketscience.bejay.search;
 
 import android.content.res.Resources;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -35,7 +36,28 @@ public class AlbumViewHolder extends ModelViewHolder<Album> {
     @Override
     public void setModel(Album model) {
         this.title.setText(model.getTitle());
-        this.artist.setText(resources.getString(R.string.format_by_artist, model.getArtist()));
-        this.picasso.load(model.getCover()).transform(transformation).into(this.cover);
+        setArtist(model.getArtist());
+        loadImage(model.getCover());
+    }
+
+    private void loadImage(String cover) {
+        if(this.cover != null) {
+            if (!TextUtils.isEmpty(cover)) {
+                this.picasso.load(cover).transform(transformation).into(this.cover);
+            } else {
+                this.cover.setImageBitmap(null);
+            }
+        }
+    }
+
+    private void setArtist(String name) {
+        if(this.artist != null) {
+            if(!TextUtils.isEmpty(name)) {
+                this.artist.setVisibility(View.VISIBLE);
+                this.artist.setText(resources.getString(R.string.format_by_artist, name));
+            } else {
+                this.artist.setVisibility(View.GONE);
+            }
+        }
     }
 }

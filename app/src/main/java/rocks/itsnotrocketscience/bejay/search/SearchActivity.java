@@ -23,6 +23,7 @@ import rocks.itsnotrocketscience.bejay.dagger.DaggerActivityComponent;
     import rocks.itsnotrocketscience.bejay.search.di.DaggerSearchComponent;
 import rocks.itsnotrocketscience.bejay.search.di.SearchComponent;
 import rocks.itsnotrocketscience.bejay.search.di.SearchModule;
+import rocks.itsnotrocketscience.bejay.search.model.Artist;
 import rocks.itsnotrocketscience.bejay.search.model.Model;
 import rocks.itsnotrocketscience.bejay.search.model.Track;
 
@@ -167,7 +168,10 @@ public class SearchActivity extends InjectedActivity<SearchComponent> implements
             showTrackSearchResults(query);
         }
 
-        getSupportFragmentManager().beginTransaction().add(new ArtistDetailsFragment(), "artist-detail-fragment").commitAllowingStateLoss();
+        Artist artist = new Artist();
+        artist.setId("27");
+
+        getSupportFragmentManager().beginTransaction().add(R.id.search_result_container, ArtistDetailsFragment.newInstance(artist)).commitAllowingStateLoss();
     }
 
     @Override
