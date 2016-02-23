@@ -59,10 +59,15 @@ public class SearchModule {
             Track track = new Track();
             track.setTitle(deezerTrack.getTitle());
             track.setDuration(deezerTrack.getDuration());
-            track.setArtist(deezerTrack.getArtist().getName());
-            track.setAlbumName(deezerTrack.getAlbum().getTitle());
+            if(deezerTrack.getArtist() != null) {
+                track.setArtist(deezerTrack.getArtist().getName());
+                track.setCover(deezerTrack.getArtist().getPicture());
+            }
+            if(deezerTrack.getAlbum() != null) {
+                track.setAlbumName(deezerTrack.getAlbum().getTitle());
+            }
             track.setId(deezerTrack.getId().toString());
-            track.setCover(deezerTrack.getArtist().getPicture());
+
             track.setProvider(Deezer.PROVIDER_NAME);
             return track;
         };
@@ -73,7 +78,9 @@ public class SearchModule {
             Album album = new Album();
             album.setProvider(Deezer.PROVIDER_NAME);
             album.setId(deezerAlbum.getId().toString());
-            album.setArtist(deezerAlbum.getArtist().getName());
+            if(deezerAlbum.getArtist() != null) {
+                album.setArtist(deezerAlbum.getArtist().getName());
+            }
             album.setTitle(deezerAlbum.getTitle());
             album.setCover(deezerAlbum.getCover());
             return album;

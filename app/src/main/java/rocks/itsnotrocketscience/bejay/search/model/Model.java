@@ -8,7 +8,7 @@ public abstract class Model {
     public static final int TYPE_ARTIST = 2;
     public static final int TYPE_PLAYLIST = 3;
     public static final int TYPE_TRACK = 4;
-    public static final int TYPE_LAST = 5;
+    public static final int TYPE_FIRST = 5;
 
     @IntDef(value = {TYPE_UNKNOWN, TYPE_ALBUM, TYPE_ARTIST, TYPE_PLAYLIST, TYPE_TRACK})
     public @interface Type {}

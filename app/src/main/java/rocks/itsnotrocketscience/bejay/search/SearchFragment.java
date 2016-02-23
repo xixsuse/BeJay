@@ -37,7 +37,12 @@ public class SearchFragment extends InjectedFragment<SearchComponent> implements
     LinearLayoutManager layoutManager;
     ItemTouchHelper itemTouchHelper;
     String query;
-    private boolean loading;
+    boolean loading;
+    OnModelSelectedListener onModelSelectedListener;
+
+    public interface OnModelSelectedListener {
+        void onModelSelected(Model model);
+    }
 
     float getTrackItemMinHeight() {
         return getResources().getDimension(R.dimen.list_item_prefered_height);
@@ -67,6 +72,18 @@ public class SearchFragment extends InjectedFragment<SearchComponent> implements
         return itemCount;
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        onModelSelectedListener = (OnModelSelectedListener) context;
+    }
+
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        onModelSelectedListener = null;
+    }
 
     @Override
     public SearchComponent getComponent() {
@@ -135,6 +152,6 @@ public class SearchFragment extends InjectedFragment<SearchComponent> implements
 
     @Override
     public void onItemClicked(RecyclerView recyclerView, int adapterPosition) {
-        //TODO: implement
+        onModelSelectedListener.onModelSelected(resultAdapter.getModel(adapterPosition));
     }
 }

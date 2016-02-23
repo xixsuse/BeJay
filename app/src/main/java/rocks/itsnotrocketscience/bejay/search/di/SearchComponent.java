@@ -3,6 +3,7 @@ package rocks.itsnotrocketscience.bejay.search.di;
 import dagger.Component;
 import rocks.itsnotrocketscience.bejay.dagger.ActivityComponent;
 import rocks.itsnotrocketscience.bejay.search.AlbumViewHolder;
+import rocks.itsnotrocketscience.bejay.search.ArtistDetailsFragment;
 import rocks.itsnotrocketscience.bejay.search.ArtistViewHolder;
 import rocks.itsnotrocketscience.bejay.search.PlaylistViewHolder;
 import rocks.itsnotrocketscience.bejay.search.SearchActivity;
@@ -24,6 +25,7 @@ public interface SearchComponent {
     void inject(ArtistViewHolder artistViewHolder);
     void inject(TrackViewHolder trackViewHolder);
     void inject(PlaylistViewHolder playlistViewHolder);
+    void inject(ArtistDetailsFragment artistDetailsFragment);
 
     TopLevelSearchPresenter topLevelSearchPresenter();
     SearchPresenter<Track> trackSearchPresenter();

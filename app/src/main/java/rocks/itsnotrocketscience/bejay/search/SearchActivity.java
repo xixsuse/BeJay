@@ -1,6 +1,7 @@
 package rocks.itsnotrocketscience.bejay.search;
 
 import android.app.SearchManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
@@ -22,11 +23,13 @@ import rocks.itsnotrocketscience.bejay.dagger.DaggerActivityComponent;
     import rocks.itsnotrocketscience.bejay.search.di.DaggerSearchComponent;
 import rocks.itsnotrocketscience.bejay.search.di.SearchComponent;
 import rocks.itsnotrocketscience.bejay.search.di.SearchModule;
+import rocks.itsnotrocketscience.bejay.search.model.Model;
+import rocks.itsnotrocketscience.bejay.search.model.Track;
 
 /**
  * Created by nemi on 20/02/2016.
  */
-public class SearchActivity extends InjectedActivity<SearchComponent> implements  SearchView.OnQueryTextListener {
+public class SearchActivity extends InjectedActivity<SearchComponent> implements  SearchView.OnQueryTextListener, SearchFragment.OnModelSelectedListener {
 
     public static final String EXTRA_TRACK = "track";
 
@@ -163,6 +166,8 @@ public class SearchActivity extends InjectedActivity<SearchComponent> implements
             query = getIntent().getStringExtra(SearchManager.QUERY);
             showTrackSearchResults(query);
         }
+
+        getSupportFragmentManager().beginTransaction().add(new ArtistDetailsFragment(), "artist-detail-fragment").commitAllowingStateLoss();
     }
 
     @Override
@@ -223,5 +228,18 @@ public class SearchActivity extends InjectedActivity<SearchComponent> implements
     @Override
     public boolean onQueryTextChange(String newText) {
         return true;
+    }
+
+    @Override
+    public void onModelSelected(Model model) {
+        switch (model.getType()) {
+            case Model.TYPE_TRACK : {
+                Track track = (Track) model;
+                Intent result = new Intent().putExtra(EXTRA_TRACK, track);
+                setResult(RESULT_OK, result);
+                finish();
+                break;
+            }
+        }
     }
 }

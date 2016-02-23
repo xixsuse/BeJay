@@ -10,6 +10,7 @@ import javax.inject.Singleton;
 import dagger.Component;
 import rocks.itsnotrocketscience.bejay.api.ApiManager;
 import rocks.itsnotrocketscience.bejay.api.retrofit.Events;
+import rocks.itsnotrocketscience.bejay.deezer.api.Artist;
 import rocks.itsnotrocketscience.bejay.deezer.api.Search;
 import rocks.itsnotrocketscience.bejay.gcm.RegistrationIntentService;
 import rocks.itsnotrocketscience.bejay.managers.AccountManager;
@@ -23,7 +24,8 @@ public interface AppComponent {
     Context context();
     BriteDatabase database();
     Events events();
-    Search deezerSearch();
+    Search deezerSearchApi();
+    Artist deezerArtistApi();
 
     void inject(RegistrationIntentService registrationIntentService);
 }

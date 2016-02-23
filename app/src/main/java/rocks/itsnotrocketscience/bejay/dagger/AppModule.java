@@ -21,6 +21,7 @@ import rocks.itsnotrocketscience.bejay.api.ApiManager;
 import rocks.itsnotrocketscience.bejay.api.retrofit.Events;
 import rocks.itsnotrocketscience.bejay.db.ModelDbHelper;
 import rocks.itsnotrocketscience.bejay.deezer.Deezer;
+import rocks.itsnotrocketscience.bejay.deezer.api.Artist;
 import rocks.itsnotrocketscience.bejay.deezer.api.Search;
 import rocks.itsnotrocketscience.bejay.gcm.GcmUtils;
 import rocks.itsnotrocketscience.bejay.managers.AccountManager;
@@ -86,7 +87,12 @@ public class AppModule {
                 .build();
     }
 
-    @Provides @Singleton Search providesSearch(@Deezer RestAdapter restAdapter) {
+    @Provides @Singleton Search providesDeezerSearchApi(@Deezer RestAdapter restAdapter) {
         return restAdapter.create(Search.class);
+    }
+
+    @Provides @Singleton
+    Artist providesDeezerArtistApi(@Deezer RestAdapter restAdapter) {
+        return restAdapter.create(Artist.class);
     }
 }

@@ -33,4 +33,6 @@
     <string name="action_title_add_track">Add Track</string>
     <string name="format_by_artist">by %s</string>
     <string name="format_created_by_user">created by %s</string>
+    <string name="section_header_top_tracks">Top Tracks</string>
+    <string name="section_header_discography">Discography</string>
 </resources>
