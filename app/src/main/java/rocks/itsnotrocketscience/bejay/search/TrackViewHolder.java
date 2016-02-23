@@ -22,36 +22,16 @@ import rocks.itsnotrocketscience.bejay.view.CircleImageTransformation;
 
 public class TrackViewHolder extends ModelViewHolder<Track> {
 
-    private Picasso picasso;
-    private Transformation transformation;
-    private Resources resources;
+    @Inject Picasso picasso;
+    @Inject Transformation transformation;
+    @Inject Resources resources;
+
     public TextView title;
     public TextView artist;
     public ImageView cover;
 
-    public static class Factory extends ViewHolderFactory<ModelViewHolder<Track>> {
-        private static final Transformation TRANSFORMATION = new CircleImageTransformation();
-        private final Picasso picasso;
-        private final Resources resources;
-
-        @Inject
-        public Factory(LayoutInflater layoutInflater, Picasso picasso, Resources resources) {
-            super(R.layout.list_item_track, layoutInflater);
-            this.picasso = picasso;
-            this.resources = resources;
-        }
-
-        @Override
-        protected ModelViewHolder<Track> create(View view) {
-            return new TrackViewHolder(picasso, TRANSFORMATION, resources, view);
-        }
-    }
-
-    public TrackViewHolder(Picasso picasso, Transformation transformation, Resources resources, View itemView) {
+    public TrackViewHolder(View itemView) {
         super(itemView);
-        this.picasso = picasso;
-        this.transformation = transformation;
-        this.resources = resources;
         this.title = (TextView) itemView.findViewById(R.id.title);
         this.artist = (TextView) itemView.findViewById(R.id.artist);
         this.cover = (ImageView) itemView.findViewById(R.id.cover);

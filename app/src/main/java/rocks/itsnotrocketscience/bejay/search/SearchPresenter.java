@@ -2,6 +2,7 @@ package rocks.itsnotrocketscience.bejay.search;
 
 import javax.inject.Inject;
 
+import rocks.itsnotrocketscience.bejay.search.model.Model;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.subjects.PublishSubject;
@@ -9,7 +10,7 @@ import rx.subjects.PublishSubject;
 /**
  * Created by nemi on 20/02/2016.
  */
-public class SearchPresenter<T> implements SearchContract.Presenter<T> {
+public class SearchPresenter<T extends Model> implements SearchContract.Presenter<T> {
 
 
     private final SearchProvider<T> trackSearchProvider;

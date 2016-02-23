@@ -26,9 +26,9 @@ import rocks.itsnotrocketscience.bejay.dagger.ActivityComponent;
 import rocks.itsnotrocketscience.bejay.search.model.Model;
 import rocks.itsnotrocketscience.bejay.view.ItemTouchHelper;
 
-public class SearchFragment<M extends Model> extends InjectedFragment<ActivityComponent> implements SearchContract.View<M>, ItemTouchHelper.OnItemClickedListener {
+public class SearchFragment<M extends Model> extends InjectedFragment<ActivityComponent> implements SearchContract.View, ItemTouchHelper.OnItemClickedListener {
 
-    @Inject ModelAdapter<M> resultAdapter;
+    @Inject ModelAdapter resultAdapter;
     @Inject SearchContract.Presenter<M> searchPresenter;
 
     @Bind(R.id.search_result) RecyclerView searchResult;
@@ -120,7 +120,7 @@ public class SearchFragment<M extends Model> extends InjectedFragment<ActivityCo
     }
 
     @Override
-    public void onSearchResultsLoaded(List<M> modelItems) {
+    public void onSearchResultsLoaded(List<? extends Model> modelItems) {
         resultAdapter.addAll(modelItems);
         loading = false;
     }

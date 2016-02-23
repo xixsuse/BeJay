@@ -2,6 +2,8 @@ package rocks.itsnotrocketscience.bejay.search;
 
 import java.util.List;
 
+import rocks.itsnotrocketscience.bejay.search.model.Model;
+
 /**
  * Created by nemi on 20/02/2016.
  */
@@ -32,10 +34,10 @@ public interface SearchContract<T> {
         void onViewDetached();
     }
 
-    interface View<T> {
+    interface View {
         /**
          * Called when additional search results are ready.
          * */
-        void onSearchResultsLoaded(List<T> tracks);
+        void onSearchResultsLoaded(List<? extends Model> tracks);
     }
 }

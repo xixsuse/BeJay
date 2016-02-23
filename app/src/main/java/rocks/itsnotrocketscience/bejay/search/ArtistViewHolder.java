@@ -15,31 +15,14 @@ import rocks.itsnotrocketscience.bejay.search.model.Artist;
 import rocks.itsnotrocketscience.bejay.view.CircleImageTransformation;
 
 public class ArtistViewHolder extends ModelViewHolder<Artist> {
-    private Picasso picasso;
-    private Transformation transformation;
+    @Inject Picasso picasso;
+    @Inject Transformation transformation;
+
     private TextView name;
     private ImageView picture;
 
-    public static class Factory extends ViewHolderFactory<ModelViewHolder<Artist>> {
-        private static final Transformation TRANSFORMATION = new CircleImageTransformation();
-
-        private Picasso picasso;
-        @Inject
-        public Factory(Picasso picasso, LayoutInflater layoutInflater) {
-            super(R.layout.list_item_artist, layoutInflater);
-            this.picasso = picasso;
-        }
-
-        @Override
-        protected ModelViewHolder<Artist> create(View view) {
-            return new ArtistViewHolder(picasso, TRANSFORMATION, view);
-        }
-    }
-
-    public ArtistViewHolder(Picasso picasso, Transformation transformation, View itemView) {
+    public ArtistViewHolder(View itemView) {
         super(itemView);
-        this.picasso = picasso;
-        this.transformation = transformation;
         this.name = (TextView) itemView.findViewById(R.id.name);
         this.picture = (ImageView) itemView.findViewById(R.id.picture);
     }

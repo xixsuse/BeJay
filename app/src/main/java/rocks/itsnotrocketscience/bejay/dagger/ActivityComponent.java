@@ -10,7 +10,10 @@ import rocks.itsnotrocketscience.bejay.home.HomeFragment;
 import rocks.itsnotrocketscience.bejay.main.MainActivity;
 import rocks.itsnotrocketscience.bejay.main.NavigationDrawerFragment;
 import rocks.itsnotrocketscience.bejay.managers.Launcher;
+import rocks.itsnotrocketscience.bejay.search.AlbumViewHolder;
+import rocks.itsnotrocketscience.bejay.search.ArtistViewHolder;
 import rocks.itsnotrocketscience.bejay.search.SearchActivity;
+import rocks.itsnotrocketscience.bejay.search.TrackViewHolder;
 
 @PerActivity
 @Component(modules = ActivityModule.class, dependencies = {AppComponent.class})
@@ -31,4 +34,7 @@ public interface ActivityComponent {
     void inject(SearchActivity.TrackSearchFragment trackSearchFragment);
     void inject(SearchActivity.ArtistSearchFragment artistSearchFragment);
     void inject(SearchActivity.AlbumSearchFragment albumSearchFragment);
+    void inject(AlbumViewHolder albumViewHolder);
+    void inject(ArtistViewHolder artistViewHolder);
+    void inject(TrackViewHolder trackViewHolder);
 }
