@@ -20,33 +20,27 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import rocks.itsnotrocketscience.bejay.R;
-import rocks.itsnotrocketscience.bejay.base.InjectedActivity;
-import rocks.itsnotrocketscience.bejay.base.InjectedFragment;
-import rocks.itsnotrocketscience.bejay.search.contracat.SearchContract;
-import rocks.itsnotrocketscience.bejay.search.di.SearchComponent;
 import rocks.itsnotrocketscience.bejay.music.model.Model;
+import rocks.itsnotrocketscience.bejay.search.contract.MusicSearchContract;
+import rocks.itsnotrocketscience.bejay.search.contract.SearchContract;
+import rocks.itsnotrocketscience.bejay.search.di.SearchComponent;
 import rocks.itsnotrocketscience.bejay.view.ItemTouchHelper;
 
-public class SearchFragment extends InjectedFragment<SearchComponent> implements SearchContract.View, ItemTouchHelper.OnItemClickedListener {
+public class SearchFragment extends BaseFragment implements SearchContract.View, ItemTouchHelper.OnItemClickedListener {
     public static final String EXTRA_PAGE_SIZE = "page_size";
     public static final String EXTRA_TYPE = "type";
 
     @Inject ModelAdapter resultAdapter;
-    SearchContract.Presenter searchPresenter;
 
     @Bind(R.id.search_result) RecyclerView searchResult;
 
-
-    LinearLayoutManager layoutManager;
-    ItemTouchHelper itemTouchHelper;
-    int type;
-    String query;
-    boolean loading;
-    OnModelSelectedListener onModelSelectedListener;
-
-    public interface OnModelSelectedListener {
-        void onModelSelected(Model model);
-    }
+    private SearchContract.Presenter searchPresenter;
+    private LinearLayoutManager layoutManager;
+    private ItemTouchHelper itemTouchHelper;
+    private int type;
+    private String query;
+    private boolean loading;
+    private MusicSearchContract contract;
 
     float getTrackItemMinHeight() {
         return getResources().getDimension(R.dimen.list_item_prefered_height);
@@ -89,20 +83,14 @@ public class SearchFragment extends InjectedFragment<SearchComponent> implements
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        onModelSelectedListener = (OnModelSelectedListener) context;
+        contract = (MusicSearchContract) context;
     }
 
 
     @Override
     public void onDetach() {
         super.onDetach();
-        onModelSelectedListener = null;
-    }
-
-    @Override
-    public SearchComponent getComponent() {
-        InjectedActivity<SearchComponent> activity = (InjectedActivity<SearchComponent>) getActivity();
-        return activity.getComponent();
+        contract = null;
     }
 
     @Override
@@ -191,6 +179,6 @@ public class SearchFragment extends InjectedFragment<SearchComponent> implements
 
     @Override
     public void onItemClicked(RecyclerView recyclerView, int adapterPosition) {
-        onModelSelectedListener.onModelSelected(resultAdapter.getModel(adapterPosition));
+        contract.onModelSelected(resultAdapter.getModel(adapterPosition));
     }
 }

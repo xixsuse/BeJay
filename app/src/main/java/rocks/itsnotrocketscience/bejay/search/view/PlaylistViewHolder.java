@@ -1,6 +1,7 @@
 package rocks.itsnotrocketscience.bejay.search.view;
 
 import android.content.res.Resources;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,6 +32,16 @@ public class PlaylistViewHolder extends ModelViewHolder<Playlist> {
     @Override
     public void setModel(Playlist model) {
         this.title.setText(model.getTitle());
-        this.picasso.load(model.getPicture()).transform(transformation).into(this.picture);
+        loadImage(model.getPicture());
+    }
+
+    private void loadImage(String picture) {
+        if(this.picture != null) {
+            if(!TextUtils.isEmpty(picture)) {
+                this.picasso.load(picture).transform(transformation).into(this.picture);
+            } else {
+                this.picture.setImageBitmap(null);
+            }
+        }
     }
 }

@@ -1,4 +1,4 @@
-package rocks.itsnotrocketscience.bejay.search.contracat;
+package rocks.itsnotrocketscience.bejay.search.contract;
 
 
 import java.util.List;
@@ -9,7 +9,7 @@ import rocks.itsnotrocketscience.bejay.music.model.Model;
  * Created by nemi on 20/02/2016.
  */
 public interface SearchContract {
-    interface Presenter {
+    interface Presenter extends rocks.itsnotrocketscience.bejay.search.contract.Presenter<View> {
         /**
          * Initiate search
          *
@@ -23,16 +23,6 @@ public interface SearchContract {
          * Load additional results for the current search
          * */
         void loadMoreResults();
-
-        /**
-         * Called when view is attached
-         * */
-        void onViewAttached(View view);
-
-        /**
-         * Called when view is detached
-         * */
-        void onViewDetached();
     }
 
     interface View {

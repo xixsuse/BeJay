@@ -15,6 +15,7 @@ import static rocks.itsnotrocketscience.bejay.music.backends.deezer.api.Deezer.P
 import static rocks.itsnotrocketscience.bejay.music.backends.deezer.api.Deezer.PICTURE_SMALL;
 import static rocks.itsnotrocketscience.bejay.music.backends.deezer.api.Deezer.PUBLIC;
 import static rocks.itsnotrocketscience.bejay.music.backends.deezer.api.Deezer.TITLE;
+import static rocks.itsnotrocketscience.bejay.music.backends.deezer.api.Deezer.TRACKS;
 import static rocks.itsnotrocketscience.bejay.music.backends.deezer.api.Deezer.USER;
 
 public class Playlist {
@@ -28,8 +29,7 @@ public class Playlist {
     @SerializedName(PICTURE_MEDIUM) private String mediumPicture;
     @SerializedName(PICTURE_BIG) private String bigPicture;
     @SerializedName(USER) private User user;
-    @SerializedName(value = Deezer.TRACKS)
-    private List<Track> tracks;
+    @SerializedName(TRACKS) private Collection<Track> tracks;
 
     public Long getId() {
         return id;
@@ -119,11 +119,11 @@ public class Playlist {
         this.pub = pub;
     }
 
-    public List<Track> getTracks() {
+    public Collection<Track> getTracks() {
         return tracks;
     }
 
-    public void setTracks(List<Track> tracks) {
+    public void setTracks(Collection<Track> tracks) {
         this.tracks = tracks;
     }
 }

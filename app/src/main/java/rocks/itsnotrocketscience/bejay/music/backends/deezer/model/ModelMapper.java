@@ -59,17 +59,19 @@ public class ModelMapper {
             playlist.setNumberOfTracks(deezerPlaylist.getNumberOfTracks());
             playlist.setPicture(deezerPlaylist.getPicture());
             playlist.setPublic(deezerPlaylist.isPublic());
-            playlist.setUser(deezerPlaylist.getUser().getName());
+            if(deezerPlaylist.getUser() != null) {
+                playlist.setUser(deezerPlaylist.getUser().getName());
+            }
             playlist.setTracks(map(deezerPlaylist.getTracks()));
-
+            return playlist;
         }
         return null;
     }
 
-    public static List<rocks.itsnotrocketscience.bejay.music.model.Track> map(List<rocks.itsnotrocketscience.bejay.music.backends.deezer.model.Track> deezerTracks) {
-        if(deezerTracks != null) {
+    public static List<rocks.itsnotrocketscience.bejay.music.model.Track> map(Collection<rocks.itsnotrocketscience.bejay.music.backends.deezer.model.Track> deezerTracks) {
+        if(deezerTracks != null && deezerTracks.getData() != null) {
             List<rocks.itsnotrocketscience.bejay.music.model.Track> tracks = new ArrayList<>();
-            for(rocks.itsnotrocketscience.bejay.music.backends.deezer.model.Track deezerTrack : deezerTracks) {
+            for(rocks.itsnotrocketscience.bejay.music.backends.deezer.model.Track deezerTrack : deezerTracks.getData()) {
                 tracks.add(map(deezerTrack));
             }
             return tracks;

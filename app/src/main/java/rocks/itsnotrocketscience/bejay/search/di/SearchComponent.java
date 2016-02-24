@@ -6,7 +6,9 @@ import rocks.itsnotrocketscience.bejay.music.model.Album;
 import rocks.itsnotrocketscience.bejay.music.model.Artist;
 import rocks.itsnotrocketscience.bejay.music.model.Playlist;
 import rocks.itsnotrocketscience.bejay.music.model.Track;
+import rocks.itsnotrocketscience.bejay.search.AlbumDetailsFragment;
 import rocks.itsnotrocketscience.bejay.search.ArtistDetailsFragment;
+import rocks.itsnotrocketscience.bejay.search.PlaylistDetailsFragment;
 import rocks.itsnotrocketscience.bejay.search.SearchActivity;
 import rocks.itsnotrocketscience.bejay.search.SearchFragment;
 import rocks.itsnotrocketscience.bejay.search.TopLevelSearchFragment;
@@ -28,6 +30,8 @@ public interface SearchComponent {
     void inject(PlaylistViewHolder playlistViewHolder);
     void inject(ArtistDetailsFragment artistDetailsFragment);
     void inject(TopLevelSearchFragment fragment);
+    void inject(AlbumDetailsFragment fragment);
+    void inject(PlaylistDetailsFragment fragment);
 
     SearchPresenter<Track> trackSearchPresenter();
     SearchPresenter<Album> albumSearchPresenter();

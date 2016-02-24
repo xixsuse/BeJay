@@ -35,4 +35,9 @@
     <string name="format_created_by_user">created by %s</string>
     <string name="section_header_top_tracks">Top Tracks</string>
     <string name="section_header_discography">Discography</string>
+    <string name="section_header_tracks">Tracks</string>
+    <string name="section_header_albums">Albums</string>
+    <string name="section_header_playlists">Playlists</string>
+    <string name="section_header_artists">Artists</string>
+    <string name="action_show_more">Show more</string>
 </resources>

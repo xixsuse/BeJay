@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import javax.inject.Inject;
 
 import rocks.itsnotrocketscience.bejay.R;
-import rocks.itsnotrocketscience.bejay.music.model.ArtistDetails;
 import rocks.itsnotrocketscience.bejay.music.model.Model;
+import rocks.itsnotrocketscience.bejay.search.contract.ArtistDetailsContract;
 import rocks.itsnotrocketscience.bejay.search.view.ModelViewHolder;
 import rocks.itsnotrocketscience.bejay.search.view.ModelViewHolderFactory;
 import rocks.itsnotrocketscience.bejay.search.view.SectionHeaderViewHolder;
@@ -26,7 +26,7 @@ public class ArtistDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private LayoutInflater layoutInflater;
     private Resources resources;
 
-    private ArtistDetails artistDetails;
+    private ArtistDetailsContract.ArtistDetails artistDetails;
 
     private int topTracksHeaderIndex;
     private int discographyHeaderIndex;
@@ -41,7 +41,7 @@ public class ArtistDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         this.resources = resources;
     }
 
-    public void setArtistDetails(ArtistDetails artistDetails) {
+    public void setArtistDetails(ArtistDetailsContract.ArtistDetails artistDetails) {
         if(this.artistDetails != artistDetails) {
             this.artistDetails = artistDetails;
             updateIndices();
@@ -120,7 +120,6 @@ public class ArtistDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return null;
     }
 
-
     @Override
     public int getItemViewType(int position) {
         if(position == topTracksHeaderIndex || position == discographyHeaderIndex) {
@@ -133,7 +132,6 @@ public class ArtistDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         return Model.TYPE_UNKNOWN;
     }
-
 
 
     private int getTopTracksCount() {

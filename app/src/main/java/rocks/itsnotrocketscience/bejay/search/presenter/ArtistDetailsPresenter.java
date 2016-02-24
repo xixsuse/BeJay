@@ -3,19 +3,14 @@ package rocks.itsnotrocketscience.bejay.search.presenter;
 import javax.inject.Inject;
 
 import rocks.itsnotrocketscience.bejay.music.Api;
-
-import rocks.itsnotrocketscience.bejay.music.model.Artist;
-import rocks.itsnotrocketscience.bejay.music.model.ArtistDetails;
-
-import rocks.itsnotrocketscience.bejay.search.contracat.ArtistDetailsContract;
+import rocks.itsnotrocketscience.bejay.search.contract.ArtistDetailsContract;
+import rocks.itsnotrocketscience.bejay.search.contract.PresenterBase;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 
-public class ArtistDetailsPresenter implements ArtistDetailsContract.Presenter {
+public class ArtistDetailsPresenter extends PresenterBase<ArtistDetailsContract.View> implements ArtistDetailsContract.Presenter {
 
-    ArtistDetailsContract.View view;
-    Api.Artist api;
-
+    private Api.Artist api;
 
     @Inject
     public ArtistDetailsPresenter(Api.Artist api) {
@@ -23,26 +18,14 @@ public class ArtistDetailsPresenter implements ArtistDetailsContract.Presenter {
     }
 
     @Override
-    public void loadArtist(Artist artist) {
-        Long id = Long.valueOf(artist.getId());
-        Observable.combineLatest(api.topTracks(artist.getId()), api.albums(artist.getId()), (topTracks, discography) -> {
-            ArtistDetails artistDetails = new ArtistDetails();
-            artistDetails.setArtist(artist);
+    public void loadArtistDetails(String id) {
+        Observable.combineLatest(api.topTracks(id), api.albums(id), (topTracks, discography) -> {
+            ArtistDetailsContract.ArtistDetails artistDetails = new ArtistDetailsContract.ArtistDetails();
             artistDetails.setTopTracks(topTracks);
             artistDetails.setDiscography(discography);
             return artistDetails;
-        }).first().observeOn(AndroidSchedulers.mainThread())
-                .subscribe(artistDetails -> view.onLoaded(artistDetails));
+        }).first().compose(onDetach()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(artistDetails -> getView().onLoaded(artistDetails));
 
-    }
-
-    @Override
-    public void onViewAttached(ArtistDetailsContract.View view) {
-        this.view = view;
-    }
-
-    @Override
-    public void onViewDetached() {
-        this.view = null;
     }
 }

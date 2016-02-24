@@ -43,7 +43,7 @@ public class Album {
     @SerializedName(COVER_MEDIUM) private String coverMedium;
     @SerializedName(COVER_BIG) private String coverBig;
     @SerializedName(GENRE_ID) private Long genreId;
-    @SerializedName(GENRES) private List<Genre> genres;
+    @SerializedName(GENRES) private Collection<Genre> genres;
     @SerializedName(LABEL) private String label;
     @SerializedName(NUMBER_OF_TRACKS) private Long numberOfTracks;
     @SerializedName(DURATION) private Long duration;
@@ -54,9 +54,9 @@ public class Album {
     @SerializedName(AVAILABLE) private Boolean available;
     @SerializedName(ALTERNATIVE) private Album alternative;
     @SerializedName(EXPLICIT_LYRICS) private Boolean explicitLyrics;
-    @SerializedName(CONTRIBUTORS) private List<String> contributors;
+//    @SerializedName(CONTRIBUTORS) private List<String> contributors;
     @SerializedName(ARTIST) private Artist artist;
-    @SerializedName(TRACKS) private List<Track> tracks;
+    @SerializedName(TRACKS) private Collection<Track> tracks;
 
     public Long getId() {
         return id;
@@ -138,11 +138,11 @@ public class Album {
         this.genreId = genreId;
     }
 
-    public List<Genre> getGenres() {
+    public Collection<Genre> getGenres() {
         return genres;
     }
 
-    public void setGenres(List<Genre> genres) {
+    public void setGenres(Collection<Genre> genres) {
         this.genres = genres;
     }
 
@@ -226,13 +226,13 @@ public class Album {
         this.explicitLyrics = explicitLyrics;
     }
 
-    public List<String> getContributors() {
-        return contributors;
-    }
-
-    public void setContributors(List<String> contributors) {
-        this.contributors = contributors;
-    }
+//    public List<String> getContributors() {
+//        return contributors;
+//    }
+//
+//    public void setContributors(List<String> contributors) {
+//        this.contributors = contributors;
+//    }
 
     public Artist getArtist() {
         return artist;
@@ -242,11 +242,11 @@ public class Album {
         this.artist = artist;
     }
 
-    public List<Track> getTracks() {
+    public Collection<Track> getTracks() {
         return tracks;
     }
 
-    public void setTracks(List<Track> tracks) {
+    public void setTracks(Collection<Track> tracks) {
         this.tracks = tracks;
     }
 }

@@ -13,7 +13,11 @@ import rocks.itsnotrocketscience.bejay.music.model.Album;
 import rocks.itsnotrocketscience.bejay.music.model.Artist;
 import rocks.itsnotrocketscience.bejay.music.model.Playlist;
 import rocks.itsnotrocketscience.bejay.music.model.Track;
-import rocks.itsnotrocketscience.bejay.search.contracat.TopLevelSearchContract;
+import rocks.itsnotrocketscience.bejay.search.contract.AlbumDetailsContract;
+import rocks.itsnotrocketscience.bejay.search.contract.PlaylistDetailsContract;
+import rocks.itsnotrocketscience.bejay.search.contract.TopLevelSearchContract;
+import rocks.itsnotrocketscience.bejay.search.presenter.AlbumDetailsPresenter;
+import rocks.itsnotrocketscience.bejay.search.presenter.PlaylistDetailsPresenter;
 import rocks.itsnotrocketscience.bejay.search.presenter.SearchPresenter;
 import rocks.itsnotrocketscience.bejay.search.presenter.TopLevelSearchPresenter;
 import rocks.itsnotrocketscience.bejay.view.CircleImageTransformation;
@@ -44,8 +48,26 @@ public class SearchModule {
         return new rocks.itsnotrocketscience.bejay.music.backends.deezer.api.Artist(artistApi);
     }
 
+    @Provides Api.Album providesAlbumApi(rocks.itsnotrocketscience.bejay.music.backends.deezer.restapi.Album albumApi) {
+        return new rocks.itsnotrocketscience.bejay.music.backends.deezer.api.Album(albumApi);
+    }
+
+    @Provides Api.Playlist providesPlaylistApi(rocks.itsnotrocketscience.bejay.music.backends.deezer.restapi.Playlist playlistApi) {
+        return new rocks.itsnotrocketscience.bejay.music.backends.deezer.api.Playlist(playlistApi);
+    }
+
     @Provides TopLevelSearchContract.Presenter providesTopLevelSearchPresenter(TopLevelSearchPresenter presenter) {
         return presenter;
+    }
+
+    @Provides
+    PlaylistDetailsContract.Presenter providesPlaylistDetailsPresenter(Api.Playlist api) {
+        return new PlaylistDetailsPresenter(api);
+    }
+
+    @Provides
+    AlbumDetailsContract.Presenter providesAlbumDetailsPresenter(Api.Album api) {
+        return new AlbumDetailsPresenter(api);
     }
 
     @Provides

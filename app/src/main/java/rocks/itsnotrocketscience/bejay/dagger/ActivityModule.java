@@ -40,7 +40,6 @@ public class ActivityModule {
         return new EventPresenterImpl(networkEvent);
     }
 
-
     @Provides LayoutInflater providesLayoutInflater() {
         return activity.getLayoutInflater();
     }

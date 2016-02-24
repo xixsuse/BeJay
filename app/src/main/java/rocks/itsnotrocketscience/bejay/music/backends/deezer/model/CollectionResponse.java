@@ -5,18 +5,8 @@ import com.google.gson.annotations.SerializedName;
 import static rocks.itsnotrocketscience.bejay.music.backends.deezer.api.Deezer.DATA;
 import static rocks.itsnotrocketscience.bejay.music.backends.deezer.api.Deezer.TOTAL;
 
-public class CollectionResponse<T> {
-    @SerializedName(DATA) private java.util.List<T> data;
+public class CollectionResponse<T> extends Collection<T> {
     @SerializedName(TOTAL) private Long total;
-
-
-    public java.util.List<T> getData() {
-        return data;
-    }
-
-    public void setData(java.util.List<T> data) {
-        this.data = data;
-    }
 
     public Long getTotal() {
         return total;

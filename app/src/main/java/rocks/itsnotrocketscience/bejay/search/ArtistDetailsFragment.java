@@ -1,5 +1,6 @@
 package rocks.itsnotrocketscience.bejay.search;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,24 +14,25 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import rocks.itsnotrocketscience.bejay.R;
-import rocks.itsnotrocketscience.bejay.base.InjectedActivity;
-import rocks.itsnotrocketscience.bejay.base.InjectedFragment;
-import rocks.itsnotrocketscience.bejay.search.contracat.ArtistDetailsContract;
-import rocks.itsnotrocketscience.bejay.search.di.SearchComponent;
 import rocks.itsnotrocketscience.bejay.music.model.Artist;
-import rocks.itsnotrocketscience.bejay.music.model.ArtistDetails;
+import rocks.itsnotrocketscience.bejay.music.model.Model;
+import rocks.itsnotrocketscience.bejay.search.contract.ArtistDetailsContract;
+import rocks.itsnotrocketscience.bejay.search.contract.MusicSearchContract;
 import rocks.itsnotrocketscience.bejay.search.presenter.ArtistDetailsPresenter;
+import rocks.itsnotrocketscience.bejay.view.ItemTouchHelper;
 
-public class ArtistDetailsFragment extends InjectedFragment<SearchComponent> implements ArtistDetailsContract.View {
+public class ArtistDetailsFragment extends BaseFragment implements ArtistDetailsContract.View, ItemTouchHelper.OnItemClickedListener {
 
     public static final String EXTRA_ARTIST = "artist";
 
     @Inject ArtistDetailAdapter artistDetailAdapter;
     @Inject ArtistDetailsPresenter presenter;
-
     @Bind(R.id.search_result) RecyclerView artistDetailsView;
-    Artist artist;
 
+    private Artist artist;
+    private ArtistDetailsContract.ArtistDetails artistDetails;
+    private MusicSearchContract contract;
+    private ItemTouchHelper itemTouchHelper;
 
     public static ArtistDetailsFragment newInstance(Artist artist) {
         ArtistDetailsFragment fragment = new ArtistDetailsFragment();
@@ -48,6 +50,18 @@ public class ArtistDetailsFragment extends InjectedFragment<SearchComponent> imp
 
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        contract = (MusicSearchContract) context;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        contract = null;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -60,24 +74,37 @@ public class ArtistDetailsFragment extends InjectedFragment<SearchComponent> imp
         ButterKnife.bind(this, view);
         artistDetailsView.setAdapter(artistDetailAdapter);
         artistDetailsView.setLayoutManager(new LinearLayoutManager(getContext()));
-        presenter.onViewAttached(this);
-        presenter.loadArtist(artist);
+        itemTouchHelper = new ItemTouchHelper(getContext());
+        itemTouchHelper.setOnItemClickedListener(this);
+        itemTouchHelper.setup(artistDetailsView);
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onStart() {
+        super.onStart();
+        presenter.onViewAttached(this);
+        if(artistDetails == null) {
+            presenter.loadArtistDetails(artist.getId());
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
         presenter.onViewDetached();
     }
 
     @Override
-    public void onLoaded(ArtistDetails artistDetails) {
+    public void onLoaded(ArtistDetailsContract.ArtistDetails artistDetails) {
+        this.artistDetails = artistDetails;
         artistDetailAdapter.setArtistDetails(artistDetails);
     }
 
     @Override
-    public SearchComponent getComponent() {
-        InjectedActivity<SearchComponent> searchActivity = (InjectedActivity<SearchComponent>) getActivity();
-        return searchActivity.getComponent();
+    public void onItemClicked(RecyclerView recyclerView, int adapterPosition) {
+        Model model = artistDetailAdapter.getItem(adapterPosition);
+        if(model != null) {
+            contract.onModelSelected(model);
+        }
     }
 }

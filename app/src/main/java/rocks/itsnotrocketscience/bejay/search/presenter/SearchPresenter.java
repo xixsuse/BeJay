@@ -1,13 +1,11 @@
 package rocks.itsnotrocketscience.bejay.search.presenter;
 
-import com.google.auto.factory.AutoFactory;
-
 import javax.inject.Inject;
 
 import rocks.itsnotrocketscience.bejay.music.Pager;
 import rocks.itsnotrocketscience.bejay.music.model.Model;
-import rocks.itsnotrocketscience.bejay.search.contracat.SearchContract;
-import rx.Observable;
+import rocks.itsnotrocketscience.bejay.search.contract.PresenterBase;
+import rocks.itsnotrocketscience.bejay.search.contract.SearchContract;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func2;
 import rx.subjects.PublishSubject;
@@ -15,7 +13,7 @@ import rx.subjects.PublishSubject;
 /**
  * Created by nemi on 20/02/2016.
  */
-public class SearchPresenter<T extends Model> implements SearchContract.Presenter {
+public class SearchPresenter<T extends Model> extends PresenterBase<SearchContract.View> implements SearchContract.Presenter {
 
 
     private SearchContract.View view;
@@ -33,7 +31,7 @@ public class SearchPresenter<T extends Model> implements SearchContract.Presente
     public void search(String query, long pageSize) {
         search = searchFunc.call(query, pageSize);
         search.firstPage()
-                .compose(newOnDestroyTransformer())
+                .compose(onDetach())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(items -> view.onSearchResultsLoaded(items));
     }
@@ -43,24 +41,9 @@ public class SearchPresenter<T extends Model> implements SearchContract.Presente
     public void loadMoreResults() {
         if(search != null) {
             search.nextPage()
-                    .compose(newOnDestroyTransformer())
+                    .compose(onDetach())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(items -> view.onSearchResultsLoaded(items));
         }
     }
-
-    @Override
-    public void onViewAttached(SearchContract.View view) {
-        this.view = view;
-    }
-
-    @Override
-    public void onViewDetached() {
-        onDestroy.onNext(true);
-    }
-
-    private <T> Observable.Transformer<T, T> newOnDestroyTransformer() {
-        return source -> source.takeUntil(onDestroy);
-    }
-
 }

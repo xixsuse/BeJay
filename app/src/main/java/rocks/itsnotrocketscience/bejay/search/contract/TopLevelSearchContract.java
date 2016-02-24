@@ -1,4 +1,4 @@
-package rocks.itsnotrocketscience.bejay.search.contracat;
+package rocks.itsnotrocketscience.bejay.search.contract;
 
 import java.util.List;
 
@@ -47,10 +47,8 @@ public interface TopLevelSearchContract {
         }
     }
 
-    interface Presenter {
+    interface Presenter extends rocks.itsnotrocketscience.bejay.search.contract.Presenter<View> {
         void search(String query, long pageSize);
-        void onViewAttached(View view);
-        void onViewDetached();
     }
 
     interface View {

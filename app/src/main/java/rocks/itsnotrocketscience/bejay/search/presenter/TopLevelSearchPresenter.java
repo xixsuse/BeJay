@@ -3,11 +3,12 @@ package rocks.itsnotrocketscience.bejay.search.presenter;
 import javax.inject.Inject;
 
 import rocks.itsnotrocketscience.bejay.music.Api;
-import rocks.itsnotrocketscience.bejay.search.contracat.TopLevelSearchContract;
+import rocks.itsnotrocketscience.bejay.search.contract.PresenterBase;
+import rocks.itsnotrocketscience.bejay.search.contract.TopLevelSearchContract;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 
-public class TopLevelSearchPresenter implements TopLevelSearchContract.Presenter{
+public class TopLevelSearchPresenter extends PresenterBase<TopLevelSearchContract.View> implements TopLevelSearchContract.Presenter{
 
     private Api.Search api;
     private TopLevelSearchContract.View view;
@@ -31,18 +32,8 @@ public class TopLevelSearchPresenter implements TopLevelSearchContract.Presenter
                     searchResult.setArtists(artists);
                     searchResult.setPlaylists(playlists);
                     return searchResult;
-                }).observeOn(AndroidSchedulers.mainThread())
+                }).compose(onDetach()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(searchResult -> view.showSearchResults(searchResult));
 
-    }
-
-    @Override
-    public void onViewAttached(TopLevelSearchContract.View view) {
-        this.view = view;
-    }
-
-    @Override
-    public void onViewDetached() {
-        this.view = null;
     }
 }
