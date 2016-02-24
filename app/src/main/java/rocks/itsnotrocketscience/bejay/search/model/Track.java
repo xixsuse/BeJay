@@ -3,6 +3,8 @@ package rocks.itsnotrocketscience.bejay.search.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.List;
+
 /**
  * Created by nemi on 20/02/2016.
  *
@@ -10,12 +12,11 @@ import android.os.Parcelable;
  */
 public class Track extends Model implements Parcelable {
     private String title;
-    private String albumName;
-    private String albumCover;
-    private String artist;
     private Long duration;
     private String genre;
     private String cover;
+    private Artist artist;
+    private Album album;
 
     public String getTitle() {
         return title;
@@ -23,30 +24,6 @@ public class Track extends Model implements Parcelable {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getAlbumName() {
-        return albumName;
-    }
-
-    public void setAlbumName(String albumName) {
-        this.albumName = albumName;
-    }
-
-    public String getAlbumCover() {
-        return albumCover;
-    }
-
-    public void setAlbumCover(String albumCover) {
-        this.albumCover = albumCover;
-    }
-
-    public String getArtist() {
-        return artist;
-    }
-
-    public void setArtist(String artist) {
-        this.artist = artist;
     }
 
     public Long getDuration() {
@@ -73,6 +50,22 @@ public class Track extends Model implements Parcelable {
         this.cover = cover;
     }
 
+    public Artist getArtist() {
+        return artist;
+    }
+
+    public void setArtist(Artist artist) {
+        this.artist = artist;
+    }
+
+    public Album getAlbum() {
+        return album;
+    }
+
+    public void setAlbum(Album album) {
+        this.album = album;
+    }
+
     @Override
     public int getType() {
         return TYPE_TRACK;
@@ -85,14 +78,25 @@ public class Track extends Model implements Parcelable {
             track.setId(source.readString());
             track.setProvider(source.readString());
             track.setTitle(source.readString());
-            track.setAlbumName(source.readString());
-            track.setAlbumCover(source.readString());
+
+            if(source.readInt() == 1) {
+                Artist artist = source.readParcelable(Artist.class.getClassLoader());
+                track.setArtist(artist);
+            }
+
             long duration = source.readLong();
             if(duration >= -1) {
                 track.setDuration(duration);
             }
+
             track.setGenre(source.readString());
             track.setCover(source.readString());
+
+            if(source.readInt() == 1) {
+                Album album = source.readParcelable(Album.class.getClassLoader());
+                track.setAlbum(album);
+            }
+
             return track;
         }
 
@@ -112,14 +116,28 @@ public class Track extends Model implements Parcelable {
         dest.writeString(getId());
         dest.writeString(getProvider());
         dest.writeString(title);
-        dest.writeString(albumName);
-        dest.writeString(albumCover);
+
+        if(artist != null) {
+            dest.writeInt(1);
+            dest.writeParcelable(artist, 0);
+        } else {
+            dest.writeInt(0);
+        }
+
         if(duration == null) {
             dest.writeLong(-1);
         } else {
             dest.writeLong(duration);
         }
+
         dest.writeString(genre);
         dest.writeString(cover);
+
+        if(album != null) {
+            dest.writeInt(1);
+            dest.writeParcelable(album, 0);
+        } else {
+            dest.writeInt(0);
+        }
     }
 }

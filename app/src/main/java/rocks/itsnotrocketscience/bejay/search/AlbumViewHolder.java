@@ -14,6 +14,7 @@ import javax.inject.Inject;
 
 import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.search.model.Album;
+import rocks.itsnotrocketscience.bejay.search.model.Artist;
 import rocks.itsnotrocketscience.bejay.view.CircleImageTransformation;
 
 public class AlbumViewHolder extends ModelViewHolder<Album> {
@@ -50,11 +51,11 @@ public class AlbumViewHolder extends ModelViewHolder<Album> {
         }
     }
 
-    private void setArtist(String name) {
+    private void setArtist(Artist artist) {
         if(this.artist != null) {
-            if(!TextUtils.isEmpty(name)) {
+            if(artist != null) {
                 this.artist.setVisibility(View.VISIBLE);
-                this.artist.setText(resources.getString(R.string.format_by_artist, name));
+                this.artist.setText(resources.getString(R.string.format_by_artist, artist.getName()));
             } else {
                 this.artist.setVisibility(View.GONE);
             }

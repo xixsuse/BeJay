@@ -20,20 +20,17 @@ public class PlaylistViewHolder extends ModelViewHolder<Playlist> {
     @Inject Transformation transformation;
 
     public TextView title;
-    public TextView user;
     public ImageView picture;
 
     public PlaylistViewHolder(View itemView) {
         super(itemView);
         this.title = (TextView) itemView.findViewById(R.id.title);
-        this.user = (TextView) itemView.findViewById(R.id.user);
         this.picture = (ImageView) itemView.findViewById(R.id.picture);
     }
 
     @Override
     public void setModel(Playlist model) {
         this.title.setText(model.getTitle());
-        this.user.setText(resources.getString(R.string.format_created_by_user, model.getUser()));
         this.picasso.load(model.getPicture()).transform(transformation).into(this.picture);
     }
 }

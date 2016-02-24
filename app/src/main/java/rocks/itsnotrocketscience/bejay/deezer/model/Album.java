@@ -56,7 +56,6 @@ public class Album {
     @SerializedName(RECORD_TYPE) private String recordType;
     @SerializedName(AVAILABLE) private Boolean available;
     @SerializedName(ALTERNATIVE) private Album alternative;
-    @SerializedName(TRACK_LIST) private String trackList;
     @SerializedName(EXPLICIT_LYRICS) private Boolean explicitLyrics;
     @SerializedName(CONTRIBUTORS) private List<String> contributors;
     @SerializedName(ARTIST) private Artist artist;
@@ -220,14 +219,6 @@ public class Album {
 
     public void setAlternative(Album alternative) {
         this.alternative = alternative;
-    }
-
-    public String getTrackList() {
-        return trackList;
-    }
-
-    public void setTrackList(String trackList) {
-        this.trackList = trackList;
     }
 
     public Boolean getExplicitLyrics() {

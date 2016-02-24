@@ -13,6 +13,7 @@ import com.squareup.picasso.Transformation;
 import javax.inject.Inject;
 
 import rocks.itsnotrocketscience.bejay.R;
+import rocks.itsnotrocketscience.bejay.search.model.Artist;
 import rocks.itsnotrocketscience.bejay.search.model.Track;
 import rocks.itsnotrocketscience.bejay.view.CircleImageTransformation;
 
@@ -56,15 +57,14 @@ public class TrackViewHolder extends ModelViewHolder<Track> {
         }
     }
 
-    private void setArtist(String name) {
-        if(this.artist != null) {
-            if(!TextUtils.isEmpty(name)) {
+    private void setArtist(Artist artist) {
+        if(this.artist != null ) {
+            if(artist != null) {
                 this.artist.setVisibility(View.VISIBLE);
-                this.artist.setText(resources.getString(R.string.format_by_artist, name));
+                this.artist.setText(resources.getString(R.string.format_by_artist, artist.getName()));
             } else {
                 this.artist.setVisibility(View.GONE);
             }
         }
     }
-
 }

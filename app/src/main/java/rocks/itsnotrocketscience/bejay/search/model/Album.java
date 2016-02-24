@@ -3,11 +3,17 @@ package rocks.itsnotrocketscience.bejay.search.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import rocks.itsnotrocketscience.bejay.search.AlbumViewHolder_MembersInjector;
+
 public class Album extends Model implements Parcelable {
     private String title;
     private String cover;
-    private String artist;
-
+    private Artist artist;
+    private List<Track> tracks;
 
     public String getTitle() {
         return title;
@@ -25,12 +31,20 @@ public class Album extends Model implements Parcelable {
         this.cover = cover;
     }
 
-    public String getArtist() {
+    public Artist getArtist() {
         return artist;
     }
 
-    public void setArtist(String artist) {
+    public void setArtist(Artist artist) {
         this.artist = artist;
+    }
+
+    public List<Track> getTracks() {
+        return tracks;
+    }
+
+    public void setTracks(List<Track> tracks) {
+        this.tracks = tracks;
     }
 
     @Override
@@ -49,7 +63,21 @@ public class Album extends Model implements Parcelable {
         dest.writeString(getId());
         dest.writeString(title);
         dest.writeString(cover);
-        dest.writeString(artist);
+
+        if(artist != null) {
+            dest.writeInt(1);
+            dest.writeParcelable(artist, 0);
+        } else {
+            dest.writeInt(0);
+        }
+
+        if(tracks != null) {
+            dest.writeInt(1);
+            Track[] tracks = this.tracks.toArray(new Track[this.tracks.size()]);
+            dest.writeParcelableArray(tracks, 0);
+        } else {
+            dest.writeInt(0);
+        }
     }
 
     public static final Creator<Album> CREATOR = new Creator<Album>() {
@@ -60,7 +88,20 @@ public class Album extends Model implements Parcelable {
             album.setId(source.readString());
             album.setTitle(source.readString());
             album.setCover(source.readString());
-            album.setArtist(source.readString());
+            if(source.readInt() == 1) {
+                Artist artist = source.readParcelable(Artist.class.getClassLoader());
+                album.setArtist(artist);
+            }
+
+            if(source.readInt() == 1) {
+                Parcelable[] tracks = source.readParcelableArray(Track.class.getClassLoader());
+                album.setTracks(new ArrayList<>(tracks.length));
+                for(Parcelable track : tracks) {
+                    album.getTracks().add((Track) track);
+                }
+            }
+
+
             return album;
         }
 

@@ -28,7 +28,8 @@ public class Playlist {
     @SerializedName(PICTURE_MEDIUM) private String mediumPicture;
     @SerializedName(PICTURE_BIG) private String bigPicture;
     @SerializedName(USER) private User user;
-    @SerializedName(Deezer.TRACKS) private List<Track> tracks;
+    @SerializedName(value = Deezer.TRACKS)
+    private List<Track> tracks;
 
     public Long getId() {
         return id;

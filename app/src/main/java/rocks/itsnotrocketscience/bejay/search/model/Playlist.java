@@ -3,12 +3,16 @@ package rocks.itsnotrocketscience.bejay.search.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Playlist extends Model implements Parcelable {
     private String title;
     private Boolean pub;
     private Long numberOfTracks;
     private String picture;
     private String user;
+    private List<Track> tracks;
 
     @Override
     public int getType() {
@@ -55,6 +59,14 @@ public class Playlist extends Model implements Parcelable {
         this.user = user;
     }
 
+    public List<Track> getTracks() {
+        return tracks;
+    }
+
+    public void setTracks(List<Track> tracks) {
+        this.tracks = tracks;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -65,6 +77,7 @@ public class Playlist extends Model implements Parcelable {
         dest.writeString(getProvider());
         dest.writeString(getId());
         dest.writeString(title);
+
         if(pub == null) {
             dest.writeInt(-1);
         } else {
@@ -76,8 +89,17 @@ public class Playlist extends Model implements Parcelable {
         } else {
             dest.writeLong(numberOfTracks);
         }
+
         dest.writeString(picture);
         dest.writeString(user);
+
+        if(tracks != null) {
+            dest.writeInt(1);
+            Track[] tracks = this.tracks.toArray(new Track[this.tracks.size()]);
+            dest.writeParcelableArray(tracks, 0);
+        } else {
+            dest.writeInt(0);
+        }
     }
 
     public static final Creator<Playlist> CREATOR = new Creator<Playlist>() {
@@ -91,6 +113,20 @@ public class Playlist extends Model implements Parcelable {
             if(pub > 0) {
                 playlist.setPublic(pub == 1);
             }
+
+            long numberOfTracks = source.readInt();
+            if(numberOfTracks > 0) {
+                playlist.setNumberOfTracks(numberOfTracks);
+            }
+
+            if(source.readInt() == 1) {
+                Parcelable[] tracks = source.readParcelableArray(Track.class.getClassLoader());
+                playlist.setTracks(new ArrayList<>(tracks.length));
+                for(Parcelable track : tracks) {
+                    playlist.getTracks().add((Track) track);
+                }
+            }
+
             return playlist;
         }
 

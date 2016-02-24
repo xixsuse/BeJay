@@ -5,6 +5,9 @@ import android.content.Context;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import dagger.Module;
 import dagger.Provides;
 import rocks.itsnotrocketscience.bejay.deezer.Deezer;
@@ -53,53 +56,54 @@ public class SearchModule {
         return new SearchPresenter<>(search);
     }
 
-    @Provides
-    Func1<rocks.itsnotrocketscience.bejay.deezer.model.Track, Track> providesTrackModelMapper() {
-        return deezerTrack -> {
+
+    Track map(rocks.itsnotrocketscience.bejay.deezer.model.Track deezerTrack) {
+        if(deezerTrack != null) {
             Track track = new Track();
             track.setTitle(deezerTrack.getTitle());
             track.setDuration(deezerTrack.getDuration());
-            if(deezerTrack.getArtist() != null) {
-                track.setArtist(deezerTrack.getArtist().getName());
-                track.setCover(deezerTrack.getArtist().getPicture());
-            }
-            if(deezerTrack.getAlbum() != null) {
-                track.setAlbumName(deezerTrack.getAlbum().getTitle());
-            }
+            track.setAlbum(map(deezerTrack.getAlbum()));
+
+            track.setArtist(map(deezerTrack.getArtist()));
             track.setId(deezerTrack.getId().toString());
 
             track.setProvider(Deezer.PROVIDER_NAME);
             return track;
-        };
+        }
+
+        return null;
     }
 
-    @Provides Func1<rocks.itsnotrocketscience.bejay.deezer.model.Album, Album> providesAlbumMapper() {
-        return deezerAlbum -> {
-            Album album = new Album();
-            album.setProvider(Deezer.PROVIDER_NAME);
-            album.setId(deezerAlbum.getId().toString());
-            if(deezerAlbum.getArtist() != null) {
-                album.setArtist(deezerAlbum.getArtist().getName());
-            }
-            album.setTitle(deezerAlbum.getTitle());
-            album.setCover(deezerAlbum.getCover());
-            return album;
-        };
-    }
-
-    @Provides Func1<rocks.itsnotrocketscience.bejay.deezer.model.Artist, Artist> providesArtistMapper() {
-        return deezerArtist -> {
+    Artist map(rocks.itsnotrocketscience.bejay.deezer.model.Artist deezerArtist) {
+        if(deezerArtist != null) {
             Artist artist = new Artist();
             artist.setId(deezerArtist.getId().toString());
             artist.setName(deezerArtist.getName());
             artist.setPicture(deezerArtist.getPicture());
             artist.setProvider(Deezer.PROVIDER_NAME);
             return artist;
-        };
+        }
+
+        return null;
     }
 
-    @Provides Func1<rocks.itsnotrocketscience.bejay.deezer.model.Playlist, Playlist> providesPlaylistMapper() {
-        return deezerPlaylist -> {
+    Album map(rocks.itsnotrocketscience.bejay.deezer.model.Album deezerAlbum) {
+        if(deezerAlbum != null) {
+            Album album = new Album();
+            album.setProvider(Deezer.PROVIDER_NAME);
+            album.setId(deezerAlbum.getId().toString());
+            album.setArtist(map(deezerAlbum.getArtist()));
+            album.setTracks(map(deezerAlbum.getTracks()));
+            album.setTitle(deezerAlbum.getTitle());
+            album.setCover(deezerAlbum.getCover());
+            return album;
+        }
+
+        return null;
+    }
+
+    Playlist map(rocks.itsnotrocketscience.bejay.deezer.model.Playlist deezerPlaylist) {
+        if(deezerPlaylist != null) {
             Playlist playlist = new Playlist();
             playlist.setProvider(Deezer.PROVIDER_NAME);
             playlist.setId(deezerPlaylist.getId().toString());
@@ -108,8 +112,39 @@ public class SearchModule {
             playlist.setPicture(deezerPlaylist.getPicture());
             playlist.setPublic(deezerPlaylist.isPublic());
             playlist.setUser(deezerPlaylist.getUser().getName());
-            return playlist;
-        };
+            playlist.setTracks(map(deezerPlaylist.getTracks()));
+
+        }
+        return null;
+    }
+
+    List<Track> map(List<rocks.itsnotrocketscience.bejay.deezer.model.Track> deezerTracks) {
+        if(deezerTracks != null) {
+            List<Track> tracks = new ArrayList<>();
+            for(rocks.itsnotrocketscience.bejay.deezer.model.Track deezerTrack : deezerTracks) {
+                tracks.add(map(deezerTrack));
+            }
+            return tracks;
+        }
+
+        return null;
+    }
+
+    @Provides
+    Func1<rocks.itsnotrocketscience.bejay.deezer.model.Track, Track> providesTrackModelMapper() {
+        return deezerTrack -> map(deezerTrack);
+    }
+
+    @Provides Func1<rocks.itsnotrocketscience.bejay.deezer.model.Album, Album> providesAlbumMapper() {
+        return deezerAlbum -> map(deezerAlbum);
+    }
+
+    @Provides Func1<rocks.itsnotrocketscience.bejay.deezer.model.Artist, Artist> providesArtistMapper() {
+        return deezerArtist -> map(deezerArtist);
+    }
+
+    @Provides Func1<rocks.itsnotrocketscience.bejay.deezer.model.Playlist, Playlist> providesPlaylistMapper() {
+        return deezerPlaylist -> map(deezerPlaylist);
     }
 
     @Provides

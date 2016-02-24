@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.GridLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="@dimen/list_item_prefered_height"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -25,22 +26,10 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:textAppearance="?attr/textAppearanceListItem"
         android:gravity="center_vertical|left"
         app:layout_row="0"
         app:layout_column="1"
         tools:text="Album title"/>
-    <TextView
-        android:id="@+id/user"
-        android:lines="1"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?attr/textAppearanceListItemSmall"
-        android:gravity="center_vertical|left"
-        app:layout_row="1"
-        app:layout_column="1"
-        tools:text="created by John Doe"/>
-</android.support.v7.widget.GridLayout>
+</LinearLayout>
