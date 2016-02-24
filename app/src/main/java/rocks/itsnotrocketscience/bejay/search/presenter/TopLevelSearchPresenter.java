@@ -11,7 +11,7 @@ import rx.android.schedulers.AndroidSchedulers;
 public class TopLevelSearchPresenter extends PresenterBase<TopLevelSearchContract.View> implements TopLevelSearchContract.Presenter{
 
     private Api.Search api;
-    private TopLevelSearchContract.View view;
+
 
     @Inject
     public TopLevelSearchPresenter(Api.Search api) {
@@ -33,7 +33,7 @@ public class TopLevelSearchPresenter extends PresenterBase<TopLevelSearchContrac
                     searchResult.setPlaylists(playlists);
                     return searchResult;
                 }).compose(onDetach()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(searchResult -> view.showSearchResults(searchResult));
+                .subscribe(searchResult -> getView().showSearchResults(searchResult));
 
     }
 }
