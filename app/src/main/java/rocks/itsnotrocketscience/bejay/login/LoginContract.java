@@ -1,7 +1,10 @@
 package rocks.itsnotrocketscience.bejay.login;
 
+import com.facebook.login.LoginResult;
+
 /**
  * Created by centralstation on 1/29/16.
+ *
  */
 public interface LoginContract {
     interface LoginView{
@@ -12,9 +15,9 @@ public interface LoginContract {
     }
 
     interface LoginPresenter{
-        void login(String username, String password);
         void onViewAttached(LoginView view);
         void onViewDetached();
         void onDestroy();
+        void verifyUser(LoginResult loginResult);
     }
 }

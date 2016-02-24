@@ -3,6 +3,8 @@ package rocks.itsnotrocketscience.bejay.dagger;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.facebook.CallbackManager;
+
 import dagger.Module;
 import dagger.Provides;
 import rocks.itsnotrocketscience.bejay.login.LoginActivity;
@@ -25,5 +27,9 @@ public class LoginModule {
 
     @Provides LoginContract.LoginPresenter providesLoginPresenter(Context context, SharedPreferences sharedPreferences) {
         return new LoginPresenterImpl(context, sharedPreferences);
+    }
+
+    @Provides CallbackManager providesCallbackManager(){
+        return  CallbackManager.Factory.create();
     }
 }

@@ -13,7 +13,9 @@ public interface Constants {
     String EMAIL = "email";
     String USERNAME = "username";
     String BASE_URL = BuildConfig.BASE_URL;
-    String API = BuildConfig.BASE_URL;
-    String TOKEN_AUTH = "api-token-auth";
+    String TOKEN_TYPE = "token_type";
+    String REFRESH_TOKEN = "refresh_token";
+    String IS_LOGGED_IN = "is_logged_in";
+    String API = BuildConfig.BASE_URL + "dukebox/";
     LogLevel RETROFIT_LOG_LEVEL = BuildConfig.RETROFIT_LOG_LEVEL;
 }
