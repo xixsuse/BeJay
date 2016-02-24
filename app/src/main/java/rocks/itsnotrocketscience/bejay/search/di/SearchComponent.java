@@ -2,19 +2,20 @@ package rocks.itsnotrocketscience.bejay.search.di;
 
 import dagger.Component;
 import rocks.itsnotrocketscience.bejay.dagger.ActivityComponent;
-import rocks.itsnotrocketscience.bejay.search.AlbumViewHolder;
+import rocks.itsnotrocketscience.bejay.music.model.Album;
+import rocks.itsnotrocketscience.bejay.music.model.Artist;
+import rocks.itsnotrocketscience.bejay.music.model.Playlist;
+import rocks.itsnotrocketscience.bejay.music.model.Track;
 import rocks.itsnotrocketscience.bejay.search.ArtistDetailsFragment;
-import rocks.itsnotrocketscience.bejay.search.ArtistViewHolder;
-import rocks.itsnotrocketscience.bejay.search.PlaylistViewHolder;
 import rocks.itsnotrocketscience.bejay.search.SearchActivity;
 import rocks.itsnotrocketscience.bejay.search.SearchFragment;
-import rocks.itsnotrocketscience.bejay.search.SearchPresenter;
-import rocks.itsnotrocketscience.bejay.search.TopLevelSearchPresenter;
-import rocks.itsnotrocketscience.bejay.search.TrackViewHolder;
-import rocks.itsnotrocketscience.bejay.search.model.Album;
-import rocks.itsnotrocketscience.bejay.search.model.Artist;
-import rocks.itsnotrocketscience.bejay.search.model.Playlist;
-import rocks.itsnotrocketscience.bejay.search.model.Track;
+import rocks.itsnotrocketscience.bejay.search.TopLevelSearchFragment;
+import rocks.itsnotrocketscience.bejay.search.presenter.SearchPresenter;
+import rocks.itsnotrocketscience.bejay.search.presenter.TopLevelSearchPresenter;
+import rocks.itsnotrocketscience.bejay.search.view.AlbumViewHolder;
+import rocks.itsnotrocketscience.bejay.search.view.ArtistViewHolder;
+import rocks.itsnotrocketscience.bejay.search.view.PlaylistViewHolder;
+import rocks.itsnotrocketscience.bejay.search.view.TrackViewHolder;
 
 @Search
 @Component(dependencies = ActivityComponent.class, modules = {SearchModule.class})
@@ -26,10 +27,12 @@ public interface SearchComponent {
     void inject(TrackViewHolder trackViewHolder);
     void inject(PlaylistViewHolder playlistViewHolder);
     void inject(ArtistDetailsFragment artistDetailsFragment);
+    void inject(TopLevelSearchFragment fragment);
 
-    TopLevelSearchPresenter topLevelSearchPresenter();
     SearchPresenter<Track> trackSearchPresenter();
     SearchPresenter<Album> albumSearchPresenter();
     SearchPresenter<Artist> artistSearchPresenter();
     SearchPresenter<Playlist> playlistSearchPresenter();
+
+    TopLevelSearchPresenter topLevelSearchPresenter();
 }

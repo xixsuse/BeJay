@@ -17,8 +17,8 @@ import rocks.itsnotrocketscience.bejay.managers.AccountManager;
 import rocks.itsnotrocketscience.bejay.managers.AppLauncher;
 import rocks.itsnotrocketscience.bejay.managers.Launcher;
 import rocks.itsnotrocketscience.bejay.search.ModelAdapter;
-import rocks.itsnotrocketscience.bejay.search.ModelViewFactory;
-import rocks.itsnotrocketscience.bejay.search.ModelViewHolderFactory;
+import rocks.itsnotrocketscience.bejay.search.view.ModelViewFactory;
+import rocks.itsnotrocketscience.bejay.search.view.ModelViewHolderFactory;
 
 @Module
 public class ActivityModule {

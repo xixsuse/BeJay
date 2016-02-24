@@ -15,9 +15,11 @@ import butterknife.ButterKnife;
 import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.base.InjectedActivity;
 import rocks.itsnotrocketscience.bejay.base.InjectedFragment;
+import rocks.itsnotrocketscience.bejay.search.contracat.ArtistDetailsContract;
 import rocks.itsnotrocketscience.bejay.search.di.SearchComponent;
-import rocks.itsnotrocketscience.bejay.search.model.Artist;
-import rocks.itsnotrocketscience.bejay.search.model.ArtistDetails;
+import rocks.itsnotrocketscience.bejay.music.model.Artist;
+import rocks.itsnotrocketscience.bejay.music.model.ArtistDetails;
+import rocks.itsnotrocketscience.bejay.search.presenter.ArtistDetailsPresenter;
 
 public class ArtistDetailsFragment extends InjectedFragment<SearchComponent> implements ArtistDetailsContract.View {
 

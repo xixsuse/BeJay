@@ -28,7 +28,7 @@ import rocks.itsnotrocketscience.bejay.managers.AccountManager;
 import rocks.itsnotrocketscience.bejay.models.Event;
 import rocks.itsnotrocketscience.bejay.models.Song;
 import rocks.itsnotrocketscience.bejay.search.SearchActivity;
-import rocks.itsnotrocketscience.bejay.search.model.Track;
+import rocks.itsnotrocketscience.bejay.music.model.Track;
 
 /**
  * A placeholder fragment containing a simple view.

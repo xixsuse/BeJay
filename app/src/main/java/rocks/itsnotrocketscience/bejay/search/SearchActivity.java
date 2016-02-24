@@ -4,7 +4,6 @@ import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -20,12 +19,11 @@ import rocks.itsnotrocketscience.bejay.base.InjectedActivity;
 import rocks.itsnotrocketscience.bejay.dagger.ActivityComponent;
 import rocks.itsnotrocketscience.bejay.dagger.ActivityModule;
 import rocks.itsnotrocketscience.bejay.dagger.DaggerActivityComponent;
-    import rocks.itsnotrocketscience.bejay.search.di.DaggerSearchComponent;
+import rocks.itsnotrocketscience.bejay.music.model.Model;
+import rocks.itsnotrocketscience.bejay.music.model.Track;
+import rocks.itsnotrocketscience.bejay.search.di.DaggerSearchComponent;
 import rocks.itsnotrocketscience.bejay.search.di.SearchComponent;
 import rocks.itsnotrocketscience.bejay.search.di.SearchModule;
-import rocks.itsnotrocketscience.bejay.search.model.Artist;
-import rocks.itsnotrocketscience.bejay.search.model.Model;
-import rocks.itsnotrocketscience.bejay.search.model.Track;
 
 /**
  * Created by nemi on 20/02/2016.
@@ -33,90 +31,6 @@ import rocks.itsnotrocketscience.bejay.search.model.Track;
 public class SearchActivity extends InjectedActivity<SearchComponent> implements  SearchView.OnQueryTextListener, SearchFragment.OnModelSelectedListener {
 
     public static final String EXTRA_TRACK = "track";
-
-    public static class TrackSearchFragment extends SearchFragment {
-        @Override
-        public void onCreate(@Nullable Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            searchPresenter = getComponent().trackSearchPresenter();
-
-        }
-
-        public static TrackSearchFragment newInstance(String query) {
-            TrackSearchFragment fragment = new TrackSearchFragment();
-            Bundle args = new Bundle();
-            args.putString(SearchManager.QUERY, query);
-            fragment.setArguments(args);
-            return fragment;
-        }
-    }
-
-    public static class ArtistSearchFragment extends SearchFragment {
-        @Override
-        public void onCreate(@Nullable Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            searchPresenter = getComponent().artistSearchPresenter();
-
-        }
-
-        public static ArtistSearchFragment newInstance(String query) {
-            ArtistSearchFragment fragment = new ArtistSearchFragment();
-            Bundle args = new Bundle();
-            args.putString(SearchManager.QUERY, query);
-            fragment.setArguments(args);
-            return fragment;
-        }
-    }
-
-    public static class AlbumSearchFragment extends SearchFragment {
-        @Override
-        public void onCreate(@Nullable Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            searchPresenter = getComponent().albumSearchPresenter();
-
-        }
-
-        public static AlbumSearchFragment newInstance(String query) {
-            AlbumSearchFragment fragment = new AlbumSearchFragment();
-            Bundle args = new Bundle();
-            args.putString(SearchManager.QUERY, query);
-            fragment.setArguments(args);
-            return fragment;
-        }
-    }
-
-    public static class TopLevelSearchFragment extends SearchFragment {
-        @Override
-        public void onCreate(@Nullable Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            searchPresenter = getComponent().topLevelSearchPresenter();
-        }
-
-        public static TopLevelSearchFragment newInstance(String query) {
-            TopLevelSearchFragment fragment = new TopLevelSearchFragment();
-            Bundle args = new Bundle();
-            args.putString(SearchManager.QUERY, query);
-            args.putInt(SearchFragment.EXTRA_PAGE_SIZE, 5);
-            fragment.setArguments(args);
-            return fragment;
-        }
-    }
-
-    public static class PlaylistSearchFragment extends SearchFragment {
-        @Override
-        public void onCreate(@Nullable Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            searchPresenter = getComponent().playlistSearchPresenter();
-        }
-
-        public static PlaylistSearchFragment newInstance(String query) {
-            PlaylistSearchFragment fragment = new PlaylistSearchFragment();
-            Bundle args = new Bundle();
-            args.putString(SearchManager.QUERY, query);
-            fragment.setArguments(args);
-            return fragment;
-        }
-    }
 
     @Bind(R.id.toolbar) Toolbar toolbar;
 
@@ -151,6 +65,7 @@ public class SearchActivity extends InjectedActivity<SearchComponent> implements
     }
 
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -168,10 +83,6 @@ public class SearchActivity extends InjectedActivity<SearchComponent> implements
             showTrackSearchResults(query);
         }
 
-        Artist artist = new Artist();
-        artist.setId("27");
-
-        getSupportFragmentManager().beginTransaction().add(R.id.search_result_container, ArtistDetailsFragment.newInstance(artist)).commitAllowingStateLoss();
     }
 
     @Override
@@ -223,9 +134,10 @@ public class SearchActivity extends InjectedActivity<SearchComponent> implements
 
     private void showTrackSearchResults(String query) {
         if(!TextUtils.isEmpty(query)) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.search_result_container, TopLevelSearchFragment.newInstance(query))
-                    .commitAllowingStateLoss();
+//            Artist artist = new Artist();
+//            artist.setId("27");
+//            getSupportFragmentManager().beginTransaction().add(R.id.search_result_container, ArtistDetailsFragment.newInstance(artist)).commitAllowingStateLoss();
+            getSupportFragmentManager().beginTransaction().add(R.id.search_result_container, SearchFragment.newInstance(query, Model.TYPE_TRACK)).commitAllowingStateLoss();
         }
     }
 

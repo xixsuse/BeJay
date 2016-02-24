@@ -22,20 +22,24 @@ import butterknife.ButterKnife;
 import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.base.InjectedActivity;
 import rocks.itsnotrocketscience.bejay.base.InjectedFragment;
+import rocks.itsnotrocketscience.bejay.search.contracat.SearchContract;
 import rocks.itsnotrocketscience.bejay.search.di.SearchComponent;
-import rocks.itsnotrocketscience.bejay.search.model.Model;
+import rocks.itsnotrocketscience.bejay.music.model.Model;
 import rocks.itsnotrocketscience.bejay.view.ItemTouchHelper;
 
 public class SearchFragment extends InjectedFragment<SearchComponent> implements SearchContract.View, ItemTouchHelper.OnItemClickedListener {
     public static final String EXTRA_PAGE_SIZE = "page_size";
+    public static final String EXTRA_TYPE = "type";
 
     @Inject ModelAdapter resultAdapter;
+    SearchContract.Presenter searchPresenter;
+
     @Bind(R.id.search_result) RecyclerView searchResult;
 
-    SearchContract.Presenter searchPresenter;
 
     LinearLayoutManager layoutManager;
     ItemTouchHelper itemTouchHelper;
+    int type;
     String query;
     boolean loading;
     OnModelSelectedListener onModelSelectedListener;
@@ -72,6 +76,16 @@ public class SearchFragment extends InjectedFragment<SearchComponent> implements
         return itemCount;
     }
 
+    public static SearchFragment newInstance(String query, @Model.Type int type) {
+        SearchFragment fragment = new SearchFragment();
+
+        Bundle args = new Bundle();
+        args.putString(SearchManager.QUERY, query);
+        args.putInt(EXTRA_TYPE, type);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -94,8 +108,33 @@ public class SearchFragment extends InjectedFragment<SearchComponent> implements
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getComponent().inject(this);
-        query = getArguments().getString(SearchManager.QUERY);
+        SearchComponent component = getComponent();
+        component.inject(this);
+        Bundle args = getArguments();
+
+        query = args.getString(SearchManager.QUERY);
+        type = args.getInt(EXTRA_TYPE);
+        switch (type) {
+            case Model.TYPE_TRACK : {
+                this.searchPresenter = component.trackSearchPresenter();
+                break;
+            }
+            case Model.TYPE_ALBUM : {
+                this.searchPresenter = component.albumSearchPresenter();
+                break;
+            }
+            case Model.TYPE_ARTIST : {
+                this.searchPresenter = component.artistSearchPresenter();
+                break;
+            }
+            case Model.TYPE_PLAYLIST : {
+                this.searchPresenter = component.artistSearchPresenter();
+                break;
+            }
+            default : {
+                throw new IllegalArgumentException("unsupported type("+type+")");
+            }
+        }
     }
 
     @Nullable

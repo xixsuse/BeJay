@@ -9,12 +9,15 @@ import android.view.ViewGroup;
 import javax.inject.Inject;
 
 import rocks.itsnotrocketscience.bejay.R;
-import rocks.itsnotrocketscience.bejay.search.model.ArtistDetails;
-import rocks.itsnotrocketscience.bejay.search.model.Model;
+import rocks.itsnotrocketscience.bejay.music.model.ArtistDetails;
+import rocks.itsnotrocketscience.bejay.music.model.Model;
+import rocks.itsnotrocketscience.bejay.search.view.ModelViewHolder;
+import rocks.itsnotrocketscience.bejay.search.view.ModelViewHolderFactory;
+import rocks.itsnotrocketscience.bejay.search.view.SectionHeaderViewHolder;
 
 import static android.support.v7.widget.RecyclerView.NO_POSITION;
-import static rocks.itsnotrocketscience.bejay.search.model.Model.TYPE_ALBUM;
-import static rocks.itsnotrocketscience.bejay.search.model.Model.TYPE_TRACK;
+import static rocks.itsnotrocketscience.bejay.music.model.Model.TYPE_ALBUM;
+import static rocks.itsnotrocketscience.bejay.music.model.Model.TYPE_TRACK;
 
 public class ArtistDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_SECTION_HEADER = Model.TYPE_FIRST;

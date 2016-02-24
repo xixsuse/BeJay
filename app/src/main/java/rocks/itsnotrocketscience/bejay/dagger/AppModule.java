@@ -20,9 +20,9 @@ import rocks.itsnotrocketscience.bejay.BuildConfig;
 import rocks.itsnotrocketscience.bejay.api.ApiManager;
 import rocks.itsnotrocketscience.bejay.api.retrofit.Events;
 import rocks.itsnotrocketscience.bejay.db.ModelDbHelper;
-import rocks.itsnotrocketscience.bejay.deezer.Deezer;
-import rocks.itsnotrocketscience.bejay.deezer.api.Artist;
-import rocks.itsnotrocketscience.bejay.deezer.api.Search;
+import rocks.itsnotrocketscience.bejay.music.backends.deezer.api.Deezer;
+import rocks.itsnotrocketscience.bejay.music.backends.deezer.restapi.Artist;
+import rocks.itsnotrocketscience.bejay.music.backends.deezer.restapi.Search;
 import rocks.itsnotrocketscience.bejay.gcm.GcmUtils;
 import rocks.itsnotrocketscience.bejay.managers.AccountManager;
 

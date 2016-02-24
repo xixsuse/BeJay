@@ -5,12 +5,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import javax.inject.Inject;
 
-import rocks.itsnotrocketscience.bejay.search.model.Model;
+import rocks.itsnotrocketscience.bejay.music.model.Model;
+import rocks.itsnotrocketscience.bejay.search.view.ModelViewFactory;
+import rocks.itsnotrocketscience.bejay.search.view.ModelViewHolder;
+import rocks.itsnotrocketscience.bejay.search.view.ModelViewHolderFactory;
 
 /**
  * Created by nemi on 20/02/2016.

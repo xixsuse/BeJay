@@ -6,8 +6,8 @@ import android.view.LayoutInflater;
 
 import dagger.Component;
 import rocks.itsnotrocketscience.bejay.base.BaseActivity;
-import rocks.itsnotrocketscience.bejay.deezer.api.Artist;
-import rocks.itsnotrocketscience.bejay.deezer.api.Search;
+import rocks.itsnotrocketscience.bejay.music.backends.deezer.restapi.Artist;
+import rocks.itsnotrocketscience.bejay.music.backends.deezer.restapi.Search;
 import rocks.itsnotrocketscience.bejay.event.list.EventListFragment;
 import rocks.itsnotrocketscience.bejay.event.single.EventActivity;
 import rocks.itsnotrocketscience.bejay.event.single.EventFragment;
