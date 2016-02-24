@@ -10,6 +10,7 @@ import javax.inject.Inject;
 
 import rocks.itsnotrocketscience.bejay.api.retrofit.Events;
 import rocks.itsnotrocketscience.bejay.models.Event;
+import rocks.itsnotrocketscience.bejay.models.Like;
 import rocks.itsnotrocketscience.bejay.models.Song;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -86,6 +87,7 @@ public class EventPresenterImpl implements EventContract.EventPresenter {
 
     @Override
     public void addLike(Song song) {
+        event.postLike(new Like(song.getUid(),))
 
     }
 

@@ -8,6 +8,7 @@ import retrofit.http.Headers;
 import retrofit.http.POST;
 import retrofit.http.Path;
 import rocks.itsnotrocketscience.bejay.models.Event;
+import rocks.itsnotrocketscience.bejay.models.Like;
 import rocks.itsnotrocketscience.bejay.models.Song;
 import rx.Observable;
 
@@ -30,4 +31,9 @@ public interface Events {
     @Headers("Content-Type: application/json;charset=UTF-8")
     @POST("/songs/")
     Observable<Song> postSong(@Body Song song);
+
+    @POST("/likes/")
+    Observable<Like> postLike(@Body Like like);
+
+
 }

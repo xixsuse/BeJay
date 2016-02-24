@@ -4,7 +4,7 @@ package rocks.itsnotrocketscience.bejay.models;
  * Created by centralstation on 20/08/15.
  */
 
-public class Song {
+public class Song extends BaseModel {
 
     private String title;
     private int count;
