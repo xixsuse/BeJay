@@ -111,13 +111,21 @@ public class ArtistDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     public <T> T getItem(int position) {
-        if(position > topTracksHeaderIndex && position < discographyHeaderIndex) {
+        if(hasTracks() && position > topTracksHeaderIndex && position < discographyHeaderIndex) {
             return (T)artistDetails.getTopTracks().get(position-(topTracksHeaderIndex + 1));
-        } else if(position > discographyHeaderIndex && position < getItemCount()) {
+        } else if(hasAlbums() && position > discographyHeaderIndex && position < getItemCount()) {
             return (T)artistDetails.getDiscography().get(position - (discographyHeaderIndex + 1));
         }
 
         return null;
+    }
+
+    private boolean hasTracks() {
+        return topTracksHeaderIndex != NO_POSITION;
+    }
+
+    private boolean hasAlbums() {
+        return discographyHeaderIndex != NO_POSITION;
     }
 
     @Override
