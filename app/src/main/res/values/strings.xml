@@ -30,8 +30,8 @@
     <string name="pick_song">pick song</string>
     <string name="song_list">Song List!</string>
     <string name="convert_token">convert_token</string>
-    <string name="client_id">mqEhDcqtC6N8uFQSI9r6Aus0TgC36J6j66154fmz</string>
-    <string name="client_secret">AdGSXQYP1m3BMFQ0mL847HWTXE56vGRjijKwjDsPOsW5QAWQ7PFTFbVNFVPfK5FAncEhjMuFq9jRWDslL9iMkwJPlTPMNzExIxIu9Uxr1VJMe6PL7Mr77YvaLfqmu5Pr</string>
+    <string name="client_id">lpW7c1RJuanPXwM37T2O9shdmezBkjVqNhjgHqhL</string>
+    <string name="client_secret">CKLkhCBGaDg2OL0jtr8Vsd1sSc4tHVgLnZoW3RAgO5D3oXb7MVuc27kbZz3rwVQTTveXHIyyuIiFD7Peyi2r4llpEZVDp2jW702DVjxO08jiJKiJEy6ti29102bzKc0F</string>
     <string name="provider">facebook</string>
     <string name="action_title_search_tracks">Search Tracks</string>
     <string name="action_title_add_track">Add Track</string>
