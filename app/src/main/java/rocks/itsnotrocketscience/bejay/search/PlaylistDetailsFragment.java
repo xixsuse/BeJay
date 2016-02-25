@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import javax.inject.Inject;
 
@@ -24,6 +26,8 @@ public class PlaylistDetailsFragment extends BaseFragment implements PlaylistDet
     public static final String EXTRA_PLAYLIST_ID = "playlist_id";
 
     @Bind(R.id.search_result) RecyclerView tracks;
+    @Bind(R.id.progress) ProgressBar progressIndicator;
+
     @Inject PlaylistDetailsContract.Presenter presenter;
     @Inject ModelAdapter modelAdapter;
 
@@ -98,6 +102,20 @@ public class PlaylistDetailsFragment extends BaseFragment implements PlaylistDet
     public void onPlaylistLoaded(Playlist playlist) {
         this.playlist = playlist;
         modelAdapter.addAll(this.playlist.getTracks());
+    }
+
+    @Override
+    public void setProgressVisible(boolean visible) {
+        if(visible) {
+            progressIndicator.setVisibility(View.VISIBLE);
+        } else {
+            progressIndicator.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void showError() {
+        Toast.makeText(getContext(), "request failed", Toast.LENGTH_SHORT).show();
     }
 
 }

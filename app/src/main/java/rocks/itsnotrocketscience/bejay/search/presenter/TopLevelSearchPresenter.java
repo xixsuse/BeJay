@@ -20,6 +20,7 @@ public class TopLevelSearchPresenter extends PresenterBase<TopLevelSearchContrac
 
     @Override
     public void search(String query, long pageSize) {
+        getView().setProgressVisible(true);
         Observable.combineLatest(
                 api.track(query, pageSize).firstPage(),
                 api.album(query, pageSize).firstPage(),
@@ -33,7 +34,10 @@ public class TopLevelSearchPresenter extends PresenterBase<TopLevelSearchContrac
                     searchResult.setPlaylists(playlists);
                     return searchResult;
                 }).compose(onDetach()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(searchResult -> getView().showSearchResults(searchResult));
+                .subscribe(
+                        searchResult -> getView().showSearchResults(searchResult),
+                        (error) -> getView().showError(),
+                        () -> getView().setProgressVisible(false));
 
     }
 }

@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import javax.inject.Inject;
 
@@ -28,6 +30,7 @@ public class ArtistDetailsFragment extends BaseFragment implements ArtistDetails
     @Inject ArtistDetailAdapter artistDetailAdapter;
     @Inject ArtistDetailsPresenter presenter;
     @Bind(R.id.search_result) RecyclerView artistDetailsView;
+    @Bind(R.id.progress) ProgressBar progressIndicator;
 
     private Artist artist;
     private ArtistDetailsContract.ArtistDetails artistDetails;
@@ -106,5 +109,20 @@ public class ArtistDetailsFragment extends BaseFragment implements ArtistDetails
         if(model != null) {
             contract.onModelSelected(model);
         }
+    }
+
+
+    @Override
+    public void setProgressVisible(boolean visible) {
+        if(visible) {
+            progressIndicator.setVisibility(View.VISIBLE);
+        } else {
+            progressIndicator.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void showError() {
+        Toast.makeText(getContext(), "request failed", Toast.LENGTH_SHORT).show();
     }
 }

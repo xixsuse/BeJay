@@ -16,11 +16,8 @@ import rx.subjects.PublishSubject;
 public class SearchPresenter<T extends Model> extends PresenterBase<SearchContract.View> implements SearchContract.Presenter {
 
 
-    private SearchContract.View view;
     private Pager<T> search;
-    protected final Func2<String, Long, Pager<T>> searchFunc;
-
-    private final PublishSubject<Boolean> onDestroy = PublishSubject.create();
+    private final Func2<String, Long, Pager<T>> searchFunc;
 
     @Inject
     public SearchPresenter(Func2<String, Long, Pager<T>> searchFunc) {
@@ -30,10 +27,13 @@ public class SearchPresenter<T extends Model> extends PresenterBase<SearchContra
     @Override
     public void search(String query, long pageSize) {
         search = searchFunc.call(query, pageSize);
+        getView().setProgressVisible(true);
         search.firstPage()
                 .compose(onDetach())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(items -> view.onSearchResultsLoaded(items));
+                .subscribe(items -> getView().onSearchResultsLoaded(items),
+                        (error) -> getView().showError(),
+                        () -> getView().setProgressVisible(false));
     }
 
 
@@ -43,7 +43,9 @@ public class SearchPresenter<T extends Model> extends PresenterBase<SearchContra
             search.nextPage()
                     .compose(onDetach())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(items -> view.onSearchResultsLoaded(items));
+                    .compose(onDetach())
+                    .subscribe(items -> getView().onSearchResultsLoaded(items),
+                            (error) -> getView().showError());
         }
     }
 }

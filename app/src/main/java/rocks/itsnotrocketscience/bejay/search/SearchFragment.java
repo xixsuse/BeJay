@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -33,6 +35,7 @@ public class SearchFragment extends BaseFragment implements SearchContract.View,
     @Inject ModelAdapter resultAdapter;
 
     @Bind(R.id.search_result) RecyclerView searchResult;
+    @Bind(R.id.progress) ProgressBar progressIndicator;
 
     private SearchContract.Presenter searchPresenter;
     private LinearLayoutManager layoutManager;
@@ -180,5 +183,19 @@ public class SearchFragment extends BaseFragment implements SearchContract.View,
     @Override
     public void onItemClicked(RecyclerView recyclerView, int adapterPosition) {
         contract.onModelSelected(resultAdapter.getModel(adapterPosition));
+    }
+
+    @Override
+    public void setProgressVisible(boolean visible) {
+        if(visible) {
+            progressIndicator.setVisibility(View.VISIBLE);
+        } else {
+            progressIndicator.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void showError() {
+        Toast.makeText(getContext(), "request failed", Toast.LENGTH_SHORT).show();
     }
 }

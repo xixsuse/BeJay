@@ -34,5 +34,7 @@ public interface ArtistDetailsContract {
 
     interface View {
         void onLoaded(ArtistDetails artistDetails);
+        void setProgressVisible(boolean visible);
+        void showError();
     }
 }

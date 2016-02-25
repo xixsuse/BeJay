@@ -16,10 +16,12 @@ public class AlbumDetailsPresenter extends PresenterBase<AlbumDetailsContract.Vi
 
     @Override
     public void loadAlbum(String id) {
+        getView().setProgressVisible(true);
         api.get(id).compose(onDetach())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(album -> getView()
-                        .onAlbumLoaded(album));
+                .subscribe(album -> getView().onAlbumLoaded(album),
+                        (error) -> getView().showError(),
+                        () -> getView().setProgressVisible(false));
     }
 
 }

@@ -14,6 +14,10 @@ public class PlaylistDetailsPresenter extends PresenterBase<PlaylistDetailsContr
 
     @Override
     public void loadPlaylist(String id) {
-        api.get(id).compose(onDetach()).observeOn(AndroidSchedulers.mainThread()).subscribe(playlist -> getView().onPlaylistLoaded(playlist));
+        getView().setProgressVisible(true);
+        api.get(id).compose(onDetach()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(playlist -> getView().onPlaylistLoaded(playlist),
+                        (error) -> getView().showError(),
+                        () -> getView().setProgressVisible(false));
     }
 }

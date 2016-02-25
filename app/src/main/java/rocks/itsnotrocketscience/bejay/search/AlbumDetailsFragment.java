@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import javax.inject.Inject;
 
@@ -24,6 +26,8 @@ public class AlbumDetailsFragment extends BaseFragment implements AlbumDetailsCo
     public static final String EXTRA_ALBUM_ID = "album_id";
 
     @Bind(R.id.search_result) RecyclerView tracks;
+    @Bind(R.id.progress) ProgressBar progressIndicator;
+
     @Inject AlbumDetailsContract.Presenter presenter;
     @Inject ModelAdapter modelAdapter;
 
@@ -98,5 +102,19 @@ public class AlbumDetailsFragment extends BaseFragment implements AlbumDetailsCo
     public void onAlbumLoaded(Album album) {
         this.album = album;
         modelAdapter.addAll(album.getTracks());
+    }
+
+    @Override
+    public void setProgressVisible(boolean visible) {
+        if(visible) {
+            progressIndicator.setVisibility(View.VISIBLE);
+        } else {
+            progressIndicator.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void showError() {
+        Toast.makeText(getContext(), "request failed", Toast.LENGTH_SHORT).show();
     }
 }

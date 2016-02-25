@@ -53,5 +53,7 @@ public interface TopLevelSearchContract {
 
     interface View {
         void showSearchResults(SearchResult searchResult);
+        void setProgressVisible(boolean visible);
+        void showError();
     }
 }

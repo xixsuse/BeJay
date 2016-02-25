@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -14,6 +15,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import javax.inject.Inject;
 
@@ -31,6 +34,8 @@ public class TopLevelSearchFragment extends BaseFragment implements TopLevelSear
     public static final String EXTRA_SECTION_SIZE = "section_size";
 
     @Bind(R.id.search_result) RecyclerView result;
+    @Bind(R.id.progress) ProgressBar progressIndicator;
+
     @Inject TopLevelSearchContract.Presenter presenter;
     @Inject TopLevelSearchResultAdapter adapter;
 
@@ -147,5 +152,19 @@ public class TopLevelSearchFragment extends BaseFragment implements TopLevelSear
             }
 
         }
+    }
+
+    @Override
+    public void setProgressVisible(boolean visible) {
+        if(visible) {
+            progressIndicator.setVisibility(View.VISIBLE);
+        } else {
+            progressIndicator.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void showError() {
+        Toast.makeText(getContext(), "request failed", Toast.LENGTH_SHORT).show();
     }
 }
