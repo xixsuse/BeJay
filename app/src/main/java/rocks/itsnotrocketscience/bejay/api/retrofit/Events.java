@@ -32,8 +32,9 @@ public interface Events {
     @POST("/songs/")
     Observable<Song> postSong(@Body Song song);
 
+    @Headers("Content-Type: application/json;charset=UTF-8")
     @POST("/likes/")
-    Observable<Like> postLike(@Body Like like);
+    Observable<Like> postLike(@Body Like song);
 
 
 }

@@ -87,7 +87,22 @@ public class EventPresenterImpl implements EventContract.EventPresenter {
 
     @Override
     public void addLike(Song song) {
-        event.postLike(new Like(song.getUid(),))
+        event.postLike(new Like(song)).subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Like>() {
+                    @Override
+                    public void onCompleted() {}
+
+                    @Override
+                    public final void onError(Throwable e) {
+                        view.showError(e.toString());
+                    }
+
+                    @Override
+                    public final void onNext(Like response) {
+//                        view.onSongAdded(response);
+                    }
+                });
 
     }
 
