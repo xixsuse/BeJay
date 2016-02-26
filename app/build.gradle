@@ -48,7 +48,7 @@ android {
         }
 
         inet {
-            buildConfigField "String", "BASE_URL", "\"http://dukebox.itsnotrocketscience.rocks/\""
+            buildConfigField "String", "BASE_URL", "\"http://192.168.11.97:8000/\""
         }
     }
 
