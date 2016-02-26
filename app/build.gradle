@@ -39,6 +39,7 @@ android {
 
     dexOptions {
         incremental true
+        javaMaxHeapSize "4g"
     }
 
     productFlavors {
@@ -49,6 +50,16 @@ android {
         inet {
             buildConfigField "String", "BASE_URL", "\"http://dukebox.itsnotrocketscience.rocks/\""
         }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
     }
 }
 
@@ -71,10 +82,12 @@ dependencies {
     compile 'com.google.dagger:dagger:2.0'
     compile 'com.facebook.android:facebook-android-sdk:4.6.0'
     compile 'com.squareup.sqlbrite:sqlbrite:0.5.0'
-
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    apt 'com.google.auto.factory:auto-factory:1.0-beta3'
+    compile 'com.google.auto.factory:auto-factory:1.0-beta3'
     provided 'com.google.dagger:dagger-compiler:2.0'
     provided 'org.glassfish:javax.annotation:10.0-b28'
-
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-all:1.10.19'
+    compile 'com.android.support:gridlayout-v7:23.1.1'
 }

@@ -58,11 +58,12 @@ public class BaseActivity extends InjectedActivity<ActivityComponent> {
         }
 
         setContentView(R.layout.activity_main);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
             toolbar.setTitle("Navigation Drawer");
             setSupportActionBar(toolbar);
         }
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));

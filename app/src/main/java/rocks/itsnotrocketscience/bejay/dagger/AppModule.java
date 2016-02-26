@@ -15,9 +15,16 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import retrofit.RestAdapter;
+import rocks.itsnotrocketscience.bejay.BuildConfig;
 import rocks.itsnotrocketscience.bejay.api.ApiManager;
 import rocks.itsnotrocketscience.bejay.api.retrofit.Events;
 import rocks.itsnotrocketscience.bejay.db.ModelDbHelper;
+import rocks.itsnotrocketscience.bejay.music.backends.deezer.api.Deezer;
+import rocks.itsnotrocketscience.bejay.music.backends.deezer.restapi.Album;
+import rocks.itsnotrocketscience.bejay.music.backends.deezer.restapi.Artist;
+import rocks.itsnotrocketscience.bejay.music.backends.deezer.restapi.Playlist;
+import rocks.itsnotrocketscience.bejay.music.backends.deezer.restapi.Search;
 import rocks.itsnotrocketscience.bejay.gcm.GcmUtils;
 import rocks.itsnotrocketscience.bejay.managers.AccountManager;
 
@@ -74,4 +81,30 @@ public class AppModule {
     @Provides @Singleton GcmUtils providesGcmUtils(SharedPreferences sharedPreferences) {
         return new GcmUtils(sharedPreferences);
     }
+
+    @Provides @Deezer @Singleton RestAdapter providesDeezerRestAdapter() {
+        return new RestAdapter.Builder()
+                .setEndpoint(Deezer.API_BASE_URL)
+                .setLogLevel(BuildConfig.RETROFIT_LOG_LEVEL)
+                .build();
+    }
+
+    @Provides @Singleton Search providesDeezerSearchApi(@Deezer RestAdapter restAdapter) {
+        return restAdapter.create(Search.class);
+    }
+
+    @Provides @Singleton
+    Artist providesDeezerArtistApi(@Deezer RestAdapter restAdapter) {
+        return restAdapter.create(Artist.class);
+    }
+
+    @Provides @Singleton
+    Album providesDeezerAlbumApi(@Deezer RestAdapter restAdapter) {
+        return restAdapter.create(Album.class);
+    }
+
+    @Provides @Singleton Playlist providesDeezerPlaylistApi(@Deezer RestAdapter restAdapter) {
+        return restAdapter.create(Playlist.class);
+    }
+
 }

@@ -2,9 +2,12 @@
 <resources>
     <color name="PrimaryColor">#2196F3</color>
     <color name="PrimaryDarkColor">#1976D2</color>
+    <!-- TODO: set up proper accent color -->
+    <color name="AccentColor">#F00</color>
     <color name="black">#222222</color>
     <color name="white">#fffff1</color>
     <color name="uva_color">#f2f8ee</color>
     <color name="default_color">#f2f8ee</color>
     <color name="grey">#333333</color>
+    <color name="bg_show_more">#dddddd</color>
 </resources>

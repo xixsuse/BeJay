@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/list_item_prefered_height"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/view_padding"
+    android:paddingBottom="@dimen/view_padding">
+    <ImageView
+        android:id="@+id/cover"
+        android:paddingRight="4dp"
+        android:layout_width="@dimen/list_item_prefered_icon_size"
+        android:layout_height="@dimen/list_item_prefered_icon_size" />
+    <TextView
+        android:id="@+id/title"
+        android:lines="1"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:gravity="center_vertical|left"
+        tools:text="Album title"/>
+</LinearLayout>

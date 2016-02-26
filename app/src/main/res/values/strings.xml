@@ -33,4 +33,15 @@
     <string name="client_id">H4a3waV5aC9kX3REuiBJP6FP7pGuimUrgVCJcEoO</string>
     <string name="client_secret">HO4ZasxNP5LjzuJ6Z0lOpT3tiVNqN1gpNSZyxBSdjbYsIdQayz7LPKJ5PQ4y5bwKv0phQqoTZEV3JwTFS7HKxehK5eRMjoyPTgBWrBEkG4U2gZErCzUkmFhwmCEvyZQw</string>
     <string name="provider">facebook</string>
+    <string name="action_title_search_tracks">Search Tracks</string>
+    <string name="action_title_add_track">Add Track</string>
+    <string name="format_by_artist">by %s</string>
+    <string name="format_created_by_user">created by %s</string>
+    <string name="section_header_top_tracks">Top Tracks</string>
+    <string name="section_header_discography">Discography</string>
+    <string name="section_header_tracks">Tracks</string>
+    <string name="section_header_albums">Albums</string>
+    <string name="section_header_playlists">Playlists</string>
+    <string name="section_header_artists">Artists</string>
+    <string name="action_show_more">Show more</string>
 </resources>

@@ -8,9 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import rocks.itsnotrocketscience.bejay.R;
-import rocks.itsnotrocketscience.bejay.base.AppApplication;
 import rocks.itsnotrocketscience.bejay.base.InjectedActivity;
-import rocks.itsnotrocketscience.bejay.dagger.ActivityComponent;
 import rocks.itsnotrocketscience.bejay.dagger.DaggerLoginComponent;
 import rocks.itsnotrocketscience.bejay.dagger.LoginComponent;
 import rocks.itsnotrocketscience.bejay.dagger.LoginModule;
