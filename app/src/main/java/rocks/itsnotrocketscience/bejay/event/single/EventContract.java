@@ -15,6 +15,7 @@ public interface EventContract {
         void onEventLoaded(Event event);
         void showError(String error);
         void onSongAdded(Song event);
+        void notifyDataSetChanged();
     }
 
     interface EventPresenter {
@@ -25,6 +26,6 @@ public interface EventContract {
         void onDestroy();
         void loadEvent(int id);
         void adSong(Song song);
-        void addLike(Song song);
+        void toggleLike(Song song);
     }
 }

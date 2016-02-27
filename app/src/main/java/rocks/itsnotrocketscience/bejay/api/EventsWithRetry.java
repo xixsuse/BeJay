@@ -51,4 +51,9 @@ class EventsWithRetry implements Events {
     public Observable<Like> postLike(@Query("song") Like song) {
         return events.postLike(song).retryWhen(ApiManager.defaultRetry());
     }
+
+    @Override
+    public Observable<Like> deleteLike(@Path("id") int id) {
+        return events.deleteLike(id).retryWhen(ApiManager.defaultRetry());
+    }
 }

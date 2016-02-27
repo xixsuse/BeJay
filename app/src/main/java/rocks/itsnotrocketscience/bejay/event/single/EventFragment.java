@@ -23,7 +23,6 @@ import rocks.itsnotrocketscience.bejay.api.ApiManager;
 import rocks.itsnotrocketscience.bejay.api.retrofit.Events;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
 import rocks.itsnotrocketscience.bejay.dagger.ActivityComponent;
-import rocks.itsnotrocketscience.bejay.event.list.ItemClickListener;
 import rocks.itsnotrocketscience.bejay.managers.AccountManager;
 import rocks.itsnotrocketscience.bejay.models.Event;
 import rocks.itsnotrocketscience.bejay.models.Song;
@@ -68,12 +67,7 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Ev
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         rvSongList.setLayoutManager(llm);
         adapter = new SongListAdapter(songList);
-        adapter.setItemClickListener(new ItemClickListener<Song>() {
-            @Override
-            public void onClick(Song song) {
-                presenter.addLike(song);
-            }
-        });
+        adapter.setItemClickListener(song -> presenter.toggleLike(song));
         rvSongList.setAdapter(adapter);
         fab.setOnClickListener(v ->
                 startActivityForResult(new Intent(getActivity(), SearchActivity.class), RC_SEARCH_TRACK));
@@ -110,6 +104,11 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Ev
     @Override
     public void onSongAdded(Song song) {
         songList.add(song);
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
         adapter.notifyDataSetChanged();
     }
 

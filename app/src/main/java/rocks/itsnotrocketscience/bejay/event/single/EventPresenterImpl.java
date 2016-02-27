@@ -51,7 +51,6 @@ public class EventPresenterImpl implements EventContract.EventPresenter {
                 .subscribe(new Subscriber<Event>() {
                     @Override
                     public void onCompleted() {}
-
                     @Override
                     public final void onError(Throwable e) {
                         view.showError(e.toString());
@@ -72,12 +71,10 @@ public class EventPresenterImpl implements EventContract.EventPresenter {
                 .subscribe(new Subscriber<Song>() {
                     @Override
                     public void onCompleted() {}
-
                     @Override
                     public final void onError(Throwable e) {
                         view.showError(e.toString());
                     }
-
                     @Override
                     public final void onNext(Song response) {
                         view.onSongAdded(response);
@@ -86,7 +83,15 @@ public class EventPresenterImpl implements EventContract.EventPresenter {
     }
 
     @Override
-    public void addLike(Song song) {
+    public void toggleLike(Song song) {
+        if (!song.isLiked()) {
+            addLike(song);
+        } else {
+            deleteLike(song);
+        }
+    }
+
+    private void addLike(final Song song) {
         event.postLike(new Like(song)).subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Like>() {
@@ -100,10 +105,20 @@ public class EventPresenterImpl implements EventContract.EventPresenter {
 
                     @Override
                     public final void onNext(Like response) {
-//                        view.onSongAdded(response);
+                       song.setLiked(true);
+                       song.updateLiked(1);
+                       view.notifyDataSetChanged();
+
                     }
                 });
+    }
 
+    private void deleteLike(final Song song) {
+        event.deleteLike(song.getId()).just("Hello, world!")
+                .subscribe(s -> {
+                    song.setLiked(true);
+                    song.updateLiked(-1);
+                });
     }
 
     @Override
