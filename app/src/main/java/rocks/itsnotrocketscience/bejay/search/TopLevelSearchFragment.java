@@ -18,14 +18,22 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import rocks.itsnotrocketscience.bejay.R;
+import rocks.itsnotrocketscience.bejay.music.model.Album;
+import rocks.itsnotrocketscience.bejay.music.model.Artist;
 import rocks.itsnotrocketscience.bejay.music.model.Model;
+import rocks.itsnotrocketscience.bejay.music.model.Playlist;
+import rocks.itsnotrocketscience.bejay.music.model.Track;
 import rocks.itsnotrocketscience.bejay.search.contract.MusicSearchContract;
 import rocks.itsnotrocketscience.bejay.search.contract.TopLevelSearchContract;
+import rocks.itsnotrocketscience.bejay.search.view.ModelViewFactory;
+import rocks.itsnotrocketscience.bejay.search.view.ModelViewHolderFactory;
 import rocks.itsnotrocketscience.bejay.view.ItemTouchHelper;
 
 import static android.app.SearchManager.QUERY;
@@ -37,7 +45,9 @@ public class TopLevelSearchFragment extends BaseFragment implements TopLevelSear
     @Bind(R.id.progress) ProgressBar progressIndicator;
 
     @Inject TopLevelSearchContract.Presenter presenter;
-    @Inject TopLevelSearchResultAdapter adapter;
+    @Inject SectionAdapter adapter;
+    @Inject ModelViewFactory viewFactory;
+    @Inject ModelViewHolderFactory viewHolderFactory;
 
     private MenuItem searchMenuItem;
     private SearchView searchView;
@@ -72,7 +82,6 @@ public class TopLevelSearchFragment extends BaseFragment implements TopLevelSear
     @Override
     public boolean onQueryTextSubmit(String query) {
         this.query = query;
-        adapter.reset();
         presenter.search(query, sectionSize);
         MenuItemCompat.collapseActionView(searchMenuItem);
         return true;
@@ -125,7 +134,40 @@ public class TopLevelSearchFragment extends BaseFragment implements TopLevelSear
 
     @Override
     public void showSearchResults(TopLevelSearchContract.SearchResult searchResult) {
-        adapter.setSearchResult(searchResult);
+        adapter.reset();
+        if(searchResult != null) {
+            List<Track> tracks = searchResult.getTracks();
+            if(tracks != null && tracks.size() > 0) {
+                ModelAdapter tracksAdapter = new ModelAdapter(viewFactory, viewHolderFactory);
+                tracksAdapter.addAll(tracks);
+                adapter.addExpandableSection(Model.TYPE_TRACK, getString(R.string.section_header_tracks),
+                        getString(R.string.action_show_more), tracksAdapter);
+            }
+
+            List<Album> albums = searchResult.getAlbums();
+            if(albums != null && albums.size() > 0) {
+                ModelAdapter albumsAdapter = new ModelAdapter(viewFactory, viewHolderFactory);
+                albumsAdapter.addAll(albums);
+                adapter.addExpandableSection(Model.TYPE_ALBUM, getString(R.string.section_header_albums),
+                        getString(R.string.action_show_more), albumsAdapter);
+            }
+
+            List<Artist> artists = searchResult.getArtists();
+            if(artists != null && artists.size() > 0) {
+                ModelAdapter artistsAdapter = new ModelAdapter(viewFactory, viewHolderFactory);
+                artistsAdapter.addAll(artists);
+                adapter.addExpandableSection(Model.TYPE_ARTIST, getString(R.string.section_header_artists),
+                        getString(R.string.action_show_more), artistsAdapter);
+            }
+
+            List<Playlist> playlists = searchResult.getPlaylists();
+            if(playlists != null && playlists.size() > 0) {
+                ModelAdapter playlistsAdapter = new ModelAdapter(viewFactory, viewHolderFactory);
+                playlistsAdapter.addAll(playlists);
+                adapter.addExpandableSection(Model.TYPE_PLAYLIST, getString(R.string.section_header_playlists),
+                        getString(R.string.action_show_more), playlistsAdapter);
+            }
+        }
     }
 
     @Override
@@ -142,15 +184,11 @@ public class TopLevelSearchFragment extends BaseFragment implements TopLevelSear
 
     @Override
     public void onItemClicked(RecyclerView recyclerView, int adapterPosition) {
-        Model model = adapter.getModel(adapterPosition);
+        Model model = adapter.getItem(adapterPosition);
         if(model != null) {
             contract.onModelSelected(model);
-        } else {
-            int type = adapter.getShowMoreType(adapterPosition);
-            if(type != Model.TYPE_UNKNOWN) {
-                contract.searchTracks(type, query);
-            }
-
+        } else if(adapter.getItemViewType(adapterPosition) == SectionAdapter.VIEW_TYPE_EXPAND_ACTION) {
+            contract.searchTracks((int)adapter.getSectionId(adapterPosition), query);
         }
     }
 

@@ -86,7 +86,7 @@ public class AlbumDetailsFragment extends BaseFragment implements AlbumDetailsCo
 
     @Override
     public void onItemClicked(RecyclerView recyclerView, int adapterPosition) {
-        contract.onModelSelected(modelAdapter.getModel(adapterPosition));
+        contract.onModelSelected(modelAdapter.getItem(adapterPosition));
     }
 
     @Override

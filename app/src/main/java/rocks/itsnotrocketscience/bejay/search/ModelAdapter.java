@@ -1,6 +1,5 @@
 package rocks.itsnotrocketscience.bejay.search;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -17,7 +16,7 @@ import rocks.itsnotrocketscience.bejay.search.view.ModelViewHolderFactory;
 /**
  * Created by nemi on 20/02/2016.
  */
-public class ModelAdapter extends RecyclerView.Adapter<ModelViewHolder> {
+public class ModelAdapter extends BaseAdapter<ModelViewHolder, Model> {
     private ModelViewFactory viewFactory;
     private ModelViewHolderFactory viewHolderFactory;
 
@@ -41,16 +40,18 @@ public class ModelAdapter extends RecyclerView.Adapter<ModelViewHolder> {
 
     @Override
     public void onBindViewHolder(ModelViewHolder holder, int position) {
-        Model track = getModel(position);
+        Model track = getItem(position);
         holder.setModel(track);
     }
+
 
     @Override
     public int getItemCount() {
         return models.size();
     }
 
-    public Model getModel(int position) {
+    @Override
+    public Model getItem(int position) {
         return models.get(position);
     }
 

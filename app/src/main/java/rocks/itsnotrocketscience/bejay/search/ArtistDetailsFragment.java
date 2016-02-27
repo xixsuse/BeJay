@@ -11,24 +11,33 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import rocks.itsnotrocketscience.bejay.R;
+import rocks.itsnotrocketscience.bejay.music.model.Album;
 import rocks.itsnotrocketscience.bejay.music.model.Artist;
 import rocks.itsnotrocketscience.bejay.music.model.Model;
+import rocks.itsnotrocketscience.bejay.music.model.Track;
 import rocks.itsnotrocketscience.bejay.search.contract.ArtistDetailsContract;
 import rocks.itsnotrocketscience.bejay.search.contract.MusicSearchContract;
 import rocks.itsnotrocketscience.bejay.search.presenter.ArtistDetailsPresenter;
+import rocks.itsnotrocketscience.bejay.search.view.ModelViewFactory;
+import rocks.itsnotrocketscience.bejay.search.view.ModelViewHolderFactory;
 import rocks.itsnotrocketscience.bejay.view.ItemTouchHelper;
 
 public class ArtistDetailsFragment extends BaseFragment implements ArtistDetailsContract.View, ItemTouchHelper.OnItemClickedListener {
 
     public static final String EXTRA_ARTIST = "artist";
 
-    @Inject ArtistDetailAdapter artistDetailAdapter;
+    @Inject SectionAdapter artistDetailAdapter;
     @Inject ArtistDetailsPresenter presenter;
+    @Inject ModelViewHolderFactory viewHolderFactory;
+    @Inject ModelViewFactory viewFactory;
+
     @Bind(R.id.search_result) RecyclerView artistDetailsView;
     @Bind(R.id.progress) ProgressBar progressIndicator;
 
@@ -100,7 +109,22 @@ public class ArtistDetailsFragment extends BaseFragment implements ArtistDetails
     @Override
     public void onLoaded(ArtistDetailsContract.ArtistDetails artistDetails) {
         this.artistDetails = artistDetails;
-        artistDetailAdapter.setArtistDetails(artistDetails);
+        artistDetailAdapter.reset();
+        if(artistDetails != null) {
+            List<Track> topTracks = artistDetails.getTopTracks();
+            if(topTracks != null && topTracks.size() > 0) {
+                ModelAdapter topTracksAdapter = new ModelAdapter(viewFactory, viewHolderFactory);
+                topTracksAdapter.addAll(topTracks);
+                artistDetailAdapter.addSection(-1, getString(R.string.section_header_top_tracks), topTracksAdapter);
+            }
+
+            List<Album> discography = artistDetails.getDiscography();
+            if(discography != null && discography.size() > 0) {
+                ModelAdapter discographyAdapter = new ModelAdapter(viewFactory, viewHolderFactory);
+                discographyAdapter.addAll(discography);
+                artistDetailAdapter.addSection(-1, getString(R.string.section_header_discography), discographyAdapter);
+            }
+        }
     }
 
     @Override
