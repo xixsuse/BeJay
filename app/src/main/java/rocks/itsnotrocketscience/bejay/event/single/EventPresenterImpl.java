@@ -12,6 +12,7 @@ import rocks.itsnotrocketscience.bejay.api.retrofit.Events;
 import rocks.itsnotrocketscience.bejay.models.Event;
 import rocks.itsnotrocketscience.bejay.models.Like;
 import rocks.itsnotrocketscience.bejay.models.Song;
+import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -114,7 +115,7 @@ public class EventPresenterImpl implements EventContract.EventPresenter {
     }
 
     private void deleteLike(final Song song) {
-        event.deleteLike(song.getId()).just("Hello, world!")
+        Observable.just(event.deleteLike(song.getId()))
                 .subscribe(s -> {
                     song.setLiked(true);
                     song.updateLiked(-1);
