@@ -85,7 +85,7 @@ public class EventPresenterImpl implements EventContract.EventPresenter {
 
     @Override
     public void toggleLike(Song song) {
-        if (!song.isLiked()) {
+        if (!song.hasLikeId()) {
             addLike(song);
         } else {
             deleteLike(song);
@@ -106,7 +106,6 @@ public class EventPresenterImpl implements EventContract.EventPresenter {
 
                     @Override
                     public final void onNext(Like response) {
-                       song.setLiked(true);
                        song.updateLiked(1);
                        view.notifyDataSetChanged();
 
@@ -115,10 +114,23 @@ public class EventPresenterImpl implements EventContract.EventPresenter {
     }
 
     private void deleteLike(final Song song) {
-        Observable.just(event.deleteLike(song.getId()))
-                .subscribe(s -> {
-                    song.setLiked(true);
-                    song.updateLiked(-1);
+
+        event.deleteLike(song.getId()).subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Like>() {
+                    @Override
+                    public void onCompleted() {}
+
+                    @Override
+                    public final void onError(Throwable e) {
+                        view.showError(e.toString());
+                    }
+
+                    @Override
+                    public final void onNext(Like response) {
+                        song.updateLiked(-1);
+
+                    }
                 });
     }
 

@@ -8,7 +8,7 @@ public class Song {
 
     private String title;
     private int id;
-    private boolean liked;
+    private int liked;
     private int likes;
     private Boolean chosen;
 
@@ -32,12 +32,8 @@ public class Song {
         return id;
     }
 
-    public boolean isLiked() {
-        return liked;
-    }
-
-    public void setLiked(Boolean liked) {
-        this.liked = liked;
+    public boolean  hasLikeId() {
+        return liked!=-1;
     }
 
     public void updateLiked(int update) {

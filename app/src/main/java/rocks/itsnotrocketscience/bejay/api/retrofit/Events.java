@@ -37,7 +37,7 @@ public interface Events {
     @POST("/likes/")
     Observable<Like> postLike(@Body Like song);
 
-    @DELETE("/likes/{id}")
+    @DELETE("/likes/{id}/")
     Observable<Like> deleteLike(@Path("id") int id);
 
 
