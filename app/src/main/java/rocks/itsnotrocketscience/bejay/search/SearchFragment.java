@@ -73,7 +73,7 @@ public class SearchFragment extends BaseFragment implements SearchContract.View,
         return itemCount;
     }
 
-    public static SearchFragment newInstance(String query, @Model.Type int type) {
+    public static SearchFragment newInstance(String query, int type) {
         SearchFragment fragment = new SearchFragment();
 
         Bundle args = new Bundle();
@@ -182,7 +182,7 @@ public class SearchFragment extends BaseFragment implements SearchContract.View,
 
     @Override
     public void onItemClicked(RecyclerView recyclerView, int adapterPosition) {
-        contract.onModelSelected(resultAdapter.getModel(adapterPosition));
+        contract.onModelSelected(resultAdapter.getItem(adapterPosition));
     }
 
     @Override

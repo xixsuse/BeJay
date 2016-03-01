@@ -1,9 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          android:id="@+id/title"
-          android:layout_width="match_parent"
-          android:layout_height="@dimen/list_item_prefered_height"
-          android:gravity="center"
-          android:textAppearance="?attr/textAppearanceListItem"
-          tools:text="Section Header" />
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/list_item_prefered_height"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin">
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/PrimaryColor"
+        android:layout_alignParentBottom="true"
+        android:paddingTop="@dimen/view_padding"
+        android:paddingBottom="@dimen/view_padding"/>
+    <TextView
+        android:id="@+id/title"
+        android:layout_above="@id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left|center_vertical"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:textStyle="bold"
+        tools:text="Section Header"
+        android:paddingTop="@dimen/view_padding"
+        android:paddingBottom="@dimen/view_padding"/>
+</RelativeLayout>
+
