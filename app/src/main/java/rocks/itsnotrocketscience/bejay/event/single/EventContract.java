@@ -25,7 +25,7 @@ public interface EventContract {
         void unregisterUpdateReceiver(Context context);
         void onDestroy();
         void loadEvent(int id);
-        void adSong(Song song);
+        void addSong(Song song);
         void toggleLike(Song song);
     }
 }

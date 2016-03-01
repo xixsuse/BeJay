@@ -142,7 +142,7 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Ev
             case RC_SEARCH_TRACK : {
                 if((resultCode == Activity.RESULT_OK)) {
                     Track track = data.getParcelableExtra(SearchActivity.EXTRA_TRACK);
-                    presenter.adSong(toSong(track));
+                    presenter.addSong(toSong(track));
                 }
                 break;
             }

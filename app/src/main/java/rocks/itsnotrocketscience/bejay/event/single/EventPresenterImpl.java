@@ -56,7 +56,6 @@ public class EventPresenterImpl implements EventContract.EventPresenter {
                     public final void onError(Throwable e) {
                         view.showError(e.toString());
                     }
-
                     @Override
                     public final void onNext(Event response) {
                         view.onEventLoaded(response);
@@ -65,7 +64,7 @@ public class EventPresenterImpl implements EventContract.EventPresenter {
     }
 
     @Override
-    public void adSong(Song song) {
+    public void addSong(Song song) {
         event.postSong(song)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -83,55 +82,47 @@ public class EventPresenterImpl implements EventContract.EventPresenter {
                 });
     }
 
-    @Override
-    public void toggleLike(Song song) {
-        if (!song.hasLikeId()) {
-            addLike(song);
-        } else {
-            deleteLike(song);
-        }
-    }
-
     private void addLike(final Song song) {
         event.postLike(new Like(song)).subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Like>() {
                     @Override
                     public void onCompleted() {}
-
                     @Override
                     public final void onError(Throwable e) {
                         view.showError(e.toString());
                     }
-
                     @Override
                     public final void onNext(Like response) {
                        song.updateLiked(1);
                        view.notifyDataSetChanged();
-
                     }
                 });
     }
 
     private void deleteLike(final Song song) {
-
         event.deleteLike(song.getId()).subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Like>() {
                     @Override
                     public void onCompleted() {}
-
                     @Override
                     public final void onError(Throwable e) {
                         view.showError(e.toString());
                     }
-
                     @Override
                     public final void onNext(Like response) {
                         song.updateLiked(-1);
-
                     }
                 });
+    }
+    @Override
+    public void toggleLike(Song song) {
+        if (song.hasLikeId()) {
+            deleteLike(song);
+        } else {
+            addLike(song);
+        }
     }
 
     @Override
