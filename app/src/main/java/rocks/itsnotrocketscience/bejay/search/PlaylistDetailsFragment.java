@@ -86,7 +86,7 @@ public class PlaylistDetailsFragment extends BaseFragment implements PlaylistDet
 
     @Override
     public void onItemClicked(RecyclerView recyclerView, int adapterPosition) {
-        contract.onModelSelected(modelAdapter.getModel(adapterPosition));
+        contract.onModelSelected(modelAdapter.getItem(adapterPosition));
     }
 
     @Override
