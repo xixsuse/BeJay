@@ -39,4 +39,8 @@ public class Song {
     public void updateLiked(int update) {
         likes += update;
     }
+
+    public int getLikeId(){
+        return liked;
+    }
 }

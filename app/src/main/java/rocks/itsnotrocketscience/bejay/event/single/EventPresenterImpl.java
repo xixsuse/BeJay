@@ -101,7 +101,7 @@ public class EventPresenterImpl implements EventContract.EventPresenter {
     }
 
     private void deleteLike(final Song song) {
-        event.deleteLike(song.getId()).subscribeOn(Schedulers.newThread())
+        event.deleteLike(song.getLikeId()).subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Like>() {
                     @Override
@@ -113,6 +113,7 @@ public class EventPresenterImpl implements EventContract.EventPresenter {
                     @Override
                     public final void onNext(Like response) {
                         song.updateLiked(-1);
+                        view.notifyDataSetChanged();
                     }
                 });
     }
