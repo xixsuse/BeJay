@@ -5,8 +5,13 @@ package rocks.itsnotrocketscience.bejay.models;
  */
 public class Like {
     int song;
+    int id;
 
     public Like(Song song) {
         this.song = song.getId();
+    }
+
+    public int getId() {
+        return id;
     }
 }

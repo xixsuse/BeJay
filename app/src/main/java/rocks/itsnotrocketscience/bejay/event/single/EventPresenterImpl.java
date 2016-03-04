@@ -1,13 +1,15 @@
 package rocks.itsnotrocketscience.bejay.event.single;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.util.Log;
+import android.content.SharedPreferences;
+
+import com.cantrowitz.rxbroadcast.RxBroadcast;
 
 import javax.inject.Inject;
 
+import rocks.itsnotrocketscience.bejay.api.Constants;
 import rocks.itsnotrocketscience.bejay.api.retrofit.Events;
 import rocks.itsnotrocketscience.bejay.models.Event;
 import rocks.itsnotrocketscience.bejay.models.Like;
@@ -25,10 +27,12 @@ public class EventPresenterImpl implements EventContract.EventPresenter {
 
     private static final String TAG = "EventPresenterImpl";
     EventContract.EventView view;
+    SharedPreferences preferences;
     Events event;
 
     @Inject
-    public EventPresenterImpl(Events event){
+    public EventPresenterImpl(SharedPreferences preferences, Events event){
+        this.preferences=preferences;
         this.event=event;
     }
 
@@ -94,8 +98,7 @@ public class EventPresenterImpl implements EventContract.EventPresenter {
                     }
                     @Override
                     public final void onNext(Like response) {
-                       song.updateLiked(1);
-                       view.notifyDataSetChanged();
+                        updateLikeUi(song, response);
                     }
                 });
     }
@@ -112,8 +115,7 @@ public class EventPresenterImpl implements EventContract.EventPresenter {
                     }
                     @Override
                     public final void onNext(Like response) {
-                        song.updateLiked(-1);
-                        view.notifyDataSetChanged();
+                        updateLikeUi(song,response);
                     }
                 });
     }
@@ -126,20 +128,18 @@ public class EventPresenterImpl implements EventContract.EventPresenter {
         }
     }
 
+
+    private void updateLikeUi(Song song, Like response) {
+        song.updateLikes(response!=null ? 1 :-1);
+        song.updateLiked(response!=null ? response.getId() :-1);
+        view.notifyDataSetChanged();
+    }
+
     @Override
     public void registerUpdateReceiver(Context context) {
-        context.registerReceiver(mMessageReceiver, new IntentFilter(EventActivity.EVENT_RECEIVER_ID));
+        Observable<Intent> observable = RxBroadcast.fromBroadcast(context, new IntentFilter(EventActivity.EVENT_RECEIVER_ID));
+        observable.subscribe(s -> {
+            loadEvent(preferences.getInt(Constants.EVENT_PK, -1));
+        });
     }
-
-    @Override
-    public void unregisterUpdateReceiver(Context context) {
-        context.registerReceiver(mMessageReceiver, new IntentFilter(EventActivity.EVENT_RECEIVER_ID));
-    }
-
-    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            Log.d(TAG, "onReceived: ");
-        }
-    };
 }

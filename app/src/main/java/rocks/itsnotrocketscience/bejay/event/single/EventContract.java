@@ -22,7 +22,6 @@ public interface EventContract {
         void onViewAttached(EventView view);
         void onViewDetached();
         void registerUpdateReceiver(Context context);
-        void unregisterUpdateReceiver(Context context);
         void onDestroy();
         void loadEvent(int id);
         void addSong(Song song);

@@ -30,7 +30,7 @@ import rocks.itsnotrocketscience.bejay.search.SearchActivity;
 import rocks.itsnotrocketscience.bejay.music.model.Track;
 
 /**
- * A placeholder fragment containing a simple view.
+ * Event fragment
  */
 public class EventFragment extends BaseFragment<ActivityComponent> implements EventContract.EventView {
 
@@ -123,7 +123,6 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Ev
     public void onPause() {
         super.onPause();
         presenter.onViewDetached();
-        presenter.unregisterUpdateReceiver(this.getActivity());
     }
 
     @Override

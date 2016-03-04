@@ -36,11 +36,15 @@ public class Song {
         return liked!=-1;
     }
 
-    public void updateLiked(int update) {
+    public void updateLikes(int update) {
         likes += update;
     }
 
     public int getLikeId(){
         return liked;
+    }
+
+    public void updateLiked(int id) {
+        liked=id;
     }
 }
