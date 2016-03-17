@@ -16,6 +16,7 @@ import rocks.itsnotrocketscience.bejay.models.Like;
 import rocks.itsnotrocketscience.bejay.models.Song;
 import rx.Observable;
 import rx.Subscriber;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -26,14 +27,16 @@ import rx.schedulers.Schedulers;
 public class EventPresenterImpl implements EventContract.EventPresenter {
 
     private static final String TAG = "EventPresenterImpl";
-    EventContract.EventView view;
-    SharedPreferences preferences;
-    Events event;
+    private EventContract.EventView view;
+    private final SharedPreferences preferences;
+    private Subscription subscription;
+    private final Events event;
 
     @Inject
     public EventPresenterImpl(SharedPreferences preferences, Events event){
         this.preferences=preferences;
         this.event=event;
+        view = null;
     }
 
     @Override
@@ -86,7 +89,7 @@ public class EventPresenterImpl implements EventContract.EventPresenter {
                 });
     }
 
-    private void addLike(final Song song) {
+    private void addLike(final Song song,int pos) {
         event.postLike(new Like(song)).subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Like>() {
@@ -98,12 +101,12 @@ public class EventPresenterImpl implements EventContract.EventPresenter {
                     }
                     @Override
                     public final void onNext(Like response) {
-                        updateLikeUi(song, response);
+                        updateLikeUi(song, response, pos);
                     }
                 });
     }
 
-    private void deleteLike(final Song song) {
+    private void deleteLike(final Song song, int pos) {
         event.deleteLike(song.getLikeId()).subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Like>() {
@@ -115,31 +118,35 @@ public class EventPresenterImpl implements EventContract.EventPresenter {
                     }
                     @Override
                     public final void onNext(Like response) {
-                        updateLikeUi(song,response);
+                        updateLikeUi(song,response, pos);
                     }
                 });
     }
     @Override
-    public void toggleLike(Song song) {
+    public void toggleLike(Song song, int pos) {
         if (song.hasLikeId()) {
-            deleteLike(song);
+            deleteLike(song, pos);
         } else {
-            addLike(song);
+            addLike(song, pos);
         }
     }
 
-
-    private void updateLikeUi(Song song, Like response) {
+    private void updateLikeUi(Song song, Like response, int pos) {
         song.updateLikes(response!=null ? 1 :-1);
         song.updateLiked(response!=null ? response.getId() :-1);
-        view.notifyDataSetChanged();
+        view.notifyItemChanged(pos);
     }
 
     @Override
     public void registerUpdateReceiver(Context context) {
         Observable<Intent> observable = RxBroadcast.fromBroadcast(context, new IntentFilter(EventActivity.EVENT_RECEIVER_ID));
-        observable.subscribe(s -> {
+        subscription= observable.subscribe(s -> {
             loadEvent(preferences.getInt(Constants.EVENT_PK, -1));
         });
+    }
+
+    @Override
+    public void unregisterUpdateReceiver() {
+       subscription.unsubscribe();
     }
 }

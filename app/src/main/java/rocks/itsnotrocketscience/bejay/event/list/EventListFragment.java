@@ -104,7 +104,7 @@ public class EventListFragment extends BaseFragment<ActivityComponent> implement
     }
 
     @Override
-    public void onClick(Event event) {
+    public void onClick(Event event, int position) {
         eventListPresenter.checkIn(event, false);
     }
 

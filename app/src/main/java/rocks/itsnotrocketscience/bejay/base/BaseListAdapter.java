@@ -26,7 +26,7 @@ public abstract class BaseListAdapter<T> extends RecyclerView.Adapter<BaseViewHo
 
     @Override
     public void onClick(View view, int position) {
-        clickListener.onClick(items.get(position));
+        clickListener.onClick(items.get(position), position);
     }
 
     public void setItemClickListener(ItemClickListener<T> click) {

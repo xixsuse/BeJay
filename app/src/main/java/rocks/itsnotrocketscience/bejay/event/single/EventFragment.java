@@ -67,8 +67,8 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Ev
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         rvSongList.setLayoutManager(llm);
         adapter = new SongListAdapter(songList);
-        adapter.setItemClickListener(song -> presenter.toggleLike(song));
-        rvSongList.setAdapter(adapter);
+        adapter.setItemClickListener((item, position) -> presenter.toggleLike(item, position));
+                rvSongList.setAdapter(adapter);
         fab.setOnClickListener(v ->
                 startActivityForResult(new Intent(getActivity(), SearchActivity.class), RC_SEARCH_TRACK));
     }
@@ -108,8 +108,8 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Ev
     }
 
     @Override
-    public void notifyDataSetChanged() {
-        adapter.notifyDataSetChanged();
+    public void notifyItemChanged(int position) {
+        adapter.notifyItemChanged(position);
     }
 
     @Override
@@ -128,6 +128,7 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Ev
     @Override
     public void onDestroy() {
         super.onDestroy();
+        presenter.unregisterUpdateReceiver();
         presenter.onDestroy();
     }
 

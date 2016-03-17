@@ -15,16 +15,17 @@ public interface EventContract {
         void onEventLoaded(Event event);
         void showError(String error);
         void onSongAdded(Song event);
-        void notifyDataSetChanged();
+        void notifyItemChanged(int position);
     }
 
     interface EventPresenter {
         void onViewAttached(EventView view);
         void onViewDetached();
         void registerUpdateReceiver(Context context);
+        void unregisterUpdateReceiver();
         void onDestroy();
         void loadEvent(int id);
         void addSong(Song song);
-        void toggleLike(Song song);
+        void toggleLike(Song song, int pos);
     }
 }
