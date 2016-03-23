@@ -1,6 +1,8 @@
 package rocks.itsnotrocketscience.bejay.event.list;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -39,6 +41,7 @@ public class EventListFragment extends BaseFragment<ActivityComponent> implement
     @Bind(R.id.rvEventList) RecyclerView recyclerView;
     @Bind(R.id.rlError) RelativeLayout rlError;
     @Bind(R.id.btnRetry) Button btnRetry;
+    @Bind(R.id.fab) FloatingActionButton fab;
     EventListAdapter adapter;
     List<Event> eventList;
 
@@ -58,6 +61,12 @@ public class EventListFragment extends BaseFragment<ActivityComponent> implement
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setupRecyclerView();
+        addSnackBar();
+    }
+
+    private void addSnackBar() {
+        fab.setOnClickListener(view1 -> Snackbar.make(view1, "Replace with your own action", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show());
     }
 
     @Override

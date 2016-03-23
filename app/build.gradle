@@ -21,10 +21,12 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField "retrofit.RestAdapter.LogLevel", "RETROFIT_LOG_LEVEL", "retrofit.RestAdapter.LogLevel.NONE"
+            buildConfigField "String", "BASE_URL", "\"http://dukebox.itsnotrocketscience.rocks/\""
         }
 
         debug {
             buildConfigField "retrofit.RestAdapter.LogLevel", "RETROFIT_LOG_LEVEL", "retrofit.RestAdapter.LogLevel.FULL"
+            buildConfigField "String", "BASE_URL", "\"http://dukebox.itsnotrocketscience.rocks/\""
         }
     }
 
@@ -42,15 +44,15 @@ android {
         javaMaxHeapSize "4g"
     }
 
-    productFlavors {
-        lan {
-            buildConfigField "String", "BASE_URL", lanServerUrl
-        }
-
-        inet {
-            buildConfigField "String", "BASE_URL", "\"http://dukebox.itsnotrocketscience.rocks/\""
-        }
-    }
+//    productFlavors {
+//        lan {
+//            buildConfigField "String", "BASE_URL", lanServerUrl
+//        }
+//
+//        inet {
+//            buildConfigField "String", "BASE_URL", "\"http://dukebox.itsnotrocketscience.rocks/\""
+//        }
+//    }
 
     packagingOptions {
         exclude 'META-INF/LICENSE.txt'
