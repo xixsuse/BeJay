@@ -65,8 +65,7 @@ public class EventListFragment extends BaseFragment<ActivityComponent> implement
     }
 
     private void addSnackBar() {
-        fab.setOnClickListener(view1 -> Snackbar.make(view1, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show());
+        fab.setOnClickListener(v -> launcher.openCreateEvent());
     }
 
     @Override

@@ -91,7 +91,7 @@ public class EventPresenterImpl implements EventContract.EventPresenter {
 
     @Override
     public void unregisterUpdateReceiver(Context context) {
-        context.registerReceiver(mMessageReceiver, new IntentFilter(EventActivity.EVENT_RECEIVER_ID));
+        context.unregisterReceiver(mMessageReceiver);
     }
 
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {

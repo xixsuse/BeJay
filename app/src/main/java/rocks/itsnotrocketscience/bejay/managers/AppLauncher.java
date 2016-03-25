@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.api.Constants;
+import rocks.itsnotrocketscience.bejay.event.create.EventCreateActivity;
 import rocks.itsnotrocketscience.bejay.event.list.EventListFragment;
 import rocks.itsnotrocketscience.bejay.event.single.EventActivity;
 import rocks.itsnotrocketscience.bejay.home.HomeFragment;
@@ -66,5 +67,11 @@ public class AppLauncher implements Launcher {
     @Override
     public void openEventList() {
         showFragment(EventListFragment.newInstance());
+    }
+
+    @Override
+    public void openCreateEvent() {
+        Intent intent = new Intent(activity, EventCreateActivity.class);
+        activity.startActivity(intent);
     }
 }

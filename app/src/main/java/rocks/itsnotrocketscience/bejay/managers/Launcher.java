@@ -7,4 +7,5 @@ public interface Launcher {
     void logout();
     void openLogin();
     void openEventList();
+    void openCreateEvent();
 }

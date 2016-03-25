@@ -53,10 +53,6 @@ public class LoginFragment extends BaseFragment<LoginComponent> implements Login
         setupFacebookLoginButton(btLoginFacebook);
         return view;
     }
-    @OnClick(R.id.btLoginFacebook)
-    public void login() {
-        launcher.openLogin();
-    }
 
     @Override
     public void onDestroyView() {

@@ -30,4 +30,9 @@ public class LauncherBase implements Launcher {
     public void openEventList() {
         throw new UnsupportedOperationException();
     }
+
+    @Override
+    public void openCreateEvent() {
+        throw new UnsupportedOperationException();
+    }
 }

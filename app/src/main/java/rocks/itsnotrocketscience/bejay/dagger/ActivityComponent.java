@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 
 import dagger.Component;
 import rocks.itsnotrocketscience.bejay.base.BaseActivity;
+import rocks.itsnotrocketscience.bejay.event.create.EventCreateActivity;
 import rocks.itsnotrocketscience.bejay.music.backends.deezer.restapi.Album;
 import rocks.itsnotrocketscience.bejay.music.backends.deezer.restapi.Artist;
 import rocks.itsnotrocketscience.bejay.music.backends.deezer.restapi.Playlist;
@@ -33,6 +34,7 @@ public interface ActivityComponent {
      * Injectors
      * */
     void inject(BaseActivity baseActivity);
+    void inject(EventCreateActivity eventCreateActivity);
     void inject(MainActivity mainActivity);
     void inject(EventListFragment eventListFragment);
     void inject(EventFragment eventFragment);
