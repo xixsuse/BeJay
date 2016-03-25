@@ -43,4 +43,7 @@
     <string name="section_header_artists">Artists</string>
     <string name="action_show_more">Show more</string>
     <string name="title_activity_event_create">Create</string>
+    <string name="hint_name">Event Name</string>
+    <string name="hint_details">Details</string>
+    <string name="hint_location">Location</string>
 </resources>

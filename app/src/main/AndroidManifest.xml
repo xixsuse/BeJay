@@ -117,7 +117,7 @@
         <activity
             android:name=".event.create.EventCreateActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:label="@string/title_activity_event_create"></activity>
+            android:label="@string/title_activity_event_create"/>
     </application>
 
 </manifest>
