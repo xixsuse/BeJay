@@ -91,5 +91,7 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.google.auto.factory:auto-factory:1.0-beta3'
     compile 'com.android.support:gridlayout-v7:23.2.1'
+    compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
+    compile 'com.jakewharton.rxbinding:rxbinding-design:0.4.0'
 }
 apply plugin: 'com.google.gms.google-services'

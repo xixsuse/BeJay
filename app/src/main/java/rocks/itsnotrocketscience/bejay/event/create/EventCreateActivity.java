@@ -16,7 +16,8 @@ public class EventCreateActivity extends InjectedActivity<ActivityComponent> {
     @Bind(R.id.toolbar)
     Toolbar toolbar;
 
-    private ActivityModule activityModule;
+    ActivityModule activityModule;
+    ActivityComponent activityComponent;
 
     public EventCreateActivity() {
         this.activityModule = new ActivityModule(this);;
@@ -35,14 +36,14 @@ public class EventCreateActivity extends InjectedActivity<ActivityComponent> {
 
         if(savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.event_create_container, CreateEventFragment.newInstance())
+                    .add(R.id.event_create_container, EventCreateFragment.newInstance())
                     .commitAllowingStateLoss();
         }
     }
 
     @Override
     public ActivityComponent getComponent() {
-        return DaggerActivityComponent.builder()
+        return activityComponent =  DaggerActivityComponent.builder()
                 .activityModule(activityModule)
                 .appComponent(getAppComponent())
                 .build();

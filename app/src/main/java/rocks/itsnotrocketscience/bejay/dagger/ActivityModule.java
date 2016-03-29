@@ -9,6 +9,8 @@ import dagger.Module;
 import dagger.Provides;
 import rocks.itsnotrocketscience.bejay.api.retrofit.Events;
 import rocks.itsnotrocketscience.bejay.dao.EventsDao;
+import rocks.itsnotrocketscience.bejay.event.create.EventCreateContract;
+import rocks.itsnotrocketscience.bejay.event.create.EventCreatePresenterImpl;
 import rocks.itsnotrocketscience.bejay.event.list.EventListContract;
 import rocks.itsnotrocketscience.bejay.event.list.EventListPresenterImpl;
 import rocks.itsnotrocketscience.bejay.event.single.EventContract;
@@ -38,6 +40,10 @@ public class ActivityModule {
 
     @Provides EventContract.EventPresenter providesEventPresenter(Events networkEvent) {
         return new EventPresenterImpl(networkEvent);
+    }
+
+    @Provides EventCreateContract.EventCreatePresenter providesEventCreatePresenter() {
+        return new EventCreatePresenterImpl();
     }
 
     @Provides LayoutInflater providesLayoutInflater() {
