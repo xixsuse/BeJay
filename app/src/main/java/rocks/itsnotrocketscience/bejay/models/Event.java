@@ -1,5 +1,7 @@
 package rocks.itsnotrocketscience.bejay.models;
 
+import android.location.Location;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +19,12 @@ public class Event {
     private String modified;
     private String title;
     private String appUser;
+    private String details;
+    private String startDate;
+    private String endDate;
+    private String place;
+    private Location gps;
+
 
     public int getId() {
         return id;
@@ -90,4 +98,23 @@ public class Event {
         this.appUser = appUser;
     }
 
+    public void setDetails(String details) {
+        this.details = details;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
+    }
+
+    public void setGps(Location gps) {
+        this.gps = gps;
+    }
 }

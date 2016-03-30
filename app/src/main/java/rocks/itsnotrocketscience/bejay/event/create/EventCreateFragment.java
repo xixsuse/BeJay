@@ -41,10 +41,9 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
 
     @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                        Bundle savedInstanceState) {
-        View view = inflater.inflate(
-                R.layout.fragment_event_create, container, false);
-        ButterKnife.bind(this, view);
 
+        View view = inflater.inflate(R.layout.fragment_event_create, container, false);
+        ButterKnife.bind(this, view);
         return view;
     }
 
@@ -59,7 +58,7 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
         super.onViewCreated(view, savedInstanceState);
         textInputLayoutTitle.setError("Title must be greater then 3 characters");
         RxTextView.textChanges(etTitle)
-                .map(inputText -> (inputText.length() == 0))
+                .map(inputText -> (inputText.length() != 0))
                 .subscribe(isValid -> textInputLayoutTitle.setErrorEnabled(!isValid));
     }
 
