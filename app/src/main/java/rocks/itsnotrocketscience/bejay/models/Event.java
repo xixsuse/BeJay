@@ -21,7 +21,9 @@ public class Event {
     private String appUser;
     private String details;
     private String startDate;
+    private String startTime;
     private String endDate;
+    private String endTime;
     private String place;
     private Location gps;
 
@@ -110,11 +112,20 @@ public class Event {
         this.endDate = endDate;
     }
 
+
     public void setPlace(String place) {
         this.place = place;
     }
 
     public void setGps(Location gps) {
         this.gps = gps;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
 }

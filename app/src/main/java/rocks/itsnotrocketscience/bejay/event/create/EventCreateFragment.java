@@ -12,21 +12,34 @@ import android.widget.TextView;
 
 import com.jakewharton.rxbinding.widget.RxTextView;
 
+
+import org.joda.time.DateTime;
+
 import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
 import rocks.itsnotrocketscience.bejay.dagger.ActivityComponent;
+import rocks.itsnotrocketscience.bejay.models.Event;
+import rocks.itsnotrocketscience.bejay.widgets.DatePickerDialogFragment;
+import rocks.itsnotrocketscience.bejay.widgets.DateTimeSetListener;
+import rocks.itsnotrocketscience.bejay.widgets.TimePickerDialogFragment;
 
 /**
  * Created by sirfunkenstine on 22/03/16.
  */
-public class EventCreateFragment extends BaseFragment<ActivityComponent> implements View.OnClickListener, EventCreateContract.EventCreateView {
+public class EventCreateFragment extends BaseFragment<ActivityComponent> implements View.OnClickListener, EventCreateContract.EventCreateView, DateTimeSetListener {
 
     @Inject EventCreateContract.EventCreatePresenter presenter;
+    @Inject DatePickerDialogFragment datePickerDialogFragment;
+    @Inject TimePickerDialogFragment timePickerDialogFragment;
+    private final static int START_DATE = 0;
+    private final static int START_TIME = 1;
+    private final static int END_DATE = 2;
+    private final static int END_TIME = 3;
+    Event event;
 
     @Bind(R.id.etTitle) EditText etTitle;
     @Bind(R.id.tvStartDate) TextView tvStartDate;
@@ -44,6 +57,10 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
 
         View view = inflater.inflate(R.layout.fragment_event_create, container, false);
         ButterKnife.bind(this, view);
+        tvStartDate.setOnClickListener(this);
+        tvStartTime.setOnClickListener(this);
+        tvEndDate.setOnClickListener(this);
+        tvEndTime.setOnClickListener(this);
         return view;
     }
 
@@ -52,6 +69,7 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
         super.onCreate(savedInstanceState);
         getComponent().inject(this);
         setRetainInstance(true);
+        event = new Event();
     }
 
     @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -71,23 +89,37 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
 
         switch (v.getId()) {
             case R.id.tvStartDate:
+                showDateDialog(START_DATE);
                 break;
             case R.id.tvEndDate:
-                break;
-            case R.id.tvEndTime:
+                showDateDialog(END_DATE);
                 break;
             case R.id.tvStartTime:
+                showTimeDialog(START_TIME);
                 break;
-        }
+            case R.id.tvEndTime:
+                showTimeDialog(END_TIME);
+                break;
 
+        }
+    }
+
+    private void showDateDialog(int id) {
+        datePickerDialogFragment.setDateSetListener(this);
+        datePickerDialogFragment.setId(id);
+        datePickerDialogFragment.show(getFragmentManager(), "DatePicker");
+    }
+
+    private void showTimeDialog(int id) {
+        timePickerDialogFragment.setTimeSetListener(this);
+        timePickerDialogFragment.setId(id);
+        timePickerDialogFragment.show(getFragmentManager(), "DatePicker");
     }
 
     @Override public void setProgressVisible(boolean visible) {
-
     }
 
     @Override public void showError(String error) {
-
     }
 
     @Override public void onResume() {
@@ -105,4 +137,26 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
         presenter.onDestroy();
     }
 
+    @Override public void onDateSet(int id, String datetime) {
+        switch (id) {
+            case START_DATE:
+                event.setStartDate(datetime);
+                tvStartDate.setText(datetime);
+                break;
+            case END_DATE:
+                event.setEndDate(datetime);
+                tvEndDate.setText(datetime);
+                break;
+            case START_TIME:
+                event.setStartTime(datetime);
+                tvStartTime.setText(datetime);
+                break;
+            case END_TIME:
+                event.setEndTime(datetime);
+                tvEndTime.setText(datetime);
+                break;
+            default:
+                break;
+        }
+    }
 }

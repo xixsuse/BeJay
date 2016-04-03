@@ -93,5 +93,6 @@ dependencies {
     compile 'com.android.support:gridlayout-v7:23.2.1'
     compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
     compile 'com.jakewharton.rxbinding:rxbinding-design:0.4.0'
+    compile 'joda-time:joda-time:2.9.2'
 }
 apply plugin: 'com.google.gms.google-services'

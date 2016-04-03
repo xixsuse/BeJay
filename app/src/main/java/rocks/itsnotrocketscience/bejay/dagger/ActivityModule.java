@@ -5,6 +5,8 @@ import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
 import rocks.itsnotrocketscience.bejay.api.retrofit.Events;
@@ -21,6 +23,8 @@ import rocks.itsnotrocketscience.bejay.managers.Launcher;
 import rocks.itsnotrocketscience.bejay.search.ModelAdapter;
 import rocks.itsnotrocketscience.bejay.search.view.ModelViewFactory;
 import rocks.itsnotrocketscience.bejay.search.view.ModelViewHolderFactory;
+import rocks.itsnotrocketscience.bejay.widgets.DatePickerDialogFragment;
+import rocks.itsnotrocketscience.bejay.widgets.TimePickerDialogFragment;
 
 @Module
 public class ActivityModule {
@@ -40,6 +44,14 @@ public class ActivityModule {
 
     @Provides EventContract.EventPresenter providesEventPresenter(Events networkEvent) {
         return new EventPresenterImpl(networkEvent);
+    }
+
+    @Provides  DatePickerDialogFragment providesDatePicker() {
+        return DatePickerDialogFragment.newInstance();
+    }
+
+    @Provides TimePickerDialogFragment providesTimePicker() {
+        return TimePickerDialogFragment.newInstance();
     }
 
     @Provides EventCreateContract.EventCreatePresenter providesEventCreatePresenter() {
