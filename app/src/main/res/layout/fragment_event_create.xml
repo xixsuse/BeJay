@@ -1,12 +1,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingLeft="20dp"
-    android:paddingRight="20dp"
-    android:paddingTop="60dp"
-    tools:context="rocks.itsnotrocketscience.bejay.event.create.EventCreateFragment">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="60dp"
+                tools:context="rocks.itsnotrocketscience.bejay.event.create.EventCreateFragment">
 
 
     <android.support.design.widget.TextInputLayout
@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_name"
-            android:singleLine="true" />
+            android:singleLine="true"/>
     </android.support.design.widget.TextInputLayout>
 
     <TableLayout
@@ -36,28 +36,26 @@
 
             <TextView
                 android:id="@+id/tvStartDate"
-                android:layout_column="1"
                 android:padding="3dip"
-                android:text="Today" />
+                android:text="Today"/>
 
             <TextView
                 android:id="@+id/tvStartTime"
                 android:padding="3dip"
-                android:text="3pm" />
+                android:text="3pm"/>
         </TableRow>
 
         <TableRow>
 
             <TextView
                 android:id="@+id/tvEndDate"
-                android:layout_column="1"
                 android:padding="3dip"
-                android:text="Today." />
+                android:text="Today."/>
 
             <TextView
                 android:id="@+id/tvEndTime"
                 android:padding="3dip"
-                android:text="9pm" />
+                android:text="9pm"/>
         </TableRow>
     </TableLayout>
 
@@ -72,21 +70,35 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_details"
-            android:singleLine="true" />
+            android:singleLine="true"/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/textInputLayoutLocation"
+        android:id="@+id/textInputLayoutPlace"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textInputLayoutDetails">
 
         <EditText
-            android:id="@+id/etLocation"
+            android:id="@+id/etPlace"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_place"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayoutGPSn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textInputLayoutPlace">
+
+        <EditText
+            android:id="@+id/etGPS"
+            android:focusable="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableRight="@drawable/ic_place_black"
-            android:hint="@string/hint_location" />
+            android:hint="@string/geo_location"/>
     </android.support.design.widget.TextInputLayout>
 
 </RelativeLayout>

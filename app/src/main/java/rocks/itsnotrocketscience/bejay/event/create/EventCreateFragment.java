@@ -5,6 +5,8 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -13,12 +15,11 @@ import android.widget.TextView;
 import com.jakewharton.rxbinding.widget.RxTextView;
 
 
-import org.joda.time.DateTime;
-
 import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
 import rocks.itsnotrocketscience.bejay.dagger.ActivityComponent;
@@ -35,6 +36,7 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
     @Inject EventCreateContract.EventCreatePresenter presenter;
     @Inject DatePickerDialogFragment datePickerDialogFragment;
     @Inject TimePickerDialogFragment timePickerDialogFragment;
+
     private final static int START_DATE = 0;
     private final static int START_TIME = 1;
     private final static int END_DATE = 2;
@@ -42,6 +44,8 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
     Event event;
 
     @Bind(R.id.etTitle) EditText etTitle;
+    @Bind(R.id.etPlace) EditText etPlace;
+    @Bind(R.id.etGPS) EditText etGPS;
     @Bind(R.id.tvStartDate) TextView tvStartDate;
     @Bind(R.id.tvStartTime) TextView tvStartTime;
     @Bind(R.id.tvEndDate) TextView tvEndDate;
@@ -61,7 +65,13 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
         tvStartTime.setOnClickListener(this);
         tvEndDate.setOnClickListener(this);
         tvEndTime.setOnClickListener(this);
+        etGPS.setOnClickListener(this);
         return view;
+    }
+
+    @Override public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_create_event, menu);
     }
 
     @Override
@@ -69,6 +79,7 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
         super.onCreate(savedInstanceState);
         getComponent().inject(this);
         setRetainInstance(true);
+        setHasOptionsMenu(true);
         event = new Event();
     }
 
@@ -86,7 +97,6 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
     }
 
     @Override public void onClick(View v) {
-
         switch (v.getId()) {
             case R.id.tvStartDate:
                 showDateDialog(START_DATE);
@@ -100,9 +110,28 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
             case R.id.tvEndTime:
                 showTimeDialog(END_TIME);
                 break;
-
+            case R.id.etGPS:
+                showGPSDialog();
+                break;
         }
     }
+
+    private void showGPSDialog() {
+        new SweetAlertDialog(getActivity(), SweetAlertDialog.WARNING_TYPE)
+                .setTitleText("Choose GpsLocation")
+                .setContentText("Use Current Location Or Pick From Map?")
+                .setCancelText("Choose Current")
+                .setConfirmText("Pick From Map")
+                .showCancelButton(true)
+                .setCancelClickListener(sDialog -> {
+                    sDialog.cancel();
+                })
+                .setConfirmClickListener(sDialog -> {
+                    sDialog.cancel();
+                })
+                .show();
+    }
+
 
     private void showDateDialog(int id) {
         datePickerDialogFragment.setDateSetListener(this);
