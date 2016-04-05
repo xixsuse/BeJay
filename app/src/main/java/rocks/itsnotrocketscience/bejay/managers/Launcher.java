@@ -1,5 +1,7 @@
 package rocks.itsnotrocketscience.bejay.managers;
 
+import android.support.v4.app.Fragment;
+
 public interface Launcher {
     void openHome();
     void openProfile();
@@ -8,5 +10,5 @@ public interface Launcher {
     void openLogin();
     void openEventList();
     void openCreateEvent();
-    void openMapActivityForResult();
+    void openMapActivityForResult(Fragment fragment);
 }

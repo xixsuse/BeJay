@@ -8,7 +8,6 @@ import rocks.itsnotrocketscience.bejay.models.Event;
 public class EventCreatePresenterImpl implements EventCreateContract.EventCreatePresenter {
 
     EventCreateContract.EventCreateView view;
-    Event event;
 
     @Override public void onViewAttached(EventCreateContract.EventCreateView view) {
         this.view = view;
@@ -19,10 +18,6 @@ public class EventCreatePresenterImpl implements EventCreateContract.EventCreate
     }
 
     @Override public void onDestroy() {
-
-    }
-
-    @Override public void getCurrentGPS() {
 
     }
 }

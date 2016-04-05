@@ -1,5 +1,7 @@
 package rocks.itsnotrocketscience.bejay.managers;
 
+import android.support.v4.app.Fragment;
+
 public class LauncherBase implements Launcher {
 
     @Override public void openHome() {
@@ -30,7 +32,7 @@ public class LauncherBase implements Launcher {
         throw new UnsupportedOperationException();
     }
 
-    @Override public void openMapActivityForResult() {
+    @Override public void openMapActivityForResult(Fragment fragment) {
         throw new UnsupportedOperationException();
     }
 }

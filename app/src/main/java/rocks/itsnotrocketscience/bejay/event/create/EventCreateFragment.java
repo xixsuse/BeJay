@@ -1,5 +1,6 @@
 package rocks.itsnotrocketscience.bejay.event.create;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.jakewharton.rxbinding.widget.RxTextView;
 
 
@@ -21,7 +23,6 @@ import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import cn.pedant.SweetAlert.SweetAlertDialog;
 import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
 import rocks.itsnotrocketscience.bejay.dagger.ActivityComponent;
@@ -115,26 +116,9 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
                 showTimeDialog(END_TIME);
                 break;
             case R.id.etGPS:
-                showGPSDialog();
+                launcher.openMapActivityForResult(this);
                 break;
         }
-    }
-
-    private void showGPSDialog() {
-        new SweetAlertDialog(getActivity(), SweetAlertDialog.WARNING_TYPE)
-                .setTitleText("Choose GpsLocation")
-                .setContentText("Use Current Location Or Pick From Map?")
-                .setCancelText("Choose Current")
-                .setConfirmText("Pick From Map")
-                .showCancelButton(true)
-                .setCancelClickListener(sDialog -> {
-                    sDialog.cancel();
-                    presenter.getCurrentGPS();
-                })
-                .setConfirmClickListener(sDialog -> {
-                   launcher.openMapActivity();
-                })
-                .show();
     }
 
 
@@ -154,10 +138,6 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
     }
 
     @Override public void showError(String error) {
-    }
-
-    @Override public void onGapsAcquire(Location locatin) {
-
     }
 
     @Override public void onResume() {
@@ -201,5 +181,10 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            LatLng latLng = data.getParcelableExtra(MapActivity.POSITION);
+            event.setGps(latLng);
+            etGPS.setText(event.latLngString());
+        }
     }
 }

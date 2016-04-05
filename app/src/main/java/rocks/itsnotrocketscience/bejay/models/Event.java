@@ -2,6 +2,8 @@ package rocks.itsnotrocketscience.bejay.models;
 
 import android.location.Location;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +27,7 @@ public class Event {
     private String endDate;
     private String endTime;
     private String place;
-    private Location gps;
+    private LatLng gps;
 
 
     public int getId() {
@@ -117,7 +119,8 @@ public class Event {
         this.place = place;
     }
 
-    public void setGps(Location gps) {
+
+    public void setGps(LatLng gps) {
         this.gps = gps;
     }
 
@@ -127,5 +130,9 @@ public class Event {
 
     public void setEndTime(String endTime) {
         this.endTime = endTime;
+    }
+
+    public String latLngString(){
+        return String.format("%.4f , %.4f", gps.latitude, gps.longitude);
     }
 }

@@ -76,9 +76,9 @@ public class AppLauncher implements Launcher {
         activity.startActivity(intent);
     }
 
-    @Override public void openMapActivityForResult() {
+    @Override public void openMapActivityForResult(Fragment fragment) {
         Intent intent = new Intent(activity, MapActivity.class);
-        activity.startActivityForResult(intent,1);
+        fragment.startActivityForResult(intent,1);
     }
 
 
