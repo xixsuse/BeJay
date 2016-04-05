@@ -1,22 +1,15 @@
 package rocks.itsnotrocketscience.bejay.event.create;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import rocks.itsnotrocketscience.bejay.R;
 
@@ -53,21 +46,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             mMap.setMyLocationEnabled(true);
-            LocationManager lManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-
-            boolean netEnabled = lManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-            if (netEnabled) {
-                lManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, (LocationListener) this);
-                Location location = lManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                if (location != null) {
-                    double latitude = location.getLatitude();
-                    double longitude = location.getLongitude();
-                    LatLng pos = new LatLng(latitude, longitude);
-
-                    mMap.addMarker(new MarkerOptions().position(pos).title("Marker in Sydney"));
-                    mMap.moveCamera(CameraUpdateFactory.newLatLng(pos));
-                }
-            }
         } else {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},

@@ -1,5 +1,7 @@
 package rocks.itsnotrocketscience.bejay.event.create;
 
+import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
@@ -23,6 +25,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
 import rocks.itsnotrocketscience.bejay.dagger.ActivityComponent;
+import rocks.itsnotrocketscience.bejay.managers.Launcher;
 import rocks.itsnotrocketscience.bejay.models.Event;
 import rocks.itsnotrocketscience.bejay.widgets.DatePickerDialogFragment;
 import rocks.itsnotrocketscience.bejay.widgets.DateTimeSetListener;
@@ -36,6 +39,7 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
     @Inject EventCreateContract.EventCreatePresenter presenter;
     @Inject DatePickerDialogFragment datePickerDialogFragment;
     @Inject TimePickerDialogFragment timePickerDialogFragment;
+    @Inject Launcher launcher;
 
     private final static int START_DATE = 0;
     private final static int START_TIME = 1;
@@ -125,9 +129,10 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
                 .showCancelButton(true)
                 .setCancelClickListener(sDialog -> {
                     sDialog.cancel();
+                    presenter.getCurrentGPS();
                 })
                 .setConfirmClickListener(sDialog -> {
-                    sDialog.cancel();
+                   launcher.openMapActivity();
                 })
                 .show();
     }
@@ -149,6 +154,10 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
     }
 
     @Override public void showError(String error) {
+    }
+
+    @Override public void onGapsAcquire(Location locatin) {
+
     }
 
     @Override public void onResume() {
@@ -187,5 +196,10 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
             default:
                 break;
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

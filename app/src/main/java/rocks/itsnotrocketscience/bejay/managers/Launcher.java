@@ -8,4 +8,5 @@ public interface Launcher {
     void openLogin();
     void openEventList();
     void openCreateEvent();
+    void openMapActivityForResult();
 }

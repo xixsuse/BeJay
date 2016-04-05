@@ -21,4 +21,8 @@ public class EventCreatePresenterImpl implements EventCreateContract.EventCreate
     @Override public void onDestroy() {
 
     }
+
+    @Override public void getCurrentGPS() {
+
+    }
 }
