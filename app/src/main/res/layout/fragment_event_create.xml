@@ -37,6 +37,7 @@
             <TextView
                 android:id="@+id/tvStartDate"
                 android:padding="3dip"
+                android:drawableLeft="@drawable/ic_clock"
                 android:text="Today"/>
 
             <TextView
@@ -50,12 +51,13 @@
             <TextView
                 android:id="@+id/tvEndDate"
                 android:padding="3dip"
-                android:text="Today."/>
+                android:layout_marginLeft="22dp"
+                android:text="End Date."/>
 
             <TextView
                 android:id="@+id/tvEndTime"
                 android:padding="3dip"
-                android:text="9pm"/>
+                android:text="End Time"/>
         </TableRow>
     </TableLayout>
 
@@ -69,6 +71,7 @@
             android:id="@+id/etDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_pen"
             android:hint="@string/hint_details"
             android:singleLine="true"/>
     </android.support.design.widget.TextInputLayout>
@@ -83,8 +86,9 @@
             android:id="@+id/etPlace"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:hint="@string/hint_place"/>
+            android:drawableLeft="@drawable/ic_home"
+            android:hint="@string/hint_place"
+            android:singleLine="true"/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -95,11 +99,45 @@
 
         <EditText
             android:id="@+id/etGPS"
-            android:focusable="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableRight="@drawable/ic_place_black"
+            android:drawableLeft="@drawable/ic_gps"
+            android:focusable="false"
             android:hint="@string/geo_location"/>
     </android.support.design.widget.TextInputLayout>
+
+        <CheckBox
+            android:id="@+id/checkBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textInputLayoutGPSn"
+            android:text="@string/create_facebook_event"/>
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/checkBox"
+        android:orientation="horizontal"
+        android:layout_alignRight="@+id/textInputLayoutGPSn"
+        android:layout_alignEnd="@+id/textInputLayoutGPSn">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/public_event"
+            android:id="@+id/radioButton"/>
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/private_event"
+            android:id="@+id/radioButton2"
+            android:layout_gravity="right"/>
+
+    </RadioGroup>
+
 
 </RelativeLayout>

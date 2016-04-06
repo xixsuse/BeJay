@@ -47,4 +47,8 @@
     <string name="hint_details">Details (Optional)</string>
     <string name="hint_place">Place</string>
     <string name="geo_location">Geo Location</string>
+    <string name="create_facebook_event">Create Facebook Event</string>
+    <string name="public_event">Public</string>
+    <string name="private_event">Private</string>
+    <string name="create">Create</string>
 </resources>
