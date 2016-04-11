@@ -16,7 +16,7 @@ public class Event {
     private List<Song> songs = new ArrayList<>();
     private Integer order;
     private Boolean publish;
-    private CmsUser creator;
+    private String creator;
     private String uid;
     private String created;
     private String modified;
@@ -115,11 +115,9 @@ public class Event {
         this.endDate = endDate;
     }
 
-
     public void setPlace(String place) {
         this.place = place;
     }
-
 
     public void setGps(LatLng gps) {
         this.gps = gps;
@@ -135,5 +133,9 @@ public class Event {
 
     public String latLngString(){
         return String.format("%.4f , %.4f", gps.latitude, gps.longitude);
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
     }
 }

@@ -50,6 +50,7 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
 
     @Bind(R.id.etTitle) EditText etTitle;
     @Bind(R.id.etPlace) EditText etPlace;
+    @Bind(R.id.etDetails) EditText etDetails;
     @Bind(R.id.etGPS) EditText etGPS;
     @Bind(R.id.tvStartDate) TextView tvStartDate;
     @Bind(R.id.tvStartTime) TextView tvStartTime;
@@ -59,6 +60,15 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
 
     public static Fragment newInstance() {
         return new EventCreateFragment();
+    }
+
+
+    @Override public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getComponent().inject(this);
+        setRetainInstance(true);
+        setHasOptionsMenu(true);
+        event = new Event();
     }
 
     @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -74,6 +84,14 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
         return view;
     }
 
+    @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        textInputLayoutTitle.setError("Title must be greater then 3 characters");
+        RxTextView.textChanges(etTitle)
+                .map(inputText -> (inputText.length() != 0))
+                .subscribe(isValid -> textInputLayoutTitle.setErrorEnabled(!isValid));
+    }
+
     @Override public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_create_event, menu);
@@ -81,25 +99,13 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
 
     @Override public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_create) {
+            event.setPlace(etPlace.getText().toString());
+            event.setDetails(etDetails.getText().toString());
+            event.setTitle(etTitle.getText().toString());
+            event.setCreator(etTitle.getText().toString());
             presenter.postEvent(event);
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getComponent().inject(this);
-        setRetainInstance(true);
-        setHasOptionsMenu(true);
-        event = new Event();
-    }
-
-    @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        textInputLayoutTitle.setError("Title must be greater then 3 characters");
-        RxTextView.textChanges(etTitle)
-                .map(inputText -> (inputText.length() != 0))
-                .subscribe(isValid -> textInputLayoutTitle.setErrorEnabled(!isValid));
     }
 
     @Override public void onDestroyView() {
