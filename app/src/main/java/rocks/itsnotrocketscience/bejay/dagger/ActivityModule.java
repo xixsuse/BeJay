@@ -46,16 +46,16 @@ public class ActivityModule {
         return new EventPresenterImpl(networkEvent);
     }
 
-    @Provides  DatePickerDialogFragment providesDatePicker() {
+    @Provides EventCreateContract.EventCreatePresenter providesEventCreatePresenter(Events networkEvent) {
+        return new EventCreatePresenterImpl(networkEvent);
+    }
+
+    @Provides DatePickerDialogFragment providesDatePicker() {
         return DatePickerDialogFragment.newInstance();
     }
 
     @Provides TimePickerDialogFragment providesTimePicker() {
         return TimePickerDialogFragment.newInstance();
-    }
-
-    @Provides EventCreateContract.EventCreatePresenter providesEventCreatePresenter() {
-        return new EventCreatePresenterImpl();
     }
 
     @Provides LayoutInflater providesLayoutInflater() {

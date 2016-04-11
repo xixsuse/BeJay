@@ -3,6 +3,8 @@ package rocks.itsnotrocketscience.bejay.event.create;
 
 import android.location.Location;
 
+import rocks.itsnotrocketscience.bejay.models.Event;
+
 /**
  * Created by sirfunkenstine on 29/03/16.
  */
@@ -17,5 +19,6 @@ public class EventCreateContract {
         void onViewAttached(EventCreateView view);
         void onViewDetached();
         void onDestroy();
+        void postEvent(Event event);
     }
 }

@@ -2,7 +2,6 @@ package rocks.itsnotrocketscience.bejay.event.create;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
@@ -10,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -46,7 +46,7 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
     private final static int START_TIME = 1;
     private final static int END_DATE = 2;
     private final static int END_TIME = 3;
-    Event event;
+    private Event event;
 
     @Bind(R.id.etTitle) EditText etTitle;
     @Bind(R.id.etPlace) EditText etPlace;
@@ -79,8 +79,14 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
         inflater.inflate(R.menu.menu_create_event, menu);
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
+    @Override public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_create) {
+            presenter.postEvent(event);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getComponent().inject(this);
         setRetainInstance(true);
@@ -120,7 +126,6 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
                 break;
         }
     }
-
 
     private void showDateDialog(int id) {
         datePickerDialogFragment.setDateSetListener(this);
@@ -178,8 +183,7 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
         }
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
             LatLng latLng = data.getParcelableExtra(MapActivity.POSITION);
