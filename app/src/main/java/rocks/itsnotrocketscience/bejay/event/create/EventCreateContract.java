@@ -20,5 +20,6 @@ public class EventCreateContract {
         void onViewDetached();
         void onDestroy();
         void postEvent(Event event);
+        String getDate(String date, String time);
     }
 }

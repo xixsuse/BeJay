@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.jakewharton.rxbinding.widget.RxTextView;
@@ -99,13 +100,18 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
 
     @Override public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_create) {
-            event.setPlace(etPlace.getText().toString());
-            event.setDetails(etDetails.getText().toString());
-            event.setTitle(etTitle.getText().toString());
-            event.setCreator(etTitle.getText().toString());
+            setEvent();
             presenter.postEvent(event);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setEvent() {
+        event.setPlace(etPlace.getText().toString());
+        event.setDetails(etDetails.getText().toString());
+        event.setTitle(etTitle.getText().toString());
+        event.setStartDate(presenter.getDate(tvStartDate.getText().toString(),tvStartTime.getText().toString()));
+        event.setEndDate(presenter.getDate(tvEndDate.getText().toString(),tvEndTime.getText().toString()));
     }
 
     @Override public void onDestroyView() {
@@ -149,6 +155,7 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
     }
 
     @Override public void showError(String error) {
+      Toast.makeText(getActivity(), error, Toast.LENGTH_LONG).show();
     }
 
     @Override public void onResume() {
@@ -177,11 +184,9 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
                 tvEndDate.setText(datetime);
                 break;
             case START_TIME:
-                event.setStartTime(datetime);
                 tvStartTime.setText(datetime);
                 break;
             case END_TIME:
-                event.setEndTime(datetime);
                 tvEndTime.setText(datetime);
                 break;
             default:

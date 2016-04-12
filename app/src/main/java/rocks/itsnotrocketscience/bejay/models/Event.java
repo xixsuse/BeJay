@@ -3,6 +3,7 @@ package rocks.itsnotrocketscience.bejay.models;
 import android.location.Location;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,19 +17,22 @@ public class Event {
     private List<Song> songs = new ArrayList<>();
     private Integer order;
     private Boolean publish;
-    private String creator;
+    private CmsUser creator;
     private String uid;
     private String created;
     private String modified;
     private String title;
     private String appUser;
     private String details;
+    @SerializedName("start_date")
     private String startDate;
-    private String startTime;
+    @SerializedName("end_date")
     private String endDate;
-    private String endTime;
     private String place;
-    private LatLng gps;
+    private double lat;
+    @SerializedName("long")
+    private double lng;
+
 
 
     public int getId() {
@@ -120,22 +124,13 @@ public class Event {
     }
 
     public void setGps(LatLng gps) {
-        this.gps = gps;
-    }
+        lat = gps.latitude;
+        lng = gps.longitude;
 
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
-    }
-
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
     }
 
     public String latLngString(){
-        return String.format("%.4f , %.4f", gps.latitude, gps.longitude);
+        return String.format("%.4f , %.4f", lat, lng);
     }
 
-    public void setCreator(String creator) {
-        this.creator = creator;
-    }
 }

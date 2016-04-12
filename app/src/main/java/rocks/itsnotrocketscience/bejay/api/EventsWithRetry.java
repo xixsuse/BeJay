@@ -46,6 +46,6 @@ class EventsWithRetry implements Events {
     }
 
     @Override public Observable<Event> postEvent(@Body Event event) {
-        return events.postEvent(event).retryWhen(ApiManager.defaultRetry());
+        return events.postEvent(event);
     }
 }
