@@ -110,8 +110,8 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
         event.setPlace(etPlace.getText().toString());
         event.setDetails(etDetails.getText().toString());
         event.setTitle(etTitle.getText().toString());
-        event.setStartDate(presenter.getDate(tvStartDate.getText().toString(),tvStartTime.getText().toString()));
-        event.setEndDate(presenter.getDate(tvEndDate.getText().toString(),tvEndTime.getText().toString()));
+        event.setStartDate(presenter.getDate(tvStartDate.getText().toString(), tvStartTime.getText().toString()));
+        event.setEndDate(presenter.getDate(tvEndDate.getText().toString(), tvEndTime.getText().toString()));
     }
 
     @Override public void onDestroyView() {
@@ -155,7 +155,14 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
     }
 
     @Override public void showError(String error) {
-      Toast.makeText(getActivity(), error, Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), error, Toast.LENGTH_LONG).show();
+    }
+
+    @Override public void finish() {
+        if (getActivity() != null) {
+            Toast.makeText(getActivity(), "Event Created", Toast.LENGTH_SHORT).show();
+            getActivity().finish();
+        }
     }
 
     @Override public void onResume() {

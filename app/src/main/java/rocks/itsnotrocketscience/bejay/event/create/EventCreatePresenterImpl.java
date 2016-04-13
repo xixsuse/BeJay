@@ -49,7 +49,7 @@ public class EventCreatePresenterImpl implements EventCreateContract.EventCreate
 
                     @Override
                     public final void onNext(Event response) {
-                        Log.d("Yeah!", "onNext: sucess");
+                       view.finish();
                     }
                 });
     }

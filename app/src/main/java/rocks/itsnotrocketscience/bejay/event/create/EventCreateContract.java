@@ -13,6 +13,7 @@ public class EventCreateContract {
     interface EventCreateView {
         void setProgressVisible(boolean visible);
         void showError(String error);
+        void finish();
     }
 
     public interface EventCreatePresenter {
