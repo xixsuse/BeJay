@@ -106,6 +106,7 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
         return super.onOptionsItemSelected(item);
     }
 
+    //// TODO: 13/04/16 validate form
     private void setEvent() {
         event.setPlace(etPlace.getText().toString());
         event.setDetails(etDetails.getText().toString());

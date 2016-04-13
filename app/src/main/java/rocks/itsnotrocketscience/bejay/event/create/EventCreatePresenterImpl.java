@@ -58,7 +58,6 @@ public class EventCreatePresenterImpl implements EventCreateContract.EventCreate
         DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd hh mm a");
         String all = String.format("%s %s", startDate, startTime);
         DateTime dt = fmt.parseDateTime(all);
-        //"1111-11-11T11:11:00Z";
         return dt.toString();
     }
 }
