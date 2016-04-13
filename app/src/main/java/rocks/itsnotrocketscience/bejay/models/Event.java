@@ -17,7 +17,7 @@ public class Event {
     private List<Song> songs = new ArrayList<>();
     private Integer order;
     private Boolean publish;
-    private CmsUser creator;
+    private String creator;
     private String uid;
     private String created;
     private String modified;
