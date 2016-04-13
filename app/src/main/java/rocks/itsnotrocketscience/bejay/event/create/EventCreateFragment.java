@@ -81,6 +81,7 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
         tvStartTime.setOnClickListener(this);
         tvEndDate.setOnClickListener(this);
         tvEndTime.setOnClickListener(this);
+        presenter.setStartDateTime(tvStartDate,tvStartTime);
         etGPS.setOnClickListener(this);
         return view;
     }

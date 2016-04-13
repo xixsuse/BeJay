@@ -2,6 +2,7 @@ package rocks.itsnotrocketscience.bejay.event.create;
 
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -44,6 +45,24 @@ public class EventCreateActivity extends InjectedActivity<ActivityComponent> {
                 .activityModule(activityModule)
                 .appComponent(getAppComponent())
                 .build();
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        boolean handled;
+        switch (item.getItemId()) {
+            case android.R.id.home: {
+                finish();
+                handled = true;
+                break;
+            }
+            default: {
+                handled = super.onOptionsItemSelected(item);
+            }
+        }
+
+        return handled;
     }
 }
 

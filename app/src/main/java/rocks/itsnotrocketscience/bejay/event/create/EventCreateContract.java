@@ -2,6 +2,7 @@ package rocks.itsnotrocketscience.bejay.event.create;
 
 
 import android.location.Location;
+import android.widget.TextView;
 
 import rocks.itsnotrocketscience.bejay.models.Event;
 
@@ -22,5 +23,6 @@ public class EventCreateContract {
         void onDestroy();
         void postEvent(Event event);
         String getDate(String date, String time);
+        void setStartDateTime(TextView tvStartDate, TextView tvStartTime);
     }
 }

@@ -1,10 +1,15 @@
 package rocks.itsnotrocketscience.bejay.event.create;
 
 import android.util.Log;
+import android.widget.TextView;
 
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+
+import java.util.Calendar;
 
 import rocks.itsnotrocketscience.bejay.api.retrofit.Events;
 import rocks.itsnotrocketscience.bejay.models.Event;
@@ -59,5 +64,16 @@ public class EventCreatePresenterImpl implements EventCreateContract.EventCreate
         String all = String.format("%s %s", startDate, startTime);
         DateTime dt = fmt.parseDateTime(all);
         return dt.toString();
+    }
+
+    @Override public void setStartDateTime(TextView tvStartDate, TextView tvStartTime) {
+
+        LocalDate localDate = new LocalDate();
+        tvStartDate.setText(localDate.toString());
+
+        LocalTime localTime = new LocalTime();
+        DateTimeFormatter fmt = DateTimeFormat.forPattern("hh mm a");
+        tvStartTime.setText(localTime.toString(fmt));
+
     }
 }
