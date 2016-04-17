@@ -2,6 +2,11 @@ package rocks.itsnotrocketscience.bejay.base;
 
 import android.app.Application;
 
+import com.deezer.sdk.network.connect.DeezerConnect;
+import com.deezer.sdk.player.TrackPlayer;
+import com.deezer.sdk.player.event.PlayerState;
+import com.deezer.sdk.player.networkcheck.WifiAndMobileNetworkStateChecker;
+
 import rocks.itsnotrocketscience.bejay.dagger.AppComponent;
 import rocks.itsnotrocketscience.bejay.dagger.AppModule;
 import rocks.itsnotrocketscience.bejay.dagger.DaggerAppComponent;
