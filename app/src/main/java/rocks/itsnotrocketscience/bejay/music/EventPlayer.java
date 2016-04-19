@@ -1,5 +1,7 @@
 package rocks.itsnotrocketscience.bejay.music;
 
+import android.util.Log;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,42 +16,49 @@ import rx.subjects.BehaviorSubject;
  * Created by nemi on 17/04/16.
  */
 public class EventPlayer {
-    private BehaviorSubject<Observable<Track>> playlist = BehaviorSubject.create();
+    private static final String TAG = "EventPlayer";
+
+    private final BehaviorSubject<Observable<Track>> playlist = BehaviorSubject.create();
     private TrackPlayer trackPlayer;
-    private Subscription playerStateSubscription;
+    private Subscription subscription;
 
     public EventPlayer(TrackPlayer trackPlayer) {
         this.trackPlayer = trackPlayer;
     }
 
+
     public void start() {
-        playerStateSubscription = trackPlayer.state().filter(state -> state == TrackPlayer.STATE_STOPPED)
+        subscription = trackPlayer.state().filter(playerState -> {
+            Log.i(TAG, "onTrackPlayerStateChanged: state==" + playerState);
+            return playerState.getPlayerState() == TrackPlayer.STATE_STOPPED;
+        })
                 .flatMap(state -> Observable.switchOnNext(playlist).first())
                 .doOnUnsubscribe(trackPlayer::stop)
                 .subscribe(track -> trackPlayer.play(track.getId()));
     }
 
     public void stop() {
-        if(playerStateSubscription != null) {
-            playerStateSubscription.unsubscribe();
-            playerStateSubscription = null;
+        if(subscription != null) {
+            subscription.unsubscribe();
+            subscription = null;
         }
     }
 
-    public void play() {
-        if(playerStateSubscription != null) {
-            trackPlayer.play();
-        }
-    }
-
-    public void pause() {
-        if(playerStateSubscription != null) {
-            trackPlayer.pause();
+    public void playPause() {
+        if(subscription != null) {
+            trackPlayer.state().first().subscribe(playerState -> {
+                int state = playerState.getPlayerState();
+                if (state == TrackPlayer.STATE_PLAYING) {
+                    trackPlayer.pause();
+                } else if (state == TrackPlayer.STATE_PAUSED) {
+                    trackPlayer.play();
+                }
+            });
         }
     }
 
     public void skip() {
-        if(playerStateSubscription != null) {
+        if(subscription != null) {
             trackPlayer.stop();
         }
     }
@@ -72,9 +81,12 @@ public class EventPlayer {
             @Override
             protected LinkedList<Track> next(LinkedList<Track> state, Observer<? super Track> observer) {
                 Track track = trackQueue.poll();
+
                 if(track != null) {
+                    Log.i(TAG, "nextTrack: track.id==" + track.getId() + ", queue.size==" + trackQueue.size());
                     observer.onNext(track);
                 } else {
+                    Log.i(TAG, "nextTrack: no tracks left");
                     observer.onCompleted();
                 }
                 return trackQueue;
