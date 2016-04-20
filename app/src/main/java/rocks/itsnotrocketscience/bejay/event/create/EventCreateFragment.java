@@ -20,6 +20,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.jakewharton.rxbinding.widget.RxTextView;
 
 
+import java.util.Arrays;
+import java.util.LinkedList;
+
 import javax.inject.Inject;
 
 import butterknife.Bind;
@@ -63,7 +66,6 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
         return new EventCreateFragment();
     }
 
-
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getComponent().inject(this);
@@ -88,6 +90,7 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
 
     @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        presenter.addValidationObserver(Arrays.asList(etDetails, etPlace, etDetails,etGPS,tvStartDate,tvStartTime,tvEndDate, tvEndTime));
         textInputLayoutTitle.setError("Title must be greater then 3 characters");
         RxTextView.textChanges(etTitle)
                 .map(inputText -> (inputText.length() != 0))

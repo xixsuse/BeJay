@@ -1,7 +1,9 @@
 package rocks.itsnotrocketscience.bejay.event.create;
 
-import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
+
+import com.jakewharton.rxbinding.widget.RxTextView;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -9,12 +11,18 @@ import org.joda.time.LocalTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import java.util.Calendar;
+import java.util.List;
 
+import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.api.retrofit.Events;
 import rocks.itsnotrocketscience.bejay.models.Event;
+import rx.Observable;
+import rx.Observer;
 import rx.Subscriber;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func2;
+import rx.functions.Func3;
 import rx.schedulers.Schedulers;
 
 /**
@@ -24,6 +32,9 @@ public class EventCreatePresenterImpl implements EventCreateContract.EventCreate
 
     EventCreateContract.EventCreateView view;
     private final Events events;
+    private Observable<CharSequence> titleChangeObservable;
+    private Observable<CharSequence> gpsChangeObservable;
+    private Subscription subscription = null;
 
     public EventCreatePresenterImpl(Events event) {
         this.events = event;
@@ -45,7 +56,8 @@ public class EventCreatePresenterImpl implements EventCreateContract.EventCreate
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Event>() {
                     @Override
-                    public void onCompleted() {}
+                    public void onCompleted() {
+                    }
 
                     @Override
                     public final void onError(Throwable e) {
@@ -54,7 +66,7 @@ public class EventCreatePresenterImpl implements EventCreateContract.EventCreate
 
                     @Override
                     public final void onNext(Event response) {
-                       view.finish();
+                        view.finish();
                     }
                 });
     }
@@ -76,4 +88,49 @@ public class EventCreatePresenterImpl implements EventCreateContract.EventCreate
         tvStartTime.setText(localTime.toString(fmt));
 
     }
+
+    @Override public void addValidationObserver(List<TextView> list) {
+
+        for (View v : list) {
+            switch (v.getId()) {
+                case (R.id.etTitle):
+                    titleChangeObservable = RxTextView.textChanges((TextView) v).skip(1);
+                    break;
+                case (R.id.etGPS):
+                    gpsChangeObservable = RxTextView.textChanges((TextView) v).skip(1);
+                    break;
+
+            }
+        }
+        subscription = Observable.combineLatest(titleChangeObservable,
+                gpsChangeObservable,
+                new Func2<CharSequence, CharSequence, Boolean>() {
+                    @Override
+                    public Boolean call(CharSequence title,
+                                        CharSequence gps
+                                        ) {
+                        if()
+                        return true;
+
+                    }
+                })
+                .subscribe(new Observer<Boolean>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(Boolean formValid) {
+
+                    }
+                });
+    }
+
 }
+
+
+

@@ -4,6 +4,8 @@ package rocks.itsnotrocketscience.bejay.event.create;
 import android.location.Location;
 import android.widget.TextView;
 
+import java.util.List;
+
 import rocks.itsnotrocketscience.bejay.models.Event;
 
 /**
@@ -24,5 +26,7 @@ public class EventCreateContract {
         void postEvent(Event event);
         String getDate(String date, String time);
         void setStartDateTime(TextView tvStartDate, TextView tvStartTime);
+
+        void addValidationObserver(List<TextView> list);
     }
 }
