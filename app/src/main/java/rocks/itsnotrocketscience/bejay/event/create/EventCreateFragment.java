@@ -35,6 +35,10 @@ import rocks.itsnotrocketscience.bejay.models.Event;
 import rocks.itsnotrocketscience.bejay.widgets.DatePickerDialogFragment;
 import rocks.itsnotrocketscience.bejay.widgets.DateTimeSetListener;
 import rocks.itsnotrocketscience.bejay.widgets.TimePickerDialogFragment;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
 
 /**
  * Created by sirfunkenstine on 22/03/16.
@@ -61,6 +65,8 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
     @Bind(R.id.tvEndDate) TextView tvEndDate;
     @Bind(R.id.tvEndTime) TextView tvEndTime;
     @Bind(R.id.textInputLayoutTitle) TextInputLayout textInputLayoutTitle;
+    private boolean isFormValid = false;
+    Observable<Boolean> creditCardObservable;
 
     public static Fragment newInstance() {
         return new EventCreateFragment();
@@ -83,18 +89,35 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
         tvStartTime.setOnClickListener(this);
         tvEndDate.setOnClickListener(this);
         tvEndTime.setOnClickListener(this);
-        presenter.setStartDateTime(tvStartDate,tvStartTime);
+        presenter.setStartDateTime(tvStartDate, tvStartTime);
         etGPS.setOnClickListener(this);
+//        presenter.addValidationObserver(etTitle, etDetails, etPlace, etGPS, tvStartDate, tvStartTime, tvEndDate, tvEndTime);
         return view;
     }
 
     @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        presenter.addValidationObserver(Arrays.asList(etDetails, etPlace, etDetails,etGPS,tvStartDate,tvStartTime,tvEndDate, tvEndTime));
-        textInputLayoutTitle.setError("Title must be greater then 3 characters");
-        RxTextView.textChanges(etTitle)
-                .map(inputText -> (inputText.length() != 0))
-                .subscribe(isValid -> textInputLayoutTitle.setErrorEnabled(!isValid));
+        textInputLayoutTitle.setError("Invalid Title");
+        EditText title = (EditText)view.findViewById(R.id.etTitle);
+        creditCardObservable = RxTextView.textChanges(title).skip(1)
+                .map(new Func1<CharSequence, Boolean>() {
+                    @Override public Boolean call(CharSequence inputText) {
+                        return (inputText.length() < 3);
+                    }
+                });
+
+        creditCardObservable.subscribe(new Action1<Boolean>() {
+            @Override public void call(Boolean isInValid) {
+
+                if(isInValid){
+                    textInputLayoutTitle.setErrorEnabled(true);
+                    title.setError("Invalid Title");
+                }
+                else{
+                    textInputLayoutTitle.setErrorEnabled(false);
+                }
+            }
+        });
     }
 
     @Override public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -108,6 +131,10 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
             presenter.postEvent(event);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override public void onPrepareOptionsMenu(Menu menu) {
+        menu.getItem(0).setEnabled(isFormValid);
     }
 
     //// TODO: 13/04/16 validate form
@@ -168,6 +195,11 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
             Toast.makeText(getActivity(), "Event Created", Toast.LENGTH_SHORT).show();
             getActivity().finish();
         }
+    }
+
+    @Override public void toggleCreateButton(boolean value) {
+        isFormValid = value;
+        getActivity().invalidateOptionsMenu();
     }
 
     @Override public void onResume() {

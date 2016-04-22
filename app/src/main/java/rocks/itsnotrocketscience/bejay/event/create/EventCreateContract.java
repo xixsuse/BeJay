@@ -2,6 +2,7 @@ package rocks.itsnotrocketscience.bejay.event.create;
 
 
 import android.location.Location;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class EventCreateContract {
         void setProgressVisible(boolean visible);
         void showError(String error);
         void finish();
+        void toggleCreateButton(boolean value);
     }
 
     public interface EventCreatePresenter {
@@ -26,7 +28,6 @@ public class EventCreateContract {
         void postEvent(Event event);
         String getDate(String date, String time);
         void setStartDateTime(TextView tvStartDate, TextView tvStartTime);
-
-        void addValidationObserver(List<TextView> list);
+        void addValidationObserver(EditText etTitle, EditText etDetails, EditText etPlace, EditText etGPS, TextView tvStartDate, TextView tvStartTime, TextView tvEndDate, TextView tvEndTime);
     }
 }
