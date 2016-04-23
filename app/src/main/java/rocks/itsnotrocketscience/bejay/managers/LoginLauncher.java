@@ -14,11 +14,6 @@ public class LoginLauncher extends LauncherBase {
     }
 
     @Override
-    public void openLogin() {
-        loginActivity.showFragment(LoginFragment.newInstance());
-    }
-
-    @Override
     public void openHome() {
         Intent intent = new Intent(loginActivity, MainActivity.class);
         loginActivity.startActivity(intent);

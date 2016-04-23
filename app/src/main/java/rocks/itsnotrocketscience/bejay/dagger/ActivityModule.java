@@ -20,6 +20,8 @@ import rocks.itsnotrocketscience.bejay.event.single.EventPresenterImpl;
 import rocks.itsnotrocketscience.bejay.managers.AccountManager;
 import rocks.itsnotrocketscience.bejay.managers.AppLauncher;
 import rocks.itsnotrocketscience.bejay.managers.Launcher;
+import rocks.itsnotrocketscience.bejay.map.MapContract;
+import rocks.itsnotrocketscience.bejay.map.MapPresenterImpl;
 import rocks.itsnotrocketscience.bejay.search.ModelAdapter;
 import rocks.itsnotrocketscience.bejay.search.view.ModelViewFactory;
 import rocks.itsnotrocketscience.bejay.search.view.ModelViewHolderFactory;
@@ -48,6 +50,10 @@ public class ActivityModule {
 
     @Provides EventCreateContract.EventCreatePresenter providesEventCreatePresenter(Events networkEvent) {
         return new EventCreatePresenterImpl(networkEvent);
+    }
+
+    @Provides MapContract.MapPresenter providesMapPresenter(Launcher launcher) {
+        return new MapPresenterImpl(activity, launcher);
     }
 
     @Provides DatePickerDialogFragment providesDatePicker() {

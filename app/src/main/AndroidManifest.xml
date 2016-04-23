@@ -120,7 +120,7 @@
             android:label="@string/title_activity_event_create"/>
 
         <activity
-            android:name=".event.create.MapActivity"
+            android:name=".map.MapActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/geo_location"/>
     </application>

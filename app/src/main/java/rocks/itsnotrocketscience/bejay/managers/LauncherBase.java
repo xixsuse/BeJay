@@ -2,6 +2,8 @@ package rocks.itsnotrocketscience.bejay.managers;
 
 import android.support.v4.app.Fragment;
 
+import com.google.android.gms.maps.model.LatLng;
+
 public class LauncherBase implements Launcher {
 
     @Override public void openHome() {
@@ -20,7 +22,7 @@ public class LauncherBase implements Launcher {
         throw new UnsupportedOperationException();
     }
 
-    @Override public void openLogin() {
+    @Override public void finishMapActivityForResult(LatLng latLng) {
         throw new UnsupportedOperationException();
     }
 

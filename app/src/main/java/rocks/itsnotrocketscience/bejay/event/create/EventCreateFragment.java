@@ -20,9 +20,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.jakewharton.rxbinding.widget.RxTextView;
 
 
-import java.util.Arrays;
-import java.util.LinkedList;
-
 import javax.inject.Inject;
 
 import butterknife.Bind;
@@ -31,17 +28,18 @@ import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
 import rocks.itsnotrocketscience.bejay.dagger.ActivityComponent;
 import rocks.itsnotrocketscience.bejay.managers.Launcher;
+import rocks.itsnotrocketscience.bejay.map.MapActivity;
 import rocks.itsnotrocketscience.bejay.models.Event;
 import rocks.itsnotrocketscience.bejay.widgets.DatePickerDialogFragment;
 import rocks.itsnotrocketscience.bejay.widgets.DateTimeSetListener;
 import rocks.itsnotrocketscience.bejay.widgets.TimePickerDialogFragment;
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
 /**
  * Created by sirfunkenstine on 22/03/16.
+ *
  */
 public class EventCreateFragment extends BaseFragment<ActivityComponent> implements View.OnClickListener, EventCreateContract.EventCreateView, DateTimeSetListener {
 
@@ -180,7 +178,7 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
     private void showTimeDialog(int id) {
         timePickerDialogFragment.setTimeSetListener(this);
         timePickerDialogFragment.setId(id);
-        timePickerDialogFragment.show(getFragmentManager(), "DatePicker");
+        timePickerDialogFragment.show(getFragmentManager(), "TimePicker");
     }
 
     @Override public void setProgressVisible(boolean visible) {

@@ -2,20 +2,22 @@ package rocks.itsnotrocketscience.bejay.managers;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.api.Constants;
 import rocks.itsnotrocketscience.bejay.event.create.EventCreateActivity;
-import rocks.itsnotrocketscience.bejay.event.create.MapActivity;
+import rocks.itsnotrocketscience.bejay.map.MapActivity;
 import rocks.itsnotrocketscience.bejay.event.list.EventListFragment;
 import rocks.itsnotrocketscience.bejay.event.single.EventActivity;
 import rocks.itsnotrocketscience.bejay.home.HomeFragment;
 import rocks.itsnotrocketscience.bejay.login.LoginActivity;
-import rocks.itsnotrocketscience.bejay.login.LoginFragment;
 import rocks.itsnotrocketscience.bejay.profile.ProfileFragment;
 
 public class AppLauncher implements Launcher {
@@ -61,11 +63,6 @@ public class AppLauncher implements Launcher {
     }
 
     @Override
-    public void openLogin() {
-        showFragment(LoginFragment.newInstance());
-    }
-
-    @Override
     public void openEventList() {
         showFragment(EventListFragment.newInstance());
     }
@@ -79,6 +76,15 @@ public class AppLauncher implements Launcher {
     @Override public void openMapActivityForResult(Fragment fragment) {
         Intent intent = new Intent(activity, MapActivity.class);
         fragment.startActivityForResult(intent,1);
+    }
+
+    @Override public void finishMapActivityForResult( LatLng latLng){
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(MapActivity.POSITION, latLng);
+        Intent intent = new Intent();
+        intent.putExtras(bundle);
+        activity.setResult(MapActivity.RESULT_OK, intent);
+        activity.finish();
     }
 
 
