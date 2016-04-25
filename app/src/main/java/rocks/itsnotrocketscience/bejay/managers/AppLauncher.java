@@ -78,9 +78,10 @@ public class AppLauncher implements Launcher {
         fragment.startActivityForResult(intent,1);
     }
 
-    @Override public void finishMapActivityForResult( LatLng latLng){
+    @Override public void finishMapActivityForResult(LatLng latLng, String location){
         Bundle bundle = new Bundle();
         bundle.putParcelable(MapActivity.POSITION, latLng);
+        bundle.putString(MapActivity.PLACE, location);
         Intent intent = new Intent();
         intent.putExtras(bundle);
         activity.setResult(MapActivity.RESULT_OK, intent);

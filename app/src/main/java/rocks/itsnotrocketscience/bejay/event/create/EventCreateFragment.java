@@ -240,8 +240,11 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
             LatLng latLng = data.getParcelableExtra(MapActivity.POSITION);
+            String place = data.getStringExtra(MapActivity.PLACE);
             event.setGps(latLng);
+            event.setPlace(place);
             etGPS.setText(event.latLngString());
+            etPlace.setText(place);
         }
     }
 }

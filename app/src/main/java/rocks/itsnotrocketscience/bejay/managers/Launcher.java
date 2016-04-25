@@ -12,5 +12,5 @@ public interface Launcher {
     void openEventList();
     void openCreateEvent();
     void openMapActivityForResult(Fragment fragment);
-    void finishMapActivityForResult( LatLng latLng);
+    void finishMapActivityForResult(LatLng latLng, String location);
 }

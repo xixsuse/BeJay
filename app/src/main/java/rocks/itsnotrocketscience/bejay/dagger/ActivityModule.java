@@ -5,7 +5,6 @@ import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 
-import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;

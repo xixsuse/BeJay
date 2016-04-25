@@ -22,7 +22,7 @@ public class LauncherBase implements Launcher {
         throw new UnsupportedOperationException();
     }
 
-    @Override public void finishMapActivityForResult(LatLng latLng) {
+    @Override public void finishMapActivityForResult(LatLng latLng, String place) {
         throw new UnsupportedOperationException();
     }
 

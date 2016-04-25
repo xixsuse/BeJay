@@ -51,4 +51,10 @@
     <string name="public_event">Public</string>
     <string name="private_event">Private</string>
     <string name="create">Create</string>
+    <string name="no_location_data_provided">no location provider</string>
+    <string name="service_not_available">service not available</string>
+    <string name="invalid_lat_long_used">invalid lat lang</string>
+    <string name="no_address_found">no address found</string>
+    <string name="address_found">address found</string>
+    <string name="no_geocoder_available">No Geocoder Available</string>
 </resources>

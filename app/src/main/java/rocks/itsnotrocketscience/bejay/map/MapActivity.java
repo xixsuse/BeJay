@@ -31,8 +31,8 @@ import rocks.itsnotrocketscience.bejay.managers.Launcher;
  */
 public class MapActivity extends InjectedActivity<ActivityComponent> implements MapContract.MapView {
 
-    private static final String TAG = "MapActivity";
     public static final String POSITION = "position";
+    public static final String PLACE = "place";
 
     private final ActivityModule activityModule;
     ActivityComponent activityComponent;
@@ -115,5 +115,7 @@ public class MapActivity extends InjectedActivity<ActivityComponent> implements 
 
     @Override public void setGoogleMap(GoogleMap googleMap) {
         this.googleMap = googleMap;
+        this.googleMap.setOnMarkerDragListener(mapPresenter);
+        this.googleMap.setOnMapClickListener(mapPresenter);
     }
 }

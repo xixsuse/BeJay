@@ -123,6 +123,7 @@
             android:name=".map.MapActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/geo_location"/>
+        <service android:name=".map.FetchAddressIntentService"/>
     </application>
 
 </manifest>
