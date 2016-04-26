@@ -1,6 +1,7 @@
 package rocks.itsnotrocketscience.bejay.api;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import retrofit.client.Response;
 import retrofit.http.Body;
@@ -37,11 +38,11 @@ class EventsWithRetry implements Events {
         return events.checkOut(id).retryWhen(ApiManager.defaultRetry());
     }
 
-    @Override public Observable<Response> play(@Path("id") int id) {
+    @Override public Observable<Map<String,String>> play(@Path("id") int id) {
         return events.play(id);
     }
 
-    @Override public Observable<Response> pause() {
+    @Override public Observable<Map<String,String>> pause() {
         return events.pause();
     }
 
