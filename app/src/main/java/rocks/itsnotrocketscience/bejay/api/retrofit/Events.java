@@ -9,6 +9,7 @@ import retrofit.http.GET;
 import retrofit.http.Headers;
 import retrofit.http.POST;
 import retrofit.http.Path;
+import retrofit.http.Query;
 import rocks.itsnotrocketscience.bejay.models.Event;
 import rocks.itsnotrocketscience.bejay.models.Song;
 import rx.Observable;
@@ -29,11 +30,11 @@ public interface Events {
     @POST("/events/{id}/checkout_user/")
     Observable<Event> checkOut(@Path("id") int id);
 
-    @POST("/events/{song_id}/play/")
-    Observable<Map<String,String>> play(@Path("song_id") int id);
+    @POST("/events/{id}/play/")
+    Observable<Map<String,String>> play(@Path("id") int id, @Query("song_id") int song_id);
 
-    @POST("/events/pause/")
-    Observable<Map<String,String>> pause();
+    @GET("/events/{id}/pause/")
+    Observable<Map<String,String>> pause(@Path("id") int id);
 
     @Headers("Content-Type: application/json;charset=UTF-8")
     @POST("/songs/")

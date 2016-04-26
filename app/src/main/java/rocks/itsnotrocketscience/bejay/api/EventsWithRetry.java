@@ -6,6 +6,7 @@ import java.util.Map;
 import retrofit.client.Response;
 import retrofit.http.Body;
 import retrofit.http.Path;
+import retrofit.http.Query;
 import rocks.itsnotrocketscience.bejay.api.retrofit.Events;
 import rocks.itsnotrocketscience.bejay.models.Event;
 import rocks.itsnotrocketscience.bejay.models.Song;
@@ -38,12 +39,12 @@ class EventsWithRetry implements Events {
         return events.checkOut(id).retryWhen(ApiManager.defaultRetry());
     }
 
-    @Override public Observable<Map<String,String>> play(@Path("id") int id) {
-        return events.play(id);
+    @Override public Observable<Map<String,String>> play(@Path("id") int id,  @Query("song_id") int song_id) {
+        return events.play(id, song_id);
     }
 
-    @Override public Observable<Map<String,String>> pause() {
-        return events.pause();
+    @Override public Observable<Map<String,String>> pause(@Path("id") int id) {
+        return events.pause(id);
     }
 
     @Override public Observable<Song> postSong(@Body Song song) {
