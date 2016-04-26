@@ -1,13 +1,11 @@
 package rocks.itsnotrocketscience.bejay.music.player;
 
-import com.deezer.sdk.player.event.PlayerState;
-
 /**
  * Created by nemi on 25/04/16.
  */
 public class PlaybackState {
     public enum State {
-        BUFFERING, PLAYING, PAUSED, PLAYBACK_COMPETE
+        STARTED, BUFFERING, PLAYING, PAUSED, PLAYBACK_COMPETE
     }
 
     private final State state;
