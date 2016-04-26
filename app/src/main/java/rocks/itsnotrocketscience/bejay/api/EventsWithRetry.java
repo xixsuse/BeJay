@@ -2,6 +2,7 @@ package rocks.itsnotrocketscience.bejay.api;
 
 import java.util.ArrayList;
 
+import retrofit.client.Response;
 import retrofit.http.Body;
 import retrofit.http.Path;
 import rocks.itsnotrocketscience.bejay.api.retrofit.Events;
@@ -20,28 +21,31 @@ class EventsWithRetry implements Events {
         this.events = events;
     }
 
-    @Override
-    public Observable<ArrayList<Event>> list() {
+   @Override public Observable<ArrayList<Event>> list() {
         return events.list().retryWhen(ApiManager.defaultRetry());
     }
 
-    @Override
-    public Observable<Event> get(@Path("id") int id) {
+    @Override public Observable<Event> get(@Path("id") int id) {
         return events.get(id).retryWhen(ApiManager.defaultRetry());
     }
 
-    @Override
-    public Observable<Event> checkIn(int id) {
+    @Override public Observable<Event> checkIn(int id) {
         return events.checkIn(id).retryWhen(ApiManager.defaultRetry());
     }
 
-    @Override
-    public Observable<Event> checkOut(int id) {
+    @Override public Observable<Event> checkOut(int id) {
         return events.checkOut(id).retryWhen(ApiManager.defaultRetry());
     }
 
-    @Override
-    public Observable<Song> postSong(@Body Song song) {
+    @Override public Observable<Response> play(@Path("id") int id) {
+        return events.play(id);
+    }
+
+    @Override public Observable<Response> pause() {
+        return events.pause();
+    }
+
+    @Override public Observable<Song> postSong(@Body Song song) {
         return events.postSong(song).retryWhen(ApiManager.defaultRetry());
     }
 }

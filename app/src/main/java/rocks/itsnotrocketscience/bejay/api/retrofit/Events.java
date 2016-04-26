@@ -2,6 +2,7 @@ package rocks.itsnotrocketscience.bejay.api.retrofit;
 
 import java.util.ArrayList;
 
+import retrofit.client.Response;
 import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.Headers;
@@ -26,6 +27,12 @@ public interface Events {
 
     @POST("/events/{id}/checkout_user/")
     Observable<Event> checkOut(@Path("id") int id);
+
+    @POST("/events/{song_id}/play/")
+    Observable<Response> play(@Path("song_id") int id);
+
+    @POST("/events/pause/")
+    Observable<Response> pause();
 
     @Headers("Content-Type: application/json;charset=UTF-8")
     @POST("/songs/")
