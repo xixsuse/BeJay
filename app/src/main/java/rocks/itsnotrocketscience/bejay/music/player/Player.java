@@ -1,5 +1,8 @@
 package rocks.itsnotrocketscience.bejay.music.player;
 
+import android.os.Handler;
+import android.util.Log;
+
 import com.deezer.sdk.player.TrackPlayer;
 import com.deezer.sdk.player.event.PlayerState;
 
@@ -8,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
@@ -35,28 +39,23 @@ public class Player {
     };
 
     private final TrackPlayer trackPlayer;
-    private final Observable<PlaybackState> playbackState;
 
     public Player(TrackPlayer trackPlayer) {
         this.trackPlayer = trackPlayer;
-        this.playbackState = Observable.concat(initialState(),
-                Observable.create(new TrackPlayerStateOnSubscribe(trackPlayer))
-                        .filter(invalidStateFilter())
-                        .filter(state -> RECOGNIZED_STATES.contains(state.getPlayerState()))
-                        .map(state -> new PlaybackState(
-                                STATE_MAP.get(state.getPlayerState()), state.getProgress()))
-                        .unsubscribeOn(Schedulers.newThread()));
     }
 
     private Func1<TrackPlayerState, Boolean> invalidStateFilter() {
         return new Func1<TrackPlayerState, Boolean>() {
-            PlayerState currentState;
+            TrackPlayerState currentState;
 
             @Override
             public Boolean call(TrackPlayerState newState) {
-                PlayerState oldState = currentState;
-                currentState = newState.getPlayerState();
-                boolean allowed = !((oldState == null || oldState == PlayerState.PLAYBACK_COMPLETED) && currentState == PlayerState.STOPPED) && !currentState.equals(oldState);
+                TrackPlayerState oldState = currentState;
+                currentState = newState;
+                boolean allowed = !((oldState == null || oldState.getPlayerState() == PlayerState.PLAYBACK_COMPLETED) &&
+                        currentState.getPlayerState() == PlayerState.STOPPED) &&
+                        RECOGNIZED_STATES.contains(currentState.getPlayerState()) &&
+                        !currentState.equals(oldState);
                 return allowed;
             }
         };
@@ -67,7 +66,13 @@ public class Player {
     }
 
     public Observable<PlaybackState> state() {
-        return playbackState;
+        return Observable.concat(initialState(),
+                Observable.create(new TrackPlayerStateOnSubscribe(trackPlayer))
+                        .unsubscribeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(AndroidSchedulers.mainThread())
+                        .filter(invalidStateFilter())
+                        .map(state -> new PlaybackState(
+                                STATE_MAP.get(state.getPlayerState()), state.getProgress())));
     }
 
     public void play(String trackId) {

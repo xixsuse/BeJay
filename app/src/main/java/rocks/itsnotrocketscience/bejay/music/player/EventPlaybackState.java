@@ -13,8 +13,15 @@ public class EventPlaybackState extends PlaybackState {
         this.track = track;
     }
 
-
     public Track getTrack() {
         return track;
+    }
+
+    @Override
+    public String toString() {
+        return "EventPlaybackState{" +
+                "trackId=" + track.getId() +
+                ", playbackState=" + super.toString() +
+                '}';
     }
 }
