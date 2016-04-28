@@ -5,12 +5,14 @@ import java.util.Map;
 
 import retrofit.client.Response;
 import retrofit.http.Body;
+import retrofit.http.DELETE;
 import retrofit.http.GET;
 import retrofit.http.Headers;
 import retrofit.http.POST;
 import retrofit.http.Path;
 import retrofit.http.Query;
 import rocks.itsnotrocketscience.bejay.models.Event;
+import rocks.itsnotrocketscience.bejay.models.Like;
 import rocks.itsnotrocketscience.bejay.models.Song;
 import rx.Observable;
 
@@ -39,4 +41,13 @@ public interface Events {
     @Headers("Content-Type: application/json;charset=UTF-8")
     @POST("/songs/")
     Observable<Song> postSong(@Body Song song);
+
+    @Headers("Content-Type: application/json;charset=UTF-8")
+    @POST("/likes/")
+    Observable<Like> postLike(@Body Like song);
+
+    @DELETE("/likes/{id}/")
+    Observable<Like> deleteLike(@Path("id") int id);
+
+
 }

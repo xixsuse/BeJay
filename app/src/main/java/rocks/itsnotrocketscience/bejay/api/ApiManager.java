@@ -4,17 +4,12 @@ import android.content.Context;
 
 import java.util.concurrent.TimeUnit;
 
-import retrofit.Callback;
 import retrofit.RestAdapter;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 import rocks.itsnotrocketscience.bejay.api.retrofit.Events;
-import rocks.itsnotrocketscience.bejay.api.retrofit.PostSong;
 import rocks.itsnotrocketscience.bejay.base.AppApplication;
 import rocks.itsnotrocketscience.bejay.managers.AccountManager;
 import rocks.itsnotrocketscience.bejay.managers.RetrofitListeners;
 import rocks.itsnotrocketscience.bejay.managers.ServiceFactory;
-import rocks.itsnotrocketscience.bejay.models.Song;
 import rx.Observable;
 import rx.functions.Func1;
 
@@ -38,22 +33,6 @@ public class ApiManager extends RetrofitListeners {
                 .setEndpoint(Constants.API)
                 .build();
         this.accountManager = accountManager;
-    }
-
-    public void addSong(Song song, SongAddedListener songAddedListener) {
-
-        PostSong postSong = restAdapter.create(PostSong.class);
-        postSong.postSong(song, new Callback<Song>() {
-            @Override
-            public void success(Song song, Response response) {
-                songAddedListener.onSongAdded(song, null);
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                songAddedListener.onSongAdded(null, error);
-            }
-        });
     }
 
     public Events events() {

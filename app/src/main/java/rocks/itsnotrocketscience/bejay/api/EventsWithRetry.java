@@ -9,6 +9,7 @@ import retrofit.http.Path;
 import retrofit.http.Query;
 import rocks.itsnotrocketscience.bejay.api.retrofit.Events;
 import rocks.itsnotrocketscience.bejay.models.Event;
+import rocks.itsnotrocketscience.bejay.models.Like;
 import rocks.itsnotrocketscience.bejay.models.Song;
 import rx.Observable;
 
@@ -49,5 +50,15 @@ class EventsWithRetry implements Events {
 
     @Override public Observable<Song> postSong(@Body Song song) {
         return events.postSong(song).retryWhen(ApiManager.defaultRetry());
+    }
+
+    @Override
+    public Observable<Like> postLike(@Query("song") Like song) {
+        return events.postLike(song).retryWhen(ApiManager.defaultRetry());
+    }
+
+    @Override
+    public Observable<Like> deleteLike(@Path("id") int id) {
+        return events.deleteLike(id).retryWhen(ApiManager.defaultRetry());
     }
 }

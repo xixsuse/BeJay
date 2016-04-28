@@ -3,13 +3,13 @@ package rocks.itsnotrocketscience.bejay.base;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import rocks.itsnotrocketscience.bejay.event.list.ItemClickListener;
+import rocks.itsnotrocketscience.bejay.event.list.ViewHolderClickListener;
 
 /**
  * Created by centralstation on 17/09/15.
  */
 public abstract class BaseViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-    private ItemClickListener clickListener;
+    private ViewHolderClickListener clickListener;
 
     public BaseViewHolder(View itemView) {
         super(itemView);
@@ -22,7 +22,7 @@ public abstract class BaseViewHolder extends RecyclerView.ViewHolder implements 
         }
     }
 
-    public void setClickListener(ItemClickListener itemClickListener) {
+    public void setClickListener(ViewHolderClickListener itemClickListener) {
         this.clickListener = itemClickListener;
     }
 
