@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -73,7 +74,9 @@ public class LoginFragment extends BaseFragment<LoginComponent> implements Login
     }
 
     @Override
-    public void showError(String error) {}
+    public void showError(String error) {
+        Toast.makeText(getActivity(), error, Toast.LENGTH_LONG).show();
+    }
 
     @Override
     public void onLoggedIn() {
@@ -106,9 +109,11 @@ public class LoginFragment extends BaseFragment<LoginComponent> implements Login
                 loginPresenter.verifyUser(loginResult);
             }
             @Override
-            public void onCancel() {}
+            public void onCancel() {showError("cancelled");}
             @Override
-            public void onError(FacebookException exception) {}
+            public void onError(FacebookException exception) {
+                showError(exception.toString());
+            }
         });
     }
 

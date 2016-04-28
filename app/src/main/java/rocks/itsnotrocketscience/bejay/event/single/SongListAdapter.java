@@ -32,6 +32,7 @@ public class SongListAdapter extends BaseListAdapter<Song> {
         Song song = items.get(position);
         ((SongViewHolder) holder).tvSongTitle.setText(song.getTitle());
         ((SongViewHolder) holder).tvLikesCount.setText(song.getCountStr());
+        ((SongViewHolder) holder).btnLikeSong.setPressed(song.hasLikeId());
     }
 
 }

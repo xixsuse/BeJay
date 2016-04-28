@@ -31,7 +31,7 @@ import rocks.itsnotrocketscience.bejay.managers.AccountManager;
 import rocks.itsnotrocketscience.bejay.managers.Launcher;
 import rocks.itsnotrocketscience.bejay.models.Event;
 
-public class EventListFragment extends BaseFragment<ActivityComponent> implements ItemClickListener, EventListContract.EventListView {
+public class EventListFragment extends BaseFragment<ActivityComponent> implements ItemClickListener<Event>, EventListContract.EventListView {
 
     @Inject AccountManager accountManager;
     @Inject ApiManager apiManager;
@@ -112,8 +112,8 @@ public class EventListFragment extends BaseFragment<ActivityComponent> implement
     }
 
     @Override
-    public void onClick(View view, int position) {
-        eventListPresenter.checkIn(eventList.get(position), false);
+    public void onClick(Event event, int position) {
+        eventListPresenter.checkIn(event, false);
     }
 
     @Override

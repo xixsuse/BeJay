@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +30,7 @@ import rocks.itsnotrocketscience.bejay.search.SearchActivity;
 import rocks.itsnotrocketscience.bejay.music.model.Track;
 
 /**
- * A placeholder fragment containing a simple view.
+ * Event fragment
  */
 public class EventFragment extends BaseFragment<ActivityComponent> implements EventContract.EventView {
 
@@ -68,8 +67,8 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Ev
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         rvSongList.setLayoutManager(llm);
         adapter = new SongListAdapter(songList);
-        adapter.setItemClickListener((view1, position) -> Log.d("yo", "yo"));
-        rvSongList.setAdapter(adapter);
+        adapter.setItemClickListener((item, position) -> presenter.toggleLike(item, position));
+                rvSongList.setAdapter(adapter);
         fab.setOnClickListener(v ->
                 startActivityForResult(new Intent(getActivity(), SearchActivity.class), RC_SEARCH_TRACK));
     }
@@ -109,6 +108,11 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Ev
     }
 
     @Override
+    public void notifyItemChanged(int position) {
+        adapter.notifyItemChanged(position);
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         presenter.onViewAttached(this);
@@ -119,12 +123,12 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Ev
     public void onPause() {
         super.onPause();
         presenter.onViewDetached();
-        presenter.unregisterUpdateReceiver(this.getActivity());
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        presenter.unregisterUpdateReceiver();
         presenter.onDestroy();
     }
 
@@ -138,7 +142,7 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Ev
             case RC_SEARCH_TRACK : {
                 if((resultCode == Activity.RESULT_OK)) {
                     Track track = data.getParcelableExtra(SearchActivity.EXTRA_TRACK);
-                    presenter.adSong(toSong(track));
+                    presenter.addSong(toSong(track));
                 }
                 break;
             }

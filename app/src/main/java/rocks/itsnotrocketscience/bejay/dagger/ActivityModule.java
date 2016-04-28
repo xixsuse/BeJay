@@ -43,8 +43,8 @@ public class ActivityModule {
         return new EventListPresenterImpl(eventsDao, networkEvents, accountManager);
     }
 
-    @Provides EventContract.EventPresenter providesEventPresenter(Events networkEvent) {
-        return new EventPresenterImpl(networkEvent);
+    @Provides EventContract.EventPresenter providesEventPresenter(SharedPreferences sharedPreferences, Events networkEvent) {
+        return new EventPresenterImpl(sharedPreferences, networkEvent);
     }
 
     @Provides EventCreateContract.EventCreatePresenter providesEventCreatePresenter(Events networkEvent) {
