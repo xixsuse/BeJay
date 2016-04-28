@@ -62,9 +62,7 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
     @Bind(R.id.tvStartTime) TextView tvStartTime;
     @Bind(R.id.tvEndDate) TextView tvEndDate;
     @Bind(R.id.tvEndTime) TextView tvEndTime;
-    @Bind(R.id.textInputLayoutTitle) TextInputLayout textInputLayoutTitle;
     private boolean isFormValid = false;
-    Observable<Boolean> creditCardObservable;
 
     public static Fragment newInstance() {
         return new EventCreateFragment();
@@ -89,33 +87,11 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
         tvEndTime.setOnClickListener(this);
         presenter.setStartDateTime(tvStartDate, tvStartTime);
         etGPS.setOnClickListener(this);
-//        presenter.addValidationObserver(etTitle, etDetails, etPlace, etGPS, tvStartDate, tvStartTime, tvEndDate, tvEndTime);
         return view;
     }
 
     @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        textInputLayoutTitle.setError("Invalid Title");
-        EditText title = (EditText)view.findViewById(R.id.etTitle);
-        creditCardObservable = RxTextView.textChanges(title).skip(1)
-                .map(new Func1<CharSequence, Boolean>() {
-                    @Override public Boolean call(CharSequence inputText) {
-                        return (inputText.length() < 3);
-                    }
-                });
-
-        creditCardObservable.subscribe(new Action1<Boolean>() {
-            @Override public void call(Boolean isInValid) {
-
-                if(isInValid){
-                    textInputLayoutTitle.setErrorEnabled(true);
-                    title.setError("Invalid Title");
-                }
-                else{
-                    textInputLayoutTitle.setErrorEnabled(false);
-                }
-            }
-        });
     }
 
     @Override public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

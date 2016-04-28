@@ -36,8 +36,6 @@ public class EventCreatePresenterImpl implements EventCreateContract.EventCreate
 
     EventCreateContract.EventCreateView view;
     private final Events events;
-    Subscription subscription;
-    ;
 
     public EventCreatePresenterImpl(Events event) {
         this.events = event;
@@ -51,9 +49,7 @@ public class EventCreatePresenterImpl implements EventCreateContract.EventCreate
         this.view = null;
     }
 
-    @Override public void onDestroy() {
-//        subscription.unsubscribe();
-    }
+    @Override public void onDestroy() { }
 
     @Override public void postEvent(Event event) {
         events.postEvent(event)
@@ -103,69 +99,6 @@ public class EventCreatePresenterImpl implements EventCreateContract.EventCreate
                                                 TextView tvEndDate,
                                                 TextView tvEndTime) {
 
-
-//        Observable<CharSequence> titleChangeObservable;
-//        Observable<CharSequence> gpsChangeObservable;
-//        Observable<CharSequence> startDateChangeObservable;
-//        Observable<CharSequence> endDateChangeObservable;
-//        Observable<CharSequence> startTimeChangeObservable;
-//        Observable<CharSequence> endTimeChangeObservable;
-//
-//        titleChangeObservable = RxTextView.textChanges(etTitle).skip(1);
-//        gpsChangeObservable = RxTextView.textChanges(etGPS).skip(1);
-//        startDateChangeObservable = RxTextView.textChanges(tvStartDate).skip(1);
-//        startTimeChangeObservable = RxTextView.textChanges(tvStartTime).skip(1);
-//        endDateChangeObservable = RxTextView.textChanges(tvEndDate).skip(1);
-//        endTimeChangeObservable = RxTextView.textChanges(tvEndTime).skip(1);
-//
-//        subscription = Observable.combineLatest(
-//                titleChangeObservable,
-//                gpsChangeObservable,
-//
-//                new Func2<CharSequence, CharSequence, Boolean>() {
-//                    @Override public Boolean call(CharSequence title,
-//                                                  CharSequence gps
-//                    ) {
-//                        synchronized (this) {
-//                            boolean validTitle = title.length() < 3;
-//                            Log.d("bla", "calll: ");
-//                            if (validTitle) {
-//                                ((TextInputLayout) etTitle.getParent()).setError("title must be greater the 3 characters");
-//                                ((TextInputLayout) etTitle.getParent()).setErrorEnabled(true);
-//                            } else {
-//                                ((TextInputLayout) etTitle.getParent()).setErrorEnabled(false);
-//                            }
-//
-//                            boolean validGPS = gps.length() < 1;
-//                            if (validGPS) {
-//                                ((TextInputLayout) etGPS.getParent()).setError("Must enter Location");
-//                                ((TextInputLayout) etTitle.getParent()).setErrorEnabled(true);
-//                            } else {
-//                                ((TextInputLayout) etGPS.getParent()).setErrorEnabled(false);
-//                            }
-//                            return validTitle && validGPS;
-//                        }
-//                    }
-//
-//
-//                }).subscribe(new Observer<Boolean>() {
-//                    @Override
-//                    public void onCompleted() {
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                    }
-//
-//                    @Override
-//                    public void onNext(Boolean formValid) {
-//                        if (formValid) {
-//                            view.toggleCreateButton(true);
-//                        } else {
-//                            view.toggleCreateButton(false);
-//                        }
-//                    }
-//                });
     }
 }
 
