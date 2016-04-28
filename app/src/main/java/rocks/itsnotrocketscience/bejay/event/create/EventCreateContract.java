@@ -16,9 +16,8 @@ public class EventCreateContract {
 
     interface EventCreateView {
         void setProgressVisible(boolean visible);
-        void showError(String error);
+        void showError(String error, int resource);
         void finish();
-        void toggleCreateButton(boolean value);
     }
 
     public interface EventCreatePresenter {
@@ -28,6 +27,6 @@ public class EventCreateContract {
         void postEvent(Event event);
         String getDate(String date, String time);
         void setStartDateTime(TextView tvStartDate, TextView tvStartTime);
-        void addValidationObserver(EditText etTitle, EditText etDetails, EditText etPlace, EditText etGPS, TextView tvStartDate, TextView tvStartTime, TextView tvEndDate, TextView tvEndTime);
+        boolean isFormValid(Event event);
     }
 }

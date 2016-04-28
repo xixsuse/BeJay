@@ -39,7 +39,6 @@ import rx.functions.Func1;
 
 /**
  * Created by sirfunkenstine on 22/03/16.
- *
  */
 public class EventCreateFragment extends BaseFragment<ActivityComponent> implements View.OnClickListener, EventCreateContract.EventCreateView, DateTimeSetListener {
 
@@ -62,7 +61,6 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
     @Bind(R.id.tvStartTime) TextView tvStartTime;
     @Bind(R.id.tvEndDate) TextView tvEndDate;
     @Bind(R.id.tvEndTime) TextView tvEndTime;
-    private boolean isFormValid = false;
 
     public static Fragment newInstance() {
         return new EventCreateFragment();
@@ -101,18 +99,15 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
 
     @Override public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_create) {
-            setEvent();
-            presenter.postEvent(event);
+            setEventObjectFromViews();
+            if (presenter.isFormValid(event)) {
+                presenter.postEvent(event);
+            }
         }
         return super.onOptionsItemSelected(item);
     }
 
-    @Override public void onPrepareOptionsMenu(Menu menu) {
-        menu.getItem(0).setEnabled(isFormValid);
-    }
-
-    //// TODO: 13/04/16 validate form
-    private void setEvent() {
+    private void setEventObjectFromViews() {
         event.setPlace(etPlace.getText().toString());
         event.setDetails(etDetails.getText().toString());
         event.setTitle(etTitle.getText().toString());
@@ -160,20 +155,19 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
     @Override public void setProgressVisible(boolean visible) {
     }
 
-    @Override public void showError(String error) {
-        Toast.makeText(getActivity(), error, Toast.LENGTH_LONG).show();
-    }
+    @Override public void showError(String error, int resource) {
+        if (resource == -1) {
+            Toast.makeText(getActivity(), error, Toast.LENGTH_LONG).show();
+        } else {
+            ((TextView) ButterKnife.findById(getActivity(), resource)).setError(error);
+        }
+        }
 
     @Override public void finish() {
         if (getActivity() != null) {
             Toast.makeText(getActivity(), "Event Created", Toast.LENGTH_SHORT).show();
             getActivity().finish();
         }
-    }
-
-    @Override public void toggleCreateButton(boolean value) {
-        isFormValid = value;
-        getActivity().invalidateOptionsMenu();
     }
 
     @Override public void onResume() {
@@ -215,12 +209,11 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
     @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
+            etPlace.setText(data.getStringExtra(MapActivity.PLACE));
+
             LatLng latLng = data.getParcelableExtra(MapActivity.POSITION);
-            String place = data.getStringExtra(MapActivity.PLACE);
-            event.setGps(latLng);
-            event.setPlace(place);
             etGPS.setText(event.latLngString());
-            etPlace.setText(place);
+            event.setGps(latLng);
         }
     }
 }

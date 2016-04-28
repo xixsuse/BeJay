@@ -26,13 +26,14 @@ public class Event {
     private String details;
     @SerializedName("start_date")
     private String startDate;
+
+
     @SerializedName("end_date")
     private String endDate;
     private String place;
     private double lat;
     @SerializedName("long")
     private double lng;
-
 
 
     public int getId() {
@@ -115,22 +116,44 @@ public class Event {
         this.startDate = startDate;
     }
 
+    public String getStartDate() {
+        return startDate;
+    }
+
     public void setEndDate(String endDate) {
         this.endDate = endDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
     }
 
     public void setPlace(String place) {
         this.place = place;
     }
 
-    public void setGps(LatLng gps) {
-        lat = gps.latitude;
-        lng = gps.longitude;
-
+    public String getPlace() {
+        return place;
     }
 
-    public String latLngString(){
+    public String latLngString() {
         return String.format("%.4f , %.4f", lat, lng);
     }
 
+    public void setGps(LatLng gps) {
+        lat = gps.latitude;
+        lng = gps.longitude;
+    }
+
+    public boolean hasGps() {
+        return lat != 0 && lng != 0;
+    }
+
+    public boolean hasStartTime() {
+        return startDate != null;
+    }
+
+    public boolean hasEndDate() {
+        return endDate != null;
+    }
 }

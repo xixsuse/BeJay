@@ -1,12 +1,6 @@
 package rocks.itsnotrocketscience.bejay.event.create;
 
-import android.support.design.widget.TextInputLayout;
-import android.util.Log;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
-
-import com.jakewharton.rxbinding.widget.RxTextView;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -14,19 +8,10 @@ import org.joda.time.LocalTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import java.util.List;
-
-import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.api.retrofit.Events;
 import rocks.itsnotrocketscience.bejay.models.Event;
-import rx.Observable;
-import rx.Observer;
 import rx.Subscriber;
-import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func2;
-import rx.functions.Func3;
-import rx.functions.Func6;
 import rx.schedulers.Schedulers;
 
 /**
@@ -49,7 +34,8 @@ public class EventCreatePresenterImpl implements EventCreateContract.EventCreate
         this.view = null;
     }
 
-    @Override public void onDestroy() { }
+    @Override public void onDestroy() {
+    }
 
     @Override public void postEvent(Event event) {
         events.postEvent(event)
@@ -62,7 +48,7 @@ public class EventCreatePresenterImpl implements EventCreateContract.EventCreate
 
                     @Override
                     public final void onError(Throwable e) {
-                        view.showError(e.toString());
+                        view.showError(e.toString(), -1);
                     }
 
                     @Override
@@ -73,10 +59,14 @@ public class EventCreatePresenterImpl implements EventCreateContract.EventCreate
     }
 
     @Override public String getDate(String startDate, String startTime) {
-        DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd hh mm a");
-        String all = String.format("%s %s", startDate, startTime);
-        DateTime dt = fmt.parseDateTime(all);
-        return dt.toString();
+        try {
+            DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd hh mm a");
+            String all = String.format("%s %s", startDate, startTime);
+            DateTime dt = fmt.parseDateTime(all);
+            return dt.toString();
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
     }
 
     @Override public void setStartDateTime(TextView tvStartDate, TextView tvStartTime) {
@@ -90,15 +80,8 @@ public class EventCreatePresenterImpl implements EventCreateContract.EventCreate
 
     }
 
-    @Override public void addValidationObserver(EditText etTitle,
-                                                EditText etDetails,
-                                                EditText etPlace,
-                                                EditText etGPS,
-                                                TextView tvStartDate,
-                                                TextView tvStartTime,
-                                                TextView tvEndDate,
-                                                TextView tvEndTime) {
-
+    @Override public boolean isFormValid(Event event) {
+        return new EventValidator(event, view).isValid();
     }
 }
 
