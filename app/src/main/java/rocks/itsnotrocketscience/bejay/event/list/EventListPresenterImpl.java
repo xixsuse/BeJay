@@ -61,7 +61,6 @@ public class EventListPresenterImpl implements EventListContract.EventListPresen
     public void loadEvents() {
         view.setProgressVisible(true);
         Observable.concat(Observable.just(events).filter(validEventListFilter()),
-                loadEventsFromDisk().filter(validEventListFilter()),
                 loadEventsFromNetwork().filter(validEventListFilter()))
                 .compose(newOnDestroyTransformer())
                 .first()
