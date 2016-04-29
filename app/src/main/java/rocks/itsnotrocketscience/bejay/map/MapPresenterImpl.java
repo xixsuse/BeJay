@@ -119,11 +119,15 @@ public class MapPresenterImpl implements MapContract.MapPresenter {
     protected void startIntentService() {
         Intent intent = new Intent(context, FetchAddressIntentService.class);
         intent.putExtra(Constants.RECEIVER, resultReceiver);
+        intent.putExtra(Constants.LOCATION_DATA_EXTRA, getLocation());
+        context.startService(intent);
+    }
+
+    @NonNull private Location getLocation() {
         Location location = new Location("");
         location.setLatitude(marker.getPosition().latitude);
         location.setLongitude(marker.getPosition().longitude);
-        intent.putExtra(Constants.LOCATION_DATA_EXTRA, location);
-        context.startService(intent);
+        return location;
     }
 
     protected synchronized void buildGoogleApiClient() {

@@ -18,11 +18,6 @@ import java.util.Locale;
 import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.api.Constants;
 
-/**
- * Asynchronously handles an intent using a worker thread. Receives a ResultReceiver object and a
- * location through an intent. Tries to fetch the address for the location using a Geocoder, and
- * sends the result to the ResultReceiver.
- */
 public class FetchAddressIntentService extends IntentService {
     private static final String TAG = "FetchAddressIS";
 
@@ -32,15 +27,11 @@ public class FetchAddressIntentService extends IntentService {
         super(TAG);
     }
 
-    /**
-     * Tries to get the location address using a Geocoder. If successful, sends an address to a
-     * result receiver. If unsuccessful, sends an error message instead.
-     * Note: We define a {@link android.os.ResultReceiver} in * MainActivity to process content
-     * sent from this service.
-     * <p>
-     * This service calls this method from the default worker thread with the intent that started
-     * the service. When this method returns, the service automatically stops.
-     */
+    @Override public void onDestroy() {
+        super.onDestroy();
+        resultReceiver = null;
+    }
+
     @Override
     protected void onHandleIntent(Intent intent) {
         String errorMessage = "";
