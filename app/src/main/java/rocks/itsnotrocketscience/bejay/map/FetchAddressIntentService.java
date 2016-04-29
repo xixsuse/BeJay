@@ -27,11 +27,6 @@ public class FetchAddressIntentService extends IntentService {
         super(TAG);
     }
 
-    @Override public void onDestroy() {
-        super.onDestroy();
-        resultReceiver = null;
-    }
-
     @Override
     protected void onHandleIntent(Intent intent) {
         String errorMessage = "";

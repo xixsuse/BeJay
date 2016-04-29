@@ -73,6 +73,7 @@ public class MapPresenterImpl implements MapContract.MapPresenter {
 
     @Override public void onMapClick(LatLng latLng) {
         marker.setPosition(latLng);
+        fetchAddress();
     }
 
     @Override public void onMarkerDragStart(Marker marker) {
@@ -82,6 +83,7 @@ public class MapPresenterImpl implements MapContract.MapPresenter {
     }
 
     @Override public void onMarkerDragEnd(Marker marker) {
+        fetchAddress();
     }
 
     @Override public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
@@ -103,16 +105,25 @@ public class MapPresenterImpl implements MapContract.MapPresenter {
             view.moveToCurrentLocation(latLng);
             marker = view.addMarker(new MarkerOptions().position(latLng).title("Party").draggable(true));
 
-            if (!Geocoder.isPresent()) {
-                Toast.makeText(context, R.string.no_geocoder_available, Toast.LENGTH_LONG).show();
-                return;
-            }
-            if (!addressRequested) {
-                startIntentService();
-            }
+            fetchAddress();
 
         } else {
             view.requestPermission();
+        }
+    }
+
+    private void fetchAddress() {
+        if (!Geocoder.isPresent()) {
+            Toast.makeText(context, R.string.no_geocoder_available, Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (!addressRequested) {
+            startIntentService();
+            addressRequested = true;
+        } else {
+            Intent intent = new Intent(context, FetchAddressIntentService.class);
+            context.stopService(intent);
+            startIntentService();
         }
     }
 
