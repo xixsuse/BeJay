@@ -156,12 +156,12 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
     }
 
     @Override public void showError(String error, int resource) {
-        if (resource == -1) {
-            Toast.makeText(getActivity(), error, Toast.LENGTH_LONG).show();
-        } else {
-            ((TextView) ButterKnife.findById(getActivity(), resource)).setError(error);
-        }
-        }
+        ((TextView) ButterKnife.findById(getActivity(), resource)).setError(error);
+    }
+
+    @Override public void showToastError(String error) {
+        Toast.makeText(getActivity(), error, Toast.LENGTH_LONG).show();
+    }
 
     @Override public void finish() {
         if (getActivity() != null) {

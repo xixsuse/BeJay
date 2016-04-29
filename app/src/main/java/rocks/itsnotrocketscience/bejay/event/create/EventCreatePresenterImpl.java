@@ -17,7 +17,7 @@ import rx.schedulers.Schedulers;
 /**
  * Created by sirfunkenstine on 29/03/16.
  */
-public class EventCreatePresenterImpl implements EventCreateContract.EventCreatePresenter {
+public class EventCreatePresenterImpl implements EventCreateContract.EventCreatePresenter, ValidationErrorListener {
 
     EventCreateContract.EventCreateView view;
     private final Events events;
@@ -81,7 +81,15 @@ public class EventCreatePresenterImpl implements EventCreateContract.EventCreate
     }
 
     @Override public boolean isFormValid(Event event) {
-        return new EventValidator(event, view).isValid();
+        return new EventValidator(event, this).isValid();
+    }
+
+    @Override public void onErrorFound(String error, int resource) {
+        if (resource == ValidationErrorListener.NO_RESOURCE) {
+            view.showToastError(error);
+        } else {
+            view.showError(error, resource);
+        }
     }
 }
 

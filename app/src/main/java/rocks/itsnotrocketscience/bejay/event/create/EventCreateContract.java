@@ -1,8 +1,6 @@
 package rocks.itsnotrocketscience.bejay.event.create;
 
 
-import android.location.Location;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.List;
@@ -11,12 +9,14 @@ import rocks.itsnotrocketscience.bejay.models.Event;
 
 /**
  * Created by sirfunkenstine on 29/03/16.
+ *
  */
 public class EventCreateContract {
 
     interface EventCreateView {
         void setProgressVisible(boolean visible);
         void showError(String error, int resource);
+        void showToastError(String error);
         void finish();
     }
 
