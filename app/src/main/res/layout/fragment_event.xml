@@ -9,9 +9,10 @@
              tools:context="rocks.itsnotrocketscience.bejay.event.single.EventFragment">
 
     <android.support.v7.widget.RecyclerView
+        android:layout_marginTop="30dp"
         android:id="@+id/rvSongList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content"/>
 
     <ProgressBar
         android:id="@+id/progress"

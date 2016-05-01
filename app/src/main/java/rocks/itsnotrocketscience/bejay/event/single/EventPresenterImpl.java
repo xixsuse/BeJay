@@ -53,12 +53,15 @@ public class EventPresenterImpl implements EventContract.EventPresenter {
 
     @Override
     public void loadEvent(int id) {
+        view.setProgressVisible(true);
         event.get(id)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Event>() {
                     @Override
-                    public void onCompleted() {}
+                    public void onCompleted() {
+                        view.setProgressVisible(false);
+                    }
                     @Override
                     public final void onError(Throwable e) {
                         view.showError(e.toString());

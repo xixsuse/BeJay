@@ -20,11 +20,8 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import rocks.itsnotrocketscience.bejay.R;
-import rocks.itsnotrocketscience.bejay.api.ApiManager;
-import rocks.itsnotrocketscience.bejay.api.retrofit.Events;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
 import rocks.itsnotrocketscience.bejay.dagger.ActivityComponent;
-import rocks.itsnotrocketscience.bejay.managers.AccountManager;
 import rocks.itsnotrocketscience.bejay.models.Event;
 import rocks.itsnotrocketscience.bejay.models.Song;
 import rocks.itsnotrocketscience.bejay.search.SearchActivity;
@@ -56,7 +53,6 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Ev
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        presenter.loadEvent(((EventActivity) getActivity()).getIdFromBundle());
         setupViews();
     }
 
@@ -113,6 +109,7 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Ev
         super.onResume();
         presenter.onViewAttached(this);
         presenter.registerUpdateReceiver(this.getActivity());
+        presenter.loadEvent(((EventActivity) getActivity()).getIdFromBundle());
     }
 
     @Override

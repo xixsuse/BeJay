@@ -27,6 +27,7 @@ import rocks.itsnotrocketscience.bejay.managers.Launcher;
 
 /**
  * Created by sirfunkenstine on 23/04/16.
+ *
  */
 public class MapPresenterImpl implements MapContract.MapPresenter {
 
