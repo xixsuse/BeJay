@@ -35,7 +35,6 @@ import rocks.itsnotrocketscience.bejay.models.Event;
 public class EventListFragment extends BaseFragment<ActivityComponent> implements ItemClickListener<Event>, EventListContract.EventListView {
 
     @Inject AccountManager accountManager;
-    @Inject ApiManager apiManager;
     @Inject EventListContract.EventListPresenter eventListPresenter;
     @Inject Launcher launcher;
 

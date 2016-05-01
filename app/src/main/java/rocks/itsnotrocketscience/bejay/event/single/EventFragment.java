@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -37,10 +38,8 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Ev
     static final int RC_SEARCH_TRACK = 1;
 
     @Inject EventContract.EventPresenter presenter;
-    @Inject AccountManager accountManager;
-    @Inject ApiManager apiManager;
-    @Inject Events events;
 
+    @Bind(R.id.progress) ProgressBar progressIndicator;
     @Bind(R.id.rvSongList) RecyclerView rvSongList;
     @Bind(R.id.fab) FloatingActionButton fab;
     SongListAdapter adapter;
@@ -85,9 +84,6 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Ev
         getComponent().inject(this);
         super.onCreate(savedInstanceState);
     }
-
-    @Override
-    public void setProgressVisible(boolean visible) {}
 
     @Override
     public void onEventLoaded(Event event) {
@@ -149,6 +145,15 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Ev
             default : {
                 super.onActivityResult(requestCode, resultCode, data);
             }
+        }
+    }
+
+    @Override
+    public void setProgressVisible(boolean visible) {
+        if(visible) {
+            progressIndicator.setVisibility(View.VISIBLE);
+        } else {
+            progressIndicator.setVisibility(View.GONE);
         }
     }
 }
