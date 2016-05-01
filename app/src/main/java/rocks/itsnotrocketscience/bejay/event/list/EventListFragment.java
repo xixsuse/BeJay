@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -39,6 +40,7 @@ public class EventListFragment extends BaseFragment<ActivityComponent> implement
     @Inject Launcher launcher;
 
     @Bind(R.id.rvEventList) RecyclerView recyclerView;
+    @Bind(R.id.progress) ProgressBar progressIndicator;
     @Bind(R.id.rlError) RelativeLayout rlError;
     @Bind(R.id.btnRetry) Button btnRetry;
     @Bind(R.id.fab) FloatingActionButton fab;
@@ -136,11 +138,6 @@ public class EventListFragment extends BaseFragment<ActivityComponent> implement
     }
 
     @Override
-    public void setProgressVisible(boolean visible) {
-        Toast.makeText(getActivity(), "setProgressVisible(" +visible + ")", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
     public void onEventsLoaded(List<Event> events) {
         this.eventList.clear();
         this.eventList.addAll(events);
@@ -168,6 +165,16 @@ public class EventListFragment extends BaseFragment<ActivityComponent> implement
                     eventListPresenter.checkIn(event, true);
                 })
                 .show();
+    }
+
+
+    @Override
+    public void setProgressVisible(boolean visible) {
+        if(visible) {
+            progressIndicator.setVisibility(View.VISIBLE);
+        } else {
+            progressIndicator.setVisibility(View.GONE);
+        }
     }
 
 }
