@@ -10,12 +10,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.google.android.gms.gcm.GcmPubSub;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -26,7 +26,15 @@ import rocks.itsnotrocketscience.bejay.base.InjectedActivity;
 import rocks.itsnotrocketscience.bejay.dagger.ActivityComponent;
 import rocks.itsnotrocketscience.bejay.dagger.ActivityModule;
 import rocks.itsnotrocketscience.bejay.dagger.DaggerActivityComponent;
+import rocks.itsnotrocketscience.bejay.event.manager.Event;
+import rocks.itsnotrocketscience.bejay.event.manager.EventException;
+import rocks.itsnotrocketscience.bejay.event.manager.Resolution;
+import rocks.itsnotrocketscience.bejay.event.manager.service.EventService;
 import rocks.itsnotrocketscience.bejay.gcm.RegistrationIntentService;
+
+import rocks.itsnotrocketscience.bejay.music.model.Track;
+import rx.Observable;
+import rx.subjects.PublishSubject;
 
 public class EventActivity extends InjectedActivity<ActivityComponent> {
 
@@ -43,6 +51,10 @@ public class EventActivity extends InjectedActivity<ActivityComponent> {
     ActivityModule activityModule;
     ActivityComponent activityComponent;
 
+    private EventFragment eventFragment;
+    private Event event;
+    private final PublishSubject<Boolean> onDestroy = PublishSubject.create();
+
     public EventActivity() {
         this.activityModule = new ActivityModule(this);
     }
@@ -56,7 +68,70 @@ public class EventActivity extends InjectedActivity<ActivityComponent> {
         setSupportActionBar(toolbar);
 
         subscribeToTopic();
-        showFragment(EventFragment.newInstance());
+        eventFragment = EventFragment.newInstance();
+        showFragment(eventFragment);
+        startEvent();
+    }
+
+    private void startEvent() {
+        EventService.start(this).compose(getOnDestroyTransformer()).subscribe(event -> {
+            onEventStared(event);
+        }, error -> {
+            if(isRecoverableEventError(error)) {
+                startResolution(((EventException)error).getResolution());
+            } else {
+                finish();
+            }
+        });
+    }
+
+    private void startResolution(Resolution resolution) {        //TODO: invoke injection logic
+
+        resolution.resolve(this).compose(getOnDestroyTransformer()).subscribe(resolutionResult -> {
+            switch (resolutionResult) {
+                case SUCCESS: {
+                    startEvent();
+                    break;
+                }
+                case ERROR : {
+                    finish();
+                    break;
+                }
+            }
+        });
+    }
+
+    Track newTrack(long id) {
+        Track track = new Track();
+        track.setId(Long.toString(id));
+        return track;
+    }
+
+    List<Track> newTrackList(long... ids) {
+        ArrayList<Track> trackList = new ArrayList<>();
+        for(long id : ids) {
+            trackList.add(newTrack(id));
+        }
+        return trackList;
+    }
+
+    private void onEventStared(Event event) {
+        event.getEventPlayer().start();
+        event.getEventPlayer().setPlaylist(newTrackList(87489547, 123182590, 120402256, 120572554));
+    }
+
+    protected <T> Observable.Transformer<T, T> getOnDestroyTransformer() {
+        return source -> source.takeUntil(onDestroy);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        onDestroy.onNext(true);
+    }
+
+    private boolean isRecoverableEventError(Throwable error) {
+        return error instanceof EventException && ((EventException)error).isRecoverable();
     }
 
     @Override
