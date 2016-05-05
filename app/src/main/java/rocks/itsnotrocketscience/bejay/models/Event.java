@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by centralstation on 20/08/15.
  */
-public class Event {
+public class Event implements Visitable {
 
     private int id;
     private List<Song> songs = new ArrayList<>();
@@ -136,10 +136,6 @@ public class Event {
         return place;
     }
 
-    public String latLngString() {
-        return String.format("%.4f , %.4f", lat, lng);
-    }
-
     public void setGps(LatLng gps) {
         lat = gps.latitude;
         lng = gps.longitude;
@@ -155,5 +151,9 @@ public class Event {
 
     public boolean hasEndDate() {
         return endDate != null;
+    }
+
+    @Override public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 }

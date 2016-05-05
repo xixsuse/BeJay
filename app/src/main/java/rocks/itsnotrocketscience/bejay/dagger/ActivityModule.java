@@ -18,6 +18,7 @@ import rocks.itsnotrocketscience.bejay.event.single.EventContract;
 import rocks.itsnotrocketscience.bejay.event.single.EventPresenterImpl;
 import rocks.itsnotrocketscience.bejay.managers.AccountManager;
 import rocks.itsnotrocketscience.bejay.managers.AppLauncher;
+import rocks.itsnotrocketscience.bejay.managers.DateTimeUtils;
 import rocks.itsnotrocketscience.bejay.managers.Launcher;
 import rocks.itsnotrocketscience.bejay.map.MapContract;
 import rocks.itsnotrocketscience.bejay.map.MapPresenterImpl;
@@ -47,8 +48,12 @@ public class ActivityModule {
         return new EventPresenterImpl(sharedPreferences, networkEvent);
     }
 
-    @Provides EventCreateContract.EventCreatePresenter providesEventCreatePresenter(Events networkEvent) {
-        return new EventCreatePresenterImpl(networkEvent);
+    @Provides DateTimeUtils providesDateTimeUtils(){
+        return new DateTimeUtils();
+    }
+
+    @Provides EventCreateContract.EventCreatePresenter providesEventCreatePresenter(Events networkEvent, DateTimeUtils dateTimeUtils) {
+        return new EventCreatePresenterImpl(networkEvent, dateTimeUtils);
     }
 
     @Provides MapContract.MapPresenter providesMapPresenter(Launcher launcher) {

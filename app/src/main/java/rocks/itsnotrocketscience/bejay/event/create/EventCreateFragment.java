@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,7 +16,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
-import com.jakewharton.rxbinding.widget.RxTextView;
 
 
 import javax.inject.Inject;
@@ -27,31 +25,30 @@ import butterknife.ButterKnife;
 import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
 import rocks.itsnotrocketscience.bejay.dagger.ActivityComponent;
+import rocks.itsnotrocketscience.bejay.managers.DateTimeUtils;
 import rocks.itsnotrocketscience.bejay.managers.Launcher;
 import rocks.itsnotrocketscience.bejay.map.MapActivity;
 import rocks.itsnotrocketscience.bejay.models.Event;
 import rocks.itsnotrocketscience.bejay.widgets.DatePickerDialogFragment;
 import rocks.itsnotrocketscience.bejay.widgets.DateTimeSetListener;
 import rocks.itsnotrocketscience.bejay.widgets.TimePickerDialogFragment;
-import rx.Observable;
-import rx.functions.Action1;
-import rx.functions.Func1;
 
 /**
  * Created by sirfunkenstine on 22/03/16.
+ *
  */
 public class EventCreateFragment extends BaseFragment<ActivityComponent> implements View.OnClickListener, EventCreateContract.EventCreateView, DateTimeSetListener {
 
     @Inject EventCreateContract.EventCreatePresenter presenter;
     @Inject DatePickerDialogFragment datePickerDialogFragment;
     @Inject TimePickerDialogFragment timePickerDialogFragment;
+    @Inject DateTimeUtils dateTimeUtils;
     @Inject Launcher launcher;
 
     private final static int START_DATE = 0;
     private final static int START_TIME = 1;
     private final static int END_DATE = 2;
     private final static int END_TIME = 3;
-    private Event event;
 
     @Bind(R.id.etTitle) EditText etTitle;
     @Bind(R.id.etPlace) EditText etPlace;
@@ -71,7 +68,6 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
         getComponent().inject(this);
         setRetainInstance(true);
         setHasOptionsMenu(true);
-        event = new Event();
     }
 
     @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -83,7 +79,6 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
         tvStartTime.setOnClickListener(this);
         tvEndDate.setOnClickListener(this);
         tvEndTime.setOnClickListener(this);
-        presenter.setStartDateTime(tvStartDate, tvStartTime);
         etGPS.setOnClickListener(this);
         return view;
     }
@@ -99,20 +94,22 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
 
     @Override public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_create) {
-            setEventObjectFromViews();
-            if (presenter.isFormValid(event)) {
-                presenter.postEvent(event);
-            }
+            presenter.processEvent(getEventObjectFromViews() );
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void setEventObjectFromViews() {
+    private Event getEventObjectFromViews() {
+        Event event = new Event();
         event.setPlace(etPlace.getText().toString());
         event.setDetails(etDetails.getText().toString());
         event.setTitle(etTitle.getText().toString());
-        event.setStartDate(presenter.getDate(tvStartDate.getText().toString(), tvStartTime.getText().toString()));
-        event.setEndDate(presenter.getDate(tvEndDate.getText().toString(), tvEndTime.getText().toString()));
+        event.setStartDate(dateTimeUtils.getFormattedDateTime(tvStartDate.getText().toString(), tvStartTime.getText().toString()));
+        event.setEndDate(dateTimeUtils.getFormattedDateTime(tvEndDate.getText().toString(), tvEndTime.getText().toString()));
+        Double lat = Double.valueOf(etGPS.getText().toString().split("/")[0]);
+        Double lng =  Double.valueOf(etGPS.getText().toString().split("/")[1]);
+        event.setGps(new LatLng(lat,lng));
+        return event;
     }
 
     @Override public void onDestroyView() {
@@ -163,6 +160,14 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
         Toast.makeText(getActivity(), error, Toast.LENGTH_LONG).show();
     }
 
+    @Override public void onInitialDateSet(String date) {
+        tvStartDate.setText(date);
+    }
+
+    @Override public void onInitialTimeSet(String time) {
+        tvStartTime.setText(time);
+    }
+
     @Override public void finish() {
         if (getActivity() != null) {
             Toast.makeText(getActivity(), "Event Created", Toast.LENGTH_SHORT).show();
@@ -188,11 +193,9 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
     @Override public void onDateSet(int id, String datetime) {
         switch (id) {
             case START_DATE:
-                event.setStartDate(datetime);
                 tvStartDate.setText(datetime);
                 break;
             case END_DATE:
-                event.setEndDate(datetime);
                 tvEndDate.setText(datetime);
                 break;
             case START_TIME:
@@ -210,10 +213,8 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
             etPlace.setText(data.getStringExtra(MapActivity.PLACE));
-
             LatLng latLng = data.getParcelableExtra(MapActivity.POSITION);
-            etGPS.setText(event.latLngString());
-            event.setGps(latLng);
+            etGPS.setText(String.format("%s/%s", latLng.latitude, latLng.longitude));
         }
     }
 }

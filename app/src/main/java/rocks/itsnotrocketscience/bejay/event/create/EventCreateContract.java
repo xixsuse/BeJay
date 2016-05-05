@@ -17,6 +17,8 @@ public class EventCreateContract {
         void setProgressVisible(boolean visible);
         void showError(String error, int resource);
         void showToastError(String error);
+        void onInitialDateSet(String date);
+        void onInitialTimeSet(String time);
         void finish();
     }
 
@@ -25,8 +27,9 @@ public class EventCreateContract {
         void onViewDetached();
         void onDestroy();
         void postEvent(Event event);
-        String getDate(String date, String time);
-        void setStartDateTime(TextView tvStartDate, TextView tvStartTime);
-        boolean isFormValid(Event event);
+        void fetchInitialDate();
+        void fetchInitialTime();
+        void onErrorFound(String message, int resource);
+        void processEvent(Event eventObjectFromViews);
     }
 }
