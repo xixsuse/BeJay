@@ -31,4 +31,15 @@ public class DateTimeUtils {
             return null;
         }
     }
+
+    public static String getFormattedLocalTime(int hour, int minute) {
+        DateTimeFormatter fmt = DateTimeFormat.forPattern("hh mm a");
+        DateTime dateTime = new DateTime(1,1,1,hour,minute);
+        return dateTime.toLocalTime().toString(fmt);
+    }
+
+    public static String getDate(int year, int month, int day) {
+        DateTime dateTime = new DateTime(year, month + 1, day, 0, 0);
+        return dateTime.toLocalDate().toString();
+    }
 }
