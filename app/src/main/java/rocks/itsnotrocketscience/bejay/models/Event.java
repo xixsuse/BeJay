@@ -14,23 +14,33 @@ import java.util.List;
 public class Event implements Visitable {
 
     private int id;
+    @SerializedName("songs")
     private List<Song> songs = new ArrayList<>();
+    @SerializedName("order")
     private Integer order;
+    @SerializedName("publish")
     private Boolean publish;
+    @SerializedName("creator")
     private String creator;
+    @SerializedName("uid")
     private String uid;
+    @SerializedName("created")
     private String created;
+    @SerializedName("modified")
     private String modified;
+    @SerializedName("title")
     private String title;
+    @SerializedName("appUser")
     private String appUser;
+    @SerializedName("details")
     private String details;
     @SerializedName("start_date")
     private String startDate;
-
-
     @SerializedName("end_date")
     private String endDate;
+    @SerializedName("place")
     private String place;
+    @SerializedName("lat")
     private double lat;
     @SerializedName("long")
     private double lng;
