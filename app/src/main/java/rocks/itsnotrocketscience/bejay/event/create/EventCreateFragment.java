@@ -42,7 +42,6 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
     @Inject EventCreateContract.EventCreatePresenter presenter;
     @Inject DatePickerDialogFragment datePickerDialogFragment;
     @Inject TimePickerDialogFragment timePickerDialogFragment;
-    @Inject DateTimeUtils dateTimeUtils;
     @Inject Launcher launcher;
 
     private final static int START_DATE = 0;
@@ -104,8 +103,8 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
         event.setPlace(etPlace.getText().toString());
         event.setDetails(etDetails.getText().toString());
         event.setTitle(etTitle.getText().toString());
-        event.setStartDate(dateTimeUtils.getFormattedDateTime(tvStartDate.getText().toString(), tvStartTime.getText().toString()));
-        event.setEndDate(dateTimeUtils.getFormattedDateTime(tvEndDate.getText().toString(), tvEndTime.getText().toString()));
+        event.setStartDate(DateTimeUtils.getFormattedDateTime(tvStartDate.getText().toString(), tvStartTime.getText().toString()));
+        event.setEndDate(DateTimeUtils.getFormattedDateTime(tvEndDate.getText().toString(), tvEndTime.getText().toString()));
         Double lat = Double.valueOf(etGPS.getText().toString().split("/")[0]);
         Double lng =  Double.valueOf(etGPS.getText().toString().split("/")[1]);
         event.setGps(new LatLng(lat,lng));
