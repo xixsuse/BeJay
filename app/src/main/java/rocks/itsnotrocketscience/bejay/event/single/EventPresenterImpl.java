@@ -55,7 +55,7 @@ public class EventPresenterImpl implements EventContract.EventPresenter {
     public void loadEvent(int id) {
         view.setProgressVisible(true);
         event.get(id)
-                .subscribeOn(Schedulers.newThread())
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Event>() {
                     @Override
