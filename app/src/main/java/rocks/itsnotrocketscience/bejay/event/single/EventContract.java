@@ -14,6 +14,7 @@ public interface EventContract {
         void setProgressVisible(boolean visible);
         void onEventLoaded(Event event);
         void showError(String error);
+        void showToast(String toast);
         void onSongAdded(Song event);
         void notifyItemChanged(int position);
     }
