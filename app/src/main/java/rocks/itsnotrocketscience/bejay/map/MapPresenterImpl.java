@@ -93,21 +93,17 @@ public class MapPresenterImpl implements MapContract.MapPresenter {
         fetchAddress();
     }
 
-    @Override public void onMarkerDragStart(Marker marker) {
-    }
+    @Override public void onMarkerDragStart(Marker marker) {}
 
-    @Override public void onMarkerDrag(Marker marker) {
-    }
+    @Override public void onMarkerDrag(Marker marker) {}
 
     @Override public void onMarkerDragEnd(Marker marker) {
         fetchAddress();
     }
 
-    @Override public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-    }
+    @Override public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {}
 
-    @Override public void onViewDetached() {
-    }
+    @Override public void onViewDetached() {}
 
     @Override public void onConnectionSuspended(int cause) {
         mGoogleApiClient.connect();
