@@ -67,8 +67,8 @@ public class RegistrationIntentService extends IntentService {
                 .map(graphResponse -> {
                     try {
                         return new GcmRegistrationDetails(
-                                graphResponse.getJSONObject().getString("name"),token,
-                                graphResponse.getJSONObject().getString("id")
+                                graphResponse.getJSONObject().getString("id"), token, graphResponse.getJSONObject().getString("name")
+
                         );
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -76,8 +76,12 @@ public class RegistrationIntentService extends IntentService {
                     return null;
                 })
                 .subscribe(new Subscriber<GcmRegistrationDetails>() {
-                    @Override public void onCompleted() {}
-                    @Override public void onError(Throwable e) {}
+                    @Override public void onCompleted() {
+                    }
+
+                    @Override public void onError(Throwable e) {
+                    }
+
                     @Override public void onNext(GcmRegistrationDetails details) {
                         sendRegistrationToServer(details);
                     }
@@ -92,7 +96,8 @@ public class RegistrationIntentService extends IntentService {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response>() {
-                    @Override public void onCompleted() { }
+                    @Override public void onCompleted() {
+                    }
 
                     @Override public final void onError(Throwable e) {
                         Log.d(TAG, "onError: ");
@@ -105,5 +110,4 @@ public class RegistrationIntentService extends IntentService {
                     }
                 });
     }
-
 }
