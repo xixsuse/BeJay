@@ -10,13 +10,12 @@ public class FetchAddressHandlerThread extends HandlerThread {
 
     private Handler handler;
 
-    public  FetchAddressHandlerThread( Handler handler) {
+    public  FetchAddressHandlerThread() {
         super("FetchAddressHandlerThread");
-        this.handler=handler;
     }
 
     public void postTask(Runnable task){
-        handler.postDelayed(task, 1000);
+        handler.postDelayed(task, 2500);
     }
 
     public void prepareHandler(Handler handler){

@@ -10,7 +10,6 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -39,17 +38,16 @@ public class FetchAddressTask implements Runnable {
             if (addressUtils.hasError()) {
                 Log.e(TAG, addressUtils.getErrorMessage());
             }
-            handleMessage(Constants.FAILURE_RESULT, addressUtils.getErrorMessage());
+            sendMessage(Constants.FAILURE_RESULT, addressUtils.getErrorMessage());
         } else {
-            ArrayList<String> addressFragments = addressUtils.getAddress(addresses);
-            handleMessage(Constants.SUCCESS_RESULT, TextUtils.join(System.getProperty("line.separator"), addressFragments));
+            sendMessage(Constants.SUCCESS_RESULT, TextUtils.join(System.getProperty("line.separator"), addressUtils.getAddress(addresses)));
         }
     }
 
-    private void handleMessage(int resultCode, String errorMessage) {
+    private void sendMessage(int resultCode, String errorMessage) {
         Message msg = handler.obtainMessage();
         msg.setData(getBundle(resultCode, errorMessage));
-        handler.handleMessage(msg);
+        handler.sendMessage(msg);
     }
 
     public void setLocation(Location location) {

@@ -30,14 +30,13 @@ import rocks.itsnotrocketscience.bejay.managers.Launcher;
  * Created by sirfunkenstine on 23/04/16.
  *
  */
-public class MapPresenterImpl implements MapContract.MapPresenter {
+public class MapPresenterImpl implements MapContract.MapPresenter, Handler.Callback {
 
     private MapContract.MapView view;
     private FetchAddressHandlerThread handlerThread;
     private FetchAddressTask fetchAddressTask;
     private Handler handler;
     protected GoogleApiClient mGoogleApiClient;
-    private boolean addressRequested = false;
     private final Launcher launcher;
     private final Context context;
     private String addressOutput = "";
@@ -58,16 +57,12 @@ public class MapPresenterImpl implements MapContract.MapPresenter {
 
     private void setupHandler() {
 
-        handler = new Handler(handlerThread.getLooper(), new Handler.Callback() {
-            @Override public boolean handleMessage(Message msg) {
-                addressOutput = msg.getData().getString(Constants.RESULT_DATA_KEY);
-                return true;
-            }
-        });
-        fetchAddressTask = new FetchAddressTask(context, handler);
-        handlerThread = new FetchAddressHandlerThread(handler);
-        handlerThread.prepareHandler(handler);
+        handlerThread = new FetchAddressHandlerThread();
         handlerThread.start();
+        handler = new Handler(handlerThread.getLooper(),this);
+        handlerThread.prepareHandler(handler);
+        fetchAddressTask = new FetchAddressTask(context, handler);
+
     }
 
     @Override public void onDestroy() {
@@ -157,4 +152,8 @@ public class MapPresenterImpl implements MapContract.MapPresenter {
                 .build();
     }
 
+    @Override public boolean handleMessage(Message msg) {
+        addressOutput = msg.getData().getString(Constants.RESULT_DATA_KEY);
+        return true;
+    }
 }
