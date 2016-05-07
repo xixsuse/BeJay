@@ -6,11 +6,12 @@ import android.content.SharedPreferences;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
-import com.google.android.gms.gcm.GcmPubSub;
+import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
 
-import java.io.IOException;
+import org.json.JSONException;
 
 import javax.inject.Inject;
 
@@ -20,6 +21,7 @@ import rocks.itsnotrocketscience.bejay.api.retrofit.GcmRegistration;
 import rocks.itsnotrocketscience.bejay.api.retrofit.GcmRegistrationDetails;
 import rocks.itsnotrocketscience.bejay.base.AppApplication;
 import rocks.itsnotrocketscience.bejay.managers.ServiceFactory;
+import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -49,39 +51,55 @@ public class RegistrationIntentService extends IntentService {
             String token = instanceID.getToken(getResources().getString(R.string.gcm_sender_id),
                     GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
 
-            Log.i(TAG, "GCM Registration Token: " + token);
-
-            sendRegistrationToServer(token);
-
-            sharedPreferences.edit().putBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, true).apply();
+            retrieveUserDetails(token);
             sharedPreferences.edit().putString(GCM_TOKEN, token).apply();
-
         } catch (Exception e) {
-            Log.d(TAG, "Failed to complete token refresh", e);
-
             sharedPreferences.edit().putBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false).apply();
         }
     }
 
-    private void sendRegistrationToServer(String token) {
-        GcmRegistrationDetails details = new GcmRegistrationDetails("1", token, "test");
-        GcmRegistration register = ServiceFactory.createGcmRetrofitService(GcmRegistration.class);
+    public void retrieveUserDetails(String token) {
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        GraphRequest request = new GraphRequest(accessToken, "/me");
+        Observable.just(request.executeAndWait())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(graphResponse -> {
+                    try {
+                        return new GcmRegistrationDetails(
+                                graphResponse.getJSONObject().getString("name"),token,
+                                graphResponse.getJSONObject().getString("id")
+                        );
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                })
+                .subscribe(new Subscriber<GcmRegistrationDetails>() {
+                    @Override public void onCompleted() {}
+                    @Override public void onError(Throwable e) {}
+                    @Override public void onNext(GcmRegistrationDetails details) {
+                        sendRegistrationToServer(details);
+                    }
+                });
+
+    }
+
+    private void sendRegistrationToServer(GcmRegistrationDetails details) {
+
+        GcmRegistration register = ServiceFactory.createRetrofitServiceNoAuth(GcmRegistration.class);
         register.register(details)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response>() {
-                    @Override
-                    public void onCompleted() {}
+                    @Override public void onCompleted() { }
 
-                    @Override
-                    public final void onError(Throwable e) {
+                    @Override public final void onError(Throwable e) {
                         Log.d(TAG, "onError: ");
                     }
 
-                    @Override
-                    public final void onNext(Response response) {
-                        Log.d(TAG, "registered: ");
-                        // Notify UI that registration has completed, so the progress indicator can be hidden.
+                    @Override public final void onNext(Response response) {
+                        sharedPreferences.edit().putBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, true).apply();
                         Intent registrationComplete = new Intent(QuickstartPreferences.REGISTRATION_COMPLETE);
                         LocalBroadcastManager.getInstance(RegistrationIntentService.this).sendBroadcast(registrationComplete);
                     }
