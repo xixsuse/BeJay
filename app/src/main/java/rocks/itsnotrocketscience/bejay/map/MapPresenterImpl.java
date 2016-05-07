@@ -32,19 +32,21 @@ import rocks.itsnotrocketscience.bejay.managers.Launcher;
  */
 public class MapPresenterImpl implements MapContract.MapPresenter, Handler.Callback {
 
-    private MapContract.MapView view;
-    private FetchAddressHandlerThread handlerThread;
-    private FetchAddressTask fetchAddressTask;
-    private Handler handler;
-    protected GoogleApiClient mGoogleApiClient;
+
+    private final FetchAddressHandlerThread handlerThread;
     private final Launcher launcher;
     private final Context context;
+    private FetchAddressTask fetchAddressTask;
+    protected GoogleApiClient mGoogleApiClient;
     private String addressOutput = "";
+    private MapContract.MapView view;
+    private Handler handler;
     private Marker marker;
 
-    public MapPresenterImpl(Context context, Launcher launcher) {
+    public MapPresenterImpl(Context context, Launcher launcher, FetchAddressHandlerThread handlerThread) {
         this.context = context;
         this.launcher = launcher;
+        this.handlerThread=handlerThread;
         buildGoogleApiClient();
         setupHandler();
     }
@@ -57,11 +59,10 @@ public class MapPresenterImpl implements MapContract.MapPresenter, Handler.Callb
 
     private void setupHandler() {
 
-        handlerThread = new FetchAddressHandlerThread();
         handlerThread.start();
         handler = new Handler(handlerThread.getLooper(),this);
         handlerThread.prepareHandler(handler);
-        fetchAddressTask = new FetchAddressTask(context, handler);
+        fetchAddressTask = new FetchAddressTask(context.getApplicationContext(), handler);
 
     }
 
@@ -69,6 +70,8 @@ public class MapPresenterImpl implements MapContract.MapPresenter, Handler.Callb
         view = null;
         if (mGoogleApiClient.isConnected()) {
             mGoogleApiClient.disconnect();
+            handlerThread.quit();
+            fetchAddressTask=null;
         }
     }
 

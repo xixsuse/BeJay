@@ -57,4 +57,5 @@
     <string name="no_address_found">no address found</string>
     <string name="address_found">address found</string>
     <string name="no_geocoder_available">No Geocoder Available</string>
+    <string name="map">Map</string>
 </resources>

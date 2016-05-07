@@ -74,6 +74,10 @@
             android:name=".login.LoginActivity"
             android:label="@string/title_activity_login" />
         <activity
+            android:name=".map.MapActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="@string/geo_location"/>
+        <activity
             android:name=".main.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"

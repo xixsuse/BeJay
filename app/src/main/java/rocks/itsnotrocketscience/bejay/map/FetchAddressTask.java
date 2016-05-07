@@ -16,11 +16,11 @@ import java.util.Locale;
 import rocks.itsnotrocketscience.bejay.api.Constants;
 
 public class FetchAddressTask implements Runnable {
-    private static final String TAG = "FetchAddressIS";
-    Handler handler;
-    Location location;
-    Context context;
-    AddressUtils addressUtils;
+    private static final String TAG = "FetchAddress";
+    private final Handler handler;
+    private final Context context;
+    private Location location;
+    private AddressUtils addressUtils;
 
     public FetchAddressTask(Context context, Handler handler) {
         this.handler = handler;
