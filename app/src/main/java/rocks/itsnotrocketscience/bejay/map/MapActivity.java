@@ -20,22 +20,22 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.base.InjectedActivity;
-import rocks.itsnotrocketscience.bejay.dagger.ActivityComponent;
-import rocks.itsnotrocketscience.bejay.dagger.ActivityModule;
-import rocks.itsnotrocketscience.bejay.dagger.DaggerActivityComponent;
+import rocks.itsnotrocketscience.bejay.dagger.DaggerMapComponent;
+import rocks.itsnotrocketscience.bejay.dagger.MapComponent;
+import rocks.itsnotrocketscience.bejay.dagger.MapModule;
 import rocks.itsnotrocketscience.bejay.managers.Launcher;
 
 /**
  * Created by sirfunkenstine on 25/03/16.
  *
  */
-public class MapActivity extends InjectedActivity<ActivityComponent> implements MapContract.MapView {
+public class MapActivity extends InjectedActivity<MapComponent> implements MapContract.MapView {
 
     public static final String POSITION = "position";
     public static final String PLACE = "place";
 
-    private final ActivityModule activityModule;
-    ActivityComponent activityComponent;
+    private final MapModule mapModule;
+    MapComponent activityComponent;
 
     @Inject MapContract.MapPresenter mapPresenter;
     @Inject Launcher launcher;
@@ -46,7 +46,7 @@ public class MapActivity extends InjectedActivity<ActivityComponent> implements 
     Toolbar toolbar;
 
     public MapActivity() {
-        activityModule = new ActivityModule(this);
+        mapModule = new MapModule(this);
     }
 
     @Override
@@ -96,9 +96,9 @@ public class MapActivity extends InjectedActivity<ActivityComponent> implements 
         return super.onOptionsItemSelected(item);
     }
 
-    @Override public ActivityComponent getComponent() {
-        return activityComponent = DaggerActivityComponent.builder()
-                .activityModule(activityModule)
+    @Override public MapComponent getComponent() {
+        return activityComponent = DaggerMapComponent.builder()
+                .mapModule(mapModule)
                 .appComponent(getAppComponent())
                 .build();
     }

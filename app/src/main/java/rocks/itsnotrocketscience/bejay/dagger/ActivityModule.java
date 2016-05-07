@@ -20,9 +20,6 @@ import rocks.itsnotrocketscience.bejay.managers.AccountManager;
 import rocks.itsnotrocketscience.bejay.managers.AppLauncher;
 import rocks.itsnotrocketscience.bejay.managers.DateTimeUtils;
 import rocks.itsnotrocketscience.bejay.managers.Launcher;
-import rocks.itsnotrocketscience.bejay.map.FetchAddressHandlerThread;
-import rocks.itsnotrocketscience.bejay.map.MapContract;
-import rocks.itsnotrocketscience.bejay.map.MapPresenterImpl;
 import rocks.itsnotrocketscience.bejay.search.ModelAdapter;
 import rocks.itsnotrocketscience.bejay.search.view.ModelViewFactory;
 import rocks.itsnotrocketscience.bejay.search.view.ModelViewHolderFactory;
@@ -55,14 +52,6 @@ public class ActivityModule {
 
     @Provides EventCreateContract.EventCreatePresenter providesEventCreatePresenter(Events networkEvent, DateTimeUtils dateTimeUtils) {
         return new EventCreatePresenterImpl(networkEvent, dateTimeUtils);
-    }
-
-    @Provides FetchAddressHandlerThread providesHandlerThread(){
-        return new FetchAddressHandlerThread();
-    }
-
-    @Provides MapContract.MapPresenter providesMapPresenter(Launcher launcher, FetchAddressHandlerThread fetchAddressHandlerThread) {
-        return new MapPresenterImpl(activity, launcher, fetchAddressHandlerThread);
     }
 
     @Provides DatePickerDialogFragment providesDatePicker() {

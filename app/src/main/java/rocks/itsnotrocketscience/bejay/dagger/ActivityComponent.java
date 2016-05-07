@@ -38,7 +38,6 @@ public interface ActivityComponent {
     void inject(BaseActivity baseActivity);
     void inject(EventCreateActivity eventCreateActivity);
     void inject(MainActivity mainActivity);
-    void inject(MapActivity mapActivity);
     void inject(EventListFragment eventListFragment);
     void inject(EventFragment eventFragment);
     void inject(EventCreateFragment eventFragment);
