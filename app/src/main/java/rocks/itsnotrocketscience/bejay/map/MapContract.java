@@ -1,6 +1,5 @@
 package rocks.itsnotrocketscience.bejay.map;
 
-import android.os.Handler;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -20,7 +19,7 @@ public class MapContract  {
         Marker addMarker(MarkerOptions party);
     }
 
-    public interface MapPresenter extends OnMapReadyCallback , GoogleMap.OnMapClickListener, GoogleMap.OnMarkerDragListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, Handler.Callback {
+    public interface MapPresenter extends OnMapReadyCallback , GoogleMap.OnMapClickListener, GoogleMap.OnMarkerDragListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
         void onViewAttached(MapView view);
         void onViewDetached();
         void onDestroy();
