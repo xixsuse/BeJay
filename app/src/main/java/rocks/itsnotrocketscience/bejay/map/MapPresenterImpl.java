@@ -2,16 +2,14 @@ package rocks.itsnotrocketscience.bejay.map;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.os.ResultReceiver;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -23,7 +21,6 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import rocks.itsnotrocketscience.bejay.R;
-import rocks.itsnotrocketscience.bejay.api.Constants;
 import rocks.itsnotrocketscience.bejay.managers.Launcher;
 
 /**
@@ -40,7 +37,6 @@ public class MapPresenterImpl implements MapContract.MapPresenter {
     protected GoogleApiClient mGoogleApiClient;
     private String addressOutput = "";
     private MapContract.MapView view;
-    private Handler handler;
     private Marker marker;
 
     public MapPresenterImpl(Context context, Launcher launcher, FetchAddressHandlerThread handlerThread) {
@@ -48,7 +44,6 @@ public class MapPresenterImpl implements MapContract.MapPresenter {
         this.launcher = launcher;
         this.handlerThread=handlerThread;
         buildGoogleApiClient();
-        setupHandler();
     }
 
     @Override public void onViewAttached(MapContract.MapView view) {
@@ -60,9 +55,11 @@ public class MapPresenterImpl implements MapContract.MapPresenter {
     private void setupHandler() {
 
         handlerThread.start();
-        handler = new Handler(handlerThread.getLooper(),this);
-        handlerThread.prepareHandler(handler);
-        fetchAddressTask = new FetchAddressTask(context.getApplicationContext(), handler);
+        OnAddressResolvedCallback callback = address -> {
+            addressOutput = address;
+        };
+        Handler handler = new Handler(Looper.getMainLooper());
+        fetchAddressTask = new FetchAddressTask(context.getApplicationContext(),  new HandlerOnAddressResolvedCallback(handler, callback));
 
     }
 
@@ -70,9 +67,9 @@ public class MapPresenterImpl implements MapContract.MapPresenter {
         view = null;
         if (mGoogleApiClient.isConnected()) {
             mGoogleApiClient.disconnect();
-            handlerThread.quit();
-            fetchAddressTask=null;
         }
+        handlerThread.quit();
+        fetchAddressTask=null;
     }
 
     @Override public void finish(MapActivity mapActivity) {
@@ -117,7 +114,7 @@ public class MapPresenterImpl implements MapContract.MapPresenter {
 
             view.moveToCurrentLocation(latLng);
             marker = view.addMarker(new MarkerOptions().position(latLng).title("Party").draggable(true));
-
+            setupHandler();
             fetchAddress();
 
         } else {
@@ -130,7 +127,8 @@ public class MapPresenterImpl implements MapContract.MapPresenter {
             Toast.makeText(context, R.string.no_geocoder_available, Toast.LENGTH_LONG).show();
             return;
         }
-        handler.removeCallbacks(fetchAddressTask);
+
+        handlerThread.cancelTask(fetchAddressTask);
         fetchAddressTask.setLocation(getLocation());
         handlerThread.postTask(fetchAddressTask);
     }
@@ -151,8 +149,22 @@ public class MapPresenterImpl implements MapContract.MapPresenter {
                 .build();
     }
 
-    @Override public boolean handleMessage(Message msg) {
-        addressOutput = msg.getData().getString(Constants.RESULT_DATA_KEY);
-        return true;
+    public interface OnAddressResolvedCallback {
+        void onAddressResolved(String address);
+    }
+
+    public static class HandlerOnAddressResolvedCallback implements OnAddressResolvedCallback{
+        private final Handler handler;
+        private final OnAddressResolvedCallback target;
+
+        public HandlerOnAddressResolvedCallback(Handler handler, OnAddressResolvedCallback target) {
+            this.handler = handler;
+            this.target = target;
+        }
+
+        @Override
+        public void onAddressResolved(final String address) {
+            handler.post(() -> target.onAddressResolved(address));
+        }
     }
 }

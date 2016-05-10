@@ -1,6 +1,5 @@
 package rocks.itsnotrocketscience.bejay.dagger;
 
-import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Handler;
 
@@ -9,7 +8,6 @@ import dagger.Provides;
 import rocks.itsnotrocketscience.bejay.managers.AppLauncher;
 import rocks.itsnotrocketscience.bejay.managers.Launcher;
 import rocks.itsnotrocketscience.bejay.map.FetchAddressHandlerThread;
-import rocks.itsnotrocketscience.bejay.map.FetchAddressTask;
 import rocks.itsnotrocketscience.bejay.map.MapActivity;
 import rocks.itsnotrocketscience.bejay.map.MapContract;
 import rocks.itsnotrocketscience.bejay.map.MapPresenterImpl;
@@ -34,16 +32,12 @@ public class MapModule {
         return new MapPresenterImpl(mapActivity, launcher, fetchAddressHandlerThread);
     }
 
-    @Provides FetchAddressHandlerThread providesHandlerThread(){
+    @Provides FetchAddressHandlerThread providesHandlerThread() {
         return new FetchAddressHandlerThread();
     }
 
-    @Provides Handler providesHandler(FetchAddressHandlerThread handlerThread,MapContract.MapPresenter mapPresenter ){
-        return  new  Handler(handlerThread.getLooper(),mapPresenter);
-    }
-
-    @Provides FetchAddressTask providesFetchAddress(Activity activity,Handler handler ){
-        return new FetchAddressTask(activity.getApplicationContext(), handler);
+    @Provides Handler providesHandler(FetchAddressHandlerThread handlerThread) {
+        return new Handler(handlerThread.getLooper());
     }
 
 }
