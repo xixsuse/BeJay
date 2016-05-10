@@ -28,7 +28,7 @@
     <string name="pick_song">pick song</string>
     <string name="song_list">Song List!</string>
     <string name="convert_token">convert_token</string>
-    <string name="client_id">AfCI74X2gr0LOqZ6whHyNZT1JRNn6FeELVwg5P7w </string>
+    <string name="client_id">AfCI74X2gr0LOqZ6whHyNZT1JRNn6FeELVwg5P7w</string>
     <string name="client_secret">YkVzYzh2Co8jNzpMQJg8KaJWsZy2rpsBK4DFLXChdF04Q3ddmGhw8AzVCDKIxlrP8oibmPG5kRiVJU69ti3Fd13XJACGeZ8A2D8oNLH1lD4xJtInX0vAHR7nzWKxlLRr</string>
     <string name="provider">facebook</string>
     <string name="action_title_search_tracks">Search Tracks</string>
