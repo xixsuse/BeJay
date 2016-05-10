@@ -93,6 +93,10 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Ev
         Toast.makeText(getActivity(), error, Toast.LENGTH_LONG).show();
     }
 
+    @Override public void showToast(String toast) {
+        Toast.makeText(getActivity(), toast, Toast.LENGTH_SHORT).show();
+    }
+
     @Override
     public void onSongAdded(Song song) {
         songList.add(song);

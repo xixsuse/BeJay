@@ -18,6 +18,6 @@ public interface LoginContract {
         void onViewAttached(LoginView view);
         void onViewDetached();
         void onDestroy();
-        void verifyUser(LoginResult loginResult);
+        void registerUser(LoginResult loginResult);
     }
 }

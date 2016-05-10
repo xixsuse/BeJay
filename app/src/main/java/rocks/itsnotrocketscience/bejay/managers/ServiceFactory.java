@@ -20,7 +20,7 @@ public class ServiceFactory {
         return restAdapter.create(clazz);
     }
 
-    public static <T> T createGcmRetrofitService(final Class<T> clazz) {
+    public static <T> T createRetrofitServiceNoAuth(final Class<T> clazz) {
         final RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(Constants.BASE_URL)
                 .setLogLevel(RestAdapter.LogLevel.FULL)

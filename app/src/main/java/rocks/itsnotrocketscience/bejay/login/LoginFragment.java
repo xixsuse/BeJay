@@ -17,17 +17,18 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
+import java.util.Arrays;
+
 import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
 import rocks.itsnotrocketscience.bejay.dagger.LoginComponent;
 import rocks.itsnotrocketscience.bejay.managers.Launcher;
 
-public class LoginFragment extends BaseFragment<LoginComponent> implements LoginContract.LoginView  {
+public class LoginFragment extends BaseFragment<LoginComponent> implements LoginContract.LoginView {
 
     @Bind(R.id.btLoginFacebook) LoginButton btLoginFacebook;
     @Bind(R.id.pbProgress) ProgressBar pbProgress;
@@ -101,12 +102,13 @@ public class LoginFragment extends BaseFragment<LoginComponent> implements Login
         loginPresenter.onDestroy();
     }
 
-    private void setupFacebookLoginButton( LoginButton btLoginFacebook) {
+    private void setupFacebookLoginButton(LoginButton btLoginFacebook) {
         btLoginFacebook.setFragment(this);
+        btLoginFacebook.setReadPermissions(Arrays.asList("public_profile", "email", "user_friends"));
         btLoginFacebook.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                loginPresenter.verifyUser(loginResult);
+                loginPresenter.registerUser(loginResult);
             }
             @Override
             public void onCancel() {showError("cancelled");}

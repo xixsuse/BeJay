@@ -64,7 +64,7 @@ public class EventPresenterImpl implements EventContract.EventPresenter {
                     }
                     @Override
                     public final void onError(Throwable e) {
-                        view.showError(e.toString());
+                        view.showToast(e.toString());
                     }
                     @Override
                     public final void onNext(Event response) {
@@ -83,7 +83,7 @@ public class EventPresenterImpl implements EventContract.EventPresenter {
                     public void onCompleted() {}
                     @Override
                     public final void onError(Throwable e) {
-                        view.showError(e.toString());
+                        view.showToast(e.toString());
                     }
                     @Override
                     public final void onNext(Song response) {
@@ -100,7 +100,7 @@ public class EventPresenterImpl implements EventContract.EventPresenter {
                     public void onCompleted() {}
                     @Override
                     public final void onError(Throwable e) {
-                        view.showError(e.toString());
+                        view.showToast(e.toString());
                     }
                     @Override
                     public final void onNext(Like response) {
@@ -117,7 +117,7 @@ public class EventPresenterImpl implements EventContract.EventPresenter {
                     public void onCompleted() {}
                     @Override
                     public final void onError(Throwable e) {
-                        view.showError(e.toString());
+                        view.showToast(e.toString());
                     }
                     @Override
                     public final void onNext(Like response) {
@@ -144,6 +144,7 @@ public class EventPresenterImpl implements EventContract.EventPresenter {
     public void registerUpdateReceiver(Context context) {
         Observable<Intent> observable = RxBroadcast.fromBroadcast(context, new IntentFilter(EventActivity.EVENT_RECEIVER_ID));
         subscription= observable.subscribe(s -> {
+            view.showToast("gcm message received");
             loadEvent(preferences.getInt(Constants.EVENT_PK, -1));
         });
     }
