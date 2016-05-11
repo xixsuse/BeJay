@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,6 +58,7 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
     @Bind(R.id.tvStartTime) TextView tvStartTime;
     @Bind(R.id.tvEndDate) TextView tvEndDate;
     @Bind(R.id.tvEndTime) TextView tvEndTime;
+    @Bind(R.id.radioButton) RadioButton radioButton;
 
     public static Fragment newInstance() {
         return new EventCreateFragment();
@@ -105,6 +107,7 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
         event.setTitle(etTitle.getText().toString());
         event.setStartDate(DateTimeUtils.getFormattedDateTime(tvStartDate.getText().toString(), tvStartTime.getText().toString()));
         event.setEndDate(DateTimeUtils.getFormattedDateTime(tvEndDate.getText().toString(), tvEndTime.getText().toString()));
+        event.setPublic(radioButton.isChecked());
         Double lat = Double.valueOf(etGPS.getText().toString().split("/")[0]);
         Double lng =  Double.valueOf(etGPS.getText().toString().split("/")[1]);
         event.setGps(new LatLng(lat,lng));

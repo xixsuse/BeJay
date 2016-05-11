@@ -20,6 +20,8 @@ public class Event implements Visitable {
     private Integer order;
     @SerializedName("publish")
     private Boolean publish;
+    @SerializedName("is_public")
+    private Boolean isPublic;
     @SerializedName("creator")
     private String creator;
     @SerializedName("uid")
@@ -162,5 +164,9 @@ public class Event implements Visitable {
 
     @Override public void accept(Visitor visitor) {
         visitor.visit(this);
+    }
+
+    public void setPublic(Boolean aPublic) {
+        isPublic = aPublic;
     }
 }

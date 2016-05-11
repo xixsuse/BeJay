@@ -49,7 +49,6 @@
     <string name="geo_location">Geo Location</string>
     <string name="create_facebook_event">Create Facebook Event</string>
     <string name="public_event">Public</string>
-    <string name="private_event">Private</string>
     <string name="create">Create</string>
     <string name="no_location_data_provided">no location provider</string>
     <string name="service_not_available">service not available</string>
@@ -58,4 +57,5 @@
     <string name="address_found">address found</string>
     <string name="no_geocoder_available">No Geocoder Available</string>
     <string name="map">Map</string>
+    <string name="facebook_friends_only">Facebook Friends Only</string>
 </resources>
