@@ -40,10 +40,8 @@ public class Event implements Visitable {
     private String endDate;
     @SerializedName("place")
     private String place;
-    @SerializedName("lat")
-    private double lat;
-    @SerializedName("long")
-    private double lng;
+    @SerializedName("geo_cords")
+    private String geo_cords;
 
 
     public int getId() {
@@ -147,12 +145,11 @@ public class Event implements Visitable {
     }
 
     public void setGps(LatLng gps) {
-        lat = gps.latitude;
-        lng = gps.longitude;
+        geo_cords = String.format("SRID=4326;POINT (%s %s)", gps.latitude, gps.latitude);
     }
 
     public boolean hasGps() {
-        return lat != 0 && lng != 0;
+        return geo_cords!=null;
     }
 
     public boolean hasStartTime() {
