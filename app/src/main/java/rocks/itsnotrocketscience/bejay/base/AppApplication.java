@@ -2,6 +2,7 @@ package rocks.itsnotrocketscience.bejay.base;
 
 import android.app.Application;
 
+import com.android.debug.hv.ViewServerLifecycleCallbacks;
 import com.deezer.sdk.network.connect.DeezerConnect;
 import com.deezer.sdk.player.TrackPlayer;
 import com.deezer.sdk.player.event.PlayerState;
@@ -30,6 +31,7 @@ public class AppApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        registerActivityLifecycleCallbacks(new ViewServerLifecycleCallbacks());
         appComponent = DaggerAppComponent.builder().appModule(appModule).build();
     }
 
