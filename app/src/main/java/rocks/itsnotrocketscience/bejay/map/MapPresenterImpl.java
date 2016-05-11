@@ -25,7 +25,6 @@ import rocks.itsnotrocketscience.bejay.managers.Launcher;
 
 /**
  * Created by sirfunkenstine on 23/04/16.
- *
  */
 public class MapPresenterImpl implements MapContract.MapPresenter {
 
@@ -42,7 +41,7 @@ public class MapPresenterImpl implements MapContract.MapPresenter {
     public MapPresenterImpl(Context context, Launcher launcher, FetchAddressHandlerThread handlerThread) {
         this.context = context;
         this.launcher = launcher;
-        this.handlerThread=handlerThread;
+        this.handlerThread = handlerThread;
         buildGoogleApiClient();
     }
 
@@ -59,7 +58,7 @@ public class MapPresenterImpl implements MapContract.MapPresenter {
             addressOutput = address;
         };
         Handler handler = new Handler(Looper.getMainLooper());
-        fetchAddressTask = new FetchAddressTask(context.getApplicationContext(),  new HandlerOnAddressResolvedCallback(handler, callback));
+        fetchAddressTask = new FetchAddressTask(context.getApplicationContext(), new HandlerOnAddressResolvedCallback(handler, callback));
 
     }
 
@@ -69,7 +68,7 @@ public class MapPresenterImpl implements MapContract.MapPresenter {
             mGoogleApiClient.disconnect();
         }
         handlerThread.quit();
-        fetchAddressTask=null;
+        fetchAddressTask = null;
     }
 
     @Override public void finish(MapActivity mapActivity) {
@@ -86,7 +85,7 @@ public class MapPresenterImpl implements MapContract.MapPresenter {
     }
 
     @Override public void onMapClick(LatLng latLng) {
-        marker.setPosition(latLng);
+        setMarker(latLng);
         fetchAddress();
     }
 
@@ -109,16 +108,27 @@ public class MapPresenterImpl implements MapContract.MapPresenter {
     private void setupLocation() {
         if (!mGoogleApiClient.isConnected()) return;
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            Location lastKnownLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-            LatLng latLng = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
-
-            view.moveToCurrentLocation(latLng);
-            marker = view.addMarker(new MarkerOptions().position(latLng).title("Party").draggable(true));
             setupHandler();
-            fetchAddress();
+            Location lastKnownLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            if (lastKnownLocation != null) {
+
+                LatLng latLng = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
+
+                view.moveToCurrentLocation(latLng);
+                setMarker(latLng);
+                fetchAddress();
+            }
 
         } else {
             view.requestPermission();
+        }
+    }
+
+    private void setMarker(LatLng latLng) {
+        if (marker == null) {
+            marker = view.addMarker(new MarkerOptions().position(latLng).title("Party").draggable(true));
+        } else {
+            marker.setPosition(latLng);
         }
     }
 
@@ -153,7 +163,7 @@ public class MapPresenterImpl implements MapContract.MapPresenter {
         void onAddressResolved(String address);
     }
 
-    public static class HandlerOnAddressResolvedCallback implements OnAddressResolvedCallback{
+    public static class HandlerOnAddressResolvedCallback implements OnAddressResolvedCallback {
         private final Handler handler;
         private final OnAddressResolvedCallback target;
 
