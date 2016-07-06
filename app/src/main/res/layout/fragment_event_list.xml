@@ -1,16 +1,16 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingTop="?attr/actionBarSize"
-    android:orientation="vertical"
-    tools:context="rocks.itsnotrocketscience.bejay.event.list.EventListFragment">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:orientation="vertical"
+             android:paddingTop="?attr/actionBarSize"
+             tools:context="rocks.itsnotrocketscience.bejay.event.list.EventListFragment">
 
     <android.support.v7.widget.RecyclerView
 
         android:id="@+id/rvEventList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"/>
 
     <RelativeLayout
         android:id="@+id/rlError"
@@ -29,7 +29,7 @@
             android:gravity="center"
             android:text="Cannot Load Events"
             android:textColor="@color/white"
-            android:textSize="25dp" />
+            android:textSize="25dp"/>
 
         <Button
             android:id="@+id/btnRetry"
@@ -38,9 +38,18 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/textView"
-            android:text="Try Again" />
+            android:text="Try Again"/>
 
     </RelativeLayout>
+
+    <ProgressBar
+        android:id="@+id/progress"
+        style="?attr/indeterminateProgressStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:visibility="gone"/>
 
 
     <android.support.design.widget.FloatingActionButton
@@ -49,7 +58,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
+        android:layout_gravity="right|bottom"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_action_add_track" />
+        android:src="@drawable/ic_action_add_track"/>
 
-</RelativeLayout>
+</FrameLayout>

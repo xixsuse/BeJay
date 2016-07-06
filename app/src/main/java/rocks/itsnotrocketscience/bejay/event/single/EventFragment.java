@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -19,11 +20,8 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import rocks.itsnotrocketscience.bejay.R;
-import rocks.itsnotrocketscience.bejay.api.ApiManager;
-import rocks.itsnotrocketscience.bejay.api.retrofit.Events;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
 import rocks.itsnotrocketscience.bejay.dagger.ActivityComponent;
-import rocks.itsnotrocketscience.bejay.managers.AccountManager;
 import rocks.itsnotrocketscience.bejay.models.Event;
 import rocks.itsnotrocketscience.bejay.models.Song;
 import rocks.itsnotrocketscience.bejay.search.SearchActivity;
@@ -37,10 +35,8 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Ev
     static final int RC_SEARCH_TRACK = 1;
 
     @Inject EventContract.EventPresenter presenter;
-    @Inject AccountManager accountManager;
-    @Inject ApiManager apiManager;
-    @Inject Events events;
 
+    @Bind(R.id.progress) ProgressBar progressIndicator;
     @Bind(R.id.rvSongList) RecyclerView rvSongList;
     @Bind(R.id.fab) FloatingActionButton fab;
     SongListAdapter adapter;
@@ -57,7 +53,6 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Ev
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        presenter.loadEvent(((EventActivity) getActivity()).getIdFromBundle());
         setupViews();
     }
 
@@ -85,9 +80,6 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Ev
         getComponent().inject(this);
         super.onCreate(savedInstanceState);
     }
-
-    @Override
-    public void setProgressVisible(boolean visible) {}
 
     @Override
     public void onEventLoaded(Event event) {
@@ -121,6 +113,7 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Ev
         super.onResume();
         presenter.onViewAttached(this);
         presenter.registerUpdateReceiver(this.getActivity());
+        presenter.loadEvent(((EventActivity) getActivity()).getIdFromBundle());
     }
 
     @Override
@@ -153,6 +146,15 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Ev
             default : {
                 super.onActivityResult(requestCode, resultCode, data);
             }
+        }
+    }
+
+    @Override
+    public void setProgressVisible(boolean visible) {
+        if(visible) {
+            progressIndicator.setVisibility(View.VISIBLE);
+        } else {
+            progressIndicator.setVisibility(View.GONE);
         }
     }
 }
