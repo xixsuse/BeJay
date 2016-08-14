@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -39,15 +38,21 @@ import rocks.itsnotrocketscience.bejay.view.ItemTouchHelper;
 import static android.app.SearchManager.QUERY;
 
 public class TopLevelSearchFragment extends BaseFragment implements TopLevelSearchContract.View, SearchView.OnQueryTextListener, ItemTouchHelper.OnItemClickedListener {
-    public static final String EXTRA_SECTION_SIZE = "section_size";
+    private static final String EXTRA_SECTION_SIZE = "section_size";
 
-    @Bind(R.id.search_result) RecyclerView result;
-    @Bind(R.id.progress) ProgressBar progressIndicator;
+    @Bind(R.id.search_result)
+    private RecyclerView result;
+    @Bind(R.id.progress)
+    private ProgressBar progressIndicator;
 
-    @Inject TopLevelSearchContract.Presenter presenter;
-    @Inject SectionAdapter adapter;
-    @Inject ModelViewFactory viewFactory;
-    @Inject ModelViewHolderFactory viewHolderFactory;
+    @Inject
+    private TopLevelSearchContract.Presenter presenter;
+    @Inject
+    private SectionAdapter adapter;
+    @Inject
+    private ModelViewFactory viewFactory;
+    @Inject
+    private ModelViewHolderFactory viewHolderFactory;
 
     private MenuItem searchMenuItem;
     private SearchView searchView;

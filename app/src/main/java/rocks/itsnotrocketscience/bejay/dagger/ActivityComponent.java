@@ -8,7 +8,6 @@ import dagger.Component;
 import rocks.itsnotrocketscience.bejay.base.BaseActivity;
 import rocks.itsnotrocketscience.bejay.event.create.EventCreateActivity;
 import rocks.itsnotrocketscience.bejay.event.create.EventCreateFragment;
-import rocks.itsnotrocketscience.bejay.map.MapActivity;
 import rocks.itsnotrocketscience.bejay.music.backends.deezer.restapi.Album;
 import rocks.itsnotrocketscience.bejay.music.backends.deezer.restapi.Artist;
 import rocks.itsnotrocketscience.bejay.music.backends.deezer.restapi.Playlist;

@@ -16,7 +16,8 @@ import rocks.itsnotrocketscience.bejay.gcm.RegistrationIntentService;
 
 public class MainActivity extends BaseActivity {
 
-    @Inject GcmUtils gcmUtils;
+    @Inject
+    private GcmUtils gcmUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +42,8 @@ public class MainActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
+        return id == R.id.action_settings || super.onOptionsItemSelected(item);
 
-        return super.onOptionsItemSelected(item);
     }
 
     private void setupGcm() {

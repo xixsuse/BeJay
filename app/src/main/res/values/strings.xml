@@ -60,4 +60,15 @@
     <string name="no_geocoder_available">No Geocoder Available</string>
     <string name="map">Map</string>
     <string name="facebook_friends_only">Facebook Friends Only</string>
+    <string name="next">Next</string>
+    <string name="email">email</string>
+    <string name="test_user">Test User</string>
+    <string name="today">Today</string>
+    <string name="cannot_load_events">Cannot Load Events</string>
+    <string name="likes">Likes</string>
+    <string name="test_email_gmail_com">test.email@gmail.com</string>
+    <string name="_3pm">3pm</string>
+    <string name="try_again">Try Again</string>
+    <string name="end_date">End Date</string>
+    <string name="end_time">End Time</string>
 </resources>

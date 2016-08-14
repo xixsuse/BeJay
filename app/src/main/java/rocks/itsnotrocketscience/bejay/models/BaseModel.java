@@ -3,7 +3,7 @@ package rocks.itsnotrocketscience.bejay.models;
 /**
  * Created by sirfunkenstine on 23/02/16.
  */
-public class BaseModel {
+class BaseModel {
 
     private boolean  publish;
     private String uid;

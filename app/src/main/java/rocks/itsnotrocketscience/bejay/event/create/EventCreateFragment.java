@@ -40,25 +40,38 @@ import rocks.itsnotrocketscience.bejay.widgets.TimePickerDialogFragment;
  */
 public class EventCreateFragment extends BaseFragment<ActivityComponent> implements View.OnClickListener, EventCreateContract.EventCreateView, DateTimeSetListener {
 
-    @Inject EventCreateContract.EventCreatePresenter presenter;
-    @Inject DatePickerDialogFragment datePickerDialogFragment;
-    @Inject TimePickerDialogFragment timePickerDialogFragment;
-    @Inject Launcher launcher;
+    @Inject
+    private EventCreateContract.EventCreatePresenter presenter;
+    @Inject
+    private DatePickerDialogFragment datePickerDialogFragment;
+    @Inject
+    private TimePickerDialogFragment timePickerDialogFragment;
+    @Inject
+    private Launcher launcher;
 
     private final static int START_DATE = 0;
     private final static int START_TIME = 1;
     private final static int END_DATE = 2;
     private final static int END_TIME = 3;
 
-    @Bind(R.id.etTitle) EditText etTitle;
-    @Bind(R.id.etPlace) EditText etPlace;
-    @Bind(R.id.etDetails) EditText etDetails;
-    @Bind(R.id.etGPS) EditText etGPS;
-    @Bind(R.id.tvStartDate) TextView tvStartDate;
-    @Bind(R.id.tvStartTime) TextView tvStartTime;
-    @Bind(R.id.tvEndDate) TextView tvEndDate;
-    @Bind(R.id.tvEndTime) TextView tvEndTime;
-    @Bind(R.id.radioButton) RadioButton radioButton;
+    @Bind(R.id.etTitle)
+    private EditText etTitle;
+    @Bind(R.id.etPlace)
+    private EditText etPlace;
+    @Bind(R.id.etDetails)
+    private EditText etDetails;
+    @Bind(R.id.etGPS)
+    private EditText etGPS;
+    @Bind(R.id.tvStartDate)
+    private TextView tvStartDate;
+    @Bind(R.id.tvStartTime)
+    private TextView tvStartTime;
+    @Bind(R.id.tvEndDate)
+    private TextView tvEndDate;
+    @Bind(R.id.tvEndTime)
+    private TextView tvEndTime;
+    @Bind(R.id.radioButton)
+    private RadioButton radioButton;
 
     public static Fragment newInstance() {
         return new EventCreateFragment();

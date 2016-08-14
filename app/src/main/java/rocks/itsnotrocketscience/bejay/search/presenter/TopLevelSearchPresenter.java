@@ -10,7 +10,7 @@ import rx.android.schedulers.AndroidSchedulers;
 
 public class TopLevelSearchPresenter extends PresenterBase<TopLevelSearchContract.View> implements TopLevelSearchContract.Presenter{
 
-    private Api.Search api;
+    private final Api.Search api;
 
 
     @Inject

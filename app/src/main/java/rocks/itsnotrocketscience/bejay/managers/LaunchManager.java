@@ -5,7 +5,7 @@ import rocks.itsnotrocketscience.bejay.R;
 /**
  * Created by centralstation on 27/10/15.
  */
-public class LaunchManager {
+class LaunchManager {
 
     public LaunchManager() {
     }

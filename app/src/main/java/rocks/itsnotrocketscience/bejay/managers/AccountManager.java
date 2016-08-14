@@ -17,14 +17,14 @@ public class AccountManager {
 
     public static final int EVENT_NONE = -1;
 
-    SharedPreferences sharedPreferences;
+    private final SharedPreferences sharedPreferences;
 
     public AccountManager(SharedPreferences sharedPreferences) {
         this.sharedPreferences = sharedPreferences;
 
     }
 
-    public String getAuthToken() {
+    private String getAuthToken() {
         return sharedPreferences.getString(Constants.TOKEN, "");
     }
 

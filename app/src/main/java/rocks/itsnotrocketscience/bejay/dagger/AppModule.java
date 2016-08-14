@@ -34,7 +34,7 @@ import rocks.itsnotrocketscience.bejay.managers.AccountManager;
 @Module
 public class AppModule {
 
-    Application application;
+    private final Application application;
 
     public AppModule(Application application) {
         this.application = application;

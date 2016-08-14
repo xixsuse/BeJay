@@ -4,7 +4,6 @@ import retrofit.client.Response;
 import retrofit.http.Body;
 import retrofit.http.Headers;
 import retrofit.http.POST;
-import retrofit.http.Path;
 import rx.Observable;
 
 /**

@@ -14,10 +14,11 @@ import rocks.itsnotrocketscience.bejay.dagger.DaggerActivityComponent;
 
 public class EventCreateActivity extends InjectedActivity<ActivityComponent> {
 
-    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.toolbar)
+    private Toolbar toolbar;
 
-    ActivityModule activityModule;
-    ActivityComponent activityComponent;
+    private final ActivityModule activityModule;
+    private ActivityComponent activityComponent;
 
     public EventCreateActivity() {
         this.activityModule = new ActivityModule(this);

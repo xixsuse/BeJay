@@ -27,7 +27,7 @@
         android:paddingBottom="8dip"
         android:paddingRight="8dip"
         android:paddingTop="8dip"
-        android:text="Today"/>
+        android:text="@string/today"/>
 
     <TextView
         android:id="@+id/tvStartTime"
@@ -37,7 +37,7 @@
         android:layout_toEndOf="@+id/tvStartDate"
         android:layout_toRightOf="@+id/tvStartDate"
         android:padding="8dip"
-        android:text="3pm"/>
+        android:text="@string/_3pm"/>
 
 
     <TextView
@@ -53,7 +53,7 @@
         android:paddingLeft="26dip"
         android:paddingRight="8dip"
         android:paddingTop="8dip"
-        android:text="End Date"/>
+        android:text="@string/end_date"/>
 
     <TextView
         android:id="@+id/tvEndTime"
@@ -63,7 +63,7 @@
         android:layout_toEndOf="@+id/tvStartDate"
         android:layout_toRightOf="@+id/tvStartDate"
         android:padding="8dip"
-        android:text="End Time"/>
+        android:text="@string/end_time"/>
 
     <EditText
         android:id="@+id/etDetails"

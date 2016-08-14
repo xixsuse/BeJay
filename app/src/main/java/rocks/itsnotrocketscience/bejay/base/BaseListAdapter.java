@@ -12,10 +12,10 @@ import rocks.itsnotrocketscience.bejay.event.list.ViewHolderClickListener;
  * Created by centralstation on 17/09/15.
  */
 public abstract class BaseListAdapter<T> extends RecyclerView.Adapter<BaseViewHolder> implements ViewHolderClickListener {
-    protected List<T> items;
-    ItemClickListener<T> clickListener;
+    protected final List<T> items;
+    private ItemClickListener<T> clickListener;
 
-    public BaseListAdapter(List<T> items) {
+    protected BaseListAdapter(List<T> items) {
         this.items = items;
     }
 

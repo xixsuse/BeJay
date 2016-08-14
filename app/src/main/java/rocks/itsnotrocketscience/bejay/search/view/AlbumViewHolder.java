@@ -16,13 +16,16 @@ import rocks.itsnotrocketscience.bejay.music.model.Album;
 import rocks.itsnotrocketscience.bejay.music.model.Artist;
 
 public class AlbumViewHolder extends ModelViewHolder<Album> {
-    @Inject Picasso picasso;
-    @Inject Resources resources;
-    @Inject Transformation transformation;
+    @Inject
+    private Picasso picasso;
+    @Inject
+    private Resources resources;
+    @Inject
+    private Transformation transformation;
 
-    private TextView title;
-    private TextView artist;
-    private ImageView cover;
+    private final TextView title;
+    private final TextView artist;
+    private final ImageView cover;
 
 
     public AlbumViewHolder(View itemView) {

@@ -8,7 +8,6 @@ import rocks.itsnotrocketscience.bejay.search.contract.PresenterBase;
 import rocks.itsnotrocketscience.bejay.search.contract.SearchContract;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func2;
-import rx.subjects.PublishSubject;
 
 /**
  * Created by nemi on 20/02/2016.

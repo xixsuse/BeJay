@@ -6,7 +6,7 @@ import android.view.View;
 import rocks.itsnotrocketscience.bejay.music.model.Model;
 
 public abstract class ModelViewHolder<M extends Model> extends RecyclerView.ViewHolder {
-    public ModelViewHolder(View itemView) {
+    ModelViewHolder(View itemView) {
         super(itemView);
     }
 

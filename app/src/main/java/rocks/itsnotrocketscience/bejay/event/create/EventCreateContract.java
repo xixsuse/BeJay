@@ -1,10 +1,6 @@
 package rocks.itsnotrocketscience.bejay.event.create;
 
 
-import android.widget.TextView;
-
-import java.util.List;
-
 import rocks.itsnotrocketscience.bejay.models.Event;
 
 /**

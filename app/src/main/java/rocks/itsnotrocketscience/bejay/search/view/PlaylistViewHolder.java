@@ -17,11 +17,13 @@ import rocks.itsnotrocketscience.bejay.music.model.Playlist;
 public class PlaylistViewHolder extends ModelViewHolder<Playlist> {
 
     @Inject Resources resources;
-    @Inject Picasso picasso;
-    @Inject Transformation transformation;
+    @Inject
+    private Picasso picasso;
+    @Inject
+    private Transformation transformation;
 
-    public TextView title;
-    public ImageView picture;
+    private final TextView title;
+    private final ImageView picture;
 
     public PlaylistViewHolder(View itemView) {
         super(itemView);

@@ -18,7 +18,7 @@ import rocks.itsnotrocketscience.bejay.managers.DateTimeUtils;
  */
 public class DatePickerDialogFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
-    DateTimeSetListener dateSetListener;
+    private DateTimeSetListener dateSetListener;
     private int id = -1;
 
     @Inject public DatePickerDialogFragment() {}

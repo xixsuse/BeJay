@@ -18,11 +18,11 @@ import rx.functions.Func1;
  */
 public class ApiManager extends RetrofitListeners {
 
-    static final int DEFAULT_RETRY_COUNT = 3;
+    private static final int DEFAULT_RETRY_COUNT = 3;
 
-    RestAdapter restAdapter;
-    AppApplication application;
-    AccountManager accountManager;
+    private final RestAdapter restAdapter;
+    private final AppApplication application;
+    private final AccountManager accountManager;
 
     public ApiManager(Context context, AccountManager accountManager) {
 

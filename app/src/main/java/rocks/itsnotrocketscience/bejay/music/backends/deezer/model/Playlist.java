@@ -2,10 +2,6 @@ package rocks.itsnotrocketscience.bejay.music.backends.deezer.model;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
-import rocks.itsnotrocketscience.bejay.music.backends.deezer.api.Deezer;
-
 import static rocks.itsnotrocketscience.bejay.music.backends.deezer.api.Deezer.ID;
 import static rocks.itsnotrocketscience.bejay.music.backends.deezer.api.Deezer.LINK;
 import static rocks.itsnotrocketscience.bejay.music.backends.deezer.api.Deezer.NUMBER_OF_TRACKS;

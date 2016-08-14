@@ -33,7 +33,7 @@ public class MapPresenterImpl implements MapContract.MapPresenter {
     private final Launcher launcher;
     private final Context context;
     private FetchAddressTask fetchAddressTask;
-    protected GoogleApiClient mGoogleApiClient;
+    private GoogleApiClient mGoogleApiClient;
     private String addressOutput = "";
     private MapContract.MapView view;
     private Marker marker;
@@ -151,7 +151,7 @@ public class MapPresenterImpl implements MapContract.MapPresenter {
         return location;
     }
 
-    protected synchronized void buildGoogleApiClient() {
+    private synchronized void buildGoogleApiClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(context)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)

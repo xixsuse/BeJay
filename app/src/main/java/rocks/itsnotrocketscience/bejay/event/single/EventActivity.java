@@ -10,8 +10,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.google.android.gms.gcm.GcmPubSub;
 
@@ -32,16 +30,18 @@ public class EventActivity extends InjectedActivity<ActivityComponent> {
 
     private static final String TAG = "EventActivity";
     public static final String EVENT_RECEIVER_ID = "event_receiver_id";
-    public static String EVENT_ID = "url_extra";
+    public static final String EVENT_ID = "url_extra";
 
-    @Inject SharedPreferences sharedPreferences;
+    @Inject
+    private SharedPreferences sharedPreferences;
 
     @Bind(R.id.coordinator_layout) CoordinatorLayout coordinatorLayout;
-    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.toolbar)
+    private Toolbar toolbar;
     @Bind(R.id.app_bar_layout) AppBarLayout appBarLayout;
 
-    ActivityModule activityModule;
-    ActivityComponent activityComponent;
+    private final ActivityModule activityModule;
+    private ActivityComponent activityComponent;
 
     public EventActivity() {
         this.activityModule = new ActivityModule(this);
@@ -76,7 +76,7 @@ public class EventActivity extends InjectedActivity<ActivityComponent> {
         toolbar.setTitle(title);
     }
 
-    public void showFragment(Fragment fragment) {
+    private void showFragment(Fragment fragment) {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = manager.beginTransaction();
         fragmentTransaction.replace(R.id.container, fragment);

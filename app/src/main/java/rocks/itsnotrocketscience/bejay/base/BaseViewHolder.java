@@ -11,7 +11,7 @@ import rocks.itsnotrocketscience.bejay.event.list.ViewHolderClickListener;
 public abstract class BaseViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     private ViewHolderClickListener clickListener;
 
-    public BaseViewHolder(View itemView) {
+    protected BaseViewHolder(View itemView) {
         super(itemView);
     }
 

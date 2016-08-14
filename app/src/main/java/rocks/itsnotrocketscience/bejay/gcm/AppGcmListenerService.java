@@ -2,7 +2,6 @@ package rocks.itsnotrocketscience.bejay.gcm;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.google.android.gms.gcm.GcmListenerService;
 

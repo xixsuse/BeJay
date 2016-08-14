@@ -3,14 +3,13 @@ package rocks.itsnotrocketscience.bejay.map;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddressUtils {
+class AddressUtils {
     private final String TAG = this.getClass().getSimpleName();
     private String errorMessage = null;
 
@@ -28,14 +27,14 @@ public class AddressUtils {
         return addresses;
     }
 
-    public List<Address> getAddressesFromLocation(Geocoder geocoder, Location location) throws IOException {
+    private List<Address> getAddressesFromLocation(Geocoder geocoder, Location location) throws IOException {
         return geocoder.getFromLocation(
                 location.getLatitude(),
                 location.getLongitude(),
                 1);
     }
 
-    protected ArrayList<String> getAddress(List<Address> addresses) {
+    ArrayList<String> getAddress(List<Address> addresses) {
         Address address = addresses.get(0);
         ArrayList<String> addressFragments = new ArrayList<>();
 

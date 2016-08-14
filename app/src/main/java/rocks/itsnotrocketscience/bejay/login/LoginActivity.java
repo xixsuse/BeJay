@@ -1,9 +1,6 @@
 package rocks.itsnotrocketscience.bejay.login;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -14,8 +11,8 @@ import rocks.itsnotrocketscience.bejay.dagger.LoginComponent;
 import rocks.itsnotrocketscience.bejay.dagger.LoginModule;
 
 public class LoginActivity extends InjectedActivity<LoginComponent> {
-    LoginModule loginModule;
-    LoginComponent loginComponent;
+    private final LoginModule loginModule;
+    private LoginComponent loginComponent;
 
     public LoginActivity() {
         this.loginModule = new LoginModule(this);
@@ -51,11 +48,8 @@ public class LoginActivity extends InjectedActivity<LoginComponent> {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
+        return id == R.id.action_settings || super.onOptionsItemSelected(item);
 
-        return super.onOptionsItemSelected(item);
     }
 
 }

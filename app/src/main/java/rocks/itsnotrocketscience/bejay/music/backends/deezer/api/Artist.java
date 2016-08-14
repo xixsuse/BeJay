@@ -18,7 +18,7 @@ import rx.subjects.BehaviorSubject;
 import static rocks.itsnotrocketscience.bejay.music.backends.deezer.api.Deezer.INDEX;
 
 public class Artist implements Api.Artist {
-    private rocks.itsnotrocketscience.bejay.music.backends.deezer.restapi.Artist api;
+    private final rocks.itsnotrocketscience.bejay.music.backends.deezer.restapi.Artist api;
 
     @Inject
     public Artist(rocks.itsnotrocketscience.bejay.music.backends.deezer.restapi.Artist api) {
@@ -30,7 +30,7 @@ public class Artist implements Api.Artist {
         return api.top(Long.valueOf(id)) // get top tracks from deezer api
                 .flatMap( trackCollection -> Observable.from(trackCollection.getData())) // emmit each item in the collection one at a time
                 .map(track -> ModelMapper.map(track)) // map to local model
-                .collect(() -> new ArrayList<Track>(), (topTracks, track) -> topTracks.add(track)); // collection result
+                .collect(() -> new ArrayList<>(), (topTracks, track) -> topTracks.add(track)); // collection result
     }
 
     @Override
@@ -51,7 +51,7 @@ public class Artist implements Api.Artist {
             }
         }).flatMap(albumPageResponse -> Observable.from(albumPageResponse.getData()))
                 .map(album -> ModelMapper.map(album))
-                .collect(() -> new ArrayList<Album>(), (albums, album) -> albums.add(album));
+                .collect(() -> new ArrayList<>(), (albums, album) -> albums.add(album));
     }
 
     @Override

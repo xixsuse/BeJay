@@ -13,11 +13,13 @@ import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.music.model.Artist;
 
 public class ArtistViewHolder extends ModelViewHolder<Artist> {
-    @Inject Picasso picasso;
-    @Inject Transformation transformation;
+    @Inject
+    private Picasso picasso;
+    @Inject
+    private Transformation transformation;
 
-    private TextView name;
-    private ImageView picture;
+    private final TextView name;
+    private final ImageView picture;
 
     public ArtistViewHolder(View itemView) {
         super(itemView);

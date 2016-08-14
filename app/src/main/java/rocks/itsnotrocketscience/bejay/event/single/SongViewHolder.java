@@ -13,9 +13,9 @@ import rocks.itsnotrocketscience.bejay.base.BaseViewHolder;
 public class SongViewHolder extends BaseViewHolder {
 
     public static final int SONG_LIST_ITEM_LAYOUT = R.layout.card_song;
-    TextView tvSongTitle;
-    TextView tvLikesCount;
-    CircleButton btnLikeSong;
+    final TextView tvSongTitle;
+    final TextView tvLikesCount;
+    final CircleButton btnLikeSong;
 
     public SongViewHolder(View v) {
         super(v);

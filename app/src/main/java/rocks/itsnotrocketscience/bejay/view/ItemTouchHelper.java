@@ -11,17 +11,17 @@ import android.view.View;
  */
 public class ItemTouchHelper {
 
-    private GestureDetector gestureDetector;
-    private ItemTouchGestureListener itemTouchGestureListener;
+    private final GestureDetector gestureDetector;
+    private final ItemTouchGestureListener itemTouchGestureListener;
     private OnItemClickedListener onItemClickedListener;
-    private RecyclerView.OnItemTouchListener itemTouchListener;
+    private final RecyclerView.OnItemTouchListener itemTouchListener;
     private RecyclerView recyclerView;
 
     public interface OnItemClickedListener {
         void onItemClicked(RecyclerView recyclerView, int adapterPosition);
     }
 
-    class ItemTouchGestureListener extends GestureDetector.SimpleOnGestureListener {
+    private class ItemTouchGestureListener extends GestureDetector.SimpleOnGestureListener {
         @Override
         public boolean onSingleTapConfirmed(MotionEvent e) {
             if(onItemClickedListener != null) {
@@ -39,7 +39,7 @@ public class ItemTouchHelper {
         }
     }
 
-    class ItemTouchListener extends RecyclerView.SimpleOnItemTouchListener {
+    private class ItemTouchListener extends RecyclerView.SimpleOnItemTouchListener {
         @Override
         public void onTouchEvent(RecyclerView rv, MotionEvent e) {
             gestureDetector.onTouchEvent(e);

@@ -30,7 +30,7 @@ public class AppLauncher implements Launcher {
         this.sharedPreferences = sharedPreferences;
     }
 
-    public void showFragment(Fragment fragment) {
+    private void showFragment(Fragment fragment) {
         FragmentManager manager = activity.getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = manager.beginTransaction();
         fragmentTransaction.replace(R.id.container, fragment);

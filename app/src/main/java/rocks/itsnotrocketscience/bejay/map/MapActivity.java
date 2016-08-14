@@ -35,14 +35,16 @@ public class MapActivity extends InjectedActivity<MapComponent> implements MapCo
     public static final String PLACE = "place";
 
     private final MapModule mapModule;
-    MapComponent activityComponent;
+    private MapComponent activityComponent;
 
-    @Inject MapContract.MapPresenter mapPresenter;
+    @Inject
+    private MapContract.MapPresenter mapPresenter;
     @Inject Launcher launcher;
 
     private GoogleMap googleMap;
 
     @Bind(R.id.toolbar)
+    private
     Toolbar toolbar;
 
     public MapActivity() {

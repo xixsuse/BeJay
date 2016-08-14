@@ -23,19 +23,19 @@ import rocks.itsnotrocketscience.bejay.api.Constants;
 import rocks.itsnotrocketscience.bejay.base.BaseActivity;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
 import rocks.itsnotrocketscience.bejay.dagger.ActivityComponent;
-import rocks.itsnotrocketscience.bejay.home.HomeFragment;
 import rocks.itsnotrocketscience.bejay.managers.AccountManager;
-import rocks.itsnotrocketscience.bejay.managers.LaunchManager;
 import rocks.itsnotrocketscience.bejay.managers.Launcher;
-import rocks.itsnotrocketscience.bejay.profile.ProfileFragment;
 
 public class NavigationDrawerFragment extends BaseFragment<ActivityComponent> {
 
     private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
     private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
-    @Inject SharedPreferences sharedPreferences;
-    @Inject AccountManager accountManager;
-    @Inject Launcher launcher;
+    @Inject
+    private SharedPreferences sharedPreferences;
+    @Inject
+    private AccountManager accountManager;
+    @Inject
+    private Launcher launcher;
     private ActionBarDrawerToggle mDrawerToggle;
 
     private DrawerLayout drawerLayout;
@@ -189,7 +189,7 @@ public class NavigationDrawerFragment extends BaseFragment<ActivityComponent> {
 
     }
 
-    public void setupHeader() {
+    private void setupHeader() {
         View view = navigationView.inflateHeaderView(R.layout.header);
 
         TextView name = (TextView) view.findViewById(R.id.tvUsername);

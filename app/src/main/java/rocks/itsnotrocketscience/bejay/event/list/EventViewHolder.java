@@ -13,8 +13,8 @@ import rocks.itsnotrocketscience.bejay.base.BaseViewHolder;
 public class EventViewHolder extends BaseViewHolder {
 
     public static final int EVENT_LIST_ITEM_LAYOUT = R.layout.card_event;
-    TextView tvTitle;
-    CircleButton btnCheckIn;
+    final TextView tvTitle;
+    private final CircleButton btnCheckIn;
 
     public EventViewHolder(View v) {
         super(v);

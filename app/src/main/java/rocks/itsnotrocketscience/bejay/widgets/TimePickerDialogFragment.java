@@ -18,7 +18,7 @@ import rocks.itsnotrocketscience.bejay.managers.DateTimeUtils;
  */
 public class TimePickerDialogFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
 
-    DateTimeSetListener dateSetListener;
+    private DateTimeSetListener dateSetListener;
     private int id = -1;
 
     @Override public void onTimeSet(TimePicker view, int hour, int minute) {

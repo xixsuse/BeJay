@@ -8,8 +8,8 @@ import rocks.itsnotrocketscience.bejay.R;
  * Created by sirfunkenstine on 04/05/16.
  */
 public class EventVisitor implements Visitor {
-    public static int NO_RESOURCE = -1;
-    boolean hasError = false;
+    public static final int NO_RESOURCE = -1;
+    private boolean hasError = false;
     private int resource;
     private String message;
 

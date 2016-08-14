@@ -3,7 +3,6 @@ package rocks.itsnotrocketscience.bejay.api;
 import java.util.ArrayList;
 import java.util.Map;
 
-import retrofit.client.Response;
 import retrofit.http.Body;
 import retrofit.http.Path;
 import retrofit.http.Query;

@@ -23,7 +23,7 @@ import static rocks.itsnotrocketscience.bejay.managers.AccountManager.EVENT_NONE
  *
  */
 public class EventListPresenterImpl implements EventListContract.EventListPresenter {
-    static final Func1<List<Event>, Boolean> VALID_EVENT_LIST_FILTER = events -> events != null && events.size() != 0;
+    private static final Func1<List<Event>, Boolean> VALID_EVENT_LIST_FILTER = events -> events != null && events.size() != 0;
 
 
     private final EventsDao eventsDao;

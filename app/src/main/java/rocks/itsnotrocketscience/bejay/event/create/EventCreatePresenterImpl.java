@@ -15,7 +15,7 @@ import rx.schedulers.Schedulers;
  */
 public class EventCreatePresenterImpl implements EventCreateContract.EventCreatePresenter{
 
-    EventCreateContract.EventCreateView view;
+    private EventCreateContract.EventCreateView view;
     private final Events events;
     private final DateTimeUtils dateTimeUtils;
 

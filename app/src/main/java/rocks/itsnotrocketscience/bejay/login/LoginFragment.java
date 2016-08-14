@@ -30,11 +30,16 @@ import rocks.itsnotrocketscience.bejay.managers.Launcher;
 
 public class LoginFragment extends BaseFragment<LoginComponent> implements LoginContract.LoginView {
 
-    @Bind(R.id.btLoginFacebook) LoginButton btLoginFacebook;
-    @Bind(R.id.pbProgress) ProgressBar pbProgress;
-    @Inject LoginContract.LoginPresenter loginPresenter;
-    @Inject Launcher launcher;
-    @Inject CallbackManager callbackManager;
+    @Bind(R.id.btLoginFacebook)
+    private LoginButton btLoginFacebook;
+    @Bind(R.id.pbProgress)
+    private ProgressBar pbProgress;
+    @Inject
+    private LoginContract.LoginPresenter loginPresenter;
+    @Inject
+    private Launcher launcher;
+    @Inject
+    private CallbackManager callbackManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

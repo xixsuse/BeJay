@@ -85,7 +85,7 @@ public class Playlist extends Model implements Parcelable {
         }
 
         if(numberOfTracks == null) {
-            dest.writeLong(-1l);
+            dest.writeLong(-1L);
         } else {
             dest.writeLong(numberOfTracks);
         }

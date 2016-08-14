@@ -13,7 +13,7 @@ import rocks.itsnotrocketscience.bejay.models.Song;
 /**
  * Created by centralstation on 17/09/15.
  */
-public class SongListAdapter extends BaseListAdapter<Song> {
+class SongListAdapter extends BaseListAdapter<Song> {
 
     public SongListAdapter(List<Song> eventList) {
         super(eventList);

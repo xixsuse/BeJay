@@ -68,7 +68,7 @@ public class ModelMapper {
         return null;
     }
 
-    public static List<rocks.itsnotrocketscience.bejay.music.model.Track> map(Collection<rocks.itsnotrocketscience.bejay.music.backends.deezer.model.Track> deezerTracks) {
+    private static List<rocks.itsnotrocketscience.bejay.music.model.Track> map(Collection<rocks.itsnotrocketscience.bejay.music.backends.deezer.model.Track> deezerTracks) {
         if(deezerTracks != null && deezerTracks.getData() != null) {
             List<rocks.itsnotrocketscience.bejay.music.model.Track> tracks = new ArrayList<>();
             for(rocks.itsnotrocketscience.bejay.music.backends.deezer.model.Track deezerTrack : deezerTracks.getData()) {

@@ -12,9 +12,9 @@ import rocks.itsnotrocketscience.bejay.base.BaseActivity;
  */
 public class FragmentNavItem implements NavItem {
 
-    Fragment fragment;
-    String title;
-    Context context;
+    private final Fragment fragment;
+    private final String title;
+    private final Context context;
 
     public FragmentNavItem(Context context, String title, Fragment fragment) {
         this.title = title;

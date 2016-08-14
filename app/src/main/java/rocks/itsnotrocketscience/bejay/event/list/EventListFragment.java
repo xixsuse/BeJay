@@ -2,7 +2,6 @@ package rocks.itsnotrocketscience.bejay.event.list;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,7 +23,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import rocks.itsnotrocketscience.bejay.R;
-import rocks.itsnotrocketscience.bejay.api.ApiManager;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
 import rocks.itsnotrocketscience.bejay.dagger.ActivityComponent;
 import rocks.itsnotrocketscience.bejay.event.list.EventListContract.EventListPresenter.CheckInError;
@@ -34,17 +32,24 @@ import rocks.itsnotrocketscience.bejay.models.Event;
 
 public class EventListFragment extends BaseFragment<ActivityComponent> implements ItemClickListener<Event>, EventListContract.EventListView {
 
-    @Inject AccountManager accountManager;
-    @Inject EventListContract.EventListPresenter eventListPresenter;
-    @Inject Launcher launcher;
+    @Inject
+    private AccountManager accountManager;
+    @Inject
+    private EventListContract.EventListPresenter eventListPresenter;
+    @Inject
+    private Launcher launcher;
 
-    @Bind(R.id.rvEventList) RecyclerView recyclerView;
-    @Bind(R.id.progress) ProgressBar progressIndicator;
-    @Bind(R.id.rlError) RelativeLayout rlError;
+    @Bind(R.id.rvEventList)
+    private RecyclerView recyclerView;
+    @Bind(R.id.progress)
+    private ProgressBar progressIndicator;
+    @Bind(R.id.rlError)
+    private RelativeLayout rlError;
     @Bind(R.id.btnRetry) Button btnRetry;
-    @Bind(R.id.fab) FloatingActionButton fab;
-    EventListAdapter adapter;
-    List<Event> eventList;
+    @Bind(R.id.fab)
+    private FloatingActionButton fab;
+    private EventListAdapter adapter;
+    private List<Event> eventList;
 
     public static Fragment newInstance() {
         return new EventListFragment();
@@ -107,7 +112,7 @@ public class EventListFragment extends BaseFragment<ActivityComponent> implement
     }
 
     @OnClick(R.id.btnRetry)
-    public void getFeed() {
+    private void getFeed() {
         rlError.setVisibility(View.GONE);
         eventListPresenter.loadEvents();
     }

@@ -12,7 +12,7 @@ import static rocks.itsnotrocketscience.bejay.music.backends.deezer.api.Deezer.P
 /**
  * Created by nemi on 20/02/2016.
  */
-public class Genre {
+class Genre {
     @SerializedName(ID) private Long id;
     @SerializedName(NAME) private String name;
     @SerializedName(PICTURE) private String picture;

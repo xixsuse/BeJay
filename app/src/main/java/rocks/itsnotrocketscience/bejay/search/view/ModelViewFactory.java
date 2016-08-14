@@ -10,7 +10,7 @@ import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.music.model.Model;
 
 public class ModelViewFactory {
-    private LayoutInflater inflater;
+    private final LayoutInflater inflater;
 
     @Inject
     public ModelViewFactory(LayoutInflater inflater) {

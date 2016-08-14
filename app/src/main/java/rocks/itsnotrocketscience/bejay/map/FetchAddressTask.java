@@ -10,12 +10,12 @@ import android.util.Log;
 import java.util.List;
 import java.util.Locale;
 
-public class FetchAddressTask implements Runnable {
+class FetchAddressTask implements Runnable {
     private static final String TAG = "FetchAddress";
     private final Context context;
     private Location location;
-    private AddressUtils addressUtils;
-    private MapPresenterImpl.OnAddressResolvedCallback onAddressResolvedCallback;
+    private final AddressUtils addressUtils;
+    private final MapPresenterImpl.OnAddressResolvedCallback onAddressResolvedCallback;
 
     public FetchAddressTask(Context context, MapPresenterImpl.OnAddressResolvedCallback onAddressResolvedCallback) {
         this.context = context;

@@ -32,15 +32,19 @@ import rocks.itsnotrocketscience.bejay.music.model.Track;
  */
 public class EventFragment extends BaseFragment<ActivityComponent> implements EventContract.EventView {
 
-    static final int RC_SEARCH_TRACK = 1;
+    private static final int RC_SEARCH_TRACK = 1;
 
-    @Inject EventContract.EventPresenter presenter;
+    @Inject
+    private EventContract.EventPresenter presenter;
 
-    @Bind(R.id.progress) ProgressBar progressIndicator;
-    @Bind(R.id.rvSongList) RecyclerView rvSongList;
-    @Bind(R.id.fab) FloatingActionButton fab;
-    SongListAdapter adapter;
-    List<Song> songList;
+    @Bind(R.id.progress)
+    private ProgressBar progressIndicator;
+    @Bind(R.id.rvSongList)
+    private RecyclerView rvSongList;
+    @Bind(R.id.fab)
+    private FloatingActionButton fab;
+    private SongListAdapter adapter;
+    private final List<Song> songList;
 
     public EventFragment() {
         songList = new ArrayList<>();
@@ -130,7 +134,7 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Ev
         presenter.onDestroy();
     }
 
-    Song toSong(Track track) {
+    private Song toSong(Track track) {
         return new Song(track.getTitle());
     }
 

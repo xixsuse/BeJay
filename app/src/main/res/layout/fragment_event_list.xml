@@ -27,9 +27,9 @@
             android:layout_centerVertical="true"
 
             android:gravity="center"
-            android:text="Cannot Load Events"
+            android:text="@string/cannot_load_events"
             android:textColor="@color/white"
-            android:textSize="25dp"/>
+            android:textSize="25sp"/>
 
         <Button
             android:id="@+id/btnRetry"
@@ -38,7 +38,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/textView"
-            android:text="Try Again"/>
+            android:text="@string/try_again"/>
 
     </RelativeLayout>
 
@@ -56,8 +56,6 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
         android:layout_gravity="right|bottom"
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/ic_action_add_track"/>

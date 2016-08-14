@@ -31,6 +31,7 @@ public class RegistrationIntentService extends IntentService {
     private static final String TAG = "RegIntentService";
     public static final String GCM_TOKEN = "GcmToken";
     @Inject
+    private
     SharedPreferences sharedPreferences;
 
     public RegistrationIntentService() {
@@ -58,7 +59,7 @@ public class RegistrationIntentService extends IntentService {
         }
     }
 
-    public void retrieveUserDetails(String token) {
+    private void retrieveUserDetails(String token) {
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         GraphRequest request = new GraphRequest(accessToken, "/me");
         Observable.just(request.executeAndWait())

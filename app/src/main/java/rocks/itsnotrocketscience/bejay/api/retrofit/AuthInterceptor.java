@@ -6,7 +6,7 @@ import retrofit.RequestInterceptor;
  * Created by centralstation on 28/09/15.
  */
 public class AuthInterceptor implements RequestInterceptor {
-    String token;
+    private final String token;
 
     public AuthInterceptor(String token) {
         this.token = token;

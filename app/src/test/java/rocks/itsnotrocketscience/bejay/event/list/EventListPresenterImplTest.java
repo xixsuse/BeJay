@@ -36,7 +36,7 @@ public class EventListPresenterImplTest {
     @Mock AccountManager accountManager;
     @Captor ArgumentCaptor<ArrayList<Event>> eventsArgumentCaptor;
 
-    EventListPresenterImpl eventListPresenter;
+    private EventListPresenterImpl eventListPresenter;
 
 
 
