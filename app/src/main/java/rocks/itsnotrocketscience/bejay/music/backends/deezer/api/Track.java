@@ -17,6 +17,6 @@ public class Track implements Api.Track {
 
     @Override
     public Observable<rocks.itsnotrocketscience.bejay.music.model.Track> get(String id) {
-        return api.get(Long.valueOf(id)).map(deezerTrack -> ModelMapper.map(deezerTrack));
+        return api.get(Long.valueOf(id)).map(ModelMapper::map);
     }
 }

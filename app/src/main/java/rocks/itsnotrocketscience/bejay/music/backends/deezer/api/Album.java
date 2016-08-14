@@ -17,6 +17,6 @@ public class Album implements Api.Album {
 
     @Override
     public Observable<rocks.itsnotrocketscience.bejay.music.model.Album> get(String id) {
-        return api.get(Long.valueOf(id)).map(deezerAlbum -> ModelMapper.map(deezerAlbum));
+        return api.get(Long.valueOf(id)).map(ModelMapper::map);
     }
 }

@@ -38,13 +38,13 @@ public class EventsDao {
     }
 
     public Observable<List<Event>> all() {
-        return db.createQuery(TABLE_NAME, "select * from " + TABLE_NAME).mapToList(cursor -> fromCursor(cursor)).first();
+        return db.createQuery(TABLE_NAME, "select * from " + TABLE_NAME).mapToList(this::fromCursor).first();
     }
 
     public Observable<ArrayList<Event>> save(ArrayList<Event> events) {
         return Observable.from(events)
                 .filter(event -> db.insert(TABLE_NAME, toContentValues(event), CONFLICT_REPLACE) > 0)
-                .collect(() -> new ArrayList<>(), (events1, event) -> events1.add(event));
+                .collect(ArrayList::new, ArrayList::add);
     }
 
     private ContentValues toContentValues(Event event) {

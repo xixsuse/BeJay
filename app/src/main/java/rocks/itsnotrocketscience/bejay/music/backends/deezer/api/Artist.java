@@ -29,8 +29,8 @@ public class Artist implements Api.Artist {
     public Observable<List<Track>> topTracks(String id) {
         return api.top(Long.valueOf(id)) // get top tracks from deezer api
                 .flatMap( trackCollection -> Observable.from(trackCollection.getData())) // emmit each item in the collection one at a time
-                .map(track -> ModelMapper.map(track)) // map to local model
-                .collect(() -> new ArrayList<>(), (topTracks, track) -> topTracks.add(track)); // collection result
+                .map(ModelMapper::map) // map to local model
+                .collect(ArrayList::new, List::add); // collection result
     }
 
     @Override
@@ -50,13 +50,13 @@ public class Artist implements Api.Artist {
                 nextIndex.onCompleted();
             }
         }).flatMap(albumPageResponse -> Observable.from(albumPageResponse.getData()))
-                .map(album -> ModelMapper.map(album))
-                .collect(() -> new ArrayList<>(), (albums, album) -> albums.add(album));
+                .map(ModelMapper::map)
+                .collect(ArrayList::new, List::add);
     }
 
     @Override
     public Observable<rocks.itsnotrocketscience.bejay.music.model.Artist> get(String id) {
         return api.get(Long.valueOf(id))
-                .map(deezerArtist -> ModelMapper.map(deezerArtist));
+                .map(ModelMapper::map);
     }
 }

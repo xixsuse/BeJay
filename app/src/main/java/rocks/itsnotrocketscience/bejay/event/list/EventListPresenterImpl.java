@@ -83,7 +83,7 @@ public class EventListPresenterImpl implements EventListContract.EventListPresen
     }
 
     private Observable<ArrayList<Event>> loadEventsFromNetwork() {
-        return networkEvents.list().flatMap(events -> eventsDao.save(events));
+        return networkEvents.list().flatMap(eventsDao::save);
     }
 
     private <T> Observable.Transformer<T, T> newOnDestroyTransformer() {

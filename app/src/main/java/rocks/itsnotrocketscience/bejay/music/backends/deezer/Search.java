@@ -18,21 +18,21 @@ public class Search implements Api.Search {
 
     @Override
     public Pager<Track> track(String query, Long pageSize) {
-        return new SearchResultPager<>(api::track, track -> ModelMapper.map(track), query, pageSize);
+        return new SearchResultPager<>(api::track, ModelMapper::map, query, pageSize);
     }
 
     @Override
     public Pager<Album> album(String query, Long pageSize) {
-        return new SearchResultPager<>(api::album, album -> ModelMapper.map(album), query, pageSize);
+        return new SearchResultPager<>(api::album, ModelMapper::map, query, pageSize);
     }
 
     @Override
     public Pager<rocks.itsnotrocketscience.bejay.music.model.Artist> artist(String query, Long pageSize) {
-        return new SearchResultPager<>(api::artist, artist -> ModelMapper.map(artist), query, pageSize);
+        return new SearchResultPager<>(api::artist, ModelMapper::map, query, pageSize);
     }
 
     @Override
     public Pager<Playlist> playlist(String query, Long pageSize) {
-        return new SearchResultPager<>(api::playlist, playlist -> ModelMapper.map(playlist), query, pageSize);
+        return new SearchResultPager<>(api::playlist, ModelMapper::map, query, pageSize);
     }
 }

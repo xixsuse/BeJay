@@ -54,9 +54,7 @@ public class MapPresenterImpl implements MapContract.MapPresenter {
     private void setupHandler() {
 
         handlerThread.start();
-        OnAddressResolvedCallback callback = address -> {
-            addressOutput = address;
-        };
+        OnAddressResolvedCallback callback = address -> addressOutput = address;
         Handler handler = new Handler(Looper.getMainLooper());
         fetchAddressTask = new FetchAddressTask(context.getApplicationContext(), new HandlerOnAddressResolvedCallback(handler, callback));
 

@@ -80,7 +80,7 @@ public class SearchResultPager<T, R> implements Pager<R> {
                     .doOnNext(onNext())
                     .flatMap(pageResponse -> Observable.from(pageResponse.getData()))
                     .map(mapper)
-                    .collect(() -> new ArrayList<>(), (list, item) -> list.add(item));
+                    .collect(ArrayList::new, List::add);
         }
 
         return Observable.empty();
