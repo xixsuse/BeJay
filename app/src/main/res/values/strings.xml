@@ -30,6 +30,8 @@
     <string name="convert_token">convert_token</string>
     <string name="client_id">AfCI74X2gr0LOqZ6whHyNZT1JRNn6FeELVwg5P7w</string>
     <string name="client_secret">YkVzYzh2Co8jNzpMQJg8KaJWsZy2rpsBK4DFLXChdF04Q3ddmGhw8AzVCDKIxlrP8oibmPG5kRiVJU69ti3Fd13XJACGeZ8A2D8oNLH1lD4xJtInX0vAHR7nzWKxlLRr</string>
+    <!--<string name="client_id">HGJ7tyOrU27tuL74vP8LS8NQ8eoppdCdKi7VsZ3Q</string>-->
+    <!--<string name="client_secret">IvAv6edrBqhpkJn4f4C1zCQ01OQWtpiJ8ok1u4S88w6alqHYfl4xyab4LBt8Q2AIiwh7TrP9sZAysZ9OsekQMuK5sic7Jti2uMM9si1pEeYdlVDpiDpV5TuZc4TJscTl</string>-->
     <string name="provider">facebook</string>
     <string name="action_title_search_tracks">Search Tracks</string>
     <string name="action_title_add_track">Add Track</string>

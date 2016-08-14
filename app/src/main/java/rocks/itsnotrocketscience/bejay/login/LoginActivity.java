@@ -58,10 +58,4 @@ public class LoginActivity extends InjectedActivity<LoginComponent> {
         return super.onOptionsItemSelected(item);
     }
 
-    public void showFragment(Fragment fragment) {
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = manager.beginTransaction();
-        fragmentTransaction.replace(R.id.container, fragment);
-        fragmentTransaction.commit();
-    }
 }

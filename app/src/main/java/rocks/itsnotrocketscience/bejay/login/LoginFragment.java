@@ -111,7 +111,9 @@ public class LoginFragment extends BaseFragment<LoginComponent> implements Login
                 loginPresenter.registerUser(loginResult);
             }
             @Override
-            public void onCancel() {showError("cancelled");}
+            public void onCancel() {
+                LoginManager.getInstance().logOut();
+                showError("cancelled");}
             @Override
             public void onError(FacebookException exception) {
                 showError(exception.toString());

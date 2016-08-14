@@ -63,7 +63,7 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Ev
         rvSongList.setLayoutManager(llm);
         adapter = new SongListAdapter(songList);
         adapter.setItemClickListener((item, position) -> presenter.toggleLike(item, position));
-                rvSongList.setAdapter(adapter);
+        rvSongList.setAdapter(adapter);
         fab.setOnClickListener(v ->
                 startActivityForResult(new Intent(getActivity(), SearchActivity.class), RC_SEARCH_TRACK));
     }
@@ -93,7 +93,8 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Ev
         Toast.makeText(getActivity(), error, Toast.LENGTH_LONG).show();
     }
 
-    @Override public void showToast(String toast) {
+    @Override
+    public void showToast(String toast) {
         Toast.makeText(getActivity(), toast, Toast.LENGTH_SHORT).show();
     }
 
@@ -120,12 +121,12 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Ev
     public void onPause() {
         super.onPause();
         presenter.onViewDetached();
+        presenter.unregisterUpdateReceiver();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        presenter.unregisterUpdateReceiver();
         presenter.onDestroy();
     }
 
@@ -136,14 +137,14 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Ev
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
-            case RC_SEARCH_TRACK : {
-                if((resultCode == Activity.RESULT_OK)) {
+            case RC_SEARCH_TRACK: {
+                if ((resultCode == Activity.RESULT_OK)) {
                     Track track = data.getParcelableExtra(SearchActivity.EXTRA_TRACK);
                     presenter.addSong(toSong(track));
                 }
                 break;
             }
-            default : {
+            default: {
                 super.onActivityResult(requestCode, resultCode, data);
             }
         }
@@ -151,7 +152,7 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Ev
 
     @Override
     public void setProgressVisible(boolean visible) {
-        if(visible) {
+        if (visible) {
             progressIndicator.setVisibility(View.VISIBLE);
         } else {
             progressIndicator.setVisibility(View.GONE);
