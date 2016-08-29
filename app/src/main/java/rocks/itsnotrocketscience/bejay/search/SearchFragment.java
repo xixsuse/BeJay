@@ -32,13 +32,12 @@ public class SearchFragment extends BaseFragment implements SearchContract.View,
     private static final String EXTRA_PAGE_SIZE = "page_size";
     private static final String EXTRA_TYPE = "type";
 
-    @Inject
-    private ModelAdapter resultAdapter;
+    @Inject public ModelAdapter resultAdapter;
 
     @Bind(R.id.search_result)
-    private RecyclerView searchResult;
+    public RecyclerView searchResult;
     @Bind(R.id.progress)
-    private ProgressBar progressIndicator;
+    public ProgressBar progressIndicator;
 
     private SearchContract.Presenter searchPresenter;
     private LinearLayoutManager layoutManager;

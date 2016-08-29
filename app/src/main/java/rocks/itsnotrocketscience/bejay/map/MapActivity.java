@@ -37,15 +37,13 @@ public class MapActivity extends InjectedActivity<MapComponent> implements MapCo
     private final MapModule mapModule;
     private MapComponent activityComponent;
 
-    @Inject
-    private MapContract.MapPresenter mapPresenter;
+    @Inject public MapContract.MapPresenter mapPresenter;
     @Inject Launcher launcher;
 
     private GoogleMap googleMap;
 
     @Bind(R.id.toolbar)
-    private
-    Toolbar toolbar;
+    public Toolbar toolbar;
 
     public MapActivity() {
         mapModule = new MapModule(this);

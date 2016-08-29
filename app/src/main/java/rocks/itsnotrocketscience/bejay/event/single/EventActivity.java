@@ -32,12 +32,11 @@ public class EventActivity extends InjectedActivity<ActivityComponent> {
     public static final String EVENT_RECEIVER_ID = "event_receiver_id";
     public static final String EVENT_ID = "url_extra";
 
-    @Inject
-    private SharedPreferences sharedPreferences;
+    @Inject public SharedPreferences sharedPreferences;
 
     @Bind(R.id.coordinator_layout) CoordinatorLayout coordinatorLayout;
     @Bind(R.id.toolbar)
-    private Toolbar toolbar;
+    public Toolbar toolbar;
     @Bind(R.id.app_bar_layout) AppBarLayout appBarLayout;
 
     private final ActivityModule activityModule;

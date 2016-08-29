@@ -26,14 +26,14 @@ public class PlaylistDetailsFragment extends BaseFragment implements PlaylistDet
     private static final String EXTRA_PLAYLIST_ID = "playlist_id";
 
     @Bind(R.id.search_result)
-    private RecyclerView tracks;
+    public RecyclerView tracks;
     @Bind(R.id.progress)
-    private ProgressBar progressIndicator;
+    public ProgressBar progressIndicator;
 
     @Inject
-    private PlaylistDetailsContract.Presenter presenter;
+    public PlaylistDetailsContract.Presenter presenter;
     @Inject
-    private ModelAdapter modelAdapter;
+    public ModelAdapter modelAdapter;
 
     private LinearLayoutManager layoutManager;
     private ItemTouchHelper itemTouchHelper;

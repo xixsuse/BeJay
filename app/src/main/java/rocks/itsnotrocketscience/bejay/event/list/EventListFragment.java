@@ -32,22 +32,19 @@ import rocks.itsnotrocketscience.bejay.models.Event;
 
 public class EventListFragment extends BaseFragment<ActivityComponent> implements ItemClickListener<Event>, EventListContract.EventListView {
 
-    @Inject
-    private AccountManager accountManager;
-    @Inject
-    private EventListContract.EventListPresenter eventListPresenter;
-    @Inject
-    private Launcher launcher;
+    @Inject public AccountManager accountManager;
+    @Inject public EventListContract.EventListPresenter eventListPresenter;
+    @Inject public Launcher launcher;
 
     @Bind(R.id.rvEventList)
-    private RecyclerView recyclerView;
+    public RecyclerView recyclerView;
     @Bind(R.id.progress)
-    private ProgressBar progressIndicator;
+    public ProgressBar progressIndicator;
     @Bind(R.id.rlError)
-    private RelativeLayout rlError;
+    public RelativeLayout rlError;
     @Bind(R.id.btnRetry) Button btnRetry;
     @Bind(R.id.fab)
-    private FloatingActionButton fab;
+    public FloatingActionButton fab;
     private EventListAdapter adapter;
     private List<Event> eventList;
 
@@ -112,7 +109,7 @@ public class EventListFragment extends BaseFragment<ActivityComponent> implement
     }
 
     @OnClick(R.id.btnRetry)
-    private void getFeed() {
+    public void getFeed() {
         rlError.setVisibility(View.GONE);
         eventListPresenter.loadEvents();
     }

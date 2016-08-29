@@ -41,37 +41,37 @@ import rocks.itsnotrocketscience.bejay.widgets.TimePickerDialogFragment;
 public class EventCreateFragment extends BaseFragment<ActivityComponent> implements View.OnClickListener, EventCreateContract.EventCreateView, DateTimeSetListener {
 
     @Inject
-    private EventCreateContract.EventCreatePresenter presenter;
+    public EventCreateContract.EventCreatePresenter presenter;
     @Inject
-    private DatePickerDialogFragment datePickerDialogFragment;
+    public DatePickerDialogFragment datePickerDialogFragment;
     @Inject
-    private TimePickerDialogFragment timePickerDialogFragment;
+    public TimePickerDialogFragment timePickerDialogFragment;
     @Inject
-    private Launcher launcher;
+    public Launcher launcher;
 
-    private final static int START_DATE = 0;
-    private final static int START_TIME = 1;
-    private final static int END_DATE = 2;
-    private final static int END_TIME = 3;
+    public final static int START_DATE = 0;
+    public final static int START_TIME = 1;
+    public final static int END_DATE = 2;
+    public final static int END_TIME = 3;
 
     @Bind(R.id.etTitle)
-    private EditText etTitle;
+    public EditText etTitle;
     @Bind(R.id.etPlace)
-    private EditText etPlace;
+    public EditText etPlace;
     @Bind(R.id.etDetails)
-    private EditText etDetails;
+    public EditText etDetails;
     @Bind(R.id.etGPS)
-    private EditText etGPS;
+    public EditText etGPS;
     @Bind(R.id.tvStartDate)
-    private TextView tvStartDate;
+    public TextView tvStartDate;
     @Bind(R.id.tvStartTime)
-    private TextView tvStartTime;
+    public TextView tvStartTime;
     @Bind(R.id.tvEndDate)
-    private TextView tvEndDate;
+    public TextView tvEndDate;
     @Bind(R.id.tvEndTime)
-    private TextView tvEndTime;
+    public TextView tvEndTime;
     @Bind(R.id.radioButton)
-    private RadioButton radioButton;
+    public RadioButton radioButton;
 
     public static Fragment newInstance() {
         return new EventCreateFragment();
@@ -113,7 +113,7 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
         return super.onOptionsItemSelected(item);
     }
 
-    private Event getEventObjectFromViews() {
+    public Event getEventObjectFromViews() {
         Event event = new Event();
         event.setPlace(etPlace.getText().toString());
         event.setDetails(etDetails.getText().toString());
@@ -152,13 +152,13 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
         }
     }
 
-    private void showDateDialog(int id) {
+    public void showDateDialog(int id) {
         datePickerDialogFragment.setDateSetListener(this);
         datePickerDialogFragment.setId(id);
         datePickerDialogFragment.show(getFragmentManager(), "DatePicker");
     }
 
-    private void showTimeDialog(int id) {
+    public void showTimeDialog(int id) {
         timePickerDialogFragment.setTimeSetListener(this);
         timePickerDialogFragment.setId(id);
         timePickerDialogFragment.show(getFragmentManager(), "TimePicker");

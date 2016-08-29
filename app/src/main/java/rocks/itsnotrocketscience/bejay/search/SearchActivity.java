@@ -28,7 +28,7 @@ public class SearchActivity extends InjectedActivity<SearchComponent> implements
     public static final String EXTRA_TRACK = "track";
 
     @Bind(R.id.toolbar)
-    private Toolbar toolbar;
+    public Toolbar toolbar;
 
     private final SearchModule searchModule;
     private SearchComponent searchComponent;

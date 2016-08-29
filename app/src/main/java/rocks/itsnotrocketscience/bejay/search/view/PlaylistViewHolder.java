@@ -17,10 +17,8 @@ import rocks.itsnotrocketscience.bejay.music.model.Playlist;
 public class PlaylistViewHolder extends ModelViewHolder<Playlist> {
 
     @Inject Resources resources;
-    @Inject
-    private Picasso picasso;
-    @Inject
-    private Transformation transformation;
+    @Inject public Picasso picasso;
+    @Inject public Transformation transformation;
 
     private final TextView title;
     private final ImageView picture;

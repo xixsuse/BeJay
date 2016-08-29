@@ -30,12 +30,9 @@ public class NavigationDrawerFragment extends BaseFragment<ActivityComponent> {
 
     private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
     private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
-    @Inject
-    private SharedPreferences sharedPreferences;
-    @Inject
-    private AccountManager accountManager;
-    @Inject
-    private Launcher launcher;
+    @Inject public SharedPreferences sharedPreferences;
+    @Inject public AccountManager accountManager;
+    @Inject public Launcher launcher;
     private ActionBarDrawerToggle mDrawerToggle;
 
     private DrawerLayout drawerLayout;

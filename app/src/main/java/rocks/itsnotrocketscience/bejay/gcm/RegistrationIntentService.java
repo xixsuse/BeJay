@@ -30,9 +30,7 @@ public class RegistrationIntentService extends IntentService {
 
     private static final String TAG = "RegIntentService";
     public static final String GCM_TOKEN = "GcmToken";
-    @Inject
-    private
-    SharedPreferences sharedPreferences;
+    @Inject public SharedPreferences sharedPreferences;
 
     public RegistrationIntentService() {
         super(TAG);

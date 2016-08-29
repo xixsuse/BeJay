@@ -33,19 +33,15 @@ public class ArtistDetailsFragment extends BaseFragment implements ArtistDetails
 
     private static final String EXTRA_ARTIST = "artist";
 
-    @Inject
-    private SectionAdapter artistDetailAdapter;
-    @Inject
-    private ArtistDetailsPresenter presenter;
-    @Inject
-    private ModelViewHolderFactory viewHolderFactory;
-    @Inject
-    private ModelViewFactory viewFactory;
+    @Inject public SectionAdapter artistDetailAdapter;
+    @Inject public ArtistDetailsPresenter presenter;
+    @Inject public ModelViewHolderFactory viewHolderFactory;
+    @Inject public ModelViewFactory viewFactory;
 
     @Bind(R.id.search_result)
-    private RecyclerView artistDetailsView;
+    public RecyclerView artistDetailsView;
     @Bind(R.id.progress)
-    private ProgressBar progressIndicator;
+    public ProgressBar progressIndicator;
 
     private Artist artist;
     private ArtistDetailsContract.ArtistDetails artistDetails;

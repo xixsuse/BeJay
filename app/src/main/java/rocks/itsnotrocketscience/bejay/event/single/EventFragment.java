@@ -34,15 +34,14 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Ev
 
     private static final int RC_SEARCH_TRACK = 1;
 
-    @Inject
-    private EventContract.EventPresenter presenter;
+    @Inject public EventContract.EventPresenter presenter;
 
     @Bind(R.id.progress)
-    private ProgressBar progressIndicator;
+    public ProgressBar progressIndicator;
     @Bind(R.id.rvSongList)
-    private RecyclerView rvSongList;
+    public RecyclerView rvSongList;
     @Bind(R.id.fab)
-    private FloatingActionButton fab;
+    public FloatingActionButton fab;
     private SongListAdapter adapter;
     private final List<Song> songList;
 

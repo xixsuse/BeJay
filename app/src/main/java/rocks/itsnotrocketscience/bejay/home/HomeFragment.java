@@ -18,8 +18,7 @@ import rocks.itsnotrocketscience.bejay.managers.Launcher;
 
 public class HomeFragment extends BaseFragment<ActivityComponent> {
 
-    @Inject
-    private Launcher launcher;
+    @Inject public Launcher launcher;
     @Bind(R.id.btFindEvents)CircleButton btFindEvents;
 
     public static HomeFragment newInstance() {

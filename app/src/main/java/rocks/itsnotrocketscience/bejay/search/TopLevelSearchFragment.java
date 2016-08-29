@@ -41,18 +41,14 @@ public class TopLevelSearchFragment extends BaseFragment implements TopLevelSear
     private static final String EXTRA_SECTION_SIZE = "section_size";
 
     @Bind(R.id.search_result)
-    private RecyclerView result;
+    public RecyclerView result;
     @Bind(R.id.progress)
-    private ProgressBar progressIndicator;
+    public ProgressBar progressIndicator;
 
-    @Inject
-    private TopLevelSearchContract.Presenter presenter;
-    @Inject
-    private SectionAdapter adapter;
-    @Inject
-    private ModelViewFactory viewFactory;
-    @Inject
-    private ModelViewHolderFactory viewHolderFactory;
+    @Inject public TopLevelSearchContract.Presenter presenter;
+    @Inject public SectionAdapter adapter;
+    @Inject public ModelViewFactory viewFactory;
+    @Inject public ModelViewHolderFactory viewHolderFactory;
 
     private MenuItem searchMenuItem;
     private SearchView searchView;

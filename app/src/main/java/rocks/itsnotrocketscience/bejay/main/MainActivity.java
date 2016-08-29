@@ -16,8 +16,7 @@ import rocks.itsnotrocketscience.bejay.gcm.RegistrationIntentService;
 
 public class MainActivity extends BaseActivity {
 
-    @Inject
-    private GcmUtils gcmUtils;
+    @Inject public GcmUtils gcmUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

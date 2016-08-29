@@ -26,14 +26,14 @@ public class AlbumDetailsFragment extends BaseFragment implements AlbumDetailsCo
     private static final String EXTRA_ALBUM_ID = "album_id";
 
     @Bind(R.id.search_result)
-    private RecyclerView tracks;
+    public RecyclerView tracks;
     @Bind(R.id.progress)
-    private ProgressBar progressIndicator;
+    public ProgressBar progressIndicator;
 
     @Inject
-    private AlbumDetailsContract.Presenter presenter;
+    public AlbumDetailsContract.Presenter presenter;
     @Inject
-    private ModelAdapter modelAdapter;
+    public ModelAdapter modelAdapter;
 
     private MusicSearchContract contract;
     private String albumId;

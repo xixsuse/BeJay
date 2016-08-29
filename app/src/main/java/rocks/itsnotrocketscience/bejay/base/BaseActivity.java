@@ -27,8 +27,7 @@ public class BaseActivity extends InjectedActivity<ActivityComponent> {
     public Toolbar toolbar;
     protected NavigationDrawerFragment mNavigationDrawerFragment;
 
-    @Inject
-    private Launcher launcher;
+    @Inject public Launcher launcher;
     @Inject protected SharedPreferences sharedPreferences;
     @Inject protected AccountManager accountManager;
 

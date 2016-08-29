@@ -3,7 +3,7 @@ package rocks.itsnotrocketscience.bejay.music.model;
 import android.support.annotation.IntDef;
 
 public abstract class Model {
-    private static final int TYPE_UNKNOWN = 0;
+    public static final int TYPE_UNKNOWN = 0;
     public static final int TYPE_ALBUM = 1;
     public static final int TYPE_ARTIST = 2;
     public static final int TYPE_PLAYLIST = 3;

@@ -23,12 +23,9 @@ import rocks.itsnotrocketscience.bejay.music.model.Track;
 
 public class TrackViewHolder extends ModelViewHolder<Track> {
 
-    @Inject
-    private Picasso picasso;
-    @Inject
-    private Transformation transformation;
-    @Inject
-    private Resources resources;
+    @Inject public Picasso picasso;
+    @Inject public Transformation transformation;
+    @Inject public Resources resources;
 
     private final TextView title;
     private final TextView artist;
