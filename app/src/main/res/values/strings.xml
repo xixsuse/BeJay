@@ -71,4 +71,5 @@
     <string name="try_again">Try Again</string>
     <string name="end_date">End Date</string>
     <string name="end_time">End Time</string>
+    <string name="search">Search</string>
 </resources>

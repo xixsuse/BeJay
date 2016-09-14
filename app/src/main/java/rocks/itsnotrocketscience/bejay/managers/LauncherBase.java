@@ -8,7 +8,7 @@ import rocks.itsnotrocketscience.bejay.event.list.EventListType;
 
 public class LauncherBase implements Launcher {
 
-    @Override public void openHome() {
+    @Override public void search() {
         throw new UnsupportedOperationException();
     }
 

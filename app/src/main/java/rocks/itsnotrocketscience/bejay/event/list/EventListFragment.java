@@ -146,6 +146,7 @@ public class EventListFragment extends BaseFragment<ActivityComponent> implement
     @Override
     public void showError(String text) {
         rlError.setVisibility(View.VISIBLE);
+
         Toast.makeText(getActivity(),text,Toast.LENGTH_SHORT).show();
     }
 

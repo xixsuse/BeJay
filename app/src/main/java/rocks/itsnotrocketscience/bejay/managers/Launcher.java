@@ -7,7 +7,7 @@ import com.google.android.gms.maps.model.LatLng;
 import rocks.itsnotrocketscience.bejay.event.list.EventListType;
 
 public interface Launcher {
-    void openHome();
+    void search();
     void openProfile();
     void openEvent(int eventId);
     void logout();

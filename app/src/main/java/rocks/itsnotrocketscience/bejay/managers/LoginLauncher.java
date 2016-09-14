@@ -13,7 +13,7 @@ public class LoginLauncher extends LauncherBase {
     }
 
     @Override
-    public void openHome() {
+    public void search() {
         Intent intent = new Intent(loginActivity, MainActivity.class);
         loginActivity.startActivity(intent);
         loginActivity.finish();

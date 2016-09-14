@@ -84,6 +84,7 @@ public class EventListPresenterImpl implements EventListContract.EventListPresen
     }
 
     private void showErrorForEventListType(EventListType listType) {
+        view.setProgressVisible(false);
         switch (listType){
             case ALL:
                 view.showError("No Events Found");

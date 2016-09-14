@@ -39,7 +39,7 @@ public class AppLauncher implements Launcher {
     }
 
     @Override
-    public void openHome() {
+    public void search() {
         showFragment(EventSearchFragment.newInstance());
     }
 

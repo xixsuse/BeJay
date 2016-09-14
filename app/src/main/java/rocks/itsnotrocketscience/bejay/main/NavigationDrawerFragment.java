@@ -67,7 +67,7 @@ public class NavigationDrawerFragment extends BaseFragment<ActivityComponent> {
 
         navigationView = (NavigationView) inflater.inflate(
                 R.layout.fragment_navigation_drawer, container, false);
-        launcher.openHome();
+        launcher.search();
 
         navigationView.setNavigationItemSelectedListener(this::chooseAction);
         if (accountManager.isCheckedIn()) {
@@ -86,8 +86,8 @@ public class NavigationDrawerFragment extends BaseFragment<ActivityComponent> {
 
         switch (menuItem.getItemId()) {
 
-            case R.id.home:
-                launcher.openHome();
+            case R.id.search:
+                launcher.search();
                 break;
             case R.id.profile:
                 launcher.openProfile();
