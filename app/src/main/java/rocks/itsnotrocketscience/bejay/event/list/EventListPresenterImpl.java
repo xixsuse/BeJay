@@ -58,10 +58,10 @@ public class EventListPresenterImpl implements EventListContract.EventListPresen
     }
 
     @Override
-    public void loadEvents() {
+    public void loadEvents(EventListType listType) {
         view.setProgressVisible(true);
         Observable.concat(Observable.just(events).filter(validEventListFilter()),
-                loadEventsFromNetwork().filter(validEventListFilter()))
+                loadEventsFromNetwork(listType).filter(validEventListFilter()))
                 .compose(newOnDestroyTransformer())
                 .first()
                 .observeOn(mainScheduler())
@@ -82,8 +82,15 @@ public class EventListPresenterImpl implements EventListContract.EventListPresen
         return eventsDao.all().doOnNext(events -> this.events = events);
     }
 
-    private Observable<ArrayList<Event>> loadEventsFromNetwork() {
-        return networkEvents.list().flatMap(eventsDao::save);
+    private Observable<ArrayList<Event>> loadEventsFromNetwork(EventListType listType) {
+        switch(listType){
+            case ALL:
+                return networkEvents.list().flatMap(eventsDao::save);
+            case FRIENDS:
+                return networkEvents.friendsEvents().flatMap(eventsDao::save);
+            default:
+                return networkEvents.list().flatMap(eventsDao::save);
+        }
     }
 
     private <T> Observable.Transformer<T, T> newOnDestroyTransformer() {

@@ -35,6 +35,7 @@ public class EventListPresenterImplTest {
     @Mock Events networkEvents;
     @Mock AccountManager accountManager;
     @Captor ArgumentCaptor<ArrayList<Event>> eventsArgumentCaptor;
+    EventListType listType = EventListType.ALL;
 
     private EventListPresenterImpl eventListPresenter;
 
@@ -52,7 +53,7 @@ public class EventListPresenterImplTest {
         doReturn(Observable.just(null)).when(networkEvents).list();
 
         eventListPresenter.onViewAttached(view);
-        eventListPresenter.loadEvents();
+        eventListPresenter.loadEvents(listType);
 
         verify(view).setProgressVisible(eq(true));
         verify(view).showError();
@@ -66,7 +67,7 @@ public class EventListPresenterImplTest {
         doReturn(Observable.just(null)).when(networkEvents).list();
 
         eventListPresenter.onViewAttached(view);
-        eventListPresenter.loadEvents();
+        eventListPresenter.loadEvents(listType);
 
         verify(view).setProgressVisible(true);
         verify(view).onEventsLoaded(eq(eventsFromDisk));
@@ -81,7 +82,7 @@ public class EventListPresenterImplTest {
         doReturn(Observable.just(eventsFromNetwork)).when(networkEvents).list();
 
         eventListPresenter.onViewAttached(view);
-        eventListPresenter.loadEvents();
+        eventListPresenter.loadEvents(listType);
 
         verify(view).setProgressVisible(true);
         verify(view).onEventsLoaded(eq(eventsFromNetwork));

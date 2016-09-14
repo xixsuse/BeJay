@@ -33,7 +33,7 @@ public interface EventListContract {
         void onViewAttached(EventListView view);
         void onViewDetached();
         void onDestroy();
-        void loadEvents();
+        void loadEvents(EventListType listType);
         void checkIn(Event event, boolean force);
     }
 }

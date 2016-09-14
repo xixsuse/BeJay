@@ -8,6 +8,7 @@ import dagger.Component;
 import rocks.itsnotrocketscience.bejay.base.BaseActivity;
 import rocks.itsnotrocketscience.bejay.event.create.EventCreateActivity;
 import rocks.itsnotrocketscience.bejay.event.create.EventCreateFragment;
+import rocks.itsnotrocketscience.bejay.home.EventSearchFragment;
 import rocks.itsnotrocketscience.bejay.music.backends.deezer.restapi.Album;
 import rocks.itsnotrocketscience.bejay.music.backends.deezer.restapi.Artist;
 import rocks.itsnotrocketscience.bejay.music.backends.deezer.restapi.Playlist;
@@ -15,7 +16,6 @@ import rocks.itsnotrocketscience.bejay.music.backends.deezer.restapi.Search;
 import rocks.itsnotrocketscience.bejay.event.list.EventListFragment;
 import rocks.itsnotrocketscience.bejay.event.single.EventActivity;
 import rocks.itsnotrocketscience.bejay.event.single.EventFragment;
-import rocks.itsnotrocketscience.bejay.home.HomeFragment;
 import rocks.itsnotrocketscience.bejay.main.MainActivity;
 import rocks.itsnotrocketscience.bejay.main.NavigationDrawerFragment;
 import rocks.itsnotrocketscience.bejay.managers.Launcher;
@@ -41,6 +41,6 @@ public interface ActivityComponent {
     void inject(EventFragment eventFragment);
     void inject(EventCreateFragment eventFragment);
     void inject(EventActivity eventActivity);
-    void inject(HomeFragment homeFragment);
+    void inject(EventSearchFragment eventSearchFragment);
     void inject(NavigationDrawerFragment navigationDrawerFragment);
 }

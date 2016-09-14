@@ -7,22 +7,20 @@ import android.view.ViewGroup;
 
 import javax.inject.Inject;
 
-import at.markushi.ui.CircleButton;
-import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
 import rocks.itsnotrocketscience.bejay.dagger.ActivityComponent;
+import rocks.itsnotrocketscience.bejay.event.list.EventListType;
 import rocks.itsnotrocketscience.bejay.managers.Launcher;
 
-public class HomeFragment extends BaseFragment<ActivityComponent> {
+public class EventSearchFragment extends BaseFragment<ActivityComponent> {
 
     @Inject public Launcher launcher;
-    @Bind(R.id.btFindEvents)CircleButton btFindEvents;
 
-    public static HomeFragment newInstance() {
-        return new HomeFragment();
+    public static EventSearchFragment newInstance() {
+        return new EventSearchFragment();
     }
 
     public static String getTitle() {
@@ -38,14 +36,19 @@ public class HomeFragment extends BaseFragment<ActivityComponent> {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_search_events, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
 
-    @OnClick(R.id.btFindEvents)
+    @OnClick(R.id.btAllPublicEvents)
     public void findEvents() {
-        launcher.openEventList();
+        launcher.openEventList(EventListType.ALL);
+    }
+
+    @OnClick(R.id.btFindFriendsEvents)
+    public void findFriendEvents() {
+        launcher.openEventList(EventListType.FRIENDS);
     }
 
 }

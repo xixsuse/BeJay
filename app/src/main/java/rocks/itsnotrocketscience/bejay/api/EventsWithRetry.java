@@ -27,6 +27,16 @@ class EventsWithRetry implements Events {
         return events.list().retryWhen(ApiManager.defaultRetry());
     }
 
+    @Override
+    public Observable<ArrayList<Event>> friendsEvents() {
+        return events.friendsEvents();
+    }
+
+    @Override
+    public Observable<Map<String, String>> public_nearby_events(@Query("lat") long lat, @Query("lng") long lng) {
+        return events.public_nearby_events(lat,lng);
+    }
+
     @Override public Observable<Event> get(@Path("id") int id) {
         return events.get(id).retryWhen(ApiManager.defaultRetry());
     }

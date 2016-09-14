@@ -25,6 +25,12 @@ public interface Events {
     @GET("/events/{id}")
     Observable<Event> get(@Path("id") int id);
 
+    @GET("/events/public_nearby_events/")
+    Observable<Map<String,String>> public_nearby_events(@Query("lat") long lat, @Query("lng") long lng);
+
+    @GET("/events/friends_events/")
+    Observable<ArrayList<Event>> friendsEvents();
+
     @POST("/events/{id}/checkin_user/")
     Observable<Event> checkIn(@Path("id") int id);
 

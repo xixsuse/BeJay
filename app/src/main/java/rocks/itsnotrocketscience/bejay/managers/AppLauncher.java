@@ -13,10 +13,11 @@ import com.google.android.gms.maps.model.LatLng;
 import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.api.Constants;
 import rocks.itsnotrocketscience.bejay.event.create.EventCreateActivity;
+import rocks.itsnotrocketscience.bejay.event.list.EventListType;
+import rocks.itsnotrocketscience.bejay.home.EventSearchFragment;
 import rocks.itsnotrocketscience.bejay.map.MapActivity;
 import rocks.itsnotrocketscience.bejay.event.list.EventListFragment;
 import rocks.itsnotrocketscience.bejay.event.single.EventActivity;
-import rocks.itsnotrocketscience.bejay.home.HomeFragment;
 import rocks.itsnotrocketscience.bejay.login.LoginActivity;
 import rocks.itsnotrocketscience.bejay.profile.ProfileFragment;
 
@@ -39,7 +40,7 @@ public class AppLauncher implements Launcher {
 
     @Override
     public void openHome() {
-        showFragment(HomeFragment.newInstance());
+        showFragment(EventSearchFragment.newInstance());
     }
 
     @Override
@@ -63,8 +64,8 @@ public class AppLauncher implements Launcher {
     }
 
     @Override
-    public void openEventList() {
-        showFragment(EventListFragment.newInstance());
+    public void openEventList(EventListType type) {
+        showFragment(EventListFragment.newInstance(type));
     }
 
     @Override

@@ -46,10 +46,15 @@ public class EventListFragment extends BaseFragment<ActivityComponent> implement
     @Bind(R.id.fab)
     public FloatingActionButton fab;
     private EventListAdapter adapter;
+    private EventListType listType;
     private List<Event> eventList;
 
-    public static Fragment newInstance() {
-        return new EventListFragment();
+    public static Fragment newInstance(EventListType type) {
+        Fragment fragment = new EventListFragment();
+        Bundle args = new Bundle();
+        args.putSerializable("type", type);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -57,6 +62,7 @@ public class EventListFragment extends BaseFragment<ActivityComponent> implement
         super.onCreate(savedInstanceState);
         getComponent().inject(this);
         setRetainInstance(true);
+        listType = (EventListType)getArguments().getSerializable("type");
         eventList = new ArrayList<>();
     }
 
@@ -111,7 +117,7 @@ public class EventListFragment extends BaseFragment<ActivityComponent> implement
     @OnClick(R.id.btnRetry)
     public void getFeed() {
         rlError.setVisibility(View.GONE);
-        eventListPresenter.loadEvents();
+        eventListPresenter.loadEvents(listType);
     }
 
     @Override
