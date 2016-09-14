@@ -43,6 +43,7 @@ android {
 
     dexOptions {
         incremental true
+        maxProcessCount 4
         javaMaxHeapSize "4g"
     }
 
@@ -88,6 +89,7 @@ dependencies {
     compile 'com.android.support:gridlayout-v7:24.1.1'
     compile 'com.jakewharton.rxbinding:rxbinding-design:0.4.0'
     compile 'joda-time:joda-time:2.9.2'
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha7'
 }
 
 apply plugin: 'com.google.gms.google-services'
