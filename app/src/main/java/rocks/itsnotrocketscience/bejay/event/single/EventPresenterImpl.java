@@ -65,6 +65,7 @@ public class EventPresenterImpl implements EventContract.EventPresenter {
                     @Override
                     public final void onError(Throwable e) {
                         view.showToast(e.toString());
+                        view.setProgressVisible(false);
                     }
                     @Override
                     public final void onNext(Event response) {

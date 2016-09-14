@@ -27,14 +27,11 @@ import rocks.itsnotrocketscience.bejay.base.BaseFragment;
 import rocks.itsnotrocketscience.bejay.dagger.ActivityComponent;
 import rocks.itsnotrocketscience.bejay.event.list.EventListContract.EventListPresenter.CheckInError;
 import rocks.itsnotrocketscience.bejay.managers.AccountManager;
-import rocks.itsnotrocketscience.bejay.managers.Launcher;
 import rocks.itsnotrocketscience.bejay.models.Event;
 
 public class EventListFragment extends BaseFragment<ActivityComponent> implements ItemClickListener<Event>, EventListContract.EventListView {
 
-    @Inject public AccountManager accountManager;
     @Inject public EventListContract.EventListPresenter eventListPresenter;
-    @Inject public Launcher launcher;
 
     @Bind(R.id.rvEventList)
     public RecyclerView recyclerView;
@@ -74,7 +71,7 @@ public class EventListFragment extends BaseFragment<ActivityComponent> implement
     }
 
     private void addSnackBar() {
-        fab.setOnClickListener(v -> launcher.openCreateEvent());
+        fab.setOnClickListener(v -> eventListPresenter.openCreateEvent());
     }
 
     @Override
@@ -126,11 +123,6 @@ public class EventListFragment extends BaseFragment<ActivityComponent> implement
     }
 
     @Override
-    public void onChecking(Event event) {
-        launcher.openEvent(event.getId());
-    }
-
-    @Override
     public void onCheckInFailed(Event event, @CheckInError int reason) {
         switch (reason) {
             case EventListContract.EventListPresenter.CHECK_IN_CHECKOUT_NEEDED : {
@@ -152,8 +144,9 @@ public class EventListFragment extends BaseFragment<ActivityComponent> implement
     }
 
     @Override
-    public void showError() {
+    public void showError(String text) {
         rlError.setVisibility(View.VISIBLE);
+        Toast.makeText(getActivity(),text,Toast.LENGTH_SHORT).show();
     }
 
     private void displayAlert(Event event) {
@@ -165,7 +158,8 @@ public class EventListFragment extends BaseFragment<ActivityComponent> implement
                 .showCancelButton(true)
                 .setCancelClickListener(sDialog -> {
                     sDialog.cancel();
-                    launcher.openEvent(accountManager.getCheckedInEventId());
+                    eventListPresenter.openEvent();
+
                 })
                 .setConfirmClickListener(sDialog -> {
                     sDialog.cancel();
@@ -173,7 +167,6 @@ public class EventListFragment extends BaseFragment<ActivityComponent> implement
                 })
                 .show();
     }
-
 
     @Override
     public void setProgressVisible(boolean visible) {

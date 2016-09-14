@@ -15,8 +15,7 @@ public interface EventListContract {
     interface EventListView {
         void setProgressVisible(boolean visible);
         void onEventsLoaded(List<Event> events);
-        void showError();
-        void onChecking(Event event);
+        void showError(String text);
         void onCheckInFailed(Event event, @EventListPresenter.CheckInError int reason);
     }
 
@@ -34,6 +33,8 @@ public interface EventListContract {
         void onViewDetached();
         void onDestroy();
         void loadEvents(EventListType listType);
+        void openEvent();
+        void openCreateEvent();
         void checkIn(Event event, boolean force);
     }
 }

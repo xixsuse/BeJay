@@ -22,7 +22,6 @@ import rocks.itsnotrocketscience.bejay.managers.Launcher;
 public class BaseActivity extends InjectedActivity<ActivityComponent> {
 
     private final ActivityModule activityModule;
-    private ActivityComponent activityComponent;
 
     public Toolbar toolbar;
     protected NavigationDrawerFragment mNavigationDrawerFragment;
@@ -61,7 +60,7 @@ public class BaseActivity extends InjectedActivity<ActivityComponent> {
 
     @Override
     public ActivityComponent getComponent() {
-        return activityComponent = DaggerActivityComponent.builder()
+        return  DaggerActivityComponent.builder()
                 .activityModule(activityModule)
                 .appComponent(getAppComponent())
                 .build();

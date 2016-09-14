@@ -42,7 +42,6 @@ android {
     }
 
     dexOptions {
-        incremental true
         maxProcessCount 4
         javaMaxHeapSize "4g"
     }
@@ -60,7 +59,6 @@ android {
 
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
     apt 'com.google.auto.factory:auto-factory:1.0-beta3'
     provided 'com.google.dagger:dagger-compiler:2.0'
     provided 'org.glassfish:javax.annotation:10.0-b28'
