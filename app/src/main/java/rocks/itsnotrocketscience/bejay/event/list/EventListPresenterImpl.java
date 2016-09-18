@@ -80,7 +80,7 @@ public class EventListPresenterImpl implements EventListContract.EventListPresen
 
     @Override
     public void loadEvents() {
-        if (!locationProvider.hasLastKnownLocation()) {
+        if (listType.equals(EventListType.PUBLIC_LOCAL)&&!locationProvider.hasLastKnownLocation()) {
             locationProvider.fetchLocation();
         } else if (listType != EventListType.SEARCH) {
             view.setProgressVisible(true);

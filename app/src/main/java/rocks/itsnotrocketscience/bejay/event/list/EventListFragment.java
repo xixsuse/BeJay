@@ -76,6 +76,7 @@ public class EventListFragment extends BaseFragment<ActivityComponent> implement
         super.onViewCreated(view, savedInstanceState);
         setupRecyclerView();
         addSnackBar();
+        getFeed();
     }
 
     private void addSnackBar() {
@@ -86,7 +87,6 @@ public class EventListFragment extends BaseFragment<ActivityComponent> implement
     public void onResume() {
         super.onResume();
         eventListPresenter.onViewAttached(this);
-        getFeed();
     }
 
     @Override
