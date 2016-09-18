@@ -3,9 +3,15 @@ package rocks.itsnotrocketscience.bejay.event.list;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -26,12 +32,15 @@ import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
 import rocks.itsnotrocketscience.bejay.dagger.ActivityComponent;
 import rocks.itsnotrocketscience.bejay.event.list.EventListContract.EventListPresenter.CheckInError;
-import rocks.itsnotrocketscience.bejay.managers.AccountManager;
+import rocks.itsnotrocketscience.bejay.managers.Launcher;
 import rocks.itsnotrocketscience.bejay.models.Event;
 
-public class EventListFragment extends BaseFragment<ActivityComponent> implements ItemClickListener<Event>, EventListContract.EventListView {
+public class EventListFragment extends BaseFragment<ActivityComponent> implements ItemClickListener<Event>, EventListContract.EventListView, SearchView.OnQueryTextListener {
 
-    @Inject public EventListContract.EventListPresenter eventListPresenter;
+    @Inject
+    public EventListContract.EventListPresenter eventListPresenter;
+    @Inject
+    public Launcher launcher;
 
     @Bind(R.id.rvEventList)
     public RecyclerView recyclerView;
@@ -39,9 +48,10 @@ public class EventListFragment extends BaseFragment<ActivityComponent> implement
     public ProgressBar progressIndicator;
     @Bind(R.id.rlError)
     public RelativeLayout rlError;
-    @Bind(R.id.btnRetry) Button btnRetry;
     @Bind(R.id.fab)
     public FloatingActionButton fab;
+    @Bind(R.id.btnRetry)
+    Button btnRetry;
     private EventListAdapter adapter;
     private EventListType listType;
     private List<Event> eventList;
@@ -59,8 +69,9 @@ public class EventListFragment extends BaseFragment<ActivityComponent> implement
         super.onCreate(savedInstanceState);
         getComponent().inject(this);
         setRetainInstance(true);
-        listType = (EventListType)getArguments().getSerializable("type");
+        listType = (EventListType) getArguments().getSerializable("type");
         eventList = new ArrayList<>();
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -113,8 +124,10 @@ public class EventListFragment extends BaseFragment<ActivityComponent> implement
 
     @OnClick(R.id.btnRetry)
     public void getFeed() {
-        rlError.setVisibility(View.GONE);
-        eventListPresenter.loadEvents(listType);
+        if (listType != EventListType.SEARCH) {
+            rlError.setVisibility(View.GONE);
+            eventListPresenter.loadEvents(listType);
+        }
     }
 
     @Override
@@ -125,11 +138,11 @@ public class EventListFragment extends BaseFragment<ActivityComponent> implement
     @Override
     public void onCheckInFailed(Event event, @CheckInError int reason) {
         switch (reason) {
-            case EventListContract.EventListPresenter.CHECK_IN_CHECKOUT_NEEDED : {
+            case EventListContract.EventListPresenter.CHECK_IN_CHECKOUT_NEEDED: {
                 displayAlert(event);
                 break;
             }
-            case EventListContract.EventListPresenter.CHECK_IN_FAILED : {
+            case EventListContract.EventListPresenter.CHECK_IN_FAILED: {
                 Toast.makeText(getActivity(), "check in failed", Toast.LENGTH_LONG).show();
                 break;
             }
@@ -146,8 +159,7 @@ public class EventListFragment extends BaseFragment<ActivityComponent> implement
     @Override
     public void showError(String text) {
         rlError.setVisibility(View.VISIBLE);
-
-        Toast.makeText(getActivity(),text,Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
     }
 
     private void displayAlert(Event event) {
@@ -171,11 +183,50 @@ public class EventListFragment extends BaseFragment<ActivityComponent> implement
 
     @Override
     public void setProgressVisible(boolean visible) {
-        if(visible) {
+        if (visible) {
             progressIndicator.setVisibility(View.VISIBLE);
         } else {
             progressIndicator.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        if (listType == EventListType.SEARCH) {
+            inflater.inflate(R.menu.event_search, menu);
+            MenuItem searchMenuItem = menu.findItem(R.id.action_event_search);
+            SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenuItem);
+            searchView.setOnQueryTextListener(this);
+            setSearchableMenuItem(searchMenuItem);
+        }
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        eventListPresenter.searchEvent(query);
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
+    }
+
+    private void setSearchableMenuItem(MenuItem searchMenuItem) {
+        MenuItemCompat.expandActionView(searchMenuItem);
+        MenuItemCompat.setOnActionExpandListener(searchMenuItem,
+                new MenuItemCompat.OnActionExpandListener() {
+                    @Override
+                    public boolean onMenuItemActionExpand(MenuItem menuItem) {
+                        return true;
+                    }
+
+                    @Override
+                    public boolean onMenuItemActionCollapse(MenuItem menuItem) {
+                        launcher.search();
+                        return true;
+                    }
+                });
     }
 
 }

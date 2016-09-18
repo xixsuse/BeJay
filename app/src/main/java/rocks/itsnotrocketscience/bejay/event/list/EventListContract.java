@@ -36,5 +36,6 @@ public interface EventListContract {
         void openEvent();
         void openCreateEvent();
         void checkIn(Event event, boolean force);
+        void searchEvent(String query);
     }
 }

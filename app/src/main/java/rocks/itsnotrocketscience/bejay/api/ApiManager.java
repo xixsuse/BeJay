@@ -4,34 +4,23 @@ import android.content.Context;
 
 import java.util.concurrent.TimeUnit;
 
-import retrofit.RestAdapter;
 import rocks.itsnotrocketscience.bejay.api.retrofit.Events;
-import rocks.itsnotrocketscience.bejay.base.AppApplication;
 import rocks.itsnotrocketscience.bejay.managers.AccountManager;
-import rocks.itsnotrocketscience.bejay.managers.RetrofitListeners;
 import rocks.itsnotrocketscience.bejay.managers.ServiceFactory;
 import rx.Observable;
 import rx.functions.Func1;
 
 /**
  * Created by centralstation on 22/10/15.
+ *
  */
-public class ApiManager extends RetrofitListeners {
+public class ApiManager {
 
     private static final int DEFAULT_RETRY_COUNT = 3;
 
-    private final RestAdapter restAdapter;
-    private final AppApplication application;
     private final AccountManager accountManager;
 
     public ApiManager(Context context, AccountManager accountManager) {
-
-        application = (AppApplication) context.getApplicationContext();
-        restAdapter = new RestAdapter.Builder()
-                .setRequestInterceptor(accountManager.getAuthTokenInterceptor())
-                .setLogLevel(Constants.RETROFIT_LOG_LEVEL)
-                .setEndpoint(Constants.API)
-                .build();
         this.accountManager = accountManager;
     }
 
@@ -48,7 +37,7 @@ public class ApiManager extends RetrofitListeners {
         }).flatMap(observable -> observable);
     }
 
-    public static Func1<Observable<? extends Throwable>, Observable<?>> defaultRetry() {
+    static Func1<Observable<? extends Throwable>, Observable<?>> defaultRetry() {
         return retry(DEFAULT_RETRY_COUNT);
     }
 

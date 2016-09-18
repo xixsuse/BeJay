@@ -23,7 +23,8 @@ class EventsWithRetry implements Events {
         this.events = events;
     }
 
-   @Override public Observable<ArrayList<Event>> list() {
+    @Override
+    public Observable<ArrayList<Event>> list() {
         return events.list().retryWhen(ApiManager.defaultRetry());
     }
 
@@ -33,31 +34,42 @@ class EventsWithRetry implements Events {
     }
 
     @Override
-    public Observable<Map<String, String>> public_nearby_events(@Query("lat") long lat, @Query("lng") long lng) {
-        return events.public_nearby_events(lat,lng);
+    public Observable<ArrayList<Event>> publicNearbyEvents(@Query("lat") long lat, @Query("lng") long lng) {
+        return events.publicNearbyEvents(lat, lng);
     }
 
-    @Override public Observable<Event> get(@Path("id") int id) {
+    @Override
+    public Observable<ArrayList<Event>> searchEvents(@Query("search_term") String term) {
+        return events.searchEvents(term);
+    }
+
+    @Override
+    public Observable<Event> get(@Path("id") int id) {
         return events.get(id).retryWhen(ApiManager.defaultRetry());
     }
 
-    @Override public Observable<Event> checkIn(int id) {
+    @Override
+    public Observable<Event> checkIn(int id) {
         return events.checkIn(id).retryWhen(ApiManager.defaultRetry());
     }
 
-    @Override public Observable<Event> checkOut(int id) {
+    @Override
+    public Observable<Event> checkOut(int id) {
         return events.checkOut(id).retryWhen(ApiManager.defaultRetry());
     }
 
-    @Override public Observable<Map<String,String>> play(@Path("id") int id,  @Query("song_id") int song_id) {
+    @Override
+    public Observable<Map<String, String>> play(@Path("id") int id, @Query("song_id") int song_id) {
         return events.play(id, song_id);
     }
 
-    @Override public Observable<Map<String,String>> pause(@Path("id") int id) {
+    @Override
+    public Observable<Map<String, String>> pause(@Path("id") int id) {
         return events.pause(id);
     }
 
-    @Override public Observable<Song> postSong(@Body Song song) {
+    @Override
+    public Observable<Song> postSong(@Body Song song) {
         return events.postSong(song).retryWhen(ApiManager.defaultRetry());
     }
 
@@ -71,7 +83,8 @@ class EventsWithRetry implements Events {
         return events.deleteLike(id).retryWhen(ApiManager.defaultRetry());
     }
 
-    @Override public Observable<Event> postEvent(@Body Event event) {
+    @Override
+    public Observable<Event> postEvent(@Body Event event) {
         return events.postEvent(event);
     }
 }

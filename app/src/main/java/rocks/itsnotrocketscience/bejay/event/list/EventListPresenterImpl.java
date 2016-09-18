@@ -86,11 +86,14 @@ public class EventListPresenterImpl implements EventListContract.EventListPresen
     private void showErrorForEventListType(EventListType listType) {
         view.setProgressVisible(false);
         switch (listType){
-            case ALL:
+            case ALL :
                 view.showError("No Events Found");
                 break;
             case FRIENDS:
                 view.showError("No Friend Events Found");
+                break;
+            case SEARCH:
+                view.showError("Search Returned No Events");
                 break;
         }
     }
@@ -134,6 +137,17 @@ public class EventListPresenterImpl implements EventListContract.EventListPresen
         } else {
             doCheckIn(event);
         }
+    }
+
+    @Override
+    public void searchEvent(String query) {
+        view.setProgressVisible(true);
+        networkEvents.searchEvents(query)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(mainScheduler())
+                .subscribe(events -> view.onEventsLoaded(events),
+                        throwable -> showErrorForEventListType(EventListType.SEARCH),
+                        () -> view.setProgressVisible(false));
     }
 
     private void doCheckIn(final Event event) {

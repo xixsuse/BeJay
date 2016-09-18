@@ -30,9 +30,12 @@ public class NavigationDrawerFragment extends BaseFragment<ActivityComponent> {
 
     private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
     private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
-    @Inject public SharedPreferences sharedPreferences;
-    @Inject public AccountManager accountManager;
-    @Inject public Launcher launcher;
+    @Inject
+    public SharedPreferences sharedPreferences;
+    @Inject
+    public AccountManager accountManager;
+    @Inject
+    public Launcher launcher;
     private ActionBarDrawerToggle mDrawerToggle;
 
     private DrawerLayout drawerLayout;
@@ -104,11 +107,6 @@ public class NavigationDrawerFragment extends BaseFragment<ActivityComponent> {
         return false;
     }
 
-    public boolean isDrawerOpen() {
-        return drawerLayout != null && drawerLayout.isDrawerOpen(fragmentContainerView);
-    }
-
-
     public void setUp(int fragmentId, DrawerLayout drawerLayout) {
         fragmentContainerView = getActivity().findViewById(fragmentId);
         this.drawerLayout = drawerLayout;
@@ -170,14 +168,6 @@ public class NavigationDrawerFragment extends BaseFragment<ActivityComponent> {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        if (drawerLayout != null && isDrawerOpen()) {
-            inflater.inflate(R.menu.global, menu);
-        }
-        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override

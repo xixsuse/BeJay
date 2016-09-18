@@ -14,7 +14,7 @@ import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.api.Constants;
 import rocks.itsnotrocketscience.bejay.event.create.EventCreateActivity;
 import rocks.itsnotrocketscience.bejay.event.list.EventListType;
-import rocks.itsnotrocketscience.bejay.home.EventSearchFragment;
+import rocks.itsnotrocketscience.bejay.event.search.EventSearchFragment;
 import rocks.itsnotrocketscience.bejay.map.MapActivity;
 import rocks.itsnotrocketscience.bejay.event.list.EventListFragment;
 import rocks.itsnotrocketscience.bejay.event.single.EventActivity;
@@ -35,7 +35,7 @@ public class AppLauncher implements Launcher {
         FragmentManager manager = activity.getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = manager.beginTransaction();
         fragmentTransaction.replace(R.id.container, fragment);
-        fragmentTransaction.commit();
+        fragmentTransaction.addToBackStack(null).commit();
     }
 
     @Override
