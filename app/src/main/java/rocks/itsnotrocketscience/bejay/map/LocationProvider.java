@@ -55,13 +55,11 @@ public class LocationProvider implements GoogleApiClient.ConnectionCallbacks, Go
             Location lastKnownLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
             if (lastKnownLocation != null) {
 
-                LatLng latLng = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
-                lastKnownLatLng = latLng;
+                lastKnownLatLng = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
                 if (callback != null) {
-                    callback.onLocationRetrieved(latLng);
+                    callback.onLocationRetrieved(lastKnownLatLng);
                 }
             }
-
         } else {
             if (callback != null) {
                 callback.requestPermission();
