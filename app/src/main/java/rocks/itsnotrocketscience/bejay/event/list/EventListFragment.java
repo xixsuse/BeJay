@@ -37,10 +37,8 @@ import rocks.itsnotrocketscience.bejay.models.Event;
 
 public class EventListFragment extends BaseFragment<ActivityComponent> implements ItemClickListener<Event>, EventListContract.EventListView, SearchView.OnQueryTextListener {
 
-    @Inject
-    public EventListContract.EventListPresenter eventListPresenter;
-    @Inject
-    public Launcher launcher;
+    @Inject public EventListContract.EventListPresenter eventListPresenter;
+    @Inject public Launcher launcher;
 
     @Bind(R.id.rvEventList)
     public RecyclerView recyclerView;
@@ -53,7 +51,6 @@ public class EventListFragment extends BaseFragment<ActivityComponent> implement
     @Bind(R.id.btnRetry)
     Button btnRetry;
     private EventListAdapter adapter;
-    private EventListType listType;
     private List<Event> eventList;
 
     public static Fragment newInstance(EventListType type) {
@@ -69,7 +66,7 @@ public class EventListFragment extends BaseFragment<ActivityComponent> implement
         super.onCreate(savedInstanceState);
         getComponent().inject(this);
         setRetainInstance(true);
-        listType = (EventListType) getArguments().getSerializable("type");
+        eventListPresenter.setListType((EventListType) getArguments().getSerializable("type"));
         eventList = new ArrayList<>();
         setHasOptionsMenu(true);
     }
@@ -124,10 +121,8 @@ public class EventListFragment extends BaseFragment<ActivityComponent> implement
 
     @OnClick(R.id.btnRetry)
     public void getFeed() {
-        if (listType != EventListType.SEARCH) {
             rlError.setVisibility(View.GONE);
-            eventListPresenter.loadEvents(listType);
-        }
+            eventListPresenter.loadEvents();
     }
 
     @Override
@@ -192,7 +187,7 @@ public class EventListFragment extends BaseFragment<ActivityComponent> implement
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        if (listType == EventListType.SEARCH) {
+        if (eventListPresenter.getType() == EventListType.SEARCH) {
             inflater.inflate(R.menu.event_search, menu);
             MenuItem searchMenuItem = menu.findItem(R.id.action_event_search);
             SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenuItem);

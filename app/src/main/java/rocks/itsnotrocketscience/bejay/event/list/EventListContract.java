@@ -30,9 +30,11 @@ public interface EventListContract {
         }
 
         void onViewAttached(EventListView view);
+        void setListType(EventListType listType);
+        EventListType getType();
         void onViewDetached();
         void onDestroy();
-        void loadEvents(EventListType listType);
+        void loadEvents();
         void openEvent();
         void openCreateEvent();
         void checkIn(Event event, boolean force);

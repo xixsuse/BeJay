@@ -42,8 +42,8 @@ public class ActivityModule {
         return new AppLauncher(activity, sharedPreferences);
     }
 
-    @Provides EventListContract.EventListPresenter providesEventListPresenter(EventsDao eventsDao, Events networkEvents, AccountManager accountManager, Launcher launcher) {
-        return new EventListPresenterImpl(eventsDao, networkEvents, accountManager, launcher);
+    @Provides EventListContract.EventListPresenter providesEventListPresenter(EventsDao eventsDao, Events networkEvents, AccountManager accountManager, Launcher launcher,  LocationProvider locationProvider) {
+        return new EventListPresenterImpl(eventsDao, networkEvents, accountManager, launcher, locationProvider);
     }
 
     @Provides EventContract.EventPresenter providesEventPresenter(SharedPreferences sharedPreferences, Events networkEvent) {

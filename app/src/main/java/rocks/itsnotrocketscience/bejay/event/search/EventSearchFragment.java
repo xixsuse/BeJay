@@ -78,6 +78,4 @@ public class EventSearchFragment extends BaseFragment<ActivityComponent> {
         launcher.openEventList(EventListType.PUBLIC_LOCAL);
     }
 
-
-
 }

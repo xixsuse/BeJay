@@ -1,5 +1,7 @@
 package rocks.itsnotrocketscience.bejay.event.list;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +11,7 @@ import rocks.itsnotrocketscience.bejay.api.retrofit.Events;
 import rocks.itsnotrocketscience.bejay.dao.EventsDao;
 import rocks.itsnotrocketscience.bejay.managers.AccountManager;
 import rocks.itsnotrocketscience.bejay.managers.Launcher;
+import rocks.itsnotrocketscience.bejay.map.LocationProvider;
 import rocks.itsnotrocketscience.bejay.models.Event;
 import rx.Observable;
 import rx.Scheduler;
@@ -21,9 +24,8 @@ import static rocks.itsnotrocketscience.bejay.managers.AccountManager.EVENT_NONE
 
 /**
  * Created by nemi on 27/01/2016.
- *
  */
-public class EventListPresenterImpl implements EventListContract.EventListPresenter {
+public class EventListPresenterImpl implements EventListContract.EventListPresenter, LocationProvider.LocationRetrievedCallback {
     private static final Func1<List<Event>, Boolean> VALID_EVENT_LIST_FILTER = events -> events != null && events.size() != 0;
 
 
@@ -32,16 +34,20 @@ public class EventListPresenterImpl implements EventListContract.EventListPresen
     private final PublishSubject<Boolean> onDestroy;
     private final AccountManager accountManager;
     private final Launcher launcher;
+    private LocationProvider locationProvider;
 
     private EventListContract.EventListView view;
+    private EventListType listType;
     private List<Event> events;
 
     @Inject
-    public EventListPresenterImpl(EventsDao eventsDao, Events networkEvents, AccountManager accountManager, Launcher launcher) {
+    public EventListPresenterImpl(EventsDao eventsDao, Events networkEvents, AccountManager accountManager, Launcher launcher, LocationProvider locationProvider) {
         this.eventsDao = eventsDao;
         this.networkEvents = networkEvents;
         this.accountManager = accountManager;
         this.launcher = launcher;
+        this.locationProvider = locationProvider;
+        locationProvider.buildGoogleApiClient(this);
         onDestroy = PublishSubject.create();
     }
 
@@ -53,6 +59,12 @@ public class EventListPresenterImpl implements EventListContract.EventListPresen
     @Override
     public void onViewAttached(EventListContract.EventListView view) {
         this.view = view;
+        locationProvider.connect();
+    }
+
+    @Override
+    public void setListType(EventListType listType) {
+        this.listType = listType;
     }
 
     @Override
@@ -63,19 +75,24 @@ public class EventListPresenterImpl implements EventListContract.EventListPresen
     @Override
     public void onDestroy() {
         onDestroy.onNext(true);
+        locationProvider.disconnect();
     }
 
     @Override
-    public void loadEvents(EventListType listType) {
-        view.setProgressVisible(true);
-        Observable.concat(Observable.just(events).filter(validEventListFilter()),
-                loadEventsFromNetwork(listType).filter(validEventListFilter()))
-                .compose(newOnDestroyTransformer())
-                .first()
-                .observeOn(mainScheduler())
-                .subscribe(events -> view.onEventsLoaded(events),
-                        throwable -> showErrorForEventListType(listType),
-                        () -> view.setProgressVisible(false));
+    public void loadEvents() {
+        if (!locationProvider.hasLastKnownLocation()) {
+            locationProvider.fetchLocation();
+        } else if (listType != EventListType.SEARCH) {
+            view.setProgressVisible(true);
+            Observable.concat(Observable.just(events).filter(validEventListFilter()),
+                    loadEventsFromNetwork(listType).filter(validEventListFilter()))
+                    .compose(newOnDestroyTransformer())
+                    .first()
+                    .observeOn(mainScheduler())
+                    .subscribe(events -> view.onEventsLoaded(events),
+                            throwable -> showErrorForEventListType(listType),
+                            () -> view.setProgressVisible(false));
+        }
     }
 
     @Override
@@ -85,8 +102,8 @@ public class EventListPresenterImpl implements EventListContract.EventListPresen
 
     private void showErrorForEventListType(EventListType listType) {
         view.setProgressVisible(false);
-        switch (listType){
-            case ALL :
+        switch (listType) {
+            case ALL:
                 view.showError("No Events Found");
                 break;
             case FRIENDS:
@@ -94,6 +111,9 @@ public class EventListPresenterImpl implements EventListContract.EventListPresen
                 break;
             case SEARCH:
                 view.showError("Search Returned No Events");
+                break;
+            case PUBLIC_LOCAL:
+                view.showError("No Local Events");
                 break;
         }
     }
@@ -111,14 +131,24 @@ public class EventListPresenterImpl implements EventListContract.EventListPresen
     }
 
     private Observable<ArrayList<Event>> loadEventsFromNetwork(EventListType listType) {
-        switch(listType){
+        switch (listType) {
             case ALL:
                 return networkEvents.list().flatMap(eventsDao::save);
             case FRIENDS:
                 return networkEvents.friendsEvents().flatMap(eventsDao::save);
+            case PUBLIC_LOCAL:
+                return getLocalEventsArrayListObservable();
             default:
                 return networkEvents.list().flatMap(eventsDao::save);
         }
+    }
+
+    private Observable<ArrayList<Event>> getLocalEventsArrayListObservable() {
+        if (locationProvider.hasLastKnownLocation()) {
+            return networkEvents.publicNearbyEvents(locationProvider.getLastKnownLatLng().latitude,
+                    locationProvider.getLastKnownLatLng().longitude).flatMap(eventsDao::save);
+        }
+        return Observable.empty();
     }
 
     private <T> Observable.Transformer<T, T> newOnDestroyTransformer() {
@@ -128,26 +158,15 @@ public class EventListPresenterImpl implements EventListContract.EventListPresen
     @Override
     public void checkIn(final Event event, boolean force) {
         boolean checkedIn = accountManager.isCheckedIn();
-        if(!checkedIn) {
+        if (!checkedIn) {
             doCheckIn(event);
-        } else if(event.getId() == accountManager.getCheckedInEventId()) {
+        } else if (event.getId() == accountManager.getCheckedInEventId()) {
             launcher.openEvent(event.getId());
-        } else if(!force){
+        } else if (!force) {
             view.onCheckInFailed(event, CHECK_IN_CHECKOUT_NEEDED);
         } else {
             doCheckIn(event);
         }
-    }
-
-    @Override
-    public void searchEvent(String query) {
-        view.setProgressVisible(true);
-        networkEvents.searchEvents(query)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(mainScheduler())
-                .subscribe(events -> view.onEventsLoaded(events),
-                        throwable -> showErrorForEventListType(EventListType.SEARCH),
-                        () -> view.setProgressVisible(false));
     }
 
     private void doCheckIn(final Event event) {
@@ -162,6 +181,32 @@ public class EventListPresenterImpl implements EventListContract.EventListPresen
                 .observeOn(mainScheduler())
                 .doOnNext(event1 -> accountManager.setCheckedIn(event.getId()))
                 .subscribe(event1 -> launcher.openEvent(event.getId())
-               , throwable -> view.onCheckInFailed(event, CHECK_IN_FAILED));
+                        , throwable -> view.onCheckInFailed(event, CHECK_IN_FAILED));
+    }
+
+    @Override
+    public void searchEvent(String query) {
+        view.setProgressVisible(true);
+        networkEvents.searchEvents(query)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(mainScheduler())
+                .subscribe(events -> view.onEventsLoaded(events),
+                        throwable -> showErrorForEventListType(EventListType.SEARCH),
+                        () -> view.setProgressVisible(false));
+    }
+
+    @Override
+    public void onLocationRetrieved(LatLng latLng) {
+        loadEvents();
+    }
+
+    @Override
+    public void requestPermission() {
+
+    }
+
+    @Override
+    public EventListType getType() {
+        return listType;
     }
 }

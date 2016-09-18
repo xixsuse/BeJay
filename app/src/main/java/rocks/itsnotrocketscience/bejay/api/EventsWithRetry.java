@@ -34,7 +34,7 @@ class EventsWithRetry implements Events {
     }
 
     @Override
-    public Observable<ArrayList<Event>> publicNearbyEvents(@Query("lat") long lat, @Query("lng") long lng) {
+    public Observable<ArrayList<Event>> publicNearbyEvents(@Query("lat") double lat, @Query("lng") double lng) {
         return events.publicNearbyEvents(lat, lng);
     }
 

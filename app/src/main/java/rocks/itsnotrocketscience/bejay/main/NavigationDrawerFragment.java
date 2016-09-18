@@ -30,17 +30,13 @@ public class NavigationDrawerFragment extends BaseFragment<ActivityComponent> {
 
     private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
     private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
-    @Inject
-    public SharedPreferences sharedPreferences;
-    @Inject
-    public AccountManager accountManager;
-    @Inject
-    public Launcher launcher;
+    @Inject public SharedPreferences sharedPreferences;
+    @Inject public AccountManager accountManager;
+    @Inject public Launcher launcher;
     private ActionBarDrawerToggle mDrawerToggle;
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
-    private View fragmentContainerView;
 
     private int currentSelectedPosition = 0;
     private boolean fromSavedInstanceState;
@@ -86,6 +82,7 @@ public class NavigationDrawerFragment extends BaseFragment<ActivityComponent> {
         if (menuItem.isChecked()) menuItem.setChecked(false);
         else menuItem.setChecked(true);
         drawerLayout.closeDrawers();
+        ((BaseActivity)getActivity()).setHeaderTitle(menuItem.getTitle());
 
         switch (menuItem.getItemId()) {
 
@@ -108,7 +105,7 @@ public class NavigationDrawerFragment extends BaseFragment<ActivityComponent> {
     }
 
     public void setUp(int fragmentId, DrawerLayout drawerLayout) {
-        fragmentContainerView = getActivity().findViewById(fragmentId);
+        View fragmentContainerView = getActivity().findViewById(fragmentId);
         this.drawerLayout = drawerLayout;
 
         this.drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
@@ -137,8 +134,6 @@ public class NavigationDrawerFragment extends BaseFragment<ActivityComponent> {
                 }
 
                 if (!userLearnedDrawer) {
-                    // The user manually opened the drawer; store this flag to prevent auto-showing
-                    // the navigation drawer automatically in the future.
                     userLearnedDrawer = true;
                     sharedPreferences.edit().putBoolean(PREF_USER_LEARNED_DRAWER, true).apply();
                 }
@@ -146,16 +141,12 @@ public class NavigationDrawerFragment extends BaseFragment<ActivityComponent> {
             }
         };
 
-        // If the user hasn't 'learned' about the drawer, open it to introduce them to the drawer,
-        // per the navigation drawer design guidelines.
         if (!userLearnedDrawer && !fromSavedInstanceState) {
             this.drawerLayout.openDrawer(fragmentContainerView);
         }
 
-        // Defer code dependent on restoration of previous instance state.
         this.drawerLayout.post(mDrawerToggle::syncState);
 
-        this.drawerLayout.setDrawerListener(mDrawerToggle);
     }
 
     @Override

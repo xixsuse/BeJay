@@ -28,7 +28,7 @@ public class LocationProvider implements GoogleApiClient.ConnectionCallbacks, Go
         this.context = context;
     }
 
-    synchronized void buildGoogleApiClient(LocationRetrievedCallback callback) {
+    public synchronized void buildGoogleApiClient(LocationRetrievedCallback callback) {
         this.callback = callback;
         googleApiClient = new GoogleApiClient.Builder(context)
                 .addConnectionCallbacks(this)
@@ -47,7 +47,7 @@ public class LocationProvider implements GoogleApiClient.ConnectionCallbacks, Go
         }
     }
 
-    void fetchLocation() {
+    public void fetchLocation() {
         if (!googleApiClient.isConnected()) {
             return;
         }
@@ -77,6 +77,10 @@ public class LocationProvider implements GoogleApiClient.ConnectionCallbacks, Go
         return lastKnownLatLng;
     }
 
+    public boolean hasLastKnownLocation(){
+        return lastKnownLatLng!=null;
+    }
+
     @Override
     public void onConnectionSuspended(int i) {
 
@@ -88,9 +92,8 @@ public class LocationProvider implements GoogleApiClient.ConnectionCallbacks, Go
     }
 
 
-    interface LocationRetrievedCallback {
+    public interface LocationRetrievedCallback {
         void onLocationRetrieved(LatLng latLng);
-
         void requestPermission();
     }
 }
