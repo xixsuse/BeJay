@@ -145,7 +145,7 @@ public class Event implements Visitable {
     }
 
     public void setGps(LatLng gps) {
-        geo_cords = String.format("SRID=4326;POINT (%s %s)", gps.latitude, gps.latitude);
+        geo_cords = String.format("SRID=4326;POINT (%s %s)", gps.latitude, gps.longitude);
     }
 
     public boolean hasGps() {

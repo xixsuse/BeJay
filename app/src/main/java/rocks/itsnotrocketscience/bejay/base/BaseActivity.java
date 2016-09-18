@@ -18,6 +18,7 @@ import rocks.itsnotrocketscience.bejay.managers.Launcher;
 
 /**
  * Created by centralstation on 11/09/15.
+ *
  */
 public class BaseActivity extends InjectedActivity<ActivityComponent> {
 
