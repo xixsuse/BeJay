@@ -1,5 +1,6 @@
 package rocks.itsnotrocketscience.bejay.dagger;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,9 @@ import rocks.itsnotrocketscience.bejay.managers.AccountManager;
 import rocks.itsnotrocketscience.bejay.managers.AppLauncher;
 import rocks.itsnotrocketscience.bejay.managers.DateTimeUtils;
 import rocks.itsnotrocketscience.bejay.managers.Launcher;
+import rocks.itsnotrocketscience.bejay.map.LocationProvider;
+import rocks.itsnotrocketscience.bejay.map.MapContract;
+import rocks.itsnotrocketscience.bejay.map.MapPresenterImpl;
 import rocks.itsnotrocketscience.bejay.search.ModelAdapter;
 import rocks.itsnotrocketscience.bejay.search.view.ModelViewFactory;
 import rocks.itsnotrocketscience.bejay.search.view.ModelViewHolderFactory;
@@ -72,5 +76,14 @@ public class ActivityModule {
 
     @Provides ModelAdapter providesModelAdapter(ModelViewFactory viewFactory, ModelViewHolderFactory viewHolderFactory) {
         return new ModelAdapter(viewFactory, viewHolderFactory);
+    }
+
+    @Provides
+    LocationProvider providesLocationProvider(Context context){
+        return new LocationProvider(context);
+    }
+
+    @Provides MapContract.MapPresenter providesMapPresenter(Launcher launcher, LocationProvider locationProvider) {
+        return new MapPresenterImpl(activity, launcher, locationProvider);
     }
 }

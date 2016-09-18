@@ -9,6 +9,7 @@ import rocks.itsnotrocketscience.bejay.base.BaseActivity;
 import rocks.itsnotrocketscience.bejay.event.create.EventCreateActivity;
 import rocks.itsnotrocketscience.bejay.event.create.EventCreateFragment;
 import rocks.itsnotrocketscience.bejay.event.search.EventSearchFragment;
+import rocks.itsnotrocketscience.bejay.map.MapActivity;
 import rocks.itsnotrocketscience.bejay.music.backends.deezer.restapi.Album;
 import rocks.itsnotrocketscience.bejay.music.backends.deezer.restapi.Artist;
 import rocks.itsnotrocketscience.bejay.music.backends.deezer.restapi.Playlist;
@@ -35,6 +36,7 @@ public interface ActivityComponent {
      * Injectors
      * */
     void inject(BaseActivity baseActivity);
+    void inject(MapActivity loginActivity);
     void inject(EventCreateActivity eventCreateActivity);
     void inject(MainActivity mainActivity);
     void inject(EventListFragment eventListFragment);

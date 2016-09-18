@@ -20,22 +20,21 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.base.InjectedActivity;
-import rocks.itsnotrocketscience.bejay.dagger.DaggerMapComponent;
-import rocks.itsnotrocketscience.bejay.dagger.MapComponent;
-import rocks.itsnotrocketscience.bejay.dagger.MapModule;
+import rocks.itsnotrocketscience.bejay.dagger.ActivityComponent;
+import rocks.itsnotrocketscience.bejay.dagger.ActivityModule;
+import rocks.itsnotrocketscience.bejay.dagger.DaggerActivityComponent;
 import rocks.itsnotrocketscience.bejay.managers.Launcher;
 
 /**
  * Created by sirfunkenstine on 25/03/16.
  *
  */
-public class MapActivity extends InjectedActivity<MapComponent> implements MapContract.MapView {
+public class MapActivity extends InjectedActivity<ActivityComponent> implements MapContract.MapView {
 
     public static final String POSITION = "position";
     public static final String PLACE = "place";
 
-    private final MapModule mapModule;
-    private MapComponent activityComponent;
+    private final ActivityModule mapModule;
 
     @Inject public MapContract.MapPresenter mapPresenter;
     @Inject Launcher launcher;
@@ -46,7 +45,7 @@ public class MapActivity extends InjectedActivity<MapComponent> implements MapCo
     public Toolbar toolbar;
 
     public MapActivity() {
-        mapModule = new MapModule(this);
+        mapModule = new ActivityModule(this);
     }
 
     @Override
@@ -96,9 +95,9 @@ public class MapActivity extends InjectedActivity<MapComponent> implements MapCo
         return super.onOptionsItemSelected(item);
     }
 
-    @Override public MapComponent getComponent() {
-        return activityComponent = DaggerMapComponent.builder()
-                .mapModule(mapModule)
+    @Override public ActivityComponent getComponent() {
+        return DaggerActivityComponent.builder()
+                .activityModule(mapModule)
                 .appComponent(getAppComponent())
                 .build();
     }
@@ -115,7 +114,6 @@ public class MapActivity extends InjectedActivity<MapComponent> implements MapCo
 
     @Override public void setGoogleMap(GoogleMap googleMap) {
         this.googleMap = googleMap;
-        this.googleMap.setOnMarkerDragListener(mapPresenter);
         this.googleMap.setOnMapClickListener(mapPresenter);
     }
 }

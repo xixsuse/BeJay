@@ -72,4 +72,12 @@ public class EventSearchFragment extends BaseFragment<ActivityComponent> {
         launcher.openEventList(EventListType.FRIENDS);
     }
 
+
+    @OnClick(R.id.btEventsNearMe)
+    public void findEventsNearMe() {
+        launcher.openEventList(EventListType.PUBLIC_LOCAL);
+    }
+
+
+
 }
