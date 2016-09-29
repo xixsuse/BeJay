@@ -1,5 +1,7 @@
 package rocks.itsnotrocketscience.bejay.event.list;
 
+import android.support.annotation.NonNull;
+
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -28,10 +30,15 @@ import static rocks.itsnotrocketscience.bejay.managers.AccountManager.EVENT_NONE
 public class EventListPresenterImpl implements EventListContract.EventListPresenter, LocationProvider.LocationRetrievedCallback {
     private static final Func1<List<Event>, Boolean> VALID_EVENT_LIST_FILTER = events -> events != null && events.size() != 0;
 
+    public static final String NO_EVENTS = "No Events Found";
+    public static final String NO_FRIEND_EVENTS = "No Friend Events Found";
+    public static final String NO_LOCAL_EVENTS = "No Local Events";
+    public static final String NO_RESULTS = "Search Returned No Events";
+
 
     private final EventsDao eventsDao;
     private final Events networkEvents;
-    private final PublishSubject<Boolean> onDestroy;
+    public final PublishSubject<Boolean> onDestroy;
     private final AccountManager accountManager;
     private final Launcher launcher;
     private LocationProvider locationProvider;
@@ -96,6 +103,25 @@ public class EventListPresenterImpl implements EventListContract.EventListPresen
     }
 
     @Override
+    public void searchEvent(String query) {
+        view.setProgressVisible(true);
+        networkEvents.searchEvents(query)
+                .filter(validEventListFilter())
+                .flatMap(eventsDao::save)
+                .observeOn(mainScheduler())
+                .subscribe(events -> {
+                            view.onEventsLoaded(events);
+                        },
+                        throwable -> {
+                            showErrorForEventListType(EventListType.SEARCH);
+                        },
+                        () -> {
+                            view.setProgressVisible(false);
+                        });
+    }
+
+
+    @Override
     public void openEvent() {
         launcher.openEvent(accountManager.getCheckedInEventId());
     }
@@ -104,16 +130,16 @@ public class EventListPresenterImpl implements EventListContract.EventListPresen
         view.setProgressVisible(false);
         switch (listType) {
             case ALL:
-                view.showError("No Events Found");
+                view.showError(NO_EVENTS);
                 break;
             case FRIENDS:
-                view.showError("No Friend Events Found");
+                view.showError(NO_FRIEND_EVENTS);
                 break;
             case SEARCH:
-                view.showError("Search Returned No Events");
+                view.showError(NO_RESULTS);
                 break;
             case PUBLIC_LOCAL:
-                view.showError("No Local Events");
+                view.showError(NO_LOCAL_EVENTS);
                 break;
         }
     }
@@ -182,17 +208,6 @@ public class EventListPresenterImpl implements EventListContract.EventListPresen
                 .doOnNext(event1 -> accountManager.setCheckedIn(event.getId()))
                 .subscribe(event1 -> launcher.openEvent(event.getId())
                         , throwable -> view.onCheckInFailed(event, CHECK_IN_FAILED));
-    }
-
-    @Override
-    public void searchEvent(String query) {
-        view.setProgressVisible(true);
-        networkEvents.searchEvents(query)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(mainScheduler())
-                .subscribe(events -> view.onEventsLoaded(events),
-                        throwable -> showErrorForEventListType(EventListType.SEARCH),
-                        () -> view.setProgressVisible(false));
     }
 
     @Override
