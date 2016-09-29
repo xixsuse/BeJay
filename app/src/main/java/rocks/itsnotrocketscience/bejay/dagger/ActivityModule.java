@@ -5,20 +5,26 @@ import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 
+
 import dagger.Module;
 import dagger.Provides;
 import rocks.itsnotrocketscience.bejay.api.retrofit.Events;
 import rocks.itsnotrocketscience.bejay.dao.EventsDao;
+import rocks.itsnotrocketscience.bejay.event.create.EventCreateContract;
+import rocks.itsnotrocketscience.bejay.event.create.EventCreatePresenterImpl;
 import rocks.itsnotrocketscience.bejay.event.list.EventListContract;
 import rocks.itsnotrocketscience.bejay.event.list.EventListPresenterImpl;
 import rocks.itsnotrocketscience.bejay.event.single.EventContract;
 import rocks.itsnotrocketscience.bejay.event.single.EventPresenterImpl;
 import rocks.itsnotrocketscience.bejay.managers.AccountManager;
 import rocks.itsnotrocketscience.bejay.managers.AppLauncher;
+import rocks.itsnotrocketscience.bejay.managers.DateTimeUtils;
 import rocks.itsnotrocketscience.bejay.managers.Launcher;
 import rocks.itsnotrocketscience.bejay.search.ModelAdapter;
 import rocks.itsnotrocketscience.bejay.search.view.ModelViewFactory;
 import rocks.itsnotrocketscience.bejay.search.view.ModelViewHolderFactory;
+import rocks.itsnotrocketscience.bejay.widgets.DatePickerDialogFragment;
+import rocks.itsnotrocketscience.bejay.widgets.TimePickerDialogFragment;
 
 @Module
 public class ActivityModule {
@@ -36,8 +42,24 @@ public class ActivityModule {
         return new EventListPresenterImpl(eventsDao, networkEvents, accountManager);
     }
 
-    @Provides EventContract.EventPresenter providesEventPresenter(Events networkEvent) {
-        return new EventPresenterImpl(networkEvent);
+    @Provides EventContract.EventPresenter providesEventPresenter(SharedPreferences sharedPreferences, Events networkEvent) {
+        return new EventPresenterImpl(sharedPreferences, networkEvent);
+    }
+
+    @Provides DateTimeUtils providesDateTimeUtils(){
+        return new DateTimeUtils();
+    }
+
+    @Provides EventCreateContract.EventCreatePresenter providesEventCreatePresenter(Events networkEvent, DateTimeUtils dateTimeUtils) {
+        return new EventCreatePresenterImpl(networkEvent, dateTimeUtils);
+    }
+
+    @Provides DatePickerDialogFragment providesDatePicker() {
+        return DatePickerDialogFragment.newInstance();
+    }
+
+    @Provides TimePickerDialogFragment providesTimePicker() {
+        return TimePickerDialogFragment.newInstance();
     }
 
     @Provides LayoutInflater providesLayoutInflater() {

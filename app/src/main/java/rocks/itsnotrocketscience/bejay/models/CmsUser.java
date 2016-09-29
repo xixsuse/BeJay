@@ -7,21 +7,24 @@ import com.google.gson.annotations.SerializedName;
  */
 public class CmsUser {
 
-    String email;
+    private final String email;
     @SerializedName("first_name")
+    private final
     String firstName;
     @SerializedName("last_name")
+    private final
     String lastName;
 
     //todo remove these
     @SerializedName("user_permissions")
+    private final
     String userPermissions;
-    String groups;
+    private final String groups;
     
-    String token;
+    private String token;
 
-    String username;
-    String password;
+    private final String username;
+    private final String password;
 
     public CmsUser(String userPermissions, String groups, String firstName, String lastName, String username, String email, String password) {
         this.email = email;

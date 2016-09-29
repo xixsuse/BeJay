@@ -7,7 +7,7 @@ import android.widget.TextView;
 import rocks.itsnotrocketscience.bejay.R;
 
 public class SectionHeaderViewHolder extends RecyclerView.ViewHolder {
-    private TextView title;
+    private final TextView title;
 
     public SectionHeaderViewHolder(View itemView) {
         super(itemView);

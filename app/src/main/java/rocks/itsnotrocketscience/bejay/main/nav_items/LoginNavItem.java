@@ -12,8 +12,8 @@ import rocks.itsnotrocketscience.bejay.managers.AccountManager;
  * Created by centralstation on 11/09/15.
  */
 public class LoginNavItem implements NavItem {
-    private Context context;
-    AccountManager accountManager;
+    private final Context context;
+    private final AccountManager accountManager;
 
     public LoginNavItem(Context context, AccountManager accountManager) {
 

@@ -17,6 +17,6 @@ public class Playlist implements Api.Playlist {
 
     @Override
     public Observable<rocks.itsnotrocketscience.bejay.music.model.Playlist> get(String id) {
-        return api.get(Long.valueOf(id)).map(deezerPlaylist -> ModelMapper.map(deezerPlaylist));
+        return api.get(Long.valueOf(id)).map(ModelMapper::map);
     }
 }

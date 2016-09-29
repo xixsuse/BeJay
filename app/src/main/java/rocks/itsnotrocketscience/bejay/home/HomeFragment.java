@@ -14,12 +14,11 @@ import butterknife.OnClick;
 import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
 import rocks.itsnotrocketscience.bejay.dagger.ActivityComponent;
-import rocks.itsnotrocketscience.bejay.event.list.EventListFragment;
 import rocks.itsnotrocketscience.bejay.managers.Launcher;
 
 public class HomeFragment extends BaseFragment<ActivityComponent> {
 
-    @Inject Launcher launcher;
+    @Inject public Launcher launcher;
     @Bind(R.id.btFindEvents)CircleButton btFindEvents;
 
     public static HomeFragment newInstance() {

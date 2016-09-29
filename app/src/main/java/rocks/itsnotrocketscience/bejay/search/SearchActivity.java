@@ -27,10 +27,11 @@ public class SearchActivity extends InjectedActivity<SearchComponent> implements
 
     public static final String EXTRA_TRACK = "track";
 
-    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.toolbar)
+    public Toolbar toolbar;
 
-    SearchModule searchModule;
-    SearchComponent searchComponent;
+    private final SearchModule searchModule;
+    private SearchComponent searchComponent;
 
     public SearchActivity() {
         this.searchModule = new SearchModule(this);
@@ -95,34 +96,36 @@ public class SearchActivity extends InjectedActivity<SearchComponent> implements
     @Override
     public void onModelSelected(Model model) {
         switch (model.getType()) {
-            case Model.TYPE_TRACK : {
+            case Model.TYPE_TRACK: {
                 Track track = (Track) model;
                 Intent result = new Intent().putExtra(EXTRA_TRACK, track);
                 setResult(RESULT_OK, result);
                 finish();
                 break;
             }
-            case Model.TYPE_ARTIST : {
+            case Model.TYPE_ARTIST: {
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.search_result_container, ArtistDetailsFragment.newInstance((Artist) model))
                         .addToBackStack("artist")
                         .commitAllowingStateLoss();
                 break;
             }
-            case Model.TYPE_PLAYLIST : {
+            case Model.TYPE_PLAYLIST: {
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.search_result_container, PlaylistDetailsFragment.newInstance(model.getId()))
                         .addToBackStack("playlist-details")
                         .commitAllowingStateLoss();
                 break;
             }
-            case Model.TYPE_ALBUM : {
+            case Model.TYPE_ALBUM: {
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.search_result_container, AlbumDetailsFragment.newInstance(model.getId()))
                         .addToBackStack("album-details")
                         .commitAllowingStateLoss();
                 break;
             }
+            case Model.TYPE_UNKNOWN:
+                break;
         }
     }
 

@@ -9,5 +9,6 @@
     <color name="uva_color">#f2f8ee</color>
     <color name="default_color">#f2f8ee</color>
     <color name="grey">#333333</color>
+    <color name="light_grey">#D3D3D3</color>
     <color name="bg_show_more">#dddddd</color>
 </resources>

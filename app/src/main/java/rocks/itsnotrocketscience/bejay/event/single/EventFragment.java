@@ -6,10 +6,10 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -20,32 +20,30 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import rocks.itsnotrocketscience.bejay.R;
-import rocks.itsnotrocketscience.bejay.api.ApiManager;
-import rocks.itsnotrocketscience.bejay.api.retrofit.Events;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
 import rocks.itsnotrocketscience.bejay.dagger.ActivityComponent;
-import rocks.itsnotrocketscience.bejay.managers.AccountManager;
 import rocks.itsnotrocketscience.bejay.models.Event;
 import rocks.itsnotrocketscience.bejay.models.Song;
 import rocks.itsnotrocketscience.bejay.search.SearchActivity;
 import rocks.itsnotrocketscience.bejay.music.model.Track;
 
 /**
- * A placeholder fragment containing a simple view.
+ * Event fragment
  */
 public class EventFragment extends BaseFragment<ActivityComponent> implements EventContract.EventView {
 
-    static final int RC_SEARCH_TRACK = 1;
+    private static final int RC_SEARCH_TRACK = 1;
 
-    @Inject EventContract.EventPresenter presenter;
-    @Inject AccountManager accountManager;
-    @Inject ApiManager apiManager;
-    @Inject Events events;
+    @Inject public EventContract.EventPresenter presenter;
 
-    @Bind(R.id.rvSongList) RecyclerView rvSongList;
-    @Bind(R.id.fab) FloatingActionButton fab;
-    SongListAdapter adapter;
-    List<Song> songList;
+    @Bind(R.id.progress)
+    public ProgressBar progressIndicator;
+    @Bind(R.id.rvSongList)
+    public RecyclerView rvSongList;
+    @Bind(R.id.fab)
+    public FloatingActionButton fab;
+    private SongListAdapter adapter;
+    private final List<Song> songList;
 
     public EventFragment() {
         songList = new ArrayList<>();
@@ -58,7 +56,6 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Ev
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        presenter.loadEvent(((EventActivity) getActivity()).getIdFromBundle());
         setupViews();
     }
 
@@ -68,7 +65,7 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Ev
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         rvSongList.setLayoutManager(llm);
         adapter = new SongListAdapter(songList);
-        adapter.setItemClickListener((view1, position) -> Log.d("yo", "yo"));
+        adapter.setItemClickListener((item, position) -> presenter.toggleLike(item, position));
         rvSongList.setAdapter(adapter);
         fab.setOnClickListener(v ->
                 startActivityForResult(new Intent(getActivity(), SearchActivity.class), RC_SEARCH_TRACK));
@@ -88,9 +85,6 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Ev
     }
 
     @Override
-    public void setProgressVisible(boolean visible) {}
-
-    @Override
     public void onEventLoaded(Event event) {
         songList.clear();
         songList.addAll(event.getSongs());
@@ -103,9 +97,19 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Ev
     }
 
     @Override
+    public void showToast(String toast) {
+        Toast.makeText(getActivity(), toast, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void onSongAdded(Song song) {
         songList.add(song);
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void notifyItemChanged(int position) {
+        adapter.notifyItemChanged(position);
     }
 
     @Override
@@ -113,13 +117,14 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Ev
         super.onResume();
         presenter.onViewAttached(this);
         presenter.registerUpdateReceiver(this.getActivity());
+        presenter.loadEvent(((EventActivity) getActivity()).getIdFromBundle());
     }
 
     @Override
     public void onPause() {
         super.onPause();
         presenter.onViewDetached();
-        presenter.unregisterUpdateReceiver(this.getActivity());
+        presenter.unregisterUpdateReceiver();
     }
 
     @Override
@@ -128,23 +133,32 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Ev
         presenter.onDestroy();
     }
 
-    Song toSong(Track track) {
+    private Song toSong(Track track) {
         return new Song(track.getTitle());
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
-            case RC_SEARCH_TRACK : {
-                if((resultCode == Activity.RESULT_OK)) {
+            case RC_SEARCH_TRACK: {
+                if ((resultCode == Activity.RESULT_OK)) {
                     Track track = data.getParcelableExtra(SearchActivity.EXTRA_TRACK);
-                    presenter.adSong(toSong(track));
+                    presenter.addSong(toSong(track));
                 }
                 break;
             }
-            default : {
+            default: {
                 super.onActivityResult(requestCode, resultCode, data);
             }
+        }
+    }
+
+    @Override
+    public void setProgressVisible(boolean visible) {
+        if (visible) {
+            progressIndicator.setVisibility(View.VISIBLE);
+        } else {
+            progressIndicator.setVisibility(View.GONE);
         }
     }
 }

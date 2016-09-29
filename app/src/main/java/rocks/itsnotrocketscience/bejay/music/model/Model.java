@@ -16,7 +16,7 @@ public abstract class Model {
     private String provider;
     private String id;
 
-    public String getProvider() {
+    String getProvider() {
         return provider;
     }
 

@@ -40,16 +40,17 @@ public class EventActivity extends InjectedActivity<ActivityComponent> {
 
     private static final String TAG = "EventActivity";
     public static final String EVENT_RECEIVER_ID = "event_receiver_id";
-    public static String EVENT_ID = "url_extra";
+    public static final String EVENT_ID = "url_extra";
 
-    @Inject SharedPreferences sharedPreferences;
+    @Inject public SharedPreferences sharedPreferences;
 
     @Bind(R.id.coordinator_layout) CoordinatorLayout coordinatorLayout;
-    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.toolbar)
+    public Toolbar toolbar;
     @Bind(R.id.app_bar_layout) AppBarLayout appBarLayout;
 
-    ActivityModule activityModule;
-    ActivityComponent activityComponent;
+    private final ActivityModule activityModule;
+    private ActivityComponent activityComponent;
 
     private EventFragment eventFragment;
     private Event event;
@@ -151,7 +152,7 @@ public class EventActivity extends InjectedActivity<ActivityComponent> {
         toolbar.setTitle(title);
     }
 
-    public void showFragment(Fragment fragment) {
+    private void showFragment(Fragment fragment) {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = manager.beginTransaction();
         fragmentTransaction.replace(R.id.container, fragment);

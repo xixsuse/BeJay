@@ -2,7 +2,6 @@ package rocks.itsnotrocketscience.bejay.event.list;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -23,7 +23,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import rocks.itsnotrocketscience.bejay.R;
-import rocks.itsnotrocketscience.bejay.api.ApiManager;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
 import rocks.itsnotrocketscience.bejay.dagger.ActivityComponent;
 import rocks.itsnotrocketscience.bejay.event.list.EventListContract.EventListPresenter.CheckInError;
@@ -31,19 +30,23 @@ import rocks.itsnotrocketscience.bejay.managers.AccountManager;
 import rocks.itsnotrocketscience.bejay.managers.Launcher;
 import rocks.itsnotrocketscience.bejay.models.Event;
 
-public class EventListFragment extends BaseFragment<ActivityComponent> implements ItemClickListener, EventListContract.EventListView {
+public class EventListFragment extends BaseFragment<ActivityComponent> implements ItemClickListener<Event>, EventListContract.EventListView {
 
-    @Inject AccountManager accountManager;
-    @Inject ApiManager apiManager;
-    @Inject EventListContract.EventListPresenter eventListPresenter;
-    @Inject Launcher launcher;
+    @Inject public AccountManager accountManager;
+    @Inject public EventListContract.EventListPresenter eventListPresenter;
+    @Inject public Launcher launcher;
 
-    @Bind(R.id.rvEventList) RecyclerView recyclerView;
-    @Bind(R.id.rlError) RelativeLayout rlError;
+    @Bind(R.id.rvEventList)
+    public RecyclerView recyclerView;
+    @Bind(R.id.progress)
+    public ProgressBar progressIndicator;
+    @Bind(R.id.rlError)
+    public RelativeLayout rlError;
     @Bind(R.id.btnRetry) Button btnRetry;
-    @Bind(R.id.fab) FloatingActionButton fab;
-    EventListAdapter adapter;
-    List<Event> eventList;
+    @Bind(R.id.fab)
+    public FloatingActionButton fab;
+    private EventListAdapter adapter;
+    private List<Event> eventList;
 
     public static Fragment newInstance() {
         return new EventListFragment();
@@ -65,8 +68,7 @@ public class EventListFragment extends BaseFragment<ActivityComponent> implement
     }
 
     private void addSnackBar() {
-        fab.setOnClickListener(view1 -> Snackbar.make(view1, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show());
+        fab.setOnClickListener(v -> launcher.openCreateEvent());
     }
 
     @Override
@@ -113,8 +115,8 @@ public class EventListFragment extends BaseFragment<ActivityComponent> implement
     }
 
     @Override
-    public void onClick(View view, int position) {
-        eventListPresenter.checkIn(eventList.get(position), false);
+    public void onClick(Event event, int position) {
+        eventListPresenter.checkIn(event, false);
     }
 
     @Override
@@ -134,11 +136,6 @@ public class EventListFragment extends BaseFragment<ActivityComponent> implement
                 break;
             }
         }
-    }
-
-    @Override
-    public void setProgressVisible(boolean visible) {
-        Toast.makeText(getActivity(), "setProgressVisible(" +visible + ")", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -169,6 +166,16 @@ public class EventListFragment extends BaseFragment<ActivityComponent> implement
                     eventListPresenter.checkIn(event, true);
                 })
                 .show();
+    }
+
+
+    @Override
+    public void setProgressVisible(boolean visible) {
+        if(visible) {
+            progressIndicator.setVisibility(View.VISIBLE);
+        } else {
+            progressIndicator.setVisibility(View.GONE);
+        }
     }
 
 }

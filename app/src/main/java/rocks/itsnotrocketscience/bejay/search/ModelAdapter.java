@@ -17,10 +17,10 @@ import rocks.itsnotrocketscience.bejay.search.view.ModelViewHolderFactory;
  * Created by nemi on 20/02/2016.
  */
 public class ModelAdapter extends BaseAdapter<ModelViewHolder, Model> {
-    private ModelViewFactory viewFactory;
-    private ModelViewHolderFactory viewHolderFactory;
+    private final ModelViewFactory viewFactory;
+    private final ModelViewHolderFactory viewHolderFactory;
 
-    private ArrayList<Model> models = new ArrayList<>();
+    private final ArrayList<Model> models = new ArrayList<>();
 
     @Inject
     public ModelAdapter(ModelViewFactory viewFactory, ModelViewHolderFactory viewHolderFactory) {

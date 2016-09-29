@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -16,23 +17,26 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
+import java.util.Arrays;
+
 import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import rocks.itsnotrocketscience.bejay.R;
 import rocks.itsnotrocketscience.bejay.base.BaseFragment;
 import rocks.itsnotrocketscience.bejay.dagger.LoginComponent;
 import rocks.itsnotrocketscience.bejay.managers.Launcher;
 
-public class LoginFragment extends BaseFragment<LoginComponent> implements LoginContract.LoginView  {
+public class LoginFragment extends BaseFragment<LoginComponent> implements LoginContract.LoginView {
 
-    @Bind(R.id.btLoginFacebook) LoginButton btLoginFacebook;
-    @Bind(R.id.pbProgress) ProgressBar pbProgress;
-    @Inject LoginContract.LoginPresenter loginPresenter;
-    @Inject Launcher launcher;
-    @Inject CallbackManager callbackManager;
+    @Bind(R.id.btLoginFacebook)
+    public LoginButton btLoginFacebook;
+    @Bind(R.id.pbProgress)
+    public ProgressBar pbProgress;
+    @Inject public LoginContract.LoginPresenter loginPresenter;
+    @Inject public Launcher launcher;
+    @Inject public CallbackManager callbackManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,10 +56,6 @@ public class LoginFragment extends BaseFragment<LoginComponent> implements Login
         ButterKnife.bind(this, view);
         setupFacebookLoginButton(btLoginFacebook);
         return view;
-    }
-    @OnClick(R.id.btLoginFacebook)
-    public void login() {
-        launcher.openLogin();
     }
 
     @Override
@@ -77,7 +77,9 @@ public class LoginFragment extends BaseFragment<LoginComponent> implements Login
     }
 
     @Override
-    public void showError(String error) {}
+    public void showError(String error) {
+        Toast.makeText(getActivity(), error, Toast.LENGTH_LONG).show();
+    }
 
     @Override
     public void onLoggedIn() {
@@ -102,17 +104,22 @@ public class LoginFragment extends BaseFragment<LoginComponent> implements Login
         loginPresenter.onDestroy();
     }
 
-    private void setupFacebookLoginButton( LoginButton btLoginFacebook) {
+    private void setupFacebookLoginButton(LoginButton btLoginFacebook) {
         btLoginFacebook.setFragment(this);
+        btLoginFacebook.setReadPermissions(Arrays.asList("public_profile", "email", "user_friends"));
         btLoginFacebook.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                loginPresenter.verifyUser(loginResult);
+                loginPresenter.registerUser(loginResult);
             }
             @Override
-            public void onCancel() {}
+            public void onCancel() {
+                LoginManager.getInstance().logOut();
+                showError("cancelled");}
             @Override
-            public void onError(FacebookException exception) {}
+            public void onError(FacebookException exception) {
+                showError(exception.toString());
+            }
         });
     }
 

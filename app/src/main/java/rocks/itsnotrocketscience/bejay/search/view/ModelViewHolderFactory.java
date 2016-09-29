@@ -8,7 +8,7 @@ import rocks.itsnotrocketscience.bejay.search.di.SearchComponent;
 import rocks.itsnotrocketscience.bejay.music.model.Model;
 
 public class ModelViewHolderFactory {
-    private SearchComponent injector;
+    private final SearchComponent injector;
 
     @Inject
     public ModelViewHolderFactory(SearchComponent injector) {

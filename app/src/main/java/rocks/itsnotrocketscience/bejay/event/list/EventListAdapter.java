@@ -13,7 +13,7 @@ import rocks.itsnotrocketscience.bejay.models.Event;
 /**
  * Created by centralstation on 12/09/15.
  */
-public class EventListAdapter extends BaseListAdapter<Event> {
+class EventListAdapter extends BaseListAdapter<Event> {
 
     public EventListAdapter(List<Event> eventList) {
         super(eventList);

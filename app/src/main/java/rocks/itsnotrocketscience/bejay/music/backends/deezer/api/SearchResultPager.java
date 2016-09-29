@@ -19,8 +19,8 @@ public class SearchResultPager<T, R> implements Pager<R> {
 
     private final String query;
     private final Long pageSize;
-    private Func3<String, Long, Long, Observable<PageResponse<T>>> search;
-    private Func1<T, R> mapper;
+    private final Func3<String, Long, Long, Observable<PageResponse<T>>> search;
+    private final Func1<T, R> mapper;
     private Cursor next;
     private Cursor prev;
 
@@ -73,14 +73,14 @@ public class SearchResultPager<T, R> implements Pager<R> {
         return loadPage(prev);
     }
 
-    public Observable<List<R>> loadPage(Cursor cursor) {
+    private Observable<List<R>> loadPage(Cursor cursor) {
         if(cursor != null) {
             return search.call(query, cursor.index, cursor.limit)
                     .observeOn(AndroidSchedulers.mainThread())
                     .doOnNext(onNext())
                     .flatMap(pageResponse -> Observable.from(pageResponse.getData()))
                     .map(mapper)
-                    .collect(() -> new ArrayList<R>(), (list, item) -> list.add(item));
+                    .collect(ArrayList::new, List::add);
         }
 
         return Observable.empty();

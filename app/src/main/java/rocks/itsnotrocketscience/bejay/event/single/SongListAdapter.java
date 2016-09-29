@@ -13,7 +13,7 @@ import rocks.itsnotrocketscience.bejay.models.Song;
 /**
  * Created by centralstation on 17/09/15.
  */
-public class SongListAdapter extends BaseListAdapter<Song> {
+class SongListAdapter extends BaseListAdapter<Song> {
 
     public SongListAdapter(List<Song> eventList) {
         super(eventList);
@@ -32,6 +32,7 @@ public class SongListAdapter extends BaseListAdapter<Song> {
         Song song = items.get(position);
         ((SongViewHolder) holder).tvSongTitle.setText(song.getTitle());
         ((SongViewHolder) holder).tvLikesCount.setText(song.getCountStr());
+        ((SongViewHolder) holder).btnLikeSong.setPressed(song.hasLikeId());
     }
 
 }

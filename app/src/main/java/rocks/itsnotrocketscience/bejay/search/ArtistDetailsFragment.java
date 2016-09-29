@@ -31,20 +31,21 @@ import rocks.itsnotrocketscience.bejay.view.ItemTouchHelper;
 
 public class ArtistDetailsFragment extends BaseFragment implements ArtistDetailsContract.View, ItemTouchHelper.OnItemClickedListener {
 
-    public static final String EXTRA_ARTIST = "artist";
+    private static final String EXTRA_ARTIST = "artist";
 
-    @Inject SectionAdapter artistDetailAdapter;
-    @Inject ArtistDetailsPresenter presenter;
-    @Inject ModelViewHolderFactory viewHolderFactory;
-    @Inject ModelViewFactory viewFactory;
+    @Inject public SectionAdapter artistDetailAdapter;
+    @Inject public ArtistDetailsPresenter presenter;
+    @Inject public ModelViewHolderFactory viewHolderFactory;
+    @Inject public ModelViewFactory viewFactory;
 
-    @Bind(R.id.search_result) RecyclerView artistDetailsView;
-    @Bind(R.id.progress) ProgressBar progressIndicator;
+    @Bind(R.id.search_result)
+    public RecyclerView artistDetailsView;
+    @Bind(R.id.progress)
+    public ProgressBar progressIndicator;
 
     private Artist artist;
     private ArtistDetailsContract.ArtistDetails artistDetails;
     private MusicSearchContract contract;
-    private ItemTouchHelper itemTouchHelper;
 
     public static ArtistDetailsFragment newInstance(Artist artist) {
         ArtistDetailsFragment fragment = new ArtistDetailsFragment();
@@ -86,7 +87,7 @@ public class ArtistDetailsFragment extends BaseFragment implements ArtistDetails
         ButterKnife.bind(this, view);
         artistDetailsView.setAdapter(artistDetailAdapter);
         artistDetailsView.setLayoutManager(new LinearLayoutManager(getContext()));
-        itemTouchHelper = new ItemTouchHelper(getContext());
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(getContext());
         itemTouchHelper.setOnItemClickedListener(this);
         itemTouchHelper.setup(artistDetailsView);
     }

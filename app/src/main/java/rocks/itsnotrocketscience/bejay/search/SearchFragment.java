@@ -29,13 +29,15 @@ import rocks.itsnotrocketscience.bejay.search.di.SearchComponent;
 import rocks.itsnotrocketscience.bejay.view.ItemTouchHelper;
 
 public class SearchFragment extends BaseFragment implements SearchContract.View, ItemTouchHelper.OnItemClickedListener {
-    public static final String EXTRA_PAGE_SIZE = "page_size";
-    public static final String EXTRA_TYPE = "type";
+    private static final String EXTRA_PAGE_SIZE = "page_size";
+    private static final String EXTRA_TYPE = "type";
 
-    @Inject ModelAdapter resultAdapter;
+    @Inject public ModelAdapter resultAdapter;
 
-    @Bind(R.id.search_result) RecyclerView searchResult;
-    @Bind(R.id.progress) ProgressBar progressIndicator;
+    @Bind(R.id.search_result)
+    public RecyclerView searchResult;
+    @Bind(R.id.progress)
+    public ProgressBar progressIndicator;
 
     private SearchContract.Presenter searchPresenter;
     private LinearLayoutManager layoutManager;
@@ -45,11 +47,11 @@ public class SearchFragment extends BaseFragment implements SearchContract.View,
     private boolean loading;
     private MusicSearchContract contract;
 
-    float getTrackItemMinHeight() {
+    private float getTrackItemMinHeight() {
         return getResources().getDimension(R.dimen.list_item_prefered_height);
     }
 
-    int getPageSize() {
+    private int getPageSize() {
         Bundle arguments = getArguments();
         if(arguments != null && arguments.containsKey(EXTRA_PAGE_SIZE)) {
             return arguments.getInt(EXTRA_PAGE_SIZE);

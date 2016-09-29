@@ -23,16 +23,18 @@ import rocks.itsnotrocketscience.bejay.view.ItemTouchHelper;
 
 public class AlbumDetailsFragment extends BaseFragment implements AlbumDetailsContract.View, rocks.itsnotrocketscience.bejay.view.ItemTouchHelper.OnItemClickedListener{
 
-    public static final String EXTRA_ALBUM_ID = "album_id";
+    private static final String EXTRA_ALBUM_ID = "album_id";
 
-    @Bind(R.id.search_result) RecyclerView tracks;
-    @Bind(R.id.progress) ProgressBar progressIndicator;
+    @Bind(R.id.search_result)
+    public RecyclerView tracks;
+    @Bind(R.id.progress)
+    public ProgressBar progressIndicator;
 
-    @Inject AlbumDetailsContract.Presenter presenter;
-    @Inject ModelAdapter modelAdapter;
+    @Inject
+    public AlbumDetailsContract.Presenter presenter;
+    @Inject
+    public ModelAdapter modelAdapter;
 
-    private LinearLayoutManager layoutManager;
-    private ItemTouchHelper itemTouchHelper;
     private MusicSearchContract contract;
     private String albumId;
     private Album album;
@@ -64,10 +66,10 @@ public class AlbumDetailsFragment extends BaseFragment implements AlbumDetailsCo
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        layoutManager = new LinearLayoutManager(getContext());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         tracks.setLayoutManager(layoutManager);
         tracks.setAdapter(modelAdapter);
-        itemTouchHelper = new ItemTouchHelper(getContext());
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(getContext());
         itemTouchHelper.setOnItemClickedListener(this);
         itemTouchHelper.setup(tracks);
     }

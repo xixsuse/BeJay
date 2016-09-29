@@ -23,13 +23,17 @@ import rocks.itsnotrocketscience.bejay.view.ItemTouchHelper;
 
 public class PlaylistDetailsFragment extends BaseFragment implements PlaylistDetailsContract.View, rocks.itsnotrocketscience.bejay.view.ItemTouchHelper.OnItemClickedListener{
 
-    public static final String EXTRA_PLAYLIST_ID = "playlist_id";
+    private static final String EXTRA_PLAYLIST_ID = "playlist_id";
 
-    @Bind(R.id.search_result) RecyclerView tracks;
-    @Bind(R.id.progress) ProgressBar progressIndicator;
+    @Bind(R.id.search_result)
+    public RecyclerView tracks;
+    @Bind(R.id.progress)
+    public ProgressBar progressIndicator;
 
-    @Inject PlaylistDetailsContract.Presenter presenter;
-    @Inject ModelAdapter modelAdapter;
+    @Inject
+    public PlaylistDetailsContract.Presenter presenter;
+    @Inject
+    public ModelAdapter modelAdapter;
 
     private LinearLayoutManager layoutManager;
     private ItemTouchHelper itemTouchHelper;

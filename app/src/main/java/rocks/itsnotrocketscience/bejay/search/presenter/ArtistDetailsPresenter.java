@@ -10,7 +10,7 @@ import rx.android.schedulers.AndroidSchedulers;
 
 public class ArtistDetailsPresenter extends PresenterBase<ArtistDetailsContract.View> implements ArtistDetailsContract.Presenter {
 
-    private Api.Artist api;
+    private final Api.Artist api;
 
     @Inject
     public ArtistDetailsPresenter(Api.Artist api) {

@@ -8,10 +8,10 @@ import rocks.itsnotrocketscience.bejay.dao.EventsDao;
 
 public class ModelDbHelper extends SQLiteOpenHelper {
 
-    public static final String NAME = "models";
-    public static final int VERSION = 1;
+    private static final String NAME = "models";
+    private static final int VERSION = 1;
 
-    public static final String CREATE_TABLE_EVENTS = "create table " + EventsDao.TABLE_NAME + "(" +
+    private static final String CREATE_TABLE_EVENTS = "create table " + EventsDao.TABLE_NAME + "(" +
             EventsDao.Columns._ID + " integer primary key not null, " +
             EventsDao.Columns.ORDER + " integer, " +
             EventsDao.Columns.PUBLISH + " integer, " +
@@ -22,7 +22,7 @@ public class ModelDbHelper extends SQLiteOpenHelper {
             EventsDao.Columns.APP_USER + " text);";
 
 
-    public ModelDbHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+    private ModelDbHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
 

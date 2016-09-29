@@ -6,7 +6,7 @@ import rocks.itsnotrocketscience.bejay.search.contract.PresenterBase;
 import rx.android.schedulers.AndroidSchedulers;
 
 public class PlaylistDetailsPresenter extends PresenterBase<PlaylistDetailsContract.View> implements PlaylistDetailsContract.Presenter  {
-    private Api.Playlist api;
+    private final Api.Playlist api;
 
     public PlaylistDetailsPresenter(Api.Playlist api) {
         this.api = api;

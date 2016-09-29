@@ -2,12 +2,9 @@ package rocks.itsnotrocketscience.bejay.music.backends.deezer.model;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
 import static rocks.itsnotrocketscience.bejay.music.backends.deezer.api.Deezer.ALTERNATIVE;
 import static rocks.itsnotrocketscience.bejay.music.backends.deezer.api.Deezer.ARTIST;
 import static rocks.itsnotrocketscience.bejay.music.backends.deezer.api.Deezer.AVAILABLE;
-import static rocks.itsnotrocketscience.bejay.music.backends.deezer.api.Deezer.CONTRIBUTORS;
 import static rocks.itsnotrocketscience.bejay.music.backends.deezer.api.Deezer.COVER;
 import static rocks.itsnotrocketscience.bejay.music.backends.deezer.api.Deezer.COVER_BIG;
 import static rocks.itsnotrocketscience.bejay.music.backends.deezer.api.Deezer.COVER_MEDIUM;

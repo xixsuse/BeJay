@@ -17,8 +17,8 @@ import rocks.itsnotrocketscience.bejay.music.model.Model;
 import rocks.itsnotrocketscience.bejay.search.view.SectionHeaderViewHolder;
 import rocks.itsnotrocketscience.bejay.search.view.ExpandViewHolder;
 
-public class SectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    public static final int VIEW_TYPE_SECTION_HEADER = Model.TYPE_FIRST;
+class SectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private static final int VIEW_TYPE_SECTION_HEADER = Model.TYPE_FIRST;
     public static final int VIEW_TYPE_EXPAND_ACTION = VIEW_TYPE_SECTION_HEADER + 1;
 
 
@@ -95,7 +95,7 @@ public class SectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     private void updateSections() {
-        sectionRanges.clear();;
+        sectionRanges.clear();
         sectionsHeaders.clear();
         expandActions.clear();
         viewTypeMap.clear();
@@ -184,7 +184,7 @@ public class SectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return section.id;
     }
 
-    protected void addSection(Section section) {
+    private void addSection(Section section) {
         sections.add(section);
         sectionsHeaders.put(itemCount, section);
         section.adapter.registerAdapterDataObserver(section);

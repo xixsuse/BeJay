@@ -28,12 +28,12 @@ public class LoginPresenterImpl implements LoginContract.LoginPresenter {
     }
 
     @Override
-    public void verifyUser(LoginResult loginResult) {
+    public void registerUser(LoginResult loginResult) {
 
         view.setProgressVisible(true);
         String token = loginResult.getAccessToken().getToken();
 
-        SocialAuth socialAuth = ServiceFactory.createGcmRetrofitService(SocialAuth.class);
+        SocialAuth socialAuth = ServiceFactory.createRetrofitServiceNoAuth(SocialAuth.class);
         socialAuth.convertToken(context.getString(R.string.convert_token),
                 context.getString(R.string.client_id),
                 context.getString(R.string.client_secret),
@@ -42,18 +42,13 @@ public class LoginPresenterImpl implements LoginContract.LoginPresenter {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ConvertTokenResponse>() {
-                    @Override
-                    public void onCompleted() {
-                    }
-
-                    @Override
-                    public final void onError(Throwable e) {
+                    @Override public void onCompleted() {}
+                    @Override public final void onError(Throwable e) {
                         view.setProgressVisible(false);
                         view.showError(e.getLocalizedMessage());
                     }
 
-                    @Override
-                    public final void onNext(ConvertTokenResponse response) {
+                    @Override public final void onNext(ConvertTokenResponse response) {
                         sharedPreferences.edit().putString(Constants.TOKEN, token).apply();
                         sharedPreferences.edit().putBoolean(Constants.IS_LOGGED_IN, true).apply();
                         sharedPreferences.edit().putString(Constants.TOKEN_TYPE, response.tokenType).apply();

@@ -7,7 +7,7 @@ import rx.android.schedulers.AndroidSchedulers;
 
 public class AlbumDetailsPresenter extends PresenterBase<AlbumDetailsContract.View> implements AlbumDetailsContract.Presenter {
 
-    private Api.Album api;
+    private final Api.Album api;
 
     public AlbumDetailsPresenter(Api.Album api) {
         this.api = api;

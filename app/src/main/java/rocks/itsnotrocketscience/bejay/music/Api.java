@@ -2,7 +2,6 @@ package rocks.itsnotrocketscience.bejay.music;
 
 import java.util.List;
 
-import rocks.itsnotrocketscience.bejay.music.model.Track;
 import rx.Observable;
 
 public interface Api {

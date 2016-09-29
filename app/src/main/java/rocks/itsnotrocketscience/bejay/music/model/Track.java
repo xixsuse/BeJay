@@ -35,7 +35,7 @@ public class Track extends Model implements Parcelable {
         return genre;
     }
 
-    public void setGenre(String genre) {
+    private void setGenre(String genre) {
         this.genre = genre;
     }
 

@@ -1,33 +1,40 @@
 package rocks.itsnotrocketscience.bejay.managers;
 
+import android.support.v4.app.Fragment;
+
+import com.google.android.gms.maps.model.LatLng;
+
 public class LauncherBase implements Launcher {
-    @Override
-    public void openHome() {
+
+    @Override public void openHome() {
         throw new UnsupportedOperationException();
     }
 
-    @Override
-    public void openProfile() {
+    @Override public void openProfile() {
         throw new UnsupportedOperationException();
     }
 
-    @Override
-    public void openEvent(int eventId) {
+    @Override public void openEvent(int eventId) {
         throw new UnsupportedOperationException();
     }
 
-    @Override
-    public void logout() {
+    @Override public void logout() {
         throw new UnsupportedOperationException();
     }
 
-    @Override
-    public void openLogin() {
+    @Override public void finishMapActivityForResult(LatLng latLng, String place) {
         throw new UnsupportedOperationException();
     }
 
-    @Override
-    public void openEventList() {
+    @Override public void openEventList() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override public void openCreateEvent() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override public void openMapActivityForResult(Fragment fragment) {
         throw new UnsupportedOperationException();
     }
 }

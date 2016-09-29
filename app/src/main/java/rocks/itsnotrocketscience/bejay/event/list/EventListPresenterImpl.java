@@ -23,7 +23,7 @@ import static rocks.itsnotrocketscience.bejay.managers.AccountManager.EVENT_NONE
  *
  */
 public class EventListPresenterImpl implements EventListContract.EventListPresenter {
-    static final Func1<List<Event>, Boolean> VALID_EVENT_LIST_FILTER = events -> events != null && events.size() != 0;
+    private static final Func1<List<Event>, Boolean> VALID_EVENT_LIST_FILTER = events -> events != null && events.size() != 0;
 
 
     private final EventsDao eventsDao;
@@ -61,7 +61,6 @@ public class EventListPresenterImpl implements EventListContract.EventListPresen
     public void loadEvents() {
         view.setProgressVisible(true);
         Observable.concat(Observable.just(events).filter(validEventListFilter()),
-                loadEventsFromDisk().filter(validEventListFilter()),
                 loadEventsFromNetwork().filter(validEventListFilter()))
                 .compose(newOnDestroyTransformer())
                 .first()
@@ -84,7 +83,7 @@ public class EventListPresenterImpl implements EventListContract.EventListPresen
     }
 
     private Observable<ArrayList<Event>> loadEventsFromNetwork() {
-        return networkEvents.list().flatMap(events -> eventsDao.save(events));
+        return networkEvents.list().flatMap(eventsDao::save);
     }
 
     private <T> Observable.Transformer<T, T> newOnDestroyTransformer() {
