@@ -41,7 +41,7 @@ public interface Events {
     Observable<Event> checkOut(@Path("id") int id);
 
     @POST("/events/{id}/play/")
-    Observable<Map<String,String>> play(@Path("id") int id, @Query("song_id") int song_id);
+    Observable<Map<String,String>> play(@Path("id") int id, @Query("song_id") int songId);
 
     @GET("/events/{id}/pause/")
     Observable<Map<String,String>> pause(@Path("id") int id);
@@ -59,6 +59,5 @@ public interface Events {
 
     @POST("/events/")
     Observable<Event> postEvent(@Body Event event);
-
 
 }

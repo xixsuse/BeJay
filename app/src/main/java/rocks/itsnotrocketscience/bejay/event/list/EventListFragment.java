@@ -7,7 +7,6 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,6 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,9 +51,9 @@ public class EventListFragment extends BaseFragment<ActivityComponent> implement
     @Bind(R.id.btnRetry)
     Button btnRetry;
     private EventListAdapter adapter;
-    private List<Event> eventList;
+    private List<Event> eventList = new ArrayList<>();
 
-    public static Fragment newInstance(EventListType type) {
+    public static Fragment newInstance(Serializable type) {
         Fragment fragment = new EventListFragment();
         Bundle args = new Bundle();
         args.putSerializable("type", type);
@@ -67,7 +67,7 @@ public class EventListFragment extends BaseFragment<ActivityComponent> implement
         getComponent().inject(this);
         setRetainInstance(true);
         eventListPresenter.setListType((EventListType) getArguments().getSerializable("type"));
-        eventList = new ArrayList<>();
+        eventListPresenter.onViewAttached(this);
         setHasOptionsMenu(true);
     }
 
@@ -132,22 +132,17 @@ public class EventListFragment extends BaseFragment<ActivityComponent> implement
 
     @Override
     public void onCheckInFailed(Event event, @CheckInError int reason) {
-        switch (reason) {
-            case EventListContract.EventListPresenter.CHECK_IN_CHECKOUT_NEEDED: {
-                displayAlert(event);
-                break;
-            }
-            case EventListContract.EventListPresenter.CHECK_IN_FAILED: {
-                Toast.makeText(getActivity(), "check in failed", Toast.LENGTH_LONG).show();
-                break;
-            }
+        if (EventListContract.EventListPresenter.CHECK_IN_CHECKOUT_NEEDED == reason) {
+            displayAlert(event);
+        } else if (EventListContract.EventListPresenter.CHECK_IN_FAILED == reason) {
+            Toast.makeText(getActivity(), "check in failed", Toast.LENGTH_LONG).show();
         }
     }
 
     @Override
     public void onEventsLoaded(List<Event> events) {
-        this.eventList.clear();
-        this.eventList.addAll(events);
+        eventList.clear();
+        eventList.addAll(events);
         adapter.notifyDataSetChanged();
     }
 
@@ -187,7 +182,7 @@ public class EventListFragment extends BaseFragment<ActivityComponent> implement
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        if (eventListPresenter.getType() == EventListType.SEARCH) {
+        if (EventListType.SEARCH == eventListPresenter.getType()) {
             inflater.inflate(R.menu.event_search, menu);
             MenuItem searchMenuItem = menu.findItem(R.id.action_event_search);
             SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenuItem);

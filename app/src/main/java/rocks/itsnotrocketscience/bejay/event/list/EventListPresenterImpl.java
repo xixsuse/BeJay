@@ -1,13 +1,11 @@
 package rocks.itsnotrocketscience.bejay.event.list;
 
-import android.support.annotation.NonNull;
-
-import com.google.android.gms.maps.model.LatLng;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import com.google.android.gms.maps.model.LatLng;
 
 import rocks.itsnotrocketscience.bejay.api.retrofit.Events;
 import rocks.itsnotrocketscience.bejay.dao.EventsDao;
@@ -38,14 +36,14 @@ public class EventListPresenterImpl implements EventListContract.EventListPresen
 
     private final EventsDao eventsDao;
     private final Events networkEvents;
-    public final PublishSubject<Boolean> onDestroy;
+    public final PublishSubject<Boolean> onDestroySubject;
     private final AccountManager accountManager;
     private final Launcher launcher;
     private LocationProvider locationProvider;
 
     private EventListContract.EventListView view;
     private EventListType listType;
-    private List<Event> events;
+    private List<Event> eventList;
 
     @Inject
     public EventListPresenterImpl(EventsDao eventsDao, Events networkEvents, AccountManager accountManager, Launcher launcher, LocationProvider locationProvider) {
@@ -55,7 +53,7 @@ public class EventListPresenterImpl implements EventListContract.EventListPresen
         this.launcher = launcher;
         this.locationProvider = locationProvider;
         locationProvider.buildGoogleApiClient(this);
-        onDestroy = PublishSubject.create();
+        onDestroySubject = PublishSubject.create();
     }
 
     @Override
@@ -81,17 +79,17 @@ public class EventListPresenterImpl implements EventListContract.EventListPresen
 
     @Override
     public void onDestroy() {
-        onDestroy.onNext(true);
+        onDestroySubject.onNext(true);
         locationProvider.disconnect();
     }
 
     @Override
     public void loadEvents() {
-        if (listType.equals(EventListType.PUBLIC_LOCAL)&&!locationProvider.hasLastKnownLocation()) {
+        if ((EventListType.PUBLIC_LOCAL == listType) && !locationProvider.hasLastKnownLocation()) {
             locationProvider.fetchLocation();
-        } else if (listType != EventListType.SEARCH) {
+        } else if (EventListType.SEARCH != listType) {
             view.setProgressVisible(true);
-            Observable.concat(Observable.just(events).filter(validEventListFilter()),
+            Observable.concat(Observable.just(eventList).filter(validEventListFilter()),
                     loadEventsFromNetwork(listType).filter(validEventListFilter()))
                     .compose(newOnDestroyTransformer())
                     .first()
@@ -109,15 +107,9 @@ public class EventListPresenterImpl implements EventListContract.EventListPresen
                 .filter(validEventListFilter())
                 .flatMap(eventsDao::save)
                 .observeOn(mainScheduler())
-                .subscribe(events -> {
-                            view.onEventsLoaded(events);
-                        },
-                        throwable -> {
-                            showErrorForEventListType(EventListType.SEARCH);
-                        },
-                        () -> {
-                            view.setProgressVisible(false);
-                        });
+                .subscribe(events -> view.onEventsLoaded(events),
+                        throwable -> showErrorForEventListType(EventListType.SEARCH),
+                        () -> view.setProgressVisible(false));
     }
 
 
@@ -153,7 +145,7 @@ public class EventListPresenterImpl implements EventListContract.EventListPresen
     }
 
     private Observable<List<Event>> loadEventsFromDisk() {
-        return eventsDao.all().doOnNext(events -> this.events = events);
+        return eventsDao.all().doOnNext(events -> this.eventList = events);
     }
 
     private Observable<ArrayList<Event>> loadEventsFromNetwork(EventListType listType) {
@@ -178,11 +170,11 @@ public class EventListPresenterImpl implements EventListContract.EventListPresen
     }
 
     private <T> Observable.Transformer<T, T> newOnDestroyTransformer() {
-        return source -> source.takeUntil(onDestroy);
+        return source -> source.takeUntil(onDestroySubject);
     }
 
     @Override
-    public void checkIn(final Event event, boolean force) {
+    public void checkIn(Event event, boolean force) {
         boolean checkedIn = accountManager.isCheckedIn();
         if (!checkedIn) {
             doCheckIn(event);
@@ -195,9 +187,9 @@ public class EventListPresenterImpl implements EventListContract.EventListPresen
         }
     }
 
-    private void doCheckIn(final Event event) {
+    private void doCheckIn(Event event) {
         Observable.just(accountManager.getCheckedInEventId()).flatMap(currentEventId -> {
-            if (currentEventId == EVENT_NONE) {
+            if (EVENT_NONE == currentEventId) {
                 return networkEvents.checkIn(event.getId());
             }
             return Observable.concat(networkEvents.checkOut(currentEventId).ignoreElements(),

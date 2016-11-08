@@ -20,8 +20,7 @@ import rocks.itsnotrocketscience.bejay.managers.Launcher;
 
 public class EventSearchFragment extends BaseFragment<ActivityComponent> {
 
-    @Inject
-    public Launcher launcher;
+    @Inject public Launcher launcher;
 
     public static EventSearchFragment newInstance() {
         return new EventSearchFragment();
@@ -54,7 +53,7 @@ public class EventSearchFragment extends BaseFragment<ActivityComponent> {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.search) {
+        if (R.id.search == id) {
             launcher.openEventList(EventListType.SEARCH);
             return true;
         }
@@ -78,4 +77,8 @@ public class EventSearchFragment extends BaseFragment<ActivityComponent> {
         launcher.openEventList(EventListType.PUBLIC_LOCAL);
     }
 
+    @OnClick(R.id.btSearchEvents)
+    public void searchEvents() {
+        launcher.openEventList(EventListType.SEARCH);
+    }
 }
