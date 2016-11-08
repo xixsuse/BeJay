@@ -12,6 +12,7 @@ import rocks.itsnotrocketscience.bejay.api.retrofit.AuthInterceptor;
 
 /**
  * Created by centralstation on 11/09/15.
+ *
  */
 public class AccountManager {
 
@@ -28,15 +29,6 @@ public class AccountManager {
         return sharedPreferences.getString(Constants.TOKEN, "");
     }
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-    public boolean isLoggedIn() {
-        return !Objects.equals(sharedPreferences.getString(Constants.TOKEN, ""), "");
-    }
-
-    public void clearLogin() {
-        sharedPreferences.edit().putString(Constants.TOKEN, "").apply();
-    }
-
     public boolean isCheckedIn() {
         return sharedPreferences.getInt(Constants.EVENT_PK, -1) != -1;
     }
@@ -47,10 +39,6 @@ public class AccountManager {
 
     public int getCheckedInEventId() {
         return sharedPreferences.getInt(Constants.EVENT_PK, EVENT_NONE);
-    }
-
-    public void clearCheckin() {
-        sharedPreferences.edit().putString(Constants.EVENT_PK, null).apply();
     }
 
     public RequestInterceptor getAuthTokenInterceptor() {

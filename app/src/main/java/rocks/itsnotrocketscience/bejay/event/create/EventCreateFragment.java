@@ -40,14 +40,10 @@ import rocks.itsnotrocketscience.bejay.widgets.TimePickerDialogFragment;
  */
 public class EventCreateFragment extends BaseFragment<ActivityComponent> implements View.OnClickListener, EventCreateContract.EventCreateView, DateTimeSetListener {
 
-    @Inject
-    public EventCreateContract.EventCreatePresenter presenter;
-    @Inject
-    public DatePickerDialogFragment datePickerDialogFragment;
-    @Inject
-    public TimePickerDialogFragment timePickerDialogFragment;
-    @Inject
-    public Launcher launcher;
+    @Inject public EventCreateContract.EventCreatePresenter presenter;
+    @Inject public DatePickerDialogFragment datePickerDialogFragment;
+    @Inject public TimePickerDialogFragment timePickerDialogFragment;
+    @Inject public Launcher launcher;
 
     public final static int START_DATE = 0;
     public final static int START_TIME = 1;

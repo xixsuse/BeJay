@@ -57,6 +57,8 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Ev
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setupViews();
+        presenter.onViewAttached(this);
+        presenter.loadEvent(((EventActivity) getActivity()).getIdFromBundle());
     }
 
     private void setupViews() {
@@ -94,6 +96,7 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Ev
     @Override
     public void showError(String error) {
         Toast.makeText(getActivity(), error, Toast.LENGTH_LONG).show();
+        progressIndicator.setVisibility(View.GONE);
     }
 
     @Override
@@ -117,7 +120,6 @@ public class EventFragment extends BaseFragment<ActivityComponent> implements Ev
         super.onResume();
         presenter.onViewAttached(this);
         presenter.registerUpdateReceiver(this.getActivity());
-        presenter.loadEvent(((EventActivity) getActivity()).getIdFromBundle());
     }
 
     @Override

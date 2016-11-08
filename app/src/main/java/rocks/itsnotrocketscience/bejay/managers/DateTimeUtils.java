@@ -8,22 +8,26 @@ import org.joda.time.format.DateTimeFormatter;
 
 /**
  * Created by sirfunkenstine on 04/05/16.
+ *
  */
 public class DateTimeUtils {
 
-    public DateTimeUtils(){}
+    public DateTimeUtils() {
+    }
 
-    public String getLocalDate(){
+    public String getLocalDate() {
         return new LocalDate().toString();
     }
 
-    public String getLocalTime(){
-        return new LocalTime().toString();
+    public String getLocalTime() {
+        LocalTime time = new LocalTime();
+        DateTimeFormatter fmt = DateTimeFormat.forPattern("hh:mm a");
+        return fmt.print(time);
     }
 
-    public static String getFormattedDateTime(String date, String time){
+    public static String getFormattedDateTime(String date, String time) {
         try {
-            DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd hh mm a");
+            DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd hh:mm a");
             String all = String.format("%s %s", date, time);
             DateTime dt = fmt.parseDateTime(all);
             return dt.toString();
@@ -34,7 +38,7 @@ public class DateTimeUtils {
 
     public static String getFormattedLocalTime(int hour, int minute) {
         DateTimeFormatter fmt = DateTimeFormat.forPattern("hh mm a");
-        DateTime dateTime = new DateTime(1,1,1,hour,minute);
+        DateTime dateTime = new DateTime(1, 1, 1, hour, minute);
         return dateTime.toLocalTime().toString(fmt);
     }
 

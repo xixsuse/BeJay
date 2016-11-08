@@ -4,12 +4,14 @@ import android.support.v4.app.Fragment;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import rocks.itsnotrocketscience.bejay.event.list.EventListType;
+
 public interface Launcher {
-    void openHome();
+    void search();
     void openProfile();
     void openEvent(int eventId);
     void logout();
-    void openEventList();
+    void openEventList(EventListType type);
     void openCreateEvent();
     void openMapActivityForResult(Fragment fragment);
     void finishMapActivityForResult(LatLng latLng, String location);

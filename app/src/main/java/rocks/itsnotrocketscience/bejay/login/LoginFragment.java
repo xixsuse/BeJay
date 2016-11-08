@@ -83,7 +83,7 @@ public class LoginFragment extends BaseFragment<LoginComponent> implements Login
 
     @Override
     public void onLoggedIn() {
-        launcher.openHome();
+        launcher.search();
     }
 
     @Override

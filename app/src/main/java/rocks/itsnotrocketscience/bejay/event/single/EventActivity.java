@@ -35,12 +35,10 @@ public class EventActivity extends InjectedActivity<ActivityComponent> {
     @Inject public SharedPreferences sharedPreferences;
 
     @Bind(R.id.coordinator_layout) CoordinatorLayout coordinatorLayout;
-    @Bind(R.id.toolbar)
-    public Toolbar toolbar;
+    @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.app_bar_layout) AppBarLayout appBarLayout;
 
     private final ActivityModule activityModule;
-    private ActivityComponent activityComponent;
 
     public EventActivity() {
         this.activityModule = new ActivityModule(this);
@@ -60,7 +58,7 @@ public class EventActivity extends InjectedActivity<ActivityComponent> {
 
     @Override
     public ActivityComponent getComponent() {
-        return activityComponent = DaggerActivityComponent.builder()
+        return DaggerActivityComponent.builder()
                 .activityModule(activityModule)
                 .appComponent(getAppComponent())
                 .build();
@@ -90,7 +88,7 @@ public class EventActivity extends InjectedActivity<ActivityComponent> {
             if (token != null && id >= 0) {
                 try {
                     pubSub.subscribe(token, "/topics/" + id, null);
-                    Log.d(TAG, "subscribeTopics: sucess");
+                    Log.d(TAG, "subscribeTopics: success");
                 } catch (IOException e) {
                     Log.d(TAG, "subscribeTopics: fail");
                 }
