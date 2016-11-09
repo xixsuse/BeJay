@@ -4,9 +4,11 @@ import android.support.v4.app.Fragment;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import rocks.itsnotrocketscience.bejay.event.list.EventListType;
+
 public class LauncherBase implements Launcher {
 
-    @Override public void openHome() {
+    @Override public void search() {
         throw new UnsupportedOperationException();
     }
 
@@ -26,7 +28,7 @@ public class LauncherBase implements Launcher {
         throw new UnsupportedOperationException();
     }
 
-    @Override public void openEventList() {
+    @Override public void openEventList(EventListType trye) {
         throw new UnsupportedOperationException();
     }
 

@@ -55,11 +55,11 @@ public class EventCreatePresenterImpl implements EventCreateContract.EventCreate
     }
 
     @Override public void fetchInitialDate() {
-        view.onInitialDateSet(dateTimeUtils.getLocalDate());
+        view.onInitialDateSet(DateTimeUtils.getLocalDate());
     }
 
     @Override public void fetchInitialTime() {
-        view.onInitialTimeSet(dateTimeUtils.getLocalTime());
+        view.onInitialTimeSet(DateTimeUtils.getLocalTime());
     }
 
     @Override public void processEvent(Event event) {

@@ -25,6 +25,15 @@ public interface Events {
     @GET("/events/{id}")
     Observable<Event> get(@Path("id") int id);
 
+    @GET("/events/public_nearby_events/")
+    Observable<ArrayList<Event>> publicNearbyEvents(@Query("lat") double lat, @Query("lng") double lng);
+
+    @GET("/events/search_events/")
+    Observable<ArrayList<Event>> searchEvents(@Query("search_term") String term);
+
+    @GET("/events/friends_events/")
+    Observable<ArrayList<Event>> friendsEvents();
+
     @POST("/events/{id}/checkin_user/")
     Observable<Event> checkIn(@Path("id") int id);
 
@@ -32,7 +41,7 @@ public interface Events {
     Observable<Event> checkOut(@Path("id") int id);
 
     @POST("/events/{id}/play/")
-    Observable<Map<String,String>> play(@Path("id") int id, @Query("song_id") int song_id);
+    Observable<Map<String,String>> play(@Path("id") int id, @Query("song_id") int songId);
 
     @GET("/events/{id}/pause/")
     Observable<Map<String,String>> pause(@Path("id") int id);
@@ -50,6 +59,5 @@ public interface Events {
 
     @POST("/events/")
     Observable<Event> postEvent(@Body Event event);
-
 
 }

@@ -41,7 +41,7 @@ public class TimePickerDialogFragment extends DialogFragment implements TimePick
 
     @NonNull @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        final Calendar calendar = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
         return new TimePickerDialog(getActivity(), this, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false);
     }
 

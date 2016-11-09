@@ -16,10 +16,9 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.model.LatLng;
-
-
 import javax.inject.Inject;
+
+import com.google.android.gms.maps.model.LatLng;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -40,14 +39,10 @@ import rocks.itsnotrocketscience.bejay.widgets.TimePickerDialogFragment;
  */
 public class EventCreateFragment extends BaseFragment<ActivityComponent> implements View.OnClickListener, EventCreateContract.EventCreateView, DateTimeSetListener {
 
-    @Inject
-    public EventCreateContract.EventCreatePresenter presenter;
-    @Inject
-    public DatePickerDialogFragment datePickerDialogFragment;
-    @Inject
-    public TimePickerDialogFragment timePickerDialogFragment;
-    @Inject
-    public Launcher launcher;
+    @Inject public EventCreateContract.EventCreatePresenter presenter;
+    @Inject public DatePickerDialogFragment datePickerDialogFragment;
+    @Inject public TimePickerDialogFragment timePickerDialogFragment;
+    @Inject public Launcher launcher;
 
     public final static int START_DATE = 0;
     public final static int START_TIME = 1;
@@ -107,7 +102,7 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
     }
 
     @Override public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_create) {
+        if (R.id.action_create == item.getItemId()) {
             presenter.processEvent(getEventObjectFromViews() );
         }
         return super.onOptionsItemSelected(item);

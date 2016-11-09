@@ -19,7 +19,7 @@ public class MapContract  {
         Marker addMarker(MarkerOptions party);
     }
 
-    public interface MapPresenter extends OnMapReadyCallback , GoogleMap.OnMapClickListener, GoogleMap.OnMarkerDragListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
+    public interface MapPresenter extends OnMapReadyCallback , GoogleMap.OnMapClickListener{
         void onViewAttached(MapView view);
         void onViewDetached();
         void onDestroy();

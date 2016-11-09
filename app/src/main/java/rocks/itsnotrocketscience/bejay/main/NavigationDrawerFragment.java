@@ -9,8 +9,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +35,6 @@ public class NavigationDrawerFragment extends BaseFragment<ActivityComponent> {
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
-    private View fragmentContainerView;
 
     private int currentSelectedPosition = 0;
     private boolean fromSavedInstanceState;
@@ -49,7 +46,7 @@ public class NavigationDrawerFragment extends BaseFragment<ActivityComponent> {
         getComponent().inject(this);
         userLearnedDrawer = sharedPreferences.getBoolean(PREF_USER_LEARNED_DRAWER, false);
 
-        if (savedInstanceState != null) {
+        if (null != savedInstanceState) {
             currentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
             fromSavedInstanceState = true;
         }
@@ -67,7 +64,7 @@ public class NavigationDrawerFragment extends BaseFragment<ActivityComponent> {
 
         navigationView = (NavigationView) inflater.inflate(
                 R.layout.fragment_navigation_drawer, container, false);
-        launcher.openHome();
+        launcher.search();
 
         navigationView.setNavigationItemSelectedListener(this::chooseAction);
         if (accountManager.isCheckedIn()) {
@@ -83,11 +80,12 @@ public class NavigationDrawerFragment extends BaseFragment<ActivityComponent> {
         if (menuItem.isChecked()) menuItem.setChecked(false);
         else menuItem.setChecked(true);
         drawerLayout.closeDrawers();
+        ((BaseActivity)getActivity()).setHeaderTitle(menuItem.getTitle());
 
         switch (menuItem.getItemId()) {
 
-            case R.id.home:
-                launcher.openHome();
+            case R.id.search:
+                launcher.search();
                 break;
             case R.id.profile:
                 launcher.openProfile();
@@ -104,13 +102,8 @@ public class NavigationDrawerFragment extends BaseFragment<ActivityComponent> {
         return false;
     }
 
-    public boolean isDrawerOpen() {
-        return drawerLayout != null && drawerLayout.isDrawerOpen(fragmentContainerView);
-    }
-
-
     public void setUp(int fragmentId, DrawerLayout drawerLayout) {
-        fragmentContainerView = getActivity().findViewById(fragmentId);
+        View fragmentContainerView = getActivity().findViewById(fragmentId);
         this.drawerLayout = drawerLayout;
 
         this.drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
@@ -139,8 +132,6 @@ public class NavigationDrawerFragment extends BaseFragment<ActivityComponent> {
                 }
 
                 if (!userLearnedDrawer) {
-                    // The user manually opened the drawer; store this flag to prevent auto-showing
-                    // the navigation drawer automatically in the future.
                     userLearnedDrawer = true;
                     sharedPreferences.edit().putBoolean(PREF_USER_LEARNED_DRAWER, true).apply();
                 }
@@ -148,16 +139,12 @@ public class NavigationDrawerFragment extends BaseFragment<ActivityComponent> {
             }
         };
 
-        // If the user hasn't 'learned' about the drawer, open it to introduce them to the drawer,
-        // per the navigation drawer design guidelines.
         if (!userLearnedDrawer && !fromSavedInstanceState) {
             this.drawerLayout.openDrawer(fragmentContainerView);
         }
 
-        // Defer code dependent on restoration of previous instance state.
         this.drawerLayout.post(mDrawerToggle::syncState);
 
-        this.drawerLayout.setDrawerListener(mDrawerToggle);
     }
 
     @Override
@@ -170,14 +157,6 @@ public class NavigationDrawerFragment extends BaseFragment<ActivityComponent> {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        if (drawerLayout != null && isDrawerOpen()) {
-            inflater.inflate(R.menu.global, menu);
-        }
-        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override

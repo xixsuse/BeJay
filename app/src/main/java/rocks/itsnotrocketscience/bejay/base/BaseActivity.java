@@ -18,11 +18,11 @@ import rocks.itsnotrocketscience.bejay.managers.Launcher;
 
 /**
  * Created by centralstation on 11/09/15.
+ *
  */
 public class BaseActivity extends InjectedActivity<ActivityComponent> {
 
     private final ActivityModule activityModule;
-    private ActivityComponent activityComponent;
 
     public Toolbar toolbar;
     protected NavigationDrawerFragment mNavigationDrawerFragment;
@@ -41,7 +41,7 @@ public class BaseActivity extends InjectedActivity<ActivityComponent> {
 
         getComponent().inject(this);
 
-        if (!sharedPreferences.getBoolean(Constants.IS_LOGGED_IN,false)) {
+        if (!sharedPreferences.getBoolean(Constants.IS_LOGGED_IN, false)) {
             launcher.logout();
             return;
         }
@@ -50,7 +50,6 @@ public class BaseActivity extends InjectedActivity<ActivityComponent> {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
-            toolbar.setTitle("Navigation Drawer");
             setSupportActionBar(toolbar);
         }
 
@@ -61,10 +60,16 @@ public class BaseActivity extends InjectedActivity<ActivityComponent> {
 
     @Override
     public ActivityComponent getComponent() {
-        return activityComponent = DaggerActivityComponent.builder()
+        return DaggerActivityComponent.builder()
                 .activityModule(activityModule)
                 .appComponent(getAppComponent())
                 .build();
+    }
+
+    public void setHeaderTitle(CharSequence title) {
+        if (toolbar != null) {
+            toolbar.setTitle(title);
+        }
     }
 
 }
