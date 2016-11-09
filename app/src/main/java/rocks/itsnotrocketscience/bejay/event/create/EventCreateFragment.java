@@ -16,10 +16,9 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.model.LatLng;
-
-
 import javax.inject.Inject;
+
+import com.google.android.gms.maps.model.LatLng;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -103,7 +102,7 @@ public class EventCreateFragment extends BaseFragment<ActivityComponent> impleme
     }
 
     @Override public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_create) {
+        if (R.id.action_create == item.getItemId()) {
             presenter.processEvent(getEventObjectFromViews() );
         }
         return super.onOptionsItemSelected(item);
