@@ -35,7 +35,7 @@ public interface EventListContract {
         void onViewDetached();
         void onDestroy();
         void loadEvents();
-        void openEvent();
+        void openEventActivity();
         void openCreateEvent();
         void checkIn(Event event, boolean force);
         void searchEvent(String query);

@@ -161,7 +161,7 @@ public class EventListFragment extends BaseFragment<ActivityComponent> implement
                 .showCancelButton(true)
                 .setCancelClickListener(sDialog -> {
                     sDialog.cancel();
-                    eventListPresenter.openEvent();
+                    eventListPresenter.openEventActivity();
 
                 })
                 .setConfirmClickListener(sDialog -> {

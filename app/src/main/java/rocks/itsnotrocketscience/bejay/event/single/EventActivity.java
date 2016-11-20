@@ -5,19 +5,16 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-
-import com.google.android.gms.gcm.GcmPubSub;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import com.google.android.gms.gcm.GcmPubSub;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -31,9 +28,11 @@ import rocks.itsnotrocketscience.bejay.event.manager.EventException;
 import rocks.itsnotrocketscience.bejay.event.manager.Resolution;
 import rocks.itsnotrocketscience.bejay.event.manager.service.EventService;
 import rocks.itsnotrocketscience.bejay.gcm.RegistrationIntentService;
-
+import rocks.itsnotrocketscience.bejay.managers.Launcher;
 import rocks.itsnotrocketscience.bejay.music.model.Track;
 import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import rx.subjects.PublishSubject;
 
 public class EventActivity extends InjectedActivity<ActivityComponent> {
@@ -43,6 +42,7 @@ public class EventActivity extends InjectedActivity<ActivityComponent> {
     public static final String EVENT_ID = "url_extra";
 
     @Inject public SharedPreferences sharedPreferences;
+    @Inject public Launcher launcher;
 
     @Bind(R.id.coordinator_layout) CoordinatorLayout coordinatorLayout;
     @Bind(R.id.toolbar) Toolbar toolbar;
@@ -50,12 +50,10 @@ public class EventActivity extends InjectedActivity<ActivityComponent> {
 
     private final ActivityModule activityModule;
 
-    private EventFragment eventFragment;
-    private Event event;
     private final PublishSubject<Boolean> onDestroy = PublishSubject.create();
 
     public EventActivity() {
-        this.activityModule = new ActivityModule(this);
+        activityModule = new ActivityModule(this);
     }
 
     @Override
@@ -65,17 +63,13 @@ public class EventActivity extends InjectedActivity<ActivityComponent> {
         setContentView(R.layout.activity_event);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-
+        launcher.openEventFragment();
         subscribeToTopic();
-        eventFragment = EventFragment.newInstance();
-        showFragment(eventFragment);
         startEvent();
     }
 
     private void startEvent() {
-        EventService.start(this).compose(getOnDestroyTransformer()).subscribe(event -> {
-            onEventStared(event);
-        }, error -> {
+        EventService.start(this).compose(getOnDestroyTransformer()).subscribe(EventActivity::onEventStared, error -> {
             if(isRecoverableEventError(error)) {
                 startResolution(((EventException)error).getResolution());
             } else {
@@ -87,34 +81,29 @@ public class EventActivity extends InjectedActivity<ActivityComponent> {
     private void startResolution(Resolution resolution) {        //TODO: invoke injection logic
 
         resolution.resolve(this).compose(getOnDestroyTransformer()).subscribe(resolutionResult -> {
-            switch (resolutionResult) {
-                case SUCCESS: {
-                    startEvent();
-                    break;
-                }
-                case ERROR : {
-                    finish();
-                    break;
-                }
+            if (Resolution.ResolutionResult.SUCCESS == resolutionResult) {
+                startEvent();
+            } else if (Resolution.ResolutionResult.ERROR == resolutionResult) {
+                finish();
             }
         });
     }
 
-    Track newTrack(long id) {
+    static Track newTrack(long id) {
         Track track = new Track();
         track.setId(Long.toString(id));
         return track;
     }
 
-    List<Track> newTrackList(long... ids) {
-        ArrayList<Track> trackList = new ArrayList<>();
+    static List<Track> newTrackList(long... ids) {
+        List<Track> trackList = new ArrayList<>();
         for(long id : ids) {
             trackList.add(newTrack(id));
         }
         return trackList;
     }
 
-    private void onEventStared(Event event) {
+    static void onEventStared(Event event) {
         event.getEventPlayer().start();
         event.getEventPlayer().setPlaylist(newTrackList(87489547, 123182590, 120402256, 120572554));
     }
@@ -129,8 +118,8 @@ public class EventActivity extends InjectedActivity<ActivityComponent> {
         onDestroy.onNext(true);
     }
 
-    private boolean isRecoverableEventError(Throwable error) {
-        return error instanceof EventException && ((EventException)error).isRecoverable();
+    private static boolean isRecoverableEventError(Throwable error) {
+        return (error instanceof EventException) && ((EventException) error).isRecoverable();
     }
 
     @Override
@@ -146,31 +135,25 @@ public class EventActivity extends InjectedActivity<ActivityComponent> {
         return b.getInt(EVENT_ID);
     }
 
-    public void setTitle(String title) {
+    @Override
+    public void setTitle(CharSequence title) {
         toolbar.setTitle(title);
-    }
-
-    private void showFragment(Fragment fragment) {
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = manager.beginTransaction();
-        fragmentTransaction.replace(R.id.container, fragment);
-        fragmentTransaction.commit();
     }
 
     private void subscribeToTopic() {
         String token = sharedPreferences.getString(RegistrationIntentService.GCM_TOKEN, null);
         GcmPubSub pubSub = GcmPubSub.getInstance(this);
         int id = getIdFromBundle();
-        Thread thread = new Thread(() -> {
-            if (token != null && id >= 0) {
-                try {
-                    pubSub.subscribe(token, "/topics/" + id, null);
-                    Log.d(TAG, "subscribeTopics: success");
-                } catch (IOException e) {
-                    Log.d(TAG, "subscribeTopics: fail");
-                }
-            }
-        });
-        thread.start();
+        Observable.just(pubSub).subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> registerFromResponse(token, id, response));
+    }
+
+    private static void registerFromResponse(String token, int id, GcmPubSub response) {
+        try {
+            response.subscribe(token, "/topics/" + id, null);
+        } catch (IOException e) {
+            Log.d(TAG, "subscribeTopics: fail",e);
+        }
     }
 }

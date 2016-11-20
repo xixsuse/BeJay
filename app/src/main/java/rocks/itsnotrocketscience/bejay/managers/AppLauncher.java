@@ -15,6 +15,7 @@ import rocks.itsnotrocketscience.bejay.api.Constants;
 import rocks.itsnotrocketscience.bejay.event.create.EventCreateActivity;
 import rocks.itsnotrocketscience.bejay.event.list.EventListType;
 import rocks.itsnotrocketscience.bejay.event.search.EventSearchFragment;
+import rocks.itsnotrocketscience.bejay.event.single.EventFragment;
 import rocks.itsnotrocketscience.bejay.map.MapActivity;
 import rocks.itsnotrocketscience.bejay.event.list.EventListFragment;
 import rocks.itsnotrocketscience.bejay.event.single.EventActivity;
@@ -49,10 +50,15 @@ public class AppLauncher implements Launcher {
     }
 
     @Override
-    public void openEvent(int eventId) {
+    public void openEventActivity(int eventId) {
         Intent intent = new Intent(activity, EventActivity.class);
         intent.putExtra(EventActivity.EVENT_ID, eventId);
         activity.startActivity(intent);
+    }
+
+    @Override
+    public void openEventFragment() {
+        showFragment(EventFragment.newInstance());
     }
 
     @Override

@@ -9,7 +9,8 @@ import rocks.itsnotrocketscience.bejay.event.list.EventListType;
 public interface Launcher {
     void search();
     void openProfile();
-    void openEvent(int eventId);
+    void openEventActivity(int eventId);
+    void openEventFragment();
     void logout();
     void openEventList(EventListType type);
     void openCreateEvent();

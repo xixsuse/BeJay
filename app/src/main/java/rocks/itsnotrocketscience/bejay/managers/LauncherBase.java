@@ -8,35 +8,48 @@ import rocks.itsnotrocketscience.bejay.event.list.EventListType;
 
 public class LauncherBase implements Launcher {
 
-    @Override public void search() {
+    @Override
+    public void search() {
         throw new UnsupportedOperationException();
     }
 
-    @Override public void openProfile() {
+    @Override
+    public void openProfile() {
         throw new UnsupportedOperationException();
     }
 
-    @Override public void openEvent(int eventId) {
+    @Override
+    public void openEventActivity(int eventId) {
         throw new UnsupportedOperationException();
     }
 
-    @Override public void logout() {
+    @Override
+    public void openEventFragment() {
         throw new UnsupportedOperationException();
     }
 
-    @Override public void finishMapActivityForResult(LatLng latLng, String place) {
+    @Override
+    public void logout() {
         throw new UnsupportedOperationException();
     }
 
-    @Override public void openEventList(EventListType trye) {
+    @Override
+    public void finishMapActivityForResult(LatLng latLng, String place) {
         throw new UnsupportedOperationException();
     }
 
-    @Override public void openCreateEvent() {
+    @Override
+    public void openEventList(EventListType trye) {
         throw new UnsupportedOperationException();
     }
 
-    @Override public void openMapActivityForResult(Fragment fragment) {
+    @Override
+    public void openCreateEvent() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void openMapActivityForResult(Fragment fragment) {
         throw new UnsupportedOperationException();
     }
 }

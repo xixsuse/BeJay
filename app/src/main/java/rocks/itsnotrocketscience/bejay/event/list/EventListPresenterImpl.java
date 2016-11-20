@@ -114,8 +114,8 @@ public class EventListPresenterImpl implements EventListContract.EventListPresen
 
 
     @Override
-    public void openEvent() {
-        launcher.openEvent(accountManager.getCheckedInEventId());
+    public void openEventActivity() {
+        launcher.openEventActivity(accountManager.getCheckedInEventId());
     }
 
     private void showErrorForEventListType(EventListType listType) {
@@ -179,7 +179,7 @@ public class EventListPresenterImpl implements EventListContract.EventListPresen
         if (!checkedIn) {
             doCheckIn(event);
         } else if (event.getId() == accountManager.getCheckedInEventId()) {
-            launcher.openEvent(event.getId());
+            launcher.openEventActivity(event.getId());
         } else if (!force) {
             view.onCheckInFailed(event, CHECK_IN_CHECKOUT_NEEDED);
         } else {
@@ -198,7 +198,7 @@ public class EventListPresenterImpl implements EventListContract.EventListPresen
                 .subscribeOn(Schedulers.io())
                 .observeOn(mainScheduler())
                 .doOnNext(event1 -> accountManager.setCheckedIn(event.getId()))
-                .subscribe(event1 -> launcher.openEvent(event.getId())
+                .subscribe(event1 -> launcher.openEventActivity(event.getId())
                         , throwable -> view.onCheckInFailed(event, CHECK_IN_FAILED));
     }
 

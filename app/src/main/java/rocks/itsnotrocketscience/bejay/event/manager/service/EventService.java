@@ -25,7 +25,6 @@ import rx.android.schedulers.AndroidSchedulers;
  */
 public class EventService extends Service {
 
-
     private DeezerConnect deezerConnect;
     private SessionStore sessionStore;
 
@@ -71,7 +70,7 @@ public class EventService extends Service {
     }
 
     private boolean isDeezerSessionValid() {
-        return !deezerConnect.isSessionValid() || !sessionStore.restore(deezerConnect, this);
+        return deezerConnect.isSessionValid() || sessionStore.restore(deezerConnect, this);
     }
 
     public static Observable<Event> start(Context context) {

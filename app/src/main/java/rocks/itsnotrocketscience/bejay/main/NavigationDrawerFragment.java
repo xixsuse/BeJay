@@ -91,7 +91,7 @@ public class NavigationDrawerFragment extends BaseFragment<ActivityComponent> {
                 launcher.openProfile();
                 return true;
             case R.id.event:
-                launcher.openEvent(accountManager.getCheckedInEventId());
+                launcher.openEventActivity(accountManager.getCheckedInEventId());
                 return true;
             case R.id.settings:
                 return true;
