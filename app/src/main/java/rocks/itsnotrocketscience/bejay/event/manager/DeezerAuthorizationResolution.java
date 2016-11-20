@@ -9,7 +9,6 @@ import com.deezer.sdk.network.connect.DeezerConnect;
 import com.deezer.sdk.network.connect.SessionStore;
 import com.deezer.sdk.network.connect.event.DialogListener;
 
-import rocks.itsnotrocketscience.bejay.R;
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
@@ -39,8 +38,7 @@ public class DeezerAuthorizationResolution implements Resolution{
                 if(!subscriber.isUnsubscribed()) {
                     AuthorizationSubscription s = new AuthorizationSubscription(subscriber,
                             new AuthorizationCompletedListener(activity, sessionStore, deezerConnect));
-                    DeezerConnect dc = new DeezerConnect(activity, activity.getString(R.string.deezer_app_id));
-                    dc.authorize(activity, PERMISSIONS, s);
+                    deezerConnect.authorize(activity, PERMISSIONS, s);
                     subscriber.add(s);
                 }
             }
