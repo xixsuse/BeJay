@@ -7,6 +7,7 @@ import retrofit.http.Body;
 import retrofit.http.Path;
 import retrofit.http.Query;
 import rocks.itsnotrocketscience.bejay.api.retrofit.Events;
+import rocks.itsnotrocketscience.bejay.models.CmsUser;
 import rocks.itsnotrocketscience.bejay.models.Event;
 import rocks.itsnotrocketscience.bejay.models.Like;
 import rocks.itsnotrocketscience.bejay.models.Song;
@@ -86,5 +87,10 @@ class EventsWithRetry implements Events {
     @Override
     public Observable<Event> postEvent(@Body Event event) {
         return events.postEvent(event);
+    }
+
+    @Override
+    public Observable<CmsUser> currentUser() {
+        return events.currentUser();
     }
 }

@@ -10,6 +10,7 @@ import retrofit.http.Headers;
 import retrofit.http.POST;
 import retrofit.http.Path;
 import retrofit.http.Query;
+import rocks.itsnotrocketscience.bejay.models.CmsUser;
 import rocks.itsnotrocketscience.bejay.models.Event;
 import rocks.itsnotrocketscience.bejay.models.Like;
 import rocks.itsnotrocketscience.bejay.models.Song;
@@ -59,5 +60,8 @@ public interface Events {
 
     @POST("/events/")
     Observable<Event> postEvent(@Body Event event);
+
+    @GET("/users/current_user/")
+    Observable<CmsUser> currentUser();
 
 }
